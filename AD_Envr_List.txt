@@ -1,6 +1,0 @@
-C:\Program Files (x86)\Vim\vim80
-C:\MinGW\bin
-C:\MinGW\msys\1.0\bin
-%USERPROFILE%\Google 드라이브\Utility\Marp\0.0.10-Marp-win32-x64
-
-※ Please Check Your CPU Envr (32bit or 64bit)
