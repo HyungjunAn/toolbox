@@ -73,8 +73,7 @@ set guioptions-=r  "remove right-hand scroll bar
 "--------------------------------------------------------------------
 "set number            " 행번호 표시, set nu 도 가능
 set autoindent 		    " 자동 들여쓰기
-set cindent 		      " C 프로그래밍용 자동 들여쓰기
-set smartindent 	    " 스마트한 들여쓰기
+"filetype plugin indent on 	"파일 타입에 따른 들여쓰기
 set wrap
 set nowrapscan 		    " 검색할 때 문서의 끝에서 처음으로 안돌아감
 set noundofile        " undo 파일 안 만듦
@@ -84,6 +83,7 @@ set ignorecase 		    " 검색시 대소문자 무시, set ic 도 가능
 set lbr
 set incsearch 		    " 키워드 입력시 점진적 검색
 set history=1000 	    " vi 편집기록 기억갯수 .viminfo에 기록
+set noeb vb t_vb=			" 비프음, 화면 깜박임 해제
 set fillchars+=vert:\ " window 구분 문자 지정
 set completeopt-=preview  " scratch 창 안 뜨게
 "ctags의 tags 경로
@@ -109,8 +109,8 @@ endif
 "------------------------------------------
 " Tab
 "------------------------------------------
-set tabstop=8		  " 탭 끝을 지정한 숫자의 배수 위치로 제한
-set shiftwidth=8	" 기본 TAB 사이즈
+set tabstop=4		  " 탭 끝을 지정한 숫자의 배수 위치로 제한
+set shiftwidth=4	" 기본 TAB 사이즈
 "set softtabstop=2	" TAB 누르면 일단 이거 단위로 띄움, 그게 tabstop 넘어가면 실제 탭이 됨
 "set expandtab		  " TAB을 space로 인식
 "set smarttab		  " 행 처음의 공백을 TAB처럼
@@ -250,7 +250,7 @@ call SetGuiTabLineColor()
 " Key Mapping
 "--------------------------------------------------------------------
 "<ETC>
-inoremap <tab>   <c-r>=InsertTabWrapper()<cr>
+"inoremap <tab>   <c-r>=InsertTabWrapper()<cr>
 map		 <F8>    :NERDTreeToggle<CR>
 map		 <F9> 	 :TlistToggle<CR>
 

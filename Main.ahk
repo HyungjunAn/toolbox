@@ -3,19 +3,18 @@
 ;####################################
 
 google_drive = %USERPROFILE%\Google 드라이브
-images       = %google_drive%\AD_Setting\images\wallpaper
 Title_FFY    = Floating for YouTube™
 isFirstChromeExcute := False
 PID_ALARM   := 0
 PID_BROWSINGMODE := 0
 
-IfExist, %google_drive%\AD_Setting, {
-	SetWorkingDir, %google_drive%\AD_Setting\AHK
-    first_param  = %1%
-    If (first_param = "") {
-        isFirstChromeExcute := True
-        myMotto(20000)
-    }
+IfExist, %google_drive%\pc_sSetting, {
+	SetWorkingDir, %A_ScriptDir%
+	first_param = %1%
+	If (first_param = "") {
+    		isFirstChromeExcute := True
+    		myMotto(20000)
+	}
 }
 
 IfInString, A_ScriptName, .ahk
@@ -86,7 +85,6 @@ programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
 }
 
 ; Control Mode
-$!^v::
 #v:: 
     Suspend
     programSwitch(PID_BROWSINGMODE, BrowsingMode, "off")
@@ -118,7 +116,7 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ;------------------------------------
 !^z::Run, %google_drive%
 !^,::Run, %google_drive%\Library
-!^g::Run, %google_drive%\AD_Setting
+!^g::Run, %google_drive%\pc_setting
 
 !^+r::Run, shell:RecycleBinFolder 
 
@@ -130,9 +128,10 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^u::Run, gvim %USERPROFILE%\desktop\tmp.txt
+$!^u::Run, gvim %USERPROFILE%\desktop\_memo.md
 $!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
-!^+g::Run, gvim "%google_drive%\AD_Setting\AHK\Main.ahk"
+$!^v::Run, gvim vim\vimrc_AD.vim
+!^+g::Run, gvim %A_ScriptName%
 $!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 
@@ -140,8 +139,9 @@ $!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
     Run, SnippingTool
     WinWait, 캡처 도구
     WinActivate, 캡처 도구
-    if !ErrorLevel
-        Send, ^n
+    while (ErrorLevel) {
+    }
+	Send, ^n
     Return
     
 !^c::
@@ -229,14 +229,6 @@ $!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 ; SystemSettings.exe
 $!^s:: Run, ms-settings:bluetooth
-
-;------------------------------------
-; Show Location
-;------------------------------------
-!^+1:: Run, %images%\회의실.png 
-!^+2:: Run, %images%\앞마당.png
-!^+3:: Run, %images%\외부.png
-!^+4:: Run, %images%\화장실.png
 
 ;------------------------------------
 ; Web Page
