@@ -8,8 +8,8 @@ isFirstChromeExcute := False
 PID_ALARM   := 0
 PID_BROWSINGMODE := 0
 
+SetWorkingDir, %A_ScriptDir%
 IfExist, %google_drive%\pc_setting, {
-	SetWorkingDir, %A_ScriptDir%
 	first_param = %1%
 	If (first_param = "") {
     		isFirstChromeExcute := True
@@ -131,6 +131,7 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 $!^u::Run, gvim %USERPROFILE%\desktop\_memo.md
 $!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
 $!^v::Run, gvim vim\vimrc_AD.vim
+$!^+v::Run, gvim %USERPROFILE%\_vimrc
 !^+g::Run, gvim %A_ScriptName%
 $!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
