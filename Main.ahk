@@ -8,7 +8,7 @@ isFirstChromeExcute := False
 PID_ALARM   := 0
 PID_BROWSINGMODE := 0
 
-IfExist, %google_drive%\pc_sSetting, {
+IfExist, %google_drive%\pc_setting, {
 	SetWorkingDir, %A_ScriptDir%
 	first_param = %1%
 	If (first_param = "") {
