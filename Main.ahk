@@ -133,8 +133,8 @@ $!^u::Run, gvim %USERPROFILE%\desktop\_memo.md
 $!^v::Run, gvim vim\vimrc_AD.vim
 $!^+v::Run, gvim %USERPROFILE%\_vimrc
 !^+g::Run, gvim %A_ScriptName%
-$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
-
+$!^e::Run, C:\Program Files\Git\git-bash.exe
+;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 #z::
     Run, SnippingTool
