@@ -115,7 +115,15 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ; Folder
 ;------------------------------------
 !^z::Run, %google_drive%
-!^,::Run, %google_drive%\Library
+!^,::
+	if (isOffice) {
+		openOrActivateUrl("Collaboration Center", "http://collab.lge.com/main/pages/viewpage.action?pageId=878183139")
+	}
+	else {
+		Run, %google_drive%\Library
+	}
+	return
+
 !^g::Run, %A_ScriptDir%
 
 !^+r::Run, shell:RecycleBinFolder 
