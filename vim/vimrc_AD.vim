@@ -83,12 +83,14 @@ set ignorecase 		    " 검색시 대소문자 무시, set ic 도 가능
 set lbr
 set incsearch 		    " 키워드 입력시 점진적 검색
 set history=1000 	    " vi 편집기록 기억갯수 .viminfo에 기록
-set noeb vb t_vb=			" 비프음, 화면 깜박임 해제
+set belloff=all 			" 비프음, 화면 깜박임 해제
+
 set fillchars+=vert:\ " window 구분 문자 지정
 set completeopt-=preview  " scratch 창 안 뜨게
 "ctags의 tags 경로
 set tags=./tags,../tags,../../tags,../../../tags,../../../../tags,../../../../../tags
 "set tags+=/원하는 절대경로
+
 
 set backspace=eol,start,indent " 줄의 끝, 시작, 들여쓰기에서 백스페이스시 이전줄로
 
