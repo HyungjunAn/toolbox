@@ -116,7 +116,7 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ;------------------------------------
 !^z::Run, %google_drive%
 !^,::Run, %google_drive%\Library
-!^g::Run, %google_drive%\pc_setting
+!^g::Run, %A_ScriptDir%
 
 !^+r::Run, shell:RecycleBinFolder 
 
@@ -129,7 +129,7 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ; Program
 ;------------------------------------
 $!^u::Run, gvim %USERPROFILE%\desktop\_memo.md
-$!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
+;$!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
 $!^v::Run, gvim vim\vimrc_AD.vim
 $!^+v::Run, gvim %USERPROFILE%\_vimrc
 !^+g::Run, gvim %A_ScriptName%
