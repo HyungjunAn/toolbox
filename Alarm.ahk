@@ -15,7 +15,7 @@ alarm(sleepTime) {
 }
 
 m_interval := 30
-repeat_n := 10
+repeat_n := 5
 
 while True {
     FormatTime, s, , s

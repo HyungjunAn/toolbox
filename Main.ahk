@@ -3,7 +3,6 @@
 ;####################################
 
 google_drive = %USERPROFILE%\Google 드라이브
-Title_FFY    = Floating for YouTube™
 isFirstChromeExcute := False
 PID_ALARM   := 0
 PID_BROWSINGMODE := 0
@@ -114,7 +113,14 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ;------------------------------------
 ; Folder
 ;------------------------------------
-!^z::Run, %google_drive%
+!^z::
+	if (isOffice) {
+		Run, %USERPROFILE%\Downloads
+	}
+	else {
+		Run, %google_drive%
+	}
+	return
 !^,::
 	if (isOffice) {
 		openOrActivateUrl("Collaboration Center", "http://collab.lge.com/main/pages/viewpage.action?pageId=878183139")
@@ -136,12 +142,16 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^u::Run, gvim %USERPROFILE%\desktop\_memo.md
+$!^u:: runOrActivateWin("_memo.md", 		"gvim %USERPROFILE%\desktop\_memo.md")
 ;$!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
-$!^v::Run, gvim vim\vimrc_AD.vim
-$!^+v::Run, gvim %USERPROFILE%\_vimrc
-!^+g::Run, gvim %A_ScriptName%
-$!^e::Run, C:\Program Files\Git\git-bash.exe
+$!^v:: runOrActivateWin("vimrc_AD.vim", 	"gvim vim\vimrc_AD.vim")
+$!^+v::runOrActivateWin("_vimrc", 			"gvim %USERPROFILE%\_vimrc")
+!^+g:: 
+	subName = %A_ScriptName%
+	cmd		= gvim %A_ScriptName%"
+	runOrActivateWin(subName, cmd)
+	return
+$!^e:: Run, C:\Program Files\Git\git-bash.exe
 ;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 #z::
@@ -310,37 +320,8 @@ findWindow(subName) {
     return ""
 }
             
-; Floating for YouTube
 $!q::
-    WinGetTitle, Title, A
-    IfInString, Title, YouTube - , {
-        ClipBoard = 
-        Send, {RButton}
-        Sleep, 200
-        Send, e
-
-        if !ClipBoard {
-            MouseGetPos, xpos, ypos   
-            MouseMove, xpos + 10, ypos + 50
-            Send {LButton}
-        }
-        WinClose, %Title_FFY%
-        if isOffice
-            Run, chrome.exe --profile-directory=Default --app-id=jjphmlaoffndcnecccgemfdaaoighkel
-        else
-            Run, chrome.exe --profile-directory="profile 1" --app-id=jjphmlaoffndcnecccgemfdaaoighkel
-        WinWaitActive, %Title_FFY%
-        Sleep, 1000
-        Send, ^v
-    }
-    else
-        Send, !q
-    return
-
 $!^+q::
-    WinClose, %Title_FFY%
-    Run, chrome.exe  --profile-directory=Default --app-id=jjphmlaoffndcnecccgemfdaaoighkel
-    return
 
 ;------------------------------------
 ; Key & System
