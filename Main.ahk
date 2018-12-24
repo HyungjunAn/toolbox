@@ -123,7 +123,7 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 	return
 !^,::
 	if (isOffice) {
-		openOrActivateUrl("Collaboration Center", "http://collab.lge.com/main/pages/viewpage.action?pageId=878183139")
+		openOrActivateUrl("Collaboration Center", false, "http://collab.lge.com/main/pages/viewpage.action?pageId=878183139")
 	}
 	else {
 		Run, %google_drive%\Library
@@ -142,14 +142,14 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^u:: runOrActivateWin("_memo.md", 		"gvim %USERPROFILE%\desktop\_memo.md")
+$!^u:: runOrActivateWin("_memo.md", 	false, "gvim %USERPROFILE%\desktop\_memo.md")
 ;$!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
-$!^v:: runOrActivateWin("vimrc_AD.vim", 	"gvim vim\vimrc_AD.vim")
-$!^+v::runOrActivateWin("_vimrc", 			"gvim %USERPROFILE%\_vimrc")
+$!^v:: runOrActivateWin("vimrc_AD.vim",	false, "gvim vim\vimrc_AD.vim")
+$!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 
 	subName = %A_ScriptName%
 	cmd		= gvim %A_ScriptName%"
-	runOrActivateWin(subName, cmd)
+	runOrActivateWin(subName, false, cmd)
 	return
 $!^e:: Run, C:\Program Files\Git\git-bash.exe
 ;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
@@ -170,8 +170,8 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
         Run, Chrome.exe
     }
     else 
-        runOrActivateWin("- chrome", "chrome")
-    myMotto(4000)
+        runOrActivateWin("- chrome", false, "chrome")
+    myMotto(3000)
     return
 
 ; PuTTY
@@ -195,30 +195,17 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
     return
 
 ; Internet Explorer
-!^i::
-	subName = - Internet Explorer
-	Title := findWindow(subName)
-	if !Title {
-		Run, iexplore.exe
-		while !Title {
-			Title := findWindow(subName)
-		}
-	}
-	else 
-		WinActivate, %Title%
-        Return
+!^+i::
+!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 
 ;Edit Time
 !^+t::Run, chrome.exe --profile-directory="Profile 1" --app-id=mdkfiefeoimmobmhdimachkfcpkgahlc
-
-;Trello
-;!^+q::Run, chrome.exe --profile-directory="Profile 1" --app-id=gkcknpgdmiigoagkcoglklgaagnpojed
 
 ;Window Media Player
 !^+p::  Run, wmplayer
 
 ;Notepad++
-!^[::   runOrActivateWin("- notepad++", "notepad++")
+!^[::   runOrActivateWin("- notepad++", false, "notepad++")
 
 ;Visual Studio Code
 !^]::   Run, C:\Program Files\Microsoft VS Code\Code.exe
@@ -232,17 +219,7 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
 			Run, C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe
 	}
 	else {
-		subName = lg ep
-		Title := findWindow(subName)
-		if !Title {
-			Run, chrome.exe -new-window ep.lge.com
-			while !Title {
-				Title := findWindow(subName)
-			}
-		}
-		else {
-			WinActivate, %Title%
-		}
+		runOrActivateWin("lg ep", false, "chrome.exe -new-window ep.lge.com")
 	}
 	return
 
@@ -257,13 +234,12 @@ $#n::   Run, http://www.senaver.com
 !^o:: 
     subName = Google Keep
     URL = https://keep.google.com
-    Title := openOrActivateUrl(subName, URL, true)
+    Title := openOrActivateUrl(subName, false, URL, true)
     W := 398
     WinMove, %Title%, , A_screenWidth - W, 0, W, 1078
     return
-!^d::   openOrActivateUrl("Gmail", "https://mail.google.com/mail")
-!^+i::  Run, https://aranetworks.sharepoint.com
-$!^f::  openOrActivateUrl("Google Ä¶¸°´õ", "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
+!^d::   openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
+$!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 !^+b::  Run, https://www.dropbox.com/home
 !^9::   Run, https://translate.google.com/?hl=ko
@@ -271,7 +247,7 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", "https://calendar.google.com/calendar
 !^q:: 
     subName = ´ÙÀ½ ¿µ¾î»çÀü
     URL = http://small.dic.daum.net/index.do?dic=eng
-    Title := openOrActivateUrl(subName, URL, true)
+    Title := openOrActivateUrl(subName, false, URL, true)
     W = 389
     H = 420
     WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
@@ -281,47 +257,49 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", "https://calendar.google.com/calendar
 ; YouTube
 ;------------------------------------
 !^x:: Run, https://www.youtube.com/results?search_query=¿îµ¿+³ë·¡
-!^y:: openOrActivateUrl("YouTube", "https://www.youtube.com/")
-!^+y::openOrActivateUrl("YouTube", "https://www.youtube.com/channel/UC4n_ME6BVRofHr4fVoBTdNg")
+!^y:: openOrActivateUrl("YouTube", false, "https://www.youtube.com/")
+!^+y::openOrActivateUrl("YouTube", false, "https://www.youtube.com/channel/UC4n_ME6BVRofHr4fVoBTdNg")
 
-openOrActivateUrl(subName, URL, isCancelingFullScreen=false) {
+openOrActivateUrl(subName, isFullMatching, URL, isCancelingFullScreen=false) {
 	cmd = chrome.exe --app=%URL%
-	Title := runOrActivateWin(subName, cmd, isCancelingFullScreen)
+	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
 	return Title
 }
-runOrActivateWin(subName, cmd, isCancelingFullScreen=false) {
-	Title := findWindow(subName)
+runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
+	Title := findWindow(subName, isFullMatching)
 	if !Title {
 		Run, %cmd%
 		while !Title {
-			Title := findWindow(subName)
+			Title := findWindow(subName, isFullMatching)
 		}
 		WinActivate, %Title%
 		if isCancelingFullScreen {
-			Send, #{Up}
-			sleep, 600
 			Send, #{Down}
+			sleep, 200
 		}
 	}
-	else 
-		WinActivate, %Title%
-        return Title
+	WinActivate, %Title%
+	return Title
 }
 
-findWindow(subName) {
+findWindow(subName, isFullMatching) {
     WinGet windows, List
     Loop %windows% {
     	id := windows%A_Index%
     	WinGetTitle Title, ahk_id %id%
-        IfInString, Title, %subName%, {
-            return %Title%
-        }
+		if (isFullMatching) {
+        	if (Title=%subName%) {
+            	return %Title%
+        	}
+		}
+		else {
+        	IfInString, Title, %subName%, {
+            	return %Title%
+        	}
+		}
     }
     return ""
 }
-            
-$!q::
-$!^+q::
 
 ;------------------------------------
 ; Key & System
