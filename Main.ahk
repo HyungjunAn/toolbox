@@ -2,19 +2,11 @@
 ; AD's HotKey
 ;####################################
 
+myMotto(1000)
+SetWorkingDir, %A_ScriptDir%
 google_drive = %USERPROFILE%\Google 드라이브
-isFirstChromeExcute := False
 PID_ALARM   := 0
 PID_BROWSINGMODE := 0
-
-SetWorkingDir, %A_ScriptDir%
-IfExist, %google_drive%\pc_setting, {
-	first_param = %1%
-	If (first_param = "") {
-    		isFirstChromeExcute := True
-    		myMotto(20000)
-	}
-}
 
 IfInString, A_ScriptName, .ahk, {
 	ext = ahk
@@ -41,10 +33,12 @@ SetCapsLockState, off
 SetScrollLockState, off
 
 myMotto(Time) {
-    Gui, Color, Red
+    Gui, Color, White
+    ;Gui, Color, Red
     Gui, -Caption +alwaysontop +ToolWindow
-    Gui, Font, s15 cWhite, Consolas
-    Gui, Add, Text, , True nobility is being superior to your former self. - Hemingway
+    ;Gui, Font, s15 cWhite, Consolas
+    Gui, Font, s15 cBlack, Consolas
+    Gui, Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
     y := A_screenHeight - 40
     Gui, Show, y%y% NoActivate
     Sleep, %Time%
@@ -72,8 +66,7 @@ mouseMoveOnRightMid() {
 
 $!^r::
     programSwitch(PID_ALARM, Alarm, "off")
-    Run, Autohotkey.exe %Main% "blabla"
-    return
+	Reload
 
 programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
     if (Mode = "off" || PID) {
@@ -88,12 +81,15 @@ programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
 #v:: 
     Suspend
     programSwitch(PID_BROWSINGMODE, BrowsingMode, "off")
-    return
+    Return
 
 $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
     
 ; f.lux & AHK Alarm Switch
-!^+f::programSwitch(PID_ALARM, Alarm)
+!^+f::
+	myMotto(500)
+	programSwitch(PID_ALARM, Alarm)
+	Return
     ;Process, Exist, flux.exe
     ;PID := ErrorLevel
     ;Process, Close, flux.exe
@@ -165,15 +161,8 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
     Return
     
 !^c::
-    if (isFirstChromeExcute) {
-		;Run, Chrome.exe https://mail.google.com
-		isFirstChromeExcute := False
-		Run, Chrome.exe
-    }
-    else {
-		runOrActivateWin("- chrome", false, "chrome")
-	}
-    myMotto(2000)
+	runOrActivateWin("- chrome", false, "chrome")
+    myMotto(1000)
     return
 
 ; PuTTY

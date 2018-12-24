@@ -4,29 +4,36 @@
 
 alarm(sleepTime) {
     h := 40
-    y := A_screenHeight // 2 - h // 2
+    ;y := A_screenHeight // 2 - h // 2
+    ;Gui, Color, Black
     Gui, Color, Red
     Gui, -Caption +alwaysontop +ToolWindow
-    Gui, Font, s15 cWhite, Consolas
-    Gui, Add, Text, , !! BREAK !!
-    Gui, Show, y%y% NoActivate,
+    Gui, Font, s15 cRed, Consolas
+    ;Gui, Font, s15 cWhite, Consolas
+    ;Gui, Font, s15 cWhite, Consolas
+    Gui, Add, Text, Center, BREAK
+    y := A_screenHeight - 40
+    Gui, Show, y%y% w100 NoActivate,
     Sleep, %sleepTime%
     Gui, Destroy
 }
 
-m_interval := 15
-repeat_n := 5
+m_interval 		:= 15
+alarm_time 		:= 400
+alarm_interval 	:= 200
+repeat_n 		:= 5
 
 while True {
     FormatTime, s, , s
     FormatTime, m, , m
     if !Mod(m, m_interval) {
         Loop %repeat_n% {
-            alarm(400)
-            Sleep, 200
+            alarm(alarm_time)
+            Sleep, %alarm_interval%
         }
-        Sleep % 60000 * m_interval - 3800
+        Sleep % 60000 * m_interval - ((alarm_time + alarm_interval) * repeat_n + 200)
     }
-    else
+    else {
         Sleep % (60 - s) * 1000
+	}
 }
