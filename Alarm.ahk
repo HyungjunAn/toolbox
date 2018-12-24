@@ -14,7 +14,7 @@ alarm(sleepTime) {
     Gui, Destroy
 }
 
-m_interval := 30
+m_interval := 15
 repeat_n := 5
 
 while True {
@@ -25,7 +25,7 @@ while True {
             alarm(400)
             Sleep, 200
         }
-        Sleep % 60000 * (m_interval - 3)
+        Sleep % 60000 * m_interval - 3800
     }
     else
         Sleep % (60 - s) * 1000
