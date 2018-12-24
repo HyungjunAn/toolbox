@@ -16,10 +16,11 @@ IfExist, %google_drive%\pc_setting, {
 	}
 }
 
-IfInString, A_ScriptName, .ahk
+IfInString, A_ScriptName, .ahk, {
 	ext = ahk
-else
+} else {
 	ext = exe
+}
 
 Main         = Main.%ext%
 Alarm        = Alarm.%ext%
@@ -165,13 +166,14 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
     
 !^c::
     if (isFirstChromeExcute) {
-        ;Run, Chrome.exe https://mail.google.com
-        isFirstChromeExcute := False
-        Run, Chrome.exe
+		;Run, Chrome.exe https://mail.google.com
+		isFirstChromeExcute := False
+		Run, Chrome.exe
     }
-    else 
-        runOrActivateWin("- chrome", false, "chrome")
-    myMotto(3000)
+    else {
+		runOrActivateWin("- chrome", false, "chrome")
+	}
+    myMotto(2000)
     return
 
 ; PuTTY
@@ -441,4 +443,3 @@ RShift & Left::
     MsgBox, x:%x% y:%y% W:%W% H:%H%
     MsgBox, PID: %PID%
     return
-

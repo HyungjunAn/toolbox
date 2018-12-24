@@ -55,8 +55,9 @@ let &guifontwide="D2Coding:h" . guifontwidesize . ":cDEFAULT"
 
 "<Colorscheme & Background>
 if has('gui')
-  colorscheme default_AD
-  set background=light
+  colorscheme wombat_AD
+  "colorscheme default_AD
+  "set background=light
 else
   "set background=dark
 endif
