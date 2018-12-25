@@ -18,7 +18,7 @@ alarm(sleepTime) {
     Gui, Destroy
 }
 
-m_interval 		:= 15
+m_interval 		:= 10
 alarm_time 		:= 400
 alarm_interval 	:= 200
 repeat_n 		:= 5
