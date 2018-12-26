@@ -428,7 +428,5 @@ RShift & Left::
     WinGetTitle, Title, A
     WinGet, PID, PID, A
     WinGetPos, x, y, W, H, %Title%
-    MsgBox, %Title%
-    MsgBox, x:%x% y:%y% W:%W% H:%H%
-    MsgBox, PID: %PID%
+    MsgBox, %Title%`n`nx:%x% y:%y% W:%W% H:%H%`n`nPID: %PID%
     return
