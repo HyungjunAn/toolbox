@@ -21,7 +21,7 @@ alarm(sleepTime) {
 m_interval 		:= 10
 alarm_time 		:= 400
 alarm_interval 	:= 200
-repeat_n 		:= 5
+repeat_n 		:= 10
 
 while True {
     FormatTime, s, , s
