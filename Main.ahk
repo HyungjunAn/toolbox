@@ -229,7 +229,16 @@ $#n::   Run, http://www.senaver.com
     W := 398
     WinMove, %Title%, , A_screenWidth - W, 0, W, 1078
     return
-!^d::   openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
+
+!^d::
+	if (!isOffice) {
+		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
+	} else {
+		cmd = %USERPROFILE%/Desktop/mail
+		runOrActivateWin("EP Mail", false, cmd)
+	}
+	return 
+
 $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 !^+b::  Run, https://www.dropbox.com/home
