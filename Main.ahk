@@ -432,10 +432,17 @@ ChangeResolution( cD, sW, sH, rR ) {
 ; Test
 
 RShift & Left::
+!^+o:: 
+	testFunc(USERPROFILE . " " . A_ScriptName)
+	return 
 !^+u::
-!^+o::
     WinGetTitle, Title, A
     WinGet, PID, PID, A
     WinGetPos, x, y, W, H, %Title%
     MsgBox, %Title%`n`nx:%x% y:%y% W:%W% H:%H%`n`nPID: %PID%
     return
+
+testFunc(ByRef str) {
+	msgBox, %str%
+}
+
