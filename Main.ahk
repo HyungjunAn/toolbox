@@ -133,6 +133,8 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 
 !^+e:: Run, %USERPROFILE%\AppData\Local\lxss\home\hyungjun
 
+$#d:: Run, %USERPROFILE%\Desktop
+
 ; DropBox
 !^b::Run, Z:\\
 
