@@ -169,7 +169,7 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
 
 ; PuTTY
 !^p::
-    Run, PuTTY
+    Run, C:\Program Files\PuTTY\putty.exe
     WinWaitActive, PuTTY Configuration, , 2
     if !ErrorLevel
         Send, !e{Tab}{Down}
