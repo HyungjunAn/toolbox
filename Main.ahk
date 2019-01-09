@@ -120,7 +120,7 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 	return
 !^,::
 	if (isOffice) {
-		Run, %USERPROFILE%\Desktop\OJT
+		Run, %USERPROFILE%\Desktop\Library
 	}
 	else {
 		Run, %google_drive%\Library
@@ -236,7 +236,7 @@ $#n::   Run, http://www.senaver.com
 	if (!isOffice) {
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
 	} else {
-		cmd = %USERPROFILE%/Desktop/mail
+		cmd = %USERPROFILE%/Desktop/Library/URL_lnk/mail
 		runOrActivateWin("EP Mail", false, cmd)
 	}
 	return 
@@ -247,13 +247,13 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 
 !^8:: 	
 	subName = ¿ø - <
-	cmd = %USERPROFILE%/Desktop/p0
+	cmd = %USERPROFILE%/Desktop/Library/URL_lnk/p0
 	runOrActivateWin(subName, false, cmd)
 	return
 !^9::   
 	if (isOffice) {
 		subName = hj_D
-		cmd = %USERPROFILE%/Desktop/p1
+		cmd = %USERPROFILE%/Desktop/Library/URL_lnk/p1
 		runOrActivateWin(subName, false, cmd)
 	} else {
 		subName =
@@ -264,7 +264,7 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 !^0::
 	if (isOffice) {
 		subName = hj_Q
-		cmd = %USERPROFILE%/Desktop/p2
+		cmd = %USERPROFILE%/Desktop/Library/URL_lnk/p2
 		runOrActivateWin(subName, false, cmd)
 	} else {
 		subName = 
