@@ -120,7 +120,7 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
 	return
 !^,::
 	if (isOffice) {
-		openOrActivateUrl("Collaboration Center", false, "http://collab.lge.com/main/pages/viewpage.action?pageId=878183139")
+		Run, %USERPROFILE%\Desktop\OJT
 	}
 	else {
 		Run, %google_drive%\Library
@@ -244,8 +244,35 @@ $#n::   Run, http://www.senaver.com
 $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 !^+b::  Run, https://www.dropbox.com/home
-!^9::   Run, https://translate.google.com/?hl=ko
-!^0::   Run, https://scholar.google.co.kr/
+
+!^8:: 	
+	subName = 원 - <
+	cmd = %USERPROFILE%/Desktop/p0
+	runOrActivateWin(subName, false, cmd)
+	return
+!^9::   
+	if (isOffice) {
+		subName = hj_D
+		cmd = %USERPROFILE%/Desktop/p1
+		runOrActivateWin(subName, false, cmd)
+	} else {
+		subName =
+		URL     = https://translate.google.com/?hl=ko
+		openOrActivateUrl(subName, false, URL)
+	}
+	return
+!^0::
+	if (isOffice) {
+		subName = hj_Q
+		cmd = %USERPROFILE%/Desktop/p2
+		runOrActivateWin(subName, false, cmd)
+	} else {
+		subName = 
+		URL     = https://scholar.google.co.kr/
+		openOrActivateUrl(subName, false, URL)
+	}
+	return
+
 !^q:: 
     subName = 다음 영어사전
     URL = http://small.dic.daum.net/index.do?dic=eng
