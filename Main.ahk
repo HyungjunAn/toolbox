@@ -252,7 +252,7 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 	return
 !^9::   
 	if (isOffice) {
-		subName = hj_D
+		subName = MY Iss
 		cmd = %USERPROFILE%/Desktop/Library/URL_lnk/p1
 		runOrActivateWin(subName, false, cmd)
 	} else {
