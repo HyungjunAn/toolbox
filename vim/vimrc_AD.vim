@@ -65,7 +65,7 @@ au BufReadPost *
 \ endif
 
 "[ctags]
-set tags=./tags,../tags,../../tags,../../../tags,../../../../tags,../../../../../tags
+set tags=./tags;$HOME
 "set tags+=/원하는 절대경로
 "
 "--------------------------------------------------------------------
