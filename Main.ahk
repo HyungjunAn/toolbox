@@ -1,11 +1,12 @@
 ;####################################
 ; AD's HotKey
 ;####################################
-
+global isGuiOn	:= True
 myMotto(1000)
+alarm()
+
 SetWorkingDir, %A_ScriptDir%
 google_drive = %USERPROFILE%\Google 드라이브
-PID_ALARM   := 0
 PID_BROWSINGMODE := 0
 
 IfInString, A_ScriptName, .ahk, {
@@ -15,10 +16,7 @@ IfInString, A_ScriptName, .ahk, {
 }
 
 Main         = Main.%ext%
-Alarm        = Alarm.%ext%
 BrowsingMode = BrowsingMode.%ext%
-
-programSwitch(PID_ALARM, Alarm, "on")
 
 If (A_UserName != "hyungjun.an") {
     isOffice := False
@@ -32,18 +30,6 @@ else {
 SetCapsLockState, off
 SetScrollLockState, off
 
-myMotto(Time) {
-    Gui, Color, White
-    ;Gui, Color, Red
-    Gui, -Caption +alwaysontop +ToolWindow
-    ;Gui, Font, s15 cWhite, Consolas
-    Gui, Font, s15 cBlack, Consolas
-    Gui, Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
-    y := A_screenHeight - 40
-    Gui, Show, y%y% NoActivate
-    Sleep, %Time%
-    Gui, Destroy
-}
 
 keySwap_ifInTitle(str, key1, key2) {
     WinGetTitle, Title, A
@@ -64,31 +50,46 @@ mouseMoveOnRightMid() {
 }
 
 
-$!^r::
-    programSwitch(PID_ALARM, Alarm, "off")
-	Reload
+$!^r:: Reload
 
 programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
     if (Mode = "off" || PID) {
-        Process, Close, %PID%,
-        PID := 0
-    }
-    else if (Mode = "on" || !PID)
+		Process, Close, %PID%,
+		PID := 0
+	}
+    else if (Mode = "on" || !PID) {
         Run, %RunCmd%, , , PID
+	}
 }
 
-; Control Mode
-#v:: 
-    Suspend
-    programSwitch(PID_BROWSINGMODE, BrowsingMode, "off")
-    Return
+; Suspend & Control Mode
+$!^a:: 
+	Suspend, Toggle
+	Gui, Destroy
+	if (A_IsSuspended) {
+		suspend_notice()
+		isGuiOn := false
+    	programSwitch(PID_BROWSINGMODE, BrowsingMode, "off")
+	}
+	else {
+		isGuiOn := True
+		myMotto(400)
+	}
+	Return
 
-$!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
+
+;$!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
     
 ; f.lux & AHK Alarm Switch
-!^+f::
-	myMotto(500)
-	programSwitch(PID_ALARM, Alarm)
+#v::
+	if (isGuiOn) {
+		myMotto(500)
+		isGuiOn := False
+	}
+	else {
+		isGuiOn := True
+		myMotto(500)
+	}
 	Return
     ;Process, Exist, flux.exe
     ;PID := ErrorLevel
@@ -99,11 +100,9 @@ $!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
     ;WinWaitActive, %WinTitle%
     ;if PID {
     ;    WinClose, %WinTitle%
-    ;    programSwitch(PID_ALARM, Alarm, "off")
     ;}
     ;else {
     ;    Send, !{F4}
-    ;    programSwitch(PID_ALARM, Alarm, "on")
     ;}
     ;return
 
@@ -469,9 +468,73 @@ RShift & Left::
     WinGet, PID, PID, A
     WinGetPos, x, y, W, H, %Title%
     MsgBox, %Title%`n`nx:%x% y:%y% W:%W% H:%H%`n`nPID: %PID%
+	MsgBox, %m_interval%
     return
 
 testFunc(ByRef str) {
 	msgBox, %str%
 }
 
+;####################################
+; Function
+;####################################
+myMotto(Time) {
+    y := A_screenHeight - 40
+
+    Gui, MyMotto_GUI:Color, White
+    Gui, MyMotto_GUI:-Caption +alwaysontop +ToolWindow
+    Gui, MyMotto_GUI:Font, s15 cBlack, Consolas
+    Gui, MyMotto_GUI:Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
+
+	if (isGuiOn) {
+    	Gui, MyMotto_GUI:Show, y%y% NoActivate
+    	Sleep, %Time%
+    	Gui, MyMotto_GUI:Destroy
+	}
+}
+
+suspend_notice() {
+	h := 20
+	w := 100
+	y := 0
+
+	Gui, Suspend_GUI:Color, Red
+	Gui, Suspend_GUI:-Caption +alwaysontop +ToolWindow
+	Gui, Suspend_GUI:Show, y%y% w%w% h%h% NoActivate,
+}
+
+alarm_gui(sleepTime) {
+	h := 40
+	w := 100
+	y := A_screenHeight - h
+
+	Gui, Alarm_GUI:Color, Red
+	Gui, Alarm_GUI:-Caption +alwaysontop +ToolWindow
+	if (isGuiOn) {
+		Gui, Alarm_GUI:Show, y%y% w%w% h%h% NoActivate,
+		Sleep, %sleepTime%
+		Gui, Alarm_GUI:Destroy
+	}
+}
+
+alarm() {
+	m_interval 		:= 10
+	alarm_time 		:= 400
+	alarm_interval 	:= 200
+	repeat_n 		:= 10
+
+	while True {
+	    FormatTime, s, , s
+	    FormatTime, m, , m
+	    if !Mod(m, m_interval) {
+	        Loop %repeat_n% {
+	            alarm_gui(alarm_time)
+	            Sleep, %alarm_interval%
+	        }
+	        Sleep % 60000 * m_interval - ((alarm_time + alarm_interval) * repeat_n + 200)
+	    }
+	    else {
+	        Sleep % (60 - s) * 1000
+		}
+	}
+}
