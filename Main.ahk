@@ -1,11 +1,14 @@
-;####################################
+;###############################################################
 ; AD's HotKey
-;####################################
+;###############################################################
+
+;---------------------------------------------------------------
+;		Serial Code
+;---------------------------------------------------------------
+SetWorkingDir, %A_ScriptDir%
 global isGuiOn	:= True
 myMotto(1000)
-alarm()
 
-SetWorkingDir, %A_ScriptDir%
 google_drive = %USERPROFILE%\Google 드라이브
 PID_BROWSINGMODE := 0
 
@@ -17,6 +20,7 @@ IfInString, A_ScriptName, .ahk, {
 
 Main         = Main.%ext%
 BrowsingMode = BrowsingMode.%ext%
+
 
 If (A_UserName != "hyungjun.an") {
     isOffice := False
@@ -30,37 +34,12 @@ else {
 SetCapsLockState, off
 SetScrollLockState, off
 
+alarm()
 
-keySwap_ifInTitle(str, key1, key2) {
-    WinGetTitle, Title, A
-    IfInString, Title, %str%
-        Send, %key1%
-    else
-        Send, %key2%
-}
-isInActiveProcessName(str) {
-    WinGet, p_name, ProcessName, A
-    return, InStr(p_name, str)
-}
-mouseMoveOnRightMid() {
-    WinGetPos, , , Width, Height, A
-    x_corner := Width - 25
-    y_mid    := Height // 2
-    MouseMove, %x_corner%, %y_mid%, 0
-}
-
-
+;---------------------------------------------------------------
+;		Hot Key
+;---------------------------------------------------------------
 $!^r:: Reload
-
-programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
-    if (Mode = "off" || PID) {
-		Process, Close, %PID%,
-		PID := 0
-	}
-    else if (Mode = "on" || !PID) {
-        Run, %RunCmd%, , , PID
-	}
-}
 
 ; Suspend & Control Mode
 $!^a:: 
@@ -475,9 +454,9 @@ testFunc(ByRef str) {
 	msgBox, %str%
 }
 
-;####################################
-; Function
-;####################################
+;---------------------------------------------------------------
+;		Function Def.
+;---------------------------------------------------------------
 myMotto(Time) {
     y := A_screenHeight - 40
 
@@ -536,5 +515,35 @@ alarm() {
 	    else {
 	        Sleep % (60 - s) * 1000
 		}
+	}
+}
+
+keySwap_ifInTitle(str, key1, key2) {
+    WinGetTitle, Title, A
+    IfInString, Title, %str%
+        Send, %key1%
+    else
+        Send, %key2%
+}
+
+isInActiveProcessName(str) {
+    WinGet, p_name, ProcessName, A
+    return, InStr(p_name, str)
+}
+
+mouseMoveOnRightMid() {
+    WinGetPos, , , Width, Height, A
+    x_corner := Width - 25
+    y_mid    := Height // 2
+    MouseMove, %x_corner%, %y_mid%, 0
+}
+
+programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
+    if (Mode = "off" || PID) {
+		Process, Close, %PID%,
+		PID := 0
+	}
+    else if (Mode = "on" || !PID) {
+        Run, %RunCmd%, , , PID
 	}
 }
