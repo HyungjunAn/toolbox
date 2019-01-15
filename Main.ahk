@@ -44,7 +44,7 @@ $!^r:: Reload
 ; Suspend & Control Mode
 $!^a:: 
 	Suspend, Toggle
-	Gui, Destroy
+	destroyAllGui()
 	if (A_IsSuspended) {
 		suspend_notice()
 		isGuiOn := false
@@ -55,7 +55,6 @@ $!^a::
 		myMotto(400)
 	}
 	Return
-
 
 ;$!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
     
@@ -457,6 +456,11 @@ testFunc(ByRef str) {
 ;---------------------------------------------------------------
 ;		Function Def.
 ;---------------------------------------------------------------
+destroyAllGui() {
+    Gui, MyMotto_GUI:Destroy
+    Gui, Suspend_GUI:Destroy
+    Gui, Alarm_GUI:Destroy
+}
 myMotto(Time) {
     y := A_screenHeight - 40
 
@@ -480,6 +484,7 @@ suspend_notice() {
 	Gui, Suspend_GUI:Color, Red
 	Gui, Suspend_GUI:-Caption +alwaysontop +ToolWindow
 	Gui, Suspend_GUI:Show, y%y% w%w% h%h% NoActivate,
+	return
 }
 
 alarm_gui(sleepTime) {
