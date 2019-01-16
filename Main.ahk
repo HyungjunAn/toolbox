@@ -6,9 +6,12 @@
 ;		Serial Code
 ;---------------------------------------------------------------
 SetWorkingDir, %A_ScriptDir%
-global isGuiOn	:= True
-myMotto(1000)
 
+global isGuiOn	:= True
+global arr_subName := []
+global arr_url     := []
+
+myMotto(1000)
 google_drive = %USERPROFILE%\Google 드라이브
 PID_BROWSINGMODE := 0
 
@@ -21,14 +24,26 @@ IfInString, A_ScriptName, .ahk, {
 Main         = Main.%ext%
 BrowsingMode = BrowsingMode.%ext%
 
-
 If (A_UserName != "hyungjun.an") {
-    isOffice := False
+    global isOffice := False
     google_homeID_num := 0
 }
 else {
-    isOffice := True
+    global isOffice := True
     google_homeID_num := 1
+}
+
+URL_PATH = %USERPROFILE%/Desktop/Library/URL_lnk/url.txt
+cnt := 0
+Loop, Read, %URL_PATH%
+{
+	cnt += 1
+	if Mod(cnt, 2) {
+    	arr_subName.Push(A_LoopReadLine)
+	}
+	else {
+    	arr_url.Push(A_LoopReadLine)
+	}
 }
 
 SetCapsLockState, off
@@ -182,14 +197,14 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
 
 ; KakaoTalk or LG ep
 !^`;::
-	If !isOffice {
+	If !(isOffice) {
 		IfExist, C:\Program Files (x86)\Kakao
 			Run, C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe
 		else
 			Run, C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe
 	}
 	else {
-		runOrActivateWin("lg ep", false, "chrome.exe -new-window ep.lge.com")
+		openOrActivateUrl("New Ep", false, "http://ep.lge.com")
 	}
 	return
 
@@ -203,8 +218,8 @@ $!^s:: Run, ms-settings:bluetooth
 $#n::   Run, http://www.senaver.com
 !^o:: 
     subName = Google Keep
-    URL = https://keep.google.com
-    Title := openOrActivateUrl(subName, false, URL, true)
+    url = https://keep.google.com
+    Title := openOrActivateUrl(subName, false, url, true)
     W := 398
     WinMove, %Title%, , A_screenWidth - W, 0, W, 1078
     return
@@ -222,38 +237,49 @@ $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/c
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 !^+b::  Run, https://www.dropbox.com/home
 
+!^7::
+	N := arr_subName.MaxIndex() 
+	MsgBox, %N%
+	for index, element in arr_subName
+	{
+    	MsgBox % "Element number " . index . " is " . element
+	}
+	for index, element in arr_url
+	{
+	    MsgBox % "Element number " . index . " is " . element
+	}
+	return
+
 !^8:: 	
-	subName = 원 - <
-	cmd = %USERPROFILE%/Desktop/Library/URL_lnk/p0
-	runOrActivateWin(subName, false, cmd)
+	subName := arr_subName[1]
+	url := arr_url[1]
+	openOrActivateUrl(subName, false, URL)
 	return
 !^9::   
 	if (isOffice) {
-		subName = MY Iss
-		cmd = %USERPROFILE%/Desktop/Library/URL_lnk/p1
-		runOrActivateWin(subName, false, cmd)
+		subName := arr_subName[2]
+		url := arr_url[2]
 	} else {
 		subName =
-		URL     = https://translate.google.com/?hl=ko
-		openOrActivateUrl(subName, false, URL)
+		url     = https://translate.google.com/?hl=ko
 	}
+	openOrActivateUrl(subName, false, url)
 	return
 !^0::
 	if (isOffice) {
-		subName = hj_Q
-		cmd = %USERPROFILE%/Desktop/Library/URL_lnk/p2
-		runOrActivateWin(subName, false, cmd)
+		subName := arr_subName[3]
+		url := arr_url[3]
 	} else {
 		subName = 
-		URL     = https://scholar.google.co.kr/
-		openOrActivateUrl(subName, false, URL)
+		url     = https://scholar.google.co.kr/
 	}
+	openOrActivateUrl(subName, false, url)
 	return
 
 !^q:: 
     subName = 다음 영어사전
-    URL = http://small.dic.daum.net/index.do?dic=eng
-    Title := openOrActivateUrl(subName, false, URL, true)
+    url = http://small.dic.daum.net/index.do?dic=eng
+    Title := openOrActivateUrl(subName, false, url, true)
     W = 389
     H = 420
     WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
@@ -265,47 +291,6 @@ $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/c
 !^x:: Run, https://www.youtube.com/results?search_query=운동+노래
 !^y:: openOrActivateUrl("YouTube", false, "https://www.youtube.com/")
 !^+y::openOrActivateUrl("YouTube", false, "https://www.youtube.com/channel/UC4n_ME6BVRofHr4fVoBTdNg")
-
-openOrActivateUrl(subName, isFullMatching, URL, isCancelingFullScreen=false) {
-	cmd = chrome.exe --app=%URL%
-	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
-	return Title
-}
-runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
-	Title := findWindow(subName, isFullMatching)
-	if !Title {
-		Run, %cmd%
-		while !Title {
-			Title := findWindow(subName, isFullMatching)
-		}
-		WinActivate, %Title%
-		if isCancelingFullScreen {
-			Send, #{Down}
-			sleep, 200
-		}
-	}
-	WinActivate, %Title%
-	return Title
-}
-
-findWindow(subName, isFullMatching) {
-    WinGet windows, List
-    Loop %windows% {
-    	id := windows%A_Index%
-    	WinGetTitle Title, ahk_id %id%
-		if (isFullMatching) {
-        	if (Title=%subName%) {
-            	return %Title%
-        	}
-		}
-		else {
-        	IfInString, Title, %subName%, {
-            	return %Title%
-        	}
-		}
-    }
-    return ""
-}
 
 ;------------------------------------
 ; Key & System
@@ -551,4 +536,45 @@ programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
     else if (Mode = "on" || !PID) {
         Run, %RunCmd%, , , PID
 	}
+}
+
+openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
+	cmd = chrome.exe --app=%url%
+	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
+	return Title
+}
+runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
+	Title := findWindow(subName, isFullMatching)
+	if !Title {
+		Run, %cmd%
+		while !Title {
+			Title := findWindow(subName, isFullMatching)
+		}
+		WinActivate, %Title%
+		if isCancelingFullScreen {
+			Send, #{Down}
+			sleep, 200
+		}
+	}
+	WinActivate, %Title%
+	return Title
+}
+
+findWindow(subName, isFullMatching) {
+    WinGet windows, List
+    Loop %windows% {
+    	id := windows%A_Index%
+    	WinGetTitle Title, ahk_id %id%
+		if (isFullMatching) {
+        	if (Title=%subName%) {
+            	return %Title%
+        	}
+		}
+		else {
+        	IfInString, Title, %subName%, {
+            	return %Title%
+        	}
+		}
+    }
+    return ""
 }
