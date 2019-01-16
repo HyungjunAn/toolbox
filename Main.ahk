@@ -477,7 +477,7 @@ myMotto(Time) {
 }
 
 suspend_notice() {
-	h := 20
+	h := 10
 	w := 100
 	y := 0
 
