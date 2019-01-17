@@ -7,9 +7,10 @@
 ;---------------------------------------------------------------
 SetWorkingDir, %A_ScriptDir%
 
-global isGuiOn	:= True
-global arr_subName := []
-global arr_url     := []
+global isGuiOn		:= True
+global arr_subName 	:= []
+global arr_url     	:= []
+global url_iter		:= 0
 
 myMotto(1000)
 google_drive = %USERPROFILE%\Google 드라이브
@@ -251,29 +252,28 @@ $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/c
 	return
 
 !^8:: 	
-	subName := arr_subName[1]
-	url := arr_url[1]
-	openOrActivateUrl(subName, false, URL)
-	return
 !^9::   
-	if (isOffice) {
-		subName := arr_subName[2]
-		url := arr_url[2]
-	} else {
-		subName =
-		url     = https://translate.google.com/?hl=ko
-	}
-	openOrActivateUrl(subName, false, url)
-	return
 !^0::
-	if (isOffice) {
-		subName := arr_subName[3]
-		url := arr_url[3]
-	} else {
-		subName = 
-		url     = https://scholar.google.co.kr/
+	for index, subName in arr_subName
+	{
+		Title := findWindow(subName, false)
+		if !Title {
+			url := arr_url[index]
+			cmd = chrome.exe --app=%url%
+			Run, %cmd%
+			while !Title {
+				Title := findWindow(subName, isFullMatching)
+			}
+		}
 	}
+	url_iter := Mod(url_iter, arr_subName.MaxIndex())
+	index := url_iter + 1
+	subName := arr_subName[index]
+	url := arr_url[index]
 	openOrActivateUrl(subName, false, url)
+	url_iter += 1
+	;url     = https://translate.google.com/?hl=ko
+	;url     = https://scholar.google.co.kr/
 	return
 
 !^q:: 
@@ -543,6 +543,7 @@ openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
 	return Title
 }
+
 runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	Title := findWindow(subName, isFullMatching)
 	if !Title {
