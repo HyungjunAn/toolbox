@@ -120,13 +120,10 @@ $!^a::
 	}
 	return
 
-!^g::Run, %A_ScriptDir%
-
-!^+r::Run, shell:RecycleBinFolder 
-
-!^+e:: Run, %USERPROFILE%\AppData\Local\lxss\home\hyungjun
-
-$#d:: Run, %USERPROFILE%\Desktop
+!^g::	Run, %A_ScriptDir%
+!^+r::	Run, shell:RecycleBinFolder 
+!^+e:: 	Run, %USERPROFILE%\AppData\Local\lxss\home\hyungjun
+$#d:: 	Run, %USERPROFILE%\Desktop
 
 ; DropBox
 !^b::Run, Z:\\
@@ -217,12 +214,22 @@ $!^s:: Run, ms-settings:bluetooth
 ;------------------------------------
 !^n::   Run, http://www.naver.com/more.html
 $#n::   Run, http://www.senaver.com
+
 !^o:: 
     subName = Google Keep
     url = https://keep.google.com
     Title := openOrActivateUrl(subName, false, url, true)
     W := 398
     WinMove, %Title%, , A_screenWidth - W, 0, W, 1078
+    return
+
+!^q:: 
+    subName = 다음 영어사전
+    url = http://small.dic.daum.net/index.do?dic=eng
+    Title := openOrActivateUrl(subName, false, url, true)
+    W = 389
+    H = 420
+    WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
     return
 
 !^d::
@@ -276,14 +283,6 @@ $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/c
 	;url     = https://scholar.google.co.kr/
 	return
 
-!^q:: 
-    subName = 다음 영어사전
-    url = http://small.dic.daum.net/index.do?dic=eng
-    Title := openOrActivateUrl(subName, false, url, true)
-    W = 389
-    H = 420
-    WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
-    return
 
 ;------------------------------------
 ; YouTube
