@@ -268,9 +268,12 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 			url := arr_url[index]
 			cmd = chrome.exe --app=%url%
 			Run, %cmd%
-			while !Title {
-				Title := findWindow(subName, isFullMatching)
-			}
+		}
+	}
+	for index, subName in arr_subName
+	{
+		while !Title {
+			Title := findWindow(subName, false)
 		}
 	}
 	url_iter := Mod(url_iter, arr_subName.MaxIndex())
