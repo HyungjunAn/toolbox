@@ -11,6 +11,7 @@ global isGuiOn		:= True
 global arr_subName 	:= []
 global arr_url     	:= []
 global url_iter		:= 0
+global lock 		:= False
 
 myMotto(1000)
 google_drive = %USERPROFILE%\Google µå¶óÀÌºê
@@ -261,6 +262,10 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 !^8:: 	
 !^9::   
 !^0::
+	if circuit_lock {
+		return
+	}
+	circuit_lock := True
 	for index, subName in arr_subName
 	{
 		Title := findWindow(subName, false)
@@ -272,10 +277,13 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 	}
 	for index, subName in arr_subName
 	{
+		Title := findWindow(subName, false)
 		while !Title {
 			Title := findWindow(subName, false)
 		}
 	}
+	circuit_lock := False
+    Gui, Circuit_url_GUI:Destroy
 	url_iter := Mod(url_iter, arr_subName.MaxIndex())
 	index := url_iter + 1
 	subName := arr_subName[index]
