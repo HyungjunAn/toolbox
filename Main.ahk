@@ -13,6 +13,9 @@ global arr_url     	:= []
 global url_iter		:= 0
 global lock 		:= False
 
+global arr_text 	:= []
+global text_iter	:= 0
+
 myMotto(1000)
 google_drive = %USERPROFILE%\Google µå¶óÀÌºê
 PID_BROWSINGMODE := 0
@@ -35,7 +38,7 @@ else {
     google_homeID_num := 1
 }
 
-URL_PATH = %USERPROFILE%/Desktop/Library/URL_lnk/url.txt
+URL_PATH  = %USERPROFILE%/Desktop/Library/URL_lnk/url.txt
 cnt := 0
 Loop, Read, %URL_PATH%
 {
@@ -46,6 +49,12 @@ Loop, Read, %URL_PATH%
 	else {
     	arr_url.Push(A_LoopReadLine)
 	}
+}
+
+TEXT_PATH = %USERPROFILE%/Desktop/Library/URL_lnk/text.txt
+Loop, Read, %TEXT_PATH%
+{
+    arr_text.Push(A_LoopReadLine)
 }
 
 SetCapsLockState, off
@@ -261,6 +270,13 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 
 !^8:: 	
 !^9::   
+	text_iter := Mod(text_iter, arr_text.MaxIndex())
+	index := text_iter + 1
+	textFile := arr_text[index]
+	Run, Notepad++.exe "%USERPROFILE%\Desktop\Library\%textFile%"
+	text_iter += 1
+	return 
+
 !^0::
 	if circuit_lock {
 		return
@@ -283,7 +299,6 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 		}
 	}
 	circuit_lock := False
-    Gui, Circuit_url_GUI:Destroy
 	url_iter := Mod(url_iter, arr_subName.MaxIndex())
 	index := url_iter + 1
 	subName := arr_subName[index]
