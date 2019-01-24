@@ -7,14 +7,13 @@
 ;---------------------------------------------------------------
 SetWorkingDir, %A_ScriptDir%
 
-global isGuiOn		:= True
-global arr_subName 	:= []
-global arr_url     	:= []
-global url_iter		:= 0
-global lock 		:= False
-
-global arr_text 	:= []
-global text_iter	:= 0
+global isGuiOn			:= True
+global notepadTabNum 	:= 0
+global notepadMaxTabNum := 2
+global arr_subName 		:= []
+global arr_url     		:= []
+global url_iter			:= 0
+global circuit_lock 	:= False
 
 myMotto(1000)
 google_drive = %USERPROFILE%\Google 드라이브
@@ -49,12 +48,6 @@ Loop, Read, %URL_PATH%
 	else {
     	arr_url.Push(A_LoopReadLine)
 	}
-}
-
-TEXT_PATH = %USERPROFILE%/Desktop/Library/URL_lnk/text.txt
-Loop, Read, %TEXT_PATH%
-{
-    arr_text.Push(A_LoopReadLine)
 }
 
 SetCapsLockState, off
@@ -270,12 +263,11 @@ $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/c
 
 !^8:: 	
 !^9::   
-	text_iter := Mod(text_iter, arr_text.MaxIndex())
-	index := text_iter + 1
-	textFile := arr_text[index]
-	Run, Notepad++.exe "%USERPROFILE%\Desktop\Library\%textFile%"
-	text_iter += 1
-	return 
+	runOrActivateWin("- notepad++", false, "notepad++")
+	notepadTabNum := Mod(notepadTabNum, notepadMaxTabNum)
+	notepadTabNum := notepadTabNum + 1
+	Send, ^{Numpad%notepadTabNum%}
+	return
 
 !^0::
 	if circuit_lock {
