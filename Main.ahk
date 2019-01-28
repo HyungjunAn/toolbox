@@ -147,12 +147,10 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
 ;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 #z::
-    Run, SnippingTool
-    WinWait, 母贸 档备
-    WinActivate, 母贸 档备
-    while (ErrorLevel) {
-    }
-	Send, ^n
+	runOrActivateWin("母贸 档备", false, "SnippingTool")
+	if (!isOffice) {
+		Send, ^n
+	}
     Return
     
 !^c::
@@ -568,8 +566,8 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 		while !Title {
 			Title := findWindow(subName, isFullMatching)
 		}
-		WinActivate, %Title%
 		if isCancelingFullScreen {
+			WinActivate, %Title%
 			Send, #{Down}
 			sleep, 200
 		}
