@@ -9,7 +9,7 @@ SetWorkingDir, %A_ScriptDir%
 
 global isGuiOn			:= True
 global notepadTabNum 	:= 0
-global notepadMaxTabNum := 2
+global notepadMaxTabNum := 3
 global arr_subName 		:= []
 global arr_url     		:= []
 global url_iter			:= 0
@@ -77,7 +77,7 @@ $!^a::
 
 ;$!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
     
-; f.lux & AHK Alarm Switch
+; GUI Off
 #v::
 	if (isGuiOn) {
 		myMotto(500)
