@@ -159,12 +159,16 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
     return
 
 ; PuTTY
-!^p::
-    Run, C:\Program Files\PuTTY\putty.exe
-    WinWaitActive, PuTTY Configuration, , 2
-    if !ErrorLevel
-        Send, !e{Tab}{Down}
-    return
+
+!^p:: 
+	cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
+	runOrActivateWin("__", false, cmd)
+	return 
+   ; Run, C:\Program Files\PuTTY\putty.exe
+   ; WinWaitActive, PuTTY Configuration, , 2
+   ; if !ErrorLevel
+   ;     Send, !e{Tab}{Down}
+   ; return
 
 ; XNote Timer
 !^t::
