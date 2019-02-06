@@ -2,9 +2,9 @@
 ; AD's HotKey
 ;###############################################################
 
-;---------------------------------------------------------------
+;///////////////////////////////////////////////////////////////
 ;		Serial Code
-;---------------------------------------------------------------
+;///////////////////////////////////////////////////////////////
 SetWorkingDir, %A_ScriptDir%
 
 global isGuiOn			:= True
@@ -55,13 +55,13 @@ SetScrollLockState, off
 
 alarm()
 
-;---------------------------------------------------------------
+;///////////////////////////////////////////////////////////////
 ;		Hot Key
-;---------------------------------------------------------------
+;///////////////////////////////////////////////////////////////
 $!^r:: Reload
 
 ; Suspend & Control Mode
-$!^a:: 
+$!+a:: 
 	Suspend, Toggle
 	destroyAllGui()
 	if (A_IsSuspended) {
@@ -75,17 +75,15 @@ $!^a::
 	}
 	Return
 
-;$!^a::programSwitch(PID_BROWSINGMODE, BrowsingMode)
-    
 ; GUI Off
-#v::
+$!^a::
 	if (isGuiOn) {
-		myMotto(500)
+		myMotto(200, "Red")
 		isGuiOn := False
 	}
 	else {
 		isGuiOn := True
-		myMotto(500)
+		myMotto(200)
 	}
 	Return
     ;Process, Exist, flux.exe
@@ -158,8 +156,7 @@ $!^e:: Run, C:\Program Files\Git\git-bash.exe
     myMotto(1000)
     return
 
-; PuTTY
-
+; MobaXterm
 !^p:: 
 	cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
 	runOrActivateWin("__", false, cmd)
@@ -457,24 +454,29 @@ testFunc(ByRef str) {
 	msgBox, %str%
 }
 
-;---------------------------------------------------------------
+;///////////////////////////////////////////////////////////////
 ;		Function Def.
-;---------------------------------------------------------------
+;///////////////////////////////////////////////////////////////
 destroyAllGui() {
     Gui, MyMotto_GUI:Destroy
     Gui, Suspend_GUI:Destroy
     Gui, Alarm_GUI:Destroy
 }
-myMotto(Time) {
-    y := A_screenHeight - 40
+myMotto(Time, Color := "White") {
+	h := 40
+    y := A_screenHeight - h
+	c := "Black"
+	if (Color != "White") {
+		c := "White"
+	}
 
-    Gui, MyMotto_GUI:Color, White
+    Gui, MyMotto_GUI:Color, %Color%
     Gui, MyMotto_GUI:-Caption +alwaysontop +ToolWindow
-    Gui, MyMotto_GUI:Font, s15 cBlack, Consolas
+    Gui, MyMotto_GUI:Font, s15 c%c%, Consolas
     Gui, MyMotto_GUI:Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
 
 	if (isGuiOn) {
-    	Gui, MyMotto_GUI:Show, y%y% NoActivate
+    	Gui, MyMotto_GUI:Show, y%y% h%h% NoActivate
     	Sleep, %Time%
     	Gui, MyMotto_GUI:Destroy
 	}
