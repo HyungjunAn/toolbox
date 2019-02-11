@@ -143,7 +143,7 @@ $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 	cmd		= gvim %A_ScriptName%"
 	runOrActivateWin(subName, false, cmd)
 	return
-$!^e:: Run, C:\Program Files\Git\git-bash.exe
+$!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
 ;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 #z::
