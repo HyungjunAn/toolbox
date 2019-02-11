@@ -568,11 +568,19 @@ openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
 }
 
 runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
+	Local interval := 50
+	Local check := 0
+
 	Title := findWindow(subName, isFullMatching)
 	if !Title {
 		Run, %cmd%
-		while !Title {
+		while (!Title && check < 3000) {
 			Title := findWindow(subName, isFullMatching)
+			sleep, %interval%
+			check := check + interval
+		}
+		if !Title {
+			return Title
 		}
 		if isCancelingFullScreen {
 			WinActivate, %Title%
