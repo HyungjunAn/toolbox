@@ -106,7 +106,8 @@ $!^a::
 ;------------------------------------
 !^z::
 	if (isOffice) {
-		Run, %USERPROFILE%\Downloads
+		runOrActivateWin("Q-Dir", false, "C:\Program Files (x86)\Q-Dir\Q-Dir.exe")
+		;Run, %USERPROFILE%\Downloads
 	}
 	else {
 		Run, %google_drive%
