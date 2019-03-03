@@ -8,12 +8,16 @@
 SetWorkingDir, %A_ScriptDir%
 
 global isGuiOn			:= True
-global notepadTabNum 	:= 0
-global notepadMaxTabNum := 3
 global arr_subName 		:= []
 global arr_url     		:= []
 global url_iter			:= 0
 global circuit_lock 	:= False
+global did_I_Think		:= False
+
+global notepad_Group1_CurTabNum := 0
+global notepad_Group2_CurTabNum := 0
+global notepad_Group1_MaxTabNum := 2
+global notepad_Group2_MaxTabNum := 3
 
 myMotto(1000)
 google_drive = %USERPROFILE%\Google 드라이브
@@ -59,6 +63,8 @@ alarm()
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
 $!^r:: Reload
+
+$!^F12:: did_I_Think := True
 
 ; Suspend & Control Mode
 $!+a:: 
@@ -192,10 +198,8 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
 ;Window Media Player
 !^+p::  Run, wmplayer
 
-;Notepad++
-!^[::   runOrActivateWin("- notepad++", false, "notepad++")
-
 ;Visual Studio Code
+!^[::
 !^]::   Run, C:\Program Files\Microsoft VS Code\Code.exe
 
 ; KakaoTalk or LG ep
@@ -263,12 +267,25 @@ $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/c
 	}
 	return
 
+!^1::
+	runOrActivateWin("- notepad++", false, "notepad++")
+	Send, ^{Numpad1}
+	Send, ^+{Tab}
+	return
+
 !^8:: 	
+	runOrActivateWin("- notepad++", false, "notepad++")
+	notepad_Group1_CurTabNum := Mod(notepad_Group1_CurTabNum, notepad_Group1_MaxTabNum)
+	notepad_Group1_CurTabNum := notepad_Group1_CurTabNum + 1
+	Send, ^{Numpad%notepad_Group1_CurTabNum%}
+	return
+
 !^9::   
 	runOrActivateWin("- notepad++", false, "notepad++")
-	notepadTabNum := Mod(notepadTabNum, notepadMaxTabNum)
-	notepadTabNum := notepadTabNum + 1
-	Send, ^{Numpad%notepadTabNum%}
+	notepad_Group2_CurTabNum := Mod(notepad_Group2_CurTabNum, notepad_Group2_MaxTabNum)
+	notepad_Group2_CurTabNum := notepad_Group2_CurTabNum + 1
+	TabNum := notepad_Group1_MaxTabNum + notepad_Group2_CurTabNum
+	Send, ^{Numpad%TabNum%}
 	return
 
 !^0::
@@ -498,7 +515,11 @@ suspend_notice() {
 
 alarm_gui(sleepTime) {
 	h := 40
-	w := 100
+	if (did_I_Think) {
+		w := 100
+	} else {
+		w := A_screenWidth
+	}
 	y := A_screenHeight - h
 
 	Gui, Alarm_GUI:Color, Red
