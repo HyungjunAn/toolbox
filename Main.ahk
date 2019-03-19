@@ -69,17 +69,8 @@ $!^F12:: did_I_Think := True
 ; Suspend & Control Mode
 $!+a:: 
 	Suspend, Toggle
-	destroyAllGui()
-	if (A_IsSuspended) {
-		suspend_notice()
-		isGuiOn := false
-    	programSwitch(PID_BROWSINGMODE, BrowsingMode, "off")
-	}
-	else {
-		isGuiOn := True
-		myMotto(400)
-	}
-	Return
+	suspend_context()
+	return 
 
 ; GUI Off
 $!^a::
@@ -274,10 +265,6 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 	return
 
 $!^8:: 	
-	ret := ifExistVPC_ActivateAndSend("!^8")
-	if ret {
-		return
-	}
 	runOrActivateWin("- notepad++", false, "notepad++")
 	notepad_Group1_CurTabNum := Mod(notepad_Group1_CurTabNum, notepad_Group1_MaxTabNum)
 	notepad_Group1_CurTabNum := notepad_Group1_CurTabNum + 1
@@ -343,8 +330,10 @@ Capslock::Ctrl
 #.::Send {delete}
 
 +Esc::Send ~
+
 $Esc::
-$`::  keySwap_ifInTitle("XNote Timer", "!{F4}", "{Esc}")
+$`::keySwap_ifInTitle("XNote Timer", "!{F4}", "{Esc}")
+
 $!Esc::
 $!`:: Send ``
 $Space::keySwap_ifInTitle("XNote Timer", "^{F2}", "{Space}")
@@ -441,6 +430,25 @@ $^BS:: Send ^+{Left }{Backspace}
     WinGetTitle, Title, A
     WinSet, Alwaysontop, Toggle, %Title%
     return
+
+; Switching Cloud PC
+$F12::
+	suspend, Permit
+	VPC_WinTitle := "LGE_VPC - Desktop Viewer"
+	ret := findWindow(VPC_WinTitle, True)
+	if (A_IsSuspended) {
+		suspend, Off
+		; run local program
+	}
+	else if (ret) {
+		suspend, On
+		WinActivate, %VPC_WinTitle%
+	}
+	else {
+		Send, {F12}
+	}
+	suspend_context()
+	return
 
 ;------------------------------------
 ; Display Resolution
@@ -587,26 +595,6 @@ programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
 	}
 }
 
-ifExistVPC_ActivateAndSend(msg) {
-	ret := ifExistVPC_Activate()
-	if ret {
-		Send, %msg%
-	}
-	return ret
-}
-
-ifExistVPC_Activate() {
-	VPC_WinTitle := "LGE_VPC - Desktop Viewer"
-	ret := findWindow(VPC_WinTitle, True)
-	if ret {
-		WinActivate, %VPC_WinTitle%
-		return True
-	}
-	else {
-		return False
-	}
-}
-
 openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
 	cmd = chrome.exe --app=%url%
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
@@ -655,4 +643,18 @@ findWindow(subName, isFullMatching) {
 		}
     }
     return ""
+}
+
+suspend_context() {
+	destroyAllGui()
+	if (A_IsSuspended) {
+		suspend_notice()
+		isGuiOn := false
+    	programSwitch(PID_BROWSINGMODE, BrowsingMode, "off")
+	}
+	else {
+		isGuiOn := True
+		myMotto(400)
+	}
+	return
 }
