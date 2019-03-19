@@ -273,7 +273,11 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 	Send, ^+{Tab}
 	return
 
-!^8:: 	
+$!^8:: 	
+	ret := ifExistVPC_ActivateAndSend("!^8")
+	if ret {
+		return
+	}
 	runOrActivateWin("- notepad++", false, "notepad++")
 	notepad_Group1_CurTabNum := Mod(notepad_Group1_CurTabNum, notepad_Group1_MaxTabNum)
 	notepad_Group1_CurTabNum := notepad_Group1_CurTabNum + 1
@@ -583,6 +587,26 @@ programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
 	}
 }
 
+ifExistVPC_ActivateAndSend(msg) {
+	ret := ifExistVPC_Activate()
+	if ret {
+		Send, %msg%
+	}
+	return ret
+}
+
+ifExistVPC_Activate() {
+	VPC_WinTitle := "LGE_VPC - Desktop Viewer"
+	ret := findWindow(VPC_WinTitle, True)
+	if ret {
+		WinActivate, %VPC_WinTitle%
+		return True
+	}
+	else {
+		return False
+	}
+}
+
 openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
 	cmd = chrome.exe --app=%url%
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
@@ -620,7 +644,7 @@ findWindow(subName, isFullMatching) {
     	id := windows%A_Index%
     	WinGetTitle Title, ahk_id %id%
 		if (isFullMatching) {
-        	if (Title=%subName%) {
+        	if (Title == subName) {
             	return %Title%
         	}
 		}
