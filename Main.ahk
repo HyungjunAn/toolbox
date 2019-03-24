@@ -432,13 +432,15 @@ $^BS:: Send ^+{Left }{Backspace}
     return
 
 ; Switching Cloud PC
+$!+n::
 $F12::
 	suspend, Permit
 	VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 	ret := findWindow(VPC_WinTitle, True)
 	if (A_IsSuspended) {
 		suspend, Off
-		; run local program
+		runOrActivateWin("", false, "")
+		runOrActivateWin("- chrome", false, "chrome")
 	}
 	else if (ret) {
 		suspend, On
@@ -516,8 +518,8 @@ myMotto(Time, Color := "White") {
 
 suspend_notice() {
 	h := 10
-	w := 100
-	y := 0
+	w := A_screenWidth
+	y := A_screenHeight - h
 
 	Gui, Suspend_GUI:Color, Red
 	Gui, Suspend_GUI:-Caption +alwaysontop +ToolWindow
@@ -654,7 +656,7 @@ suspend_context() {
 	}
 	else {
 		isGuiOn := True
-		myMotto(400)
+		myMotto(200)
 	}
 	return
 }
