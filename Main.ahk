@@ -8,10 +8,8 @@
 SetWorkingDir, %A_ScriptDir%
 
 global isGuiOn			:= True
-global arr_subName 		:= []
-global arr_url     		:= []
-global url_iter			:= 0
-global circuit_lock 	:= False
+global url_CurTabNum	:= 0
+global url_MaxTabNum	:= 3
 global did_I_Think		:= False
 
 global notepad_Group1_CurTabNum := 0
@@ -39,19 +37,6 @@ If (A_UserName != "hyungjun.an") {
 else {
     global isOffice := True
     google_homeID_num := 1
-}
-
-URL_PATH  = %USERPROFILE%/Desktop/Library/URL_lnk/url.txt
-cnt := 0
-Loop, Read, %URL_PATH%
-{
-	cnt += 1
-	if Mod(cnt, 2) {
-    	arr_subName.Push(A_LoopReadLine)
-	}
-	else {
-    	arr_url.Push(A_LoopReadLine)
-	}
 }
 
 SetCapsLockState, off
@@ -236,27 +221,15 @@ $#n::   Run, http://www.senaver.com
 	if (!isOffice) {
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
 	} else {
-		cmd = %USERPROFILE%/Desktop/Library/URL_lnk/mail
-		runOrActivateWin("EP Mail", false, cmd)
+		runOrActivateWin("- chrome", false, "chrome")
+		url_mailTabNum := url_MaxTabNum + 1
+		Send, ^{%url_mailTabNum%}
 	}
 	return 
 
 $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 !^+b::  Run, https://www.dropbox.com/home
-
-!^7::
-	N := arr_subName.MaxIndex() 
-	MsgBox, %N%
-	for index, element in arr_subName
-	{
-    	MsgBox % "Element number " . index . " is " . element
-	}
-	for index, element in arr_url
-	{
-	    MsgBox % "Element number " . index . " is " . element
-	}
-	return
 
 !^1::
 	runOrActivateWin("- notepad++", false, "notepad++")
@@ -280,37 +253,13 @@ $!^8::
 	return
 
 !^0::
-	if circuit_lock {
-		return
-	}
-	circuit_lock := True
-	for index, subName in arr_subName
-	{
-		Title := findWindow(subName, false)
-		if !Title {
-			url := arr_url[index]
-			cmd = chrome.exe --app=%url%
-			Run, %cmd%
-		}
-	}
-	for index, subName in arr_subName
-	{
-		Title := findWindow(subName, false)
-		while !Title {
-			Title := findWindow(subName, false)
-		}
-	}
-	circuit_lock := False
-	url_iter := Mod(url_iter, arr_subName.MaxIndex())
-	index := url_iter + 1
-	subName := arr_subName[index]
-	url := arr_url[index]
-	openOrActivateUrl(subName, false, url)
-	url_iter += 1
+	runOrActivateWin("- chrome", false, "chrome")
+	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum)
+	url_CurTabNum := url_CurTabNum + 1
+	Send, ^{%url_CurTabNum%}
 	;url     = https://translate.google.com/?hl=ko
 	;url     = https://scholar.google.co.kr/
 	return
-
 
 ;------------------------------------
 ; YouTube
