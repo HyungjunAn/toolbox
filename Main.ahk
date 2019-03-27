@@ -9,13 +9,15 @@ SetWorkingDir, %A_ScriptDir%
 
 global isGuiOn			:= True
 global url_CurTabNum	:= 0
-global url_MaxTabNum	:= 3
+global url_MaxTabNum	:= 2
 global did_I_Think		:= False
 
 global notepad_Group1_CurTabNum := 0
 global notepad_Group2_CurTabNum := 0
 global notepad_Group1_MaxTabNum := 2
 global notepad_Group2_MaxTabNum := 3
+
+global lastWinTitle
 
 myMotto(1000)
 google_drive = %USERPROFILE%\Google 드라이브
@@ -97,7 +99,7 @@ $!^a::
 	return
 !^,::
 	if (isOffice) {
-		Run, %USERPROFILE%\Desktop\Library
+		Run, D:\Library
 	}
 	else {
 		Run, %google_drive%\Library
@@ -123,7 +125,7 @@ $!^v:: runOrActivateWin("vimrc_AD.vim",	false, "gvim vim\vimrc_AD.vim")
 $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 
 	subName = %A_ScriptName%
-	cmd		= gvim %A_ScriptName%"
+	cmd		= gvim %A_ScriptName%
 	runOrActivateWin(subName, false, cmd)
 	return
 $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
@@ -187,7 +189,9 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
 			Run, C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe
 	}
 	else {
-		openOrActivateUrl("New Ep", false, "http://ep.lge.com")
+		runOrActivateWin("- chrome", false, "chrome")
+		url_epTabNum := url_MaxTabNum + 1
+		Send, ^{%url_epTabNum%}
 	}
 	return
 
@@ -222,7 +226,7 @@ $#n::   Run, http://www.senaver.com
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
 	} else {
 		runOrActivateWin("- chrome", false, "chrome")
-		url_mailTabNum := url_MaxTabNum + 1
+		url_mailTabNum := url_MaxTabNum + 2
 		Send, ^{%url_mailTabNum%}
 	}
 	return 
@@ -386,20 +390,22 @@ $F12::
 	suspend, Permit
 	VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 	ret := findWindow(VPC_WinTitle, True)
-	if (A_IsSuspended) {
-		suspend, Off
-		runOrActivateWin("", false, "")
-		runOrActivateWin("- chrome", false, "chrome")
+
+	if (!ret) {
+		Send, {F12}
+		Return
 	}
-	else if (ret) {
-		suspend, On
+	Suspend, Toggle
+	suspend_context()
+	if (A_IsSuspended) {
+		WinGetTitle, lastWinTitle, A
 		WinActivate, %VPC_WinTitle%
 	}
 	else {
-		Send, {F12}
+		runOrActivateWin("- notepad++", false, "notepad++")
+		runOrActivateWin(lastWinTitle, false, "chrome")
 	}
-	suspend_context()
-	return
+	Return
 
 ;------------------------------------
 ; Display Resolution
@@ -466,7 +472,7 @@ myMotto(Time, Color := "White") {
 }
 
 suspend_notice() {
-	h := 10
+	h := 20
 	w := A_screenWidth
 	y := A_screenHeight - h
 
@@ -605,7 +611,6 @@ suspend_context() {
 	}
 	else {
 		isGuiOn := True
-		myMotto(200)
 	}
 	return
 }
