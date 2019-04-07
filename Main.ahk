@@ -3,6 +3,11 @@
 ;###############################################################
 
 ;///////////////////////////////////////////////////////////////
+;		TODO
+;///////////////////////////////////////////////////////////////
+; 
+
+;///////////////////////////////////////////////////////////////
 ;		Serial Code
 ;///////////////////////////////////////////////////////////////
 SetWorkingDir, %A_ScriptDir%
@@ -13,9 +18,7 @@ global url_MaxTabNum	:= 2
 global did_I_Think		:= False
 
 global notepad_Group1_CurTabNum := 0
-global notepad_Group2_CurTabNum := 0
-global notepad_Group1_MaxTabNum := 2
-global notepad_Group2_MaxTabNum := 3
+global notepad_Group1_MaxTabNum := 3
 
 global lastWinTitle
 
@@ -248,13 +251,8 @@ $!^8::
 	Send, ^{Numpad%notepad_Group1_CurTabNum%}
 	return
 
-!^9::   
-	runOrActivateWin("- notepad++", false, "notepad++")
-	notepad_Group2_CurTabNum := Mod(notepad_Group2_CurTabNum, notepad_Group2_MaxTabNum)
-	notepad_Group2_CurTabNum := notepad_Group2_CurTabNum + 1
-	TabNum := notepad_Group1_MaxTabNum + notepad_Group2_CurTabNum
-	Send, ^{Numpad%TabNum%}
-	return
+; for TypeAndRun
+$!^9:: Send, !^9
 
 !^0::
 	runOrActivateWin("- chrome", false, "chrome")
@@ -277,6 +275,7 @@ $!^8::
 ;------------------------------------
 Capslock::Ctrl
 !^+c::Capslock
+$RAlt:: Send #{Space}
 
 !^Space:: Send {Home}+{End}
 #,::Send {backspace}
@@ -392,14 +391,18 @@ $F12::
 	ret := findWindow(VPC_WinTitle, True)
 
 	if (!ret) {
+		Suspend, off
 		Send, {F12}
 		Return
 	}
 	Suspend, Toggle
 	suspend_context()
 	if (A_IsSuspended) {
-		WinGetTitle, lastWinTitle, A
-		WinActivate, %VPC_WinTitle%
+		WinGetTitle, tmpWinTitle, A
+    	IfNotInString, tmpWinTitle, %VPC_WinTitle%, {
+			lastWinTitle := tmpWinTitle
+			WinActivate, %VPC_WinTitle%
+		}
 	}
 	else {
 		runOrActivateWin("- notepad++", false, "notepad++")
