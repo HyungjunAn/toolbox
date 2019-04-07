@@ -23,6 +23,9 @@ global notepad_Group1_MaxTabNum := 3
 global lastWinTitle
 
 myMotto(1000)
+ifExist, D://myUtility/TypeAndRun/, {
+	Run, D://myUtility/TypeAndRun/TypeAndRun.exe
+}
 google_drive = %USERPROFILE%\Google 드라이브
 PID_BROWSINGMODE := 0
 
