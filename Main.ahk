@@ -5,7 +5,7 @@
 ;///////////////////////////////////////////////////////////////
 ;		TODO
 ;///////////////////////////////////////////////////////////////
-; 
+; remove lastWinTitle
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -21,6 +21,7 @@ global notepad_Group1_CurTabNum := 0
 global notepad_Group1_MaxTabNum := 3
 
 global lastWinTitle
+global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
 myMotto(1000)
 ifExist, D://myUtility/TypeAndRun/, {
@@ -255,7 +256,43 @@ $!^8::
 	return
 
 ; for TypeAndRun
-$!^9:: Send, !^9
+$!^9::
+	suspend, Permit
+	ret := findWindow(VPC_WinTitle, True)
+
+	if (!ret) {
+		Suspend, off
+		Send, !^9
+		Return
+	}
+	if (A_IsSuspended) {
+		Suspend, Off
+		suspend_context()
+	}
+	WinGetTitle, Title, A
+	IfInString, Title, %VPC_WinTitle%, {
+		runOrActivateWin("- chrome", false, "chrome")
+		runOrActivateWin("- notepad++", false, "notepad++")
+	}
+	Send, !^9
+	Return
+
+$!^-::
+	suspend, Permit
+	ret := findWindow(VPC_WinTitle, True)
+
+	if (!ret) {
+		Suspend, off
+		Send, !^-
+		Return
+	}
+	if (!A_IsSuspended) {
+		Suspend, On
+		suspend_context()
+	}
+	WinActivate, %VPC_WinTitle%
+	Send, !^-
+	Return
 
 !^0::
 	runOrActivateWin("- chrome", false, "chrome")
@@ -403,13 +440,13 @@ $F12::
 	if (A_IsSuspended) {
 		WinGetTitle, tmpWinTitle, A
     	IfNotInString, tmpWinTitle, %VPC_WinTitle%, {
-			lastWinTitle := tmpWinTitle
+			global lastWinTitle := tmpWinTitle
 			WinActivate, %VPC_WinTitle%
 		}
 	}
 	else {
 		runOrActivateWin("- notepad++", false, "notepad++")
-		runOrActivateWin(lastWinTitle, false, "chrome")
+		runOrActivateWin(global lastWinTitle, false, "")
 	}
 	Return
 
@@ -571,13 +608,13 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	Title := findWindow(subName, isFullMatching)
 	if !Title {
 		Run, %cmd%
-		while (!Title && check < 3000) {
+		while (!Title && check < 1000) {
 			Title := findWindow(subName, isFullMatching)
 			sleep, %interval%
 			check := check + interval
 		}
 		if !Title {
-			return Title
+			return ""
 		}
 		if isCancelingFullScreen {
 			WinActivate, %Title%
