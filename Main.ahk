@@ -315,7 +315,6 @@ $!^-::
 ;------------------------------------
 Capslock::Ctrl
 !^+c::Capslock
-$RAlt:: Send #{Space}
 
 !^Space:: Send {Home}+{End}
 #,::Send {backspace}
