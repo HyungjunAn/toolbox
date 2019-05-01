@@ -262,6 +262,7 @@ $!^9::
 
 	if (!ret) {
 		Suspend, off
+		suspend_context()
 		Send, !^9
 		Return
 	}
@@ -283,6 +284,7 @@ $!^-::
 
 	if (!ret) {
 		Suspend, off
+		suspend_context()
 		Send, !^-
 		Return
 	}
