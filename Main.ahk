@@ -14,7 +14,9 @@ SetWorkingDir, %A_ScriptDir%
 
 global isGuiOn			:= True
 global url_CurTabNum	:= 0
-global url_MaxTabNum	:= 2
+global url_MaxTabNum	:= 3
+global url_epTabNum  	:= url_MaxTabNum + 1
+global url_mailTabNum 	:= url_MaxTabNum + 2
 global did_I_Think		:= False
 
 global notepad_Group1_CurTabNum := 0
@@ -197,7 +199,6 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
 	}
 	else {
 		runOrActivateWin("- chrome", false, "chrome")
-		url_epTabNum := url_MaxTabNum + 1
 		Send, ^{%url_epTabNum%}
 	}
 	return
@@ -233,7 +234,6 @@ $#n::   Run, http://www.senaver.com
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
 	} else {
 		runOrActivateWin("- chrome", false, "chrome")
-		url_mailTabNum := url_MaxTabNum + 2
 		Send, ^{%url_mailTabNum%}
 	}
 	return 
