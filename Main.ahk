@@ -53,7 +53,7 @@ else {
 SetCapsLockState, off
 SetScrollLockState, off
 
-alarm()
+;alarm()
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
