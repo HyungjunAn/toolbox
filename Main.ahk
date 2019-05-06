@@ -171,6 +171,7 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
 			lastWinTitle := Title
 		}
 		WinActivate, %VPC_WinTitle%
+		Send !^.
 	} else {
 		cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
 		runOrActivateWin("__", false, cmd)
@@ -259,6 +260,7 @@ $#n::   Run, http://www.senaver.com
 			lastWinTitle := Title
 		}
 		WinActivate, %VPC_WinTitle%
+		Send, !^d
 	} else {
 		runOrActivateWin("- chrome", false, "chrome")
 		Send, ^{%url_mailTabNum%}
