@@ -277,10 +277,10 @@ $!^9::
 	Suspend, Off
 	suspend_context()
 	if (findWindow(VPC_WinTitle, True)) {
-		if (!recentlyWinTitle2) {
-			runOrActivateWin("- notepad++", false, "notepad++")			
-		} else {
+		if (findWindow(recentlyWinTitle2, True)) {
 			WinActivate, %recentlyWinTitle2%
+		} else {
+			runOrActivateWin("- notepad++", false, "notepad++")			
 		}
 		WinActivate, %recentlyWinTitle1%
 	}
