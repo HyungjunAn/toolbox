@@ -161,7 +161,7 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
     return
 
 ; MobaXterm
-!^.:: 
+$!^.:: 
 	Suspend, Permit
 	if (findWindow(VPC_WinTitle, True)) {
 		Suspend, On
@@ -248,7 +248,7 @@ $#n::   Run, http://www.senaver.com
     WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
     return
 
-!^d::
+$!^d::
 	Suspend, Permit
 	if (!isOffice) {
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
