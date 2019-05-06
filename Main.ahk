@@ -5,7 +5,6 @@
 ;///////////////////////////////////////////////////////////////
 ;		TODO
 ;///////////////////////////////////////////////////////////////
-; remove lastWinTitle
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -238,8 +237,17 @@ $#n::   Run, http://www.senaver.com
     return
 
 !^d::
+	Suspend, Permit
 	if (!isOffice) {
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
+	} else if (findWindow(VPC_WinTitle, True)) {
+		Suspend, On
+		suspend_context()
+		WinGetTitle, Title, A
+	    IfNotInString, Title, %VPC_WinTitle%, {
+			lastWinTitle := Title
+		}
+		WinActivate, %VPC_WinTitle%
 	} else {
 		runOrActivateWin("- chrome", false, "chrome")
 		Send, ^{%url_mailTabNum%}
