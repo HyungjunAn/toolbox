@@ -21,7 +21,8 @@ global did_I_Think		:= False
 global notepad_Group1_CurTabNum := 0
 global notepad_Group1_MaxTabNum := 3
 
-global lastWinTitle
+global recentlyWinTitle1
+global recentlyWinTitle2
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
 global google_drive := "%USERPROFILE%\Google 드라이브"
@@ -276,12 +277,12 @@ $!^9::
 	Suspend, Off
 	suspend_context()
 	if (findWindow(VPC_WinTitle, True)) {
-		WinGetTitle, Title, A
-		IfInString, Title, %VPC_WinTitle%, {
-			runOrActivateWin("- chrome", false, "chrome")
-			runOrActivateWin("- notepad++", false, "notepad++")
-			WinActivate, %lastWinTitle%
+		if (!recentlyWinTitle2) {
+			runOrActivateWin("- notepad++", false, "notepad++")			
+		} else {
+			WinActivate, %recentlyWinTitle2%
 		}
+		WinActivate, %recentlyWinTitle1%
 	}
 	Send, !^9
 	Return
@@ -663,7 +664,12 @@ changeMode2VPC() {
 		suspend_context()
 		WinGetTitle, Title, A
 		IfNotInString, Title, %VPC_WinTitle%, {
-			lastWinTitle := Title
+			IfNotInString, Title, TypeAndRun, {
+				if (Title != recentlyWinTitle1) {
+					recentlyWinTitle2 := recentlyWinTitle1
+					recentlyWinTitle1 := Title
+				}
+			}
 		}
 		WinActivate, %VPC_WinTitle%
 		ret := True
