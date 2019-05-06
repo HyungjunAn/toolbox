@@ -163,14 +163,7 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
 ; MobaXterm
 $!^.:: 
 	Suspend, Permit
-	if (findWindow(VPC_WinTitle, True)) {
-		Suspend, On
-		suspend_context()
-		WinGetTitle, Title, A
-	    IfNotInString, Title, %VPC_WinTitle%, {
-			lastWinTitle := Title
-		}
-		WinActivate, %VPC_WinTitle%
+	if (changeMode2VPC()) {
 		Send !^.
 	} else {
 		cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
@@ -250,16 +243,9 @@ $#n::   Run, http://www.senaver.com
 
 $!^d::
 	Suspend, Permit
-	if (!isOffice) {
+	if (!isOffice && !A_IsSuspended) {
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
-	} else if (findWindow(VPC_WinTitle, True)) {
-		Suspend, On
-		suspend_context()
-		WinGetTitle, Title, A
-	    IfNotInString, Title, %VPC_WinTitle%, {
-			lastWinTitle := Title
-		}
-		WinActivate, %VPC_WinTitle%
+	} else if (changeMode2VPC()) {
 		Send, !^d
 	} else {
 		runOrActivateWin("- chrome", false, "chrome")
@@ -302,15 +288,8 @@ $!^9::
 
 $!^p::
 $!^-::
-	if (findWindow(VPC_WinTitle, True)) {
-		Suspend, On
-		suspend_context()
-		WinGetTitle, Title, A
-	    IfNotInString, Title, %VPC_WinTitle%, {
-			lastWinTitle := Title
-		}
-		WinActivate, %VPC_WinTitle%
-	}
+	Suspend, Permit
+	changeMode2VPC()
 	Send, !^-
 	Return
 
@@ -675,4 +654,19 @@ suspend_context() {
 		isGuiOn := True
 	}
 	return
+}
+
+changeMode2VPC() {
+	ret := False
+	if (findWindow(VPC_WinTitle, True)) {
+		Suspend, On
+		suspend_context()
+		WinGetTitle, Title, A
+		IfNotInString, Title, %VPC_WinTitle%, {
+			lastWinTitle := Title
+		}
+		WinActivate, %VPC_WinTitle%
+		ret := True
+	}
+	return ret
 }
