@@ -162,8 +162,19 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
 
 ; MobaXterm
 !^.:: 
-	cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
-	runOrActivateWin("__", false, cmd)
+	Suspend, Permit
+	if (findWindow(VPC_WinTitle, True)) {
+		Suspend, On
+		suspend_context()
+		WinGetTitle, Title, A
+	    IfNotInString, Title, %VPC_WinTitle%, {
+			lastWinTitle := Title
+		}
+		WinActivate, %VPC_WinTitle%
+	} else {
+		cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
+		runOrActivateWin("__", false, cmd)
+	}
 	return 
    ; Run, C:\Program Files\PuTTY\putty.exe
    ; WinWaitActive, PuTTY Configuration, , 2
