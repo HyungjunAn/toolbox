@@ -25,12 +25,15 @@ global notepad_Group1_MaxTabNum := 3
 global lastWinTitle
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
+global google_drive := "%USERPROFILE%\Google 드라이브"
+
+global PID_AHK_BROWSINGMODE 	:= 0
+global PID_AHK_DISABLE_CAPSLOCK	:= 0
+
 myMotto(1000)
 ifExist, D://myUtility/TypeAndRun/, {
 	Run, D://myUtility/TypeAndRun/TypeAndRun.exe
 }
-google_drive = %USERPROFILE%\Google 드라이브
-PID_BROWSINGMODE := 0
 
 IfInString, A_ScriptName, .ahk, {
 	ext = ahk
@@ -38,8 +41,10 @@ IfInString, A_ScriptName, .ahk, {
 	ext = exe
 }
 
-Main         = Main.%ext%
-BrowsingMode = BrowsingMode.%ext%
+BrowsingMode 	= BrowsingMode.%ext%
+DisableCapslock = DisableCapslock.%ext%
+
+programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "on")
 
 If (A_UserName != "hyungjun.an") {
     global isOffice := False
@@ -58,13 +63,17 @@ SetScrollLockState, off
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
-$!^r:: Reload
+$!^r:: 
+	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "off")
+	Reload
+	Return
 
 $!^F12:: did_I_Think := True
 
 ; Suspend & Control Mode
 $!+a:: 
 	Suspend, Toggle
+	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "switch")
 	suspend_context()
 	return 
 
@@ -153,7 +162,7 @@ $!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
     return
 
 ; MobaXterm
-!^p:: 
+!^.:: 
 	cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
 	runOrActivateWin("__", false, cmd)
 	return 
@@ -209,7 +218,6 @@ $!^s:: Run, ms-settings:bluetooth
 ;------------------------------------
 ; Web Page
 ;------------------------------------
-!^n::   Run, http://www.naver.com/more.html
 $#n::   Run, http://www.senaver.com
 
 !^o:: 
@@ -256,7 +264,7 @@ $!^8::
 	return
 
 ; for TypeAndRun
-$!+n::
+$!^n::
 $!^9::
 	Suspend, Off
 	suspend_context()
@@ -271,7 +279,7 @@ $!^9::
 	Send, !^9
 	Return
 
-$!+p::
+$!^p::
 $!^-::
 	if (findWindow(VPC_WinTitle, True)) {
 		Suspend, On
@@ -640,7 +648,7 @@ suspend_context() {
 	if (A_IsSuspended) {
 		suspend_notice()
 		isGuiOn := false
-    	programSwitch(PID_BROWSINGMODE, BrowsingMode, "off")
+    	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, "off")
 	}
 	else {
 		isGuiOn := True
