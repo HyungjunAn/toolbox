@@ -256,43 +256,32 @@ $!^8::
 	return
 
 ; for TypeAndRun
+$!+n::
 $!^9::
-	suspend, Permit
-	ret := findWindow(VPC_WinTitle, True)
-
-	if (!ret) {
-		Suspend, off
-		suspend_context()
-		Send, !^9
-		Return
-	}
-	if (A_IsSuspended) {
-		Suspend, Off
-		suspend_context()
-	}
-	WinGetTitle, Title, A
-	IfInString, Title, %VPC_WinTitle%, {
-		runOrActivateWin("- chrome", false, "chrome")
-		runOrActivateWin("- notepad++", false, "notepad++")
+	Suspend, Off
+	suspend_context()
+	if (findWindow(VPC_WinTitle, True)) {
+		WinGetTitle, Title, A
+		IfInString, Title, %VPC_WinTitle%, {
+			runOrActivateWin("- chrome", false, "chrome")
+			runOrActivateWin("- notepad++", false, "notepad++")
+			WinActivate, %lastWinTitle%
+		}
 	}
 	Send, !^9
 	Return
 
+$!+p::
 $!^-::
-	suspend, Permit
-	ret := findWindow(VPC_WinTitle, True)
-
-	if (!ret) {
-		Suspend, off
-		suspend_context()
-		Send, !^-
-		Return
-	}
-	if (!A_IsSuspended) {
+	if (findWindow(VPC_WinTitle, True)) {
 		Suspend, On
 		suspend_context()
+		WinGetTitle, Title, A
+	    IfNotInString, Title, %VPC_WinTitle%, {
+			lastWinTitle := Title
+		}
+		WinActivate, %VPC_WinTitle%
 	}
-	WinActivate, %VPC_WinTitle%
 	Send, !^-
 	Return
 
@@ -425,7 +414,7 @@ $^BS:: Send ^+{Left }{Backspace}
     return
 
 ; Switching Cloud PC
-$!+n::
+;$!+n::
 $F12::
 	suspend, Permit
 	VPC_WinTitle := "LGE_VPC - Desktop Viewer"
