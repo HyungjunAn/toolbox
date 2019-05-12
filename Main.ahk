@@ -25,7 +25,7 @@ global recentlyWinTitle1
 global recentlyWinTitle2
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
-global google_drive := "%USERPROFILE%\Google 드라이브"
+global google_drive := USERPROFILE . "\Google 드라이브"
 
 global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_DISABLE_CAPSLOCK	:= 0
