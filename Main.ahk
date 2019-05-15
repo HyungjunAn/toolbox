@@ -27,16 +27,22 @@ global recentlyWinTitle2
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
 global google_drive := USERPROFILE . "\Google 드라이브"
-global git_bash			:= "C:\Program Files\Git\git-bash.exe"
+global git_bash		:= "C:\Program Files\Git\git-bash.exe"
+global typeandrun	:= "D:\myUtility\TypeAndRun"
 
-global office_worklib 	:= "D:\Library"
+global office_worklib 			:= "D:\Library"
+global office_worklib_setting 	:= office_worklib . "\setting"
+global office_typeandrun_config := office_worklib_setting . "\TypeAndRun\Config.ini"
 
 global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_DISABLE_CAPSLOCK	:= 0
 
 myMotto(1000)
-ifExist, D://myUtility/TypeAndRun/, {
-	Run, D://myUtility/TypeAndRun/TypeAndRun.exe
+ifExist, %typeandrun%, {
+	ifExist, %office_typeandrun_config%, {
+		FileCopy, %office_typeandrun_config%, %typeandrun%\Config.ini
+	}
+	Run, %typeandrun%\TypeAndRun.exe
 }
 
 IfInString, A_ScriptName, .ahk, {
@@ -150,6 +156,7 @@ $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 	cmd		= gvim %A_ScriptName%
 	runOrActivateWin(subName, false, cmd)
 	return
+!^+p:: runOrActivateWin("Config.ini", false, "gvim " . office_typeandrun_config)
 
 $!^e:: 	runOrActivateWin("MINGW64:/d/pc_setting", false, git_bash)
 $!^+n:: runOrActivateWin("MINGW64:/d/library",    false, git_bash . " --cd=" . office_worklib)
@@ -203,7 +210,7 @@ $!^.::
 !^+t::Run, chrome.exe --profile-directory="Profile 1" --app-id=mdkfiefeoimmobmhdimachkfcpkgahlc
 
 ;Window Media Player
-!^+p::  Run, wmplayer
+;!^+p::  Run, wmplayer
 
 ;Visual Studio Code
 !^[::
