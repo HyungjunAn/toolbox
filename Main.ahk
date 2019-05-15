@@ -14,7 +14,7 @@ SetWorkingDir, %A_ScriptDir%
 
 global isGuiOn			:= True
 global url_CurTabNum	:= 0
-global url_MaxTabNum	:= 3
+global url_MaxTabNum	:= 2
 global url_epTabNum  	:= url_MaxTabNum + 1
 global url_mailTabNum 	:= url_MaxTabNum + 2
 global did_I_Think		:= False
