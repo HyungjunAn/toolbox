@@ -5,6 +5,7 @@
 ;///////////////////////////////////////////////////////////////
 ;		TODO
 ;///////////////////////////////////////////////////////////////
+; git bash의 타이틀이 경로로부터 자유롭지 못함
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -26,6 +27,9 @@ global recentlyWinTitle2
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
 global google_drive := USERPROFILE . "\Google 드라이브"
+global git_bash			:= "C:\Program Files\Git\git-bash.exe"
+
+global office_worklib 	:= "D:\Library"
 
 global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_DISABLE_CAPSLOCK	:= 0
@@ -117,7 +121,7 @@ $!^a::
 	return
 !^,::
 	if (isOffice) {
-		Run, D:\Library
+		Run, %office_worklib%
 	}
 	else {
 		Run, %google_drive%\Library
@@ -146,7 +150,9 @@ $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 	cmd		= gvim %A_ScriptName%
 	runOrActivateWin(subName, false, cmd)
 	return
-$!^e:: runOrActivateWin("MINGW", false, "C:\Program Files\Git\git-bash.exe")
+
+$!^e:: 	runOrActivateWin("MINGW64:/d/pc_setting", false, git_bash)
+$!^+n:: runOrActivateWin("MINGW64:/d/library",    false, git_bash . " --cd=" . office_worklib)
 ;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 #z::
