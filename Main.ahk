@@ -40,7 +40,7 @@ global PID_AHK_DISABLE_CAPSLOCK	:= 0
 myMotto(1000)
 ifExist, %typeandrun%, {
 	ifExist, %office_typeandrun_config%, {
-		FileCopy, %office_typeandrun_config%, %typeandrun%\Config.ini
+		FileCopy, %office_typeandrun_config%, %typeandrun%\Config.ini, 1
 	}
 	Run, %typeandrun%\TypeAndRun.exe
 }
