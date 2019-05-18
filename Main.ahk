@@ -19,6 +19,8 @@ global url_epTabNum  	:= url_MaxTabNum + 1
 global url_mailTabNum 	:= url_MaxTabNum + 2
 global did_I_Think		:= False
 
+global isVirtureDesktopR := False
+
 global notepad_Group1_CurTabNum := 0
 global notepad_Group1_MaxTabNum := 3
 
@@ -300,6 +302,16 @@ $!^8::
 
 ; for TypeAndRun
 $!^n::
+	if (isVirtureDesktopR) {
+		Send, ^#{Left}
+		WinActivate, %VPC_WinTitle%
+	} else {
+		runOrActivateWin("_tmp_tmp.md", false, "gvim %USERPROFILE%\desktop\_tmp_tmp.md")
+		Send, ^#{Right}
+	}
+	isVirtureDesktopR := !isVirtureDesktopR
+	Return
+
 $!^9::
 	Suspend, Off
 	suspend_context()
