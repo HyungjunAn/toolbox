@@ -271,7 +271,7 @@ $+LButton::
 	Suspend, Permit
 	WinGetTitle, Title, A
 	IfInString, Title, %VPC_WinTitle%, {
-		Send, RButton
+		Send, {RButton}
 		sleep, 100
 		Send, e
 		sleep, 100
