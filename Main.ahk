@@ -267,6 +267,20 @@ $!^d::
 	}
 	return 
 
+$+LButton::
+	Suspend, Permit
+	WinGetTitle, Title, A
+	IfInString, Title, %VPC_WinTitle%, {
+		Send, RButton
+		sleep, 100
+		Send, e
+		sleep, 100
+		Run, Chrome.exe %clipboard%
+	} else if (isExistVPC() || !isOffice) {
+		Send, +{LButton}
+	}
+	return 
+
 $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 !^+b::  Run, https://www.dropbox.com/home
@@ -289,7 +303,7 @@ $!^n::
 $!^9::
 	Suspend, Off
 	suspend_context()
-	if (findWindow(VPC_WinTitle, True)) {
+	if (isExistVPC()) {
 		if (findWindow(recentlyWinTitle2, True)) {
 			WinActivate, %recentlyWinTitle2%
 		} else {
@@ -670,9 +684,16 @@ suspend_context() {
 	return
 }
 
+isExistVPC() {
+	if (findWindow(VPC_WinTitle, True)) {
+		return True
+	}
+	return False
+}
+
 changeMode2VPC() {
 	ret := False
-	if (findWindow(VPC_WinTitle, True)) {
+	if (isExistVPC()) {
 		Suspend, On
 		suspend_context()
 		WinGetTitle, Title, A
