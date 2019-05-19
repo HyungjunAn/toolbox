@@ -26,6 +26,8 @@ global recentlyWinTitle2
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
 global google_drive := USERPROFILE . "\Google 드라이브"
+global xnote_timer	:= A_ScriptDir . "\XNote_Timer\xntimer.exe"
+
 global git_bash		:= "C:\Program Files\Git\git-bash.exe"
 global typeandrun	:= "D:\myUtility\TypeAndRun\TypeAndRun.exe"
 
@@ -195,7 +197,7 @@ $!^.::
 !^t::
     Process, Exist, xntimer.exe
     if !ErrorLevel {
-        Run, %google_drive%\Utility\XNote_Timer\xntimer.exe
+        Run, %xnote_timer%
         WinWaitActive, XNote Timer, , 2
         Send, ^{F2}
     }
