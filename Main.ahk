@@ -6,6 +6,7 @@
 ;		TODO
 ;///////////////////////////////////////////////////////////////
 ; git bash의 타이틀이 경로로부터 자유롭지 못함
+; vpc gui 배너 뜰 수 있게 하면 이쁠듯
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -21,16 +22,13 @@ global did_I_Think		:= False
 
 global isVirtureDesktopR := False
 
-global notepad_Group1_CurTabNum := 0
-global notepad_Group1_MaxTabNum := 3
-
 global recentlyWinTitle1
 global recentlyWinTitle2
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
 global google_drive := USERPROFILE . "\Google 드라이브"
 global git_bash		:= "C:\Program Files\Git\git-bash.exe"
-global typeandrun	:= "D:\myUtility\TypeAndRun"
+global typeandrun	:= "D:\myUtility\TypeAndRun\TypeAndRun.exe"
 
 global office_worklib 			:= "D:\Library"
 global office_worklib_setting 	:= office_worklib . "\setting"
@@ -44,7 +42,7 @@ ifExist, %typeandrun%, {
 	ifExist, %office_typeandrun_config%, {
 		FileCopy, %office_typeandrun_config%, %typeandrun%\Config.ini, 1
 	}
-	Run, %typeandrun%\TypeAndRun.exe
+	Run, %typeandrun%
 }
 
 IfInString, A_ScriptName, .ahk, {
@@ -75,8 +73,10 @@ SetScrollLockState, off
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
+; Reload Script
 $!^r:: 
 	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "off")
+	closeProcess("TypeAndRun.exe")
 	Reload
 	Return
 
@@ -86,6 +86,11 @@ $!^F12:: did_I_Think := True
 $!+a:: 
 	Suspend, Toggle
 	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "switch")
+	if (A_IsSuspended) {
+		closeProcess("TypeAndRun.exe")
+	} else {
+		Run, %typeandrun%
+	}
 	suspend_context()
 	return 
 
@@ -215,11 +220,15 @@ $!^.::
 
 ; KakaoTalk or LG ep
 !^`;::
-	If !(isOffice) {
+	If (!isOffice) {
 		IfExist, C:\Program Files (x86)\Kakao
 			Run, C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe
 		else
 			Run, C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe
+	}
+	else if (isExistVPC()) {
+		WinActivate, %VPC_WinTitle%
+		Send, !^`;
 	}
 	else {
 		runOrActivateWin("- chrome", false, "chrome")
@@ -252,15 +261,17 @@ $#n::   Run, http://www.senaver.com
     WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
     return
 
+; Mail
 $!^d::
 	Suspend, Permit
-	if (!isOffice && !A_IsSuspended) {
-		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
-	} else if (changeMode2VPC()) {
+	if (isExistVPC()) {
+		WinActivate, %VPC_WinTitle%
 		Send, !^d
-	} else {
+	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
 		Send, ^{%url_mailTabNum%}
+	} else {
+		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
 	}
 	return 
 
@@ -283,50 +294,35 @@ $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/c
 !^+b::  Run, https://www.dropbox.com/home
 
 !^1::
-	runOrActivateWin("- notepad++", false, "notepad++")
-	Send, ^{Numpad1}
-	Send, ^+{Tab}
-	return
+$!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
-$!^8:: 	
-	runOrActivateWin("- notepad++", false, "notepad++")
-	notepad_Group1_CurTabNum := Mod(notepad_Group1_CurTabNum, notepad_Group1_MaxTabNum)
-	notepad_Group1_CurTabNum := notepad_Group1_CurTabNum + 1
-	Send, ^{Numpad%notepad_Group1_CurTabNum%}
-	return
-
-; for TypeAndRun
+; Switch Between VPC and Local
 $!^n::
 	if (isVirtureDesktopR) {
-		Send, ^#{Left}
-		WinActivate, %VPC_WinTitle%
-	} else {
 		runOrActivateWin("_tmp_tmp.md", false, "gvim %USERPROFILE%\desktop\_tmp_tmp.md")
-		Send, ^#{Right}
+		Send, ^#{Left}
+	} else {
+		WinActivate, %VPC_WinTitle%
 	}
 	isVirtureDesktopR := !isVirtureDesktopR
 	Return
 
-$!^9::
-	Suspend, Off
-	suspend_context()
-	if (isExistVPC()) {
-		if (findWindow(recentlyWinTitle2, True)) {
-			WinActivate, %recentlyWinTitle2%
-		} else {
-			runOrActivateWin("- notepad++", false, "notepad++")			
-		}
-		WinActivate, %recentlyWinTitle1%
-	}
-	Send, !^9
-	Return
-
+; TypeAndRun
 $!^p::
-$!^-::
-	Suspend, Permit
-	changeMode2VPC()
-	Send, !^-
-	Return
+$!^9::
+$!^-:: Send, !^p
+;	Suspend, Off
+;	suspend_context()
+;	if (isExistVPC()) {
+;		if (findWindow(recentlyWinTitle2, True)) {
+;			WinActivate, %recentlyWinTitle2%
+;		} else {
+;			runOrActivateWin("- notepad++", false, "notepad++")			
+;		}
+;		WinActivate, %recentlyWinTitle1%
+;	}
+;	Send, !^9
+;	Return
 
 !^0::
 	runOrActivateWin("- chrome", false, "chrome")
@@ -508,6 +504,9 @@ RShift & Left::
 	testFunc(USERPROFILE . " " . A_ScriptName)
 	return 
 !^+u::
+	Process, Exist, TypeAndRun.exe,
+	Process, Close, %ErrorLevel%
+	;MsgBox, %PID_TYPEANDRUN%
     WinGetTitle, Title, A
     WinGet, PID, PID, A
     WinGetPos, x, y, W, H, %Title%
@@ -716,4 +715,10 @@ changeMode2VPC() {
 		ret := True
 	}
 	return ret
+}
+
+closeProcess(processName) {
+	Process, Exist, %processName%,
+	Process, Close, %ErrorLevel%
+	return
 }
