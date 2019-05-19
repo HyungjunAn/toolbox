@@ -285,7 +285,7 @@ $+LButton::
 		Send, e
 		sleep, 100
 		Run, Chrome.exe %clipboard%
-	} else if (isExistVPC() || !isOffice) {
+	} else { 
 		Send, +{LButton}
 	}
 	return 
