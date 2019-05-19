@@ -296,7 +296,10 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
 ; Switch Between VPC and Local
+$!+n::
+$F12::
 $!^n::
+$^,::
 	if (isVirtureDesktopR) {
 		runOrActivateWin("_tmp_tmp.md", false, "gvim %USERPROFILE%\desktop\_tmp_tmp.md")
 		Send, ^#{Left}
@@ -307,9 +310,9 @@ $!^n::
 	Return
 
 ; TypeAndRun
-$!^p::
 $!^9::
-$!^-:: Send, !^p
+$!^-::
+$!^p:: Send, !^p
 ;	Suspend, Off
 ;	suspend_context()
 ;	if (isExistVPC()) {
@@ -450,33 +453,6 @@ $^BS:: Send ^+{Left }{Backspace}
     WinGetTitle, Title, A
     WinSet, Alwaysontop, Toggle, %Title%
     return
-
-; Switching Cloud PC
-;$!+n::
-$F12::
-	suspend, Permit
-	VPC_WinTitle := "LGE_VPC - Desktop Viewer"
-	ret := findWindow(VPC_WinTitle, True)
-
-	if (!ret) {
-		Suspend, off
-		Send, {F12}
-		Return
-	}
-	Suspend, Toggle
-	suspend_context()
-	if (A_IsSuspended) {
-		WinGetTitle, tmpWinTitle, A
-    	IfNotInString, tmpWinTitle, %VPC_WinTitle%, {
-			global lastWinTitle := tmpWinTitle
-			WinActivate, %VPC_WinTitle%
-		}
-	}
-	else {
-		runOrActivateWin("- notepad++", false, "notepad++")
-		runOrActivateWin(global lastWinTitle, false, "")
-	}
-	Return
 
 ;------------------------------------
 ; Display Resolution
