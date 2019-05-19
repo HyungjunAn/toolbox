@@ -178,13 +178,8 @@ $!^+n:: runOrActivateWin("MINGW64:/d/library",    false, git_bash . " --cd=" . o
 
 ; MobaXterm
 $!^.:: 
-	Suspend, Permit
-	if (changeMode2VPC()) {
-		Send !^.
-	} else {
-		cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
-		runOrActivateWin("__", false, cmd)
-	}
+	cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
+	runOrActivateWin("__", false, cmd)
 	return 
    ; Run, C:\Program Files\PuTTY\putty.exe
    ; WinWaitActive, PuTTY Configuration, , 2
