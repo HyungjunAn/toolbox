@@ -5,7 +5,6 @@
 ;///////////////////////////////////////////////////////////////
 ;		TODO
 ;///////////////////////////////////////////////////////////////
-; git bash의 타이틀이 경로로부터 자유롭지 못함
 ; vpc gui 배너 뜰 수 있게 하면 이쁠듯
 
 ;///////////////////////////////////////////////////////////////
@@ -165,8 +164,8 @@ $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 	return
 !^+p:: runOrActivateWin("Config.ini", false, "gvim " . office_typeandrun_config)
 
-$!^e:: 	runOrActivateWin("MINGW64:/d/pc_setting", false, git_bash)
-$!^+n:: runOrActivateWin("MINGW64:/d/library",    false, git_bash . " --cd=" . office_worklib)
+$!^e::  runOrActivateGitBash("pc_setting")
+$!^+n:: runOrActivateGitBash("library", "--cd=" . office_worklib)
 ;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
 #z::
@@ -658,7 +657,16 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	return Title
 }
 
-findWindow(subName, isFullMatching) {
+runOrActivateGitBash(subName, option="") {
+	Title := findWindow("MINGW64:", False)
+	IfInString, Title, %subName%, {
+		WinActivate, %Title%
+	} else {
+		Run, %git_bash% %option%
+	}
+}
+
+findWindow(subName, isFullMatching=True) {
     WinGet windows, List
     Loop %windows% {
     	id := windows%A_Index%
