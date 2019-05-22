@@ -303,7 +303,7 @@ $F12::
 $!^n::
 $^,::
 	if (isVirtureDesktopR) {
-		runOrActivateWin("_tmp_tmp.md", false, "gvim %USERPROFILE%\desktop\_tmp_tmp.md")
+		runOrActivateWin("제목 없음 - 메모장", false, "notepad")
 		Send, ^#{Left}
 	} else {
 		WinActivate, %VPC_WinTitle%
