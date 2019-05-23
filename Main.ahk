@@ -28,8 +28,9 @@ global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 global google_drive := USERPROFILE . "\Google 드라이브"
 global xnote_timer	:= A_ScriptDir . "\XNote_Timer\xntimer.exe"
 
-global git_bash		:= "C:\Program Files\Git\git-bash.exe"
-global typeandrun	:= "D:\myUtility\TypeAndRun\TypeAndRun.exe"
+global git_bash			:= "C:\Program Files\Git\git-bash.exe"
+global dir_typeandrun	:= "D:\myUtility\TypeAndRun\"
+global typeandrun		:= dir_typeandrun . "\TypeAndRun.exe"
 
 global office_worklib 			:= "D:\Library"
 global office_worklib_setting 	:= office_worklib . "\setting"
@@ -41,7 +42,7 @@ global PID_AHK_DISABLE_CAPSLOCK	:= 0
 myMotto(1000)
 ifExist, %typeandrun%, {
 	ifExist, %office_typeandrun_config%, {
-		FileCopy, %office_typeandrun_config%, %typeandrun%\Config.ini, 1
+		FileCopy, %office_typeandrun_config%, %dir_typeandrun%\~Config.ini, 1
 	}
 	Run, %typeandrun%
 }
