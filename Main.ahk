@@ -19,8 +19,6 @@ global url_epTabNum  	:= url_MaxTabNum + 1
 global url_mailTabNum 	:= url_MaxTabNum + 2
 global did_I_Think		:= False
 
-global isVirtureDesktopR := False
-
 global recentlyWinTitle1
 global recentlyWinTitle2
 global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
@@ -41,6 +39,8 @@ global PID_AHK_DISABLE_CAPSLOCK	:= 0
 
 global isOffice := False
 global google_homeID_num := 0
+
+myMotto(500)
 
 If (A_UserName == "hyungjun.an") {
     isOffice := True
@@ -67,8 +67,6 @@ BrowsingMode 	= BrowsingMode.%ext%
 DisableCapslock = DisableCapslock.%ext%
 
 programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "on")
-
-myMotto(1000)
 
 SetCapsLockState, off
 SetScrollLockState, off
@@ -305,13 +303,13 @@ $!+n::
 $F12::
 $!^n::
 $^,::
-	if (isVirtureDesktopR) {
+	WinGetTitle, Title, A
+	IfInString, Title, %VPC_WinTitle%, {
 		runOrActivateWin("제목 없음 - 메모장", false, "notepad")
 		Send, ^#{Left}
 	} else {
 		WinActivate, %VPC_WinTitle%
 	}
-	isVirtureDesktopR := !isVirtureDesktopR
 	Return
 
 ; TypeAndRun
