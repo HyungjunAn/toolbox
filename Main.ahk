@@ -31,10 +31,10 @@ global xnote_timer	:= A_ScriptDir . "\XNote_Timer\xntimer.exe"
 global git_bash			:= "C:\Program Files\Git\git-bash.exe"
 global dir_typeandrun	:= "D:\myUtility\TypeAndRun\"
 global typeandrun		:= dir_typeandrun . "\TypeAndRun.exe"
+global typeandrun_cfg	:= "TypeAndRun\Config.ini"
 
 global office_worklib 			:= "D:\Library"
 global office_worklib_setting 	:= office_worklib . "\setting"
-global office_typeandrun_config := office_worklib_setting . "\TypeAndRun\Config.ini"
 
 global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_DISABLE_CAPSLOCK	:= 0
@@ -42,12 +42,17 @@ global PID_AHK_DISABLE_CAPSLOCK	:= 0
 global isOffice := False
 global google_homeID_num := 0
 
-myMotto(1000)
+If (A_UserName == "hyungjun.an") {
+    isOffice := True
+    google_homeID_num := 1
+	typeandrun_cfg := office_worklib_setting . "\TypeAndRun\Config.ini"
+}
+
 ifExist, %typeandrun%, {
 	closeProcess("TypeAndRun.exe")
-	ifExist, %office_typeandrun_config%, {
+	ifExist, %typeandrun_cfg%, {
 		FileDelete, %dir_typeandrun%\~Config.ini
-		FileCopy, %office_typeandrun_config%, %dir_typeandrun%\~Config.ini, 1
+		FileCopy, %typeandrun_cfg%, %dir_typeandrun%\Config.ini, 1
 	}
 	Run, %typeandrun%
 }
@@ -63,10 +68,7 @@ DisableCapslock = DisableCapslock.%ext%
 
 programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "on")
 
-If (A_UserName == "hyungjun.an") {
-    global isOffice := True
-    google_homeID_num := 1
-}
+myMotto(1000)
 
 SetCapsLockState, off
 SetScrollLockState, off
@@ -165,7 +167,7 @@ $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 	cmd		= gvim %A_ScriptName%
 	runOrActivateWin(subName, false, cmd)
 	return
-!^+p:: runOrActivateWin("Config.ini", false, "gvim " . office_typeandrun_config)
+!^+p:: runOrActivateWin("Config.ini", false, "gvim " . typeandrun_cfg)
 
 $!^e::  runOrActivateGitBash("pc_setting")
 $!^+n:: runOrActivateGitBash("library", "--cd=" . office_worklib)
