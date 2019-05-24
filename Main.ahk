@@ -39,9 +39,14 @@ global office_typeandrun_config := office_worklib_setting . "\TypeAndRun\Config.
 global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_DISABLE_CAPSLOCK	:= 0
 
+global isOffice := False
+global google_homeID_num := 0
+
 myMotto(1000)
 ifExist, %typeandrun%, {
+	closeProcess("TypeAndRun.exe")
 	ifExist, %office_typeandrun_config%, {
+		FileDelete, %dir_typeandrun%\~Config.ini
 		FileCopy, %office_typeandrun_config%, %dir_typeandrun%\~Config.ini, 1
 	}
 	Run, %typeandrun%
@@ -58,11 +63,7 @@ DisableCapslock = DisableCapslock.%ext%
 
 programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "on")
 
-If (A_UserName != "hyungjun.an") {
-    global isOffice := False
-    google_homeID_num := 0
-}
-else {
+If (A_UserName == "hyungjun.an") {
     global isOffice := True
     google_homeID_num := 1
 }
@@ -78,7 +79,6 @@ SetScrollLockState, off
 ; Reload Script
 $!^r:: 
 	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "off")
-	closeProcess("TypeAndRun.exe")
 	Reload
 	Return
 
