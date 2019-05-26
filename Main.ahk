@@ -82,7 +82,7 @@ $!^r::
 	Reload
 	Return
 
-$!^F12:: did_I_Think := True
+;$!^F12:: did_I_Think := True
 
 ; Suspend & Control Mode
 $!+a:: 
@@ -312,6 +312,8 @@ $^,::
 	}
 	Return
 
+$!^F12:: gui_bar()
+
 ; TypeAndRun
 $!^9::
 $!^-::
@@ -503,7 +505,9 @@ destroyAllGui() {
     Gui, MyMotto_GUI:Destroy
     Gui, Suspend_GUI:Destroy
     Gui, Alarm_GUI:Destroy
+	Gui, Bar_GUI:Destroy
 }
+
 myMotto(Time, Color := "White") {
 	h := 40
     y := A_screenHeight - h
@@ -522,6 +526,26 @@ myMotto(Time, Color := "White") {
     	Sleep, %Time%
     	Gui, MyMotto_GUI:Destroy
 	}
+}
+
+gui_bar() {
+	static isOn := True
+	h := 30
+    y := A_screenHeight - h - 40
+	w := A_screenWidth
+	Color := "F39C12"		; Orange
+
+    Gui, Bar_GUI:Color, %Color%
+    Gui, Bar_GUI:-Caption +alwaysontop +ToolWindow
+    Gui, Bar_GUI:Font, s10 cBlack, Consolas
+    Gui, Bar_GUI:Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
+
+	if (isGuiOn && isOn) {
+    	Gui, Bar_GUI:Show, y%y% w%w% h%h% NoActivate
+	} else {
+    	Gui, Bar_GUI:Destroy
+	}
+	isOn := !isOn
 }
 
 suspend_notice() {
