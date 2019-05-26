@@ -303,6 +303,7 @@ $!+n::
 $F12::
 $!^n::
 $^,::
+	Suspend, Permit
 	WinGetTitle, Title, A
 	IfInString, Title, %VPC_WinTitle%, {
 		runOrActivateWin("제목 없음 - 메모장", false, "notepad")
@@ -549,9 +550,9 @@ gui_bar() {
 }
 
 suspend_notice() {
-	h := 20
+	h := 30
+    y := A_screenHeight - h - 40
 	w := A_screenWidth
-	y := A_screenHeight - h
 
 	Gui, Suspend_GUI:Color, Red
 	Gui, Suspend_GUI:-Caption +alwaysontop +ToolWindow
