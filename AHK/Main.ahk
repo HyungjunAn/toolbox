@@ -299,12 +299,15 @@ $+LButton::
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
 	{
-		clipboard=
+		clipboard=""
 		Send, {RButton}
 		sleep, 100
 		Send, e
 		sleep, 100
-		Run, Chrome.exe %clipboard%
+		if clipboard
+		{
+			Run, Chrome.exe %clipboard%
+		}
 	} else { 
 		Send, +{LButton}
 	}
