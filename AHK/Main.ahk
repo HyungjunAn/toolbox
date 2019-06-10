@@ -18,8 +18,6 @@
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
 ;타이머 용 별도 Script를 관리
 ;함수 모듈화 (#include)
-;^+b를 다른 단축키로 대체
-;!^+b를 ^+b로 동작하게(크롬 북마크 보이는 단축키 동작 안 하도록)
 ;On, Off를 True/False로 
 ;캡쳐단축키 Win 10은 따로 있던데 이거 어떻게 될런지
 ;Suspend 필요없는 거 정리
@@ -317,7 +315,6 @@ $+LButton::
 
 $!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
-!^+b::  Run, https://www.dropbox.com/home
 
 !^1::
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
@@ -391,8 +388,6 @@ $!Esc::
 $!`:: Send ``
 $Space::keySwap_ifInTitle("XNote Timer", "^{F2}", "{Space}")
 $Enter::keySwap_ifInTitle("XNote Timer", "^{F3}", "{Enter}")
-
-$^+b::keySwap_ifInTitle("Chrome", "^+b!+t{F6}", "^+b")
 
 ^#m:: Send {AppsKey}
 ^#s:: Send {F2}
