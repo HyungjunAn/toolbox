@@ -6,11 +6,7 @@
 ;		TODO
 ;///////////////////////////////////////////////////////////////
 ; vpc gui 배너 뜰 수 있게 하면 이쁠듯
-
-;.ahk 파일 따로 따로
 ;Alt-tab이 VPC일 때는 원복으로 동작하게
-;include로 변경
-;vpc switch형으로 단축키 수정
 ;근태 들어가는 단축키 생성(새로 켜게 하는 것이 어떨런지 iexplorer에서)
 ;jira 테이블 왔다갔다 할때 데시보드 아니면 다시 대시보드로 돌아가게
 ;메일 EP 대시보드 주소 근태 주소 등 텍스트 파일로 관리(이거는 Office 안에 들어가게)
@@ -303,6 +299,7 @@ $+LButton::
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
 	{
+		clipboard=
 		Send, {RButton}
 		sleep, 100
 		Send, e
@@ -324,13 +321,7 @@ $!+n::
 $!^n::
 $^,::
 	Suspend, Permit
-	if VPC_IsCurrWinVpc()
-	{
-		runOrActivateWin("제목 없음 - 메모장", false, "notepad")
-		Send, ^#{Left}
-	} else {
-		VPC_ActivateVpc()
-	}
+	VPC_SwitchVpcAndLocal()
 	Return
 
 $!^F12:: gui_bar()

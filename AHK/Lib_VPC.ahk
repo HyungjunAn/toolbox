@@ -27,6 +27,17 @@ VPC_IsCurrWinVpc()
 	return False
 }
 
+VPC_SwitchVpcAndLocal()
+{
+	if VPC_IsCurrWinVpc()
+	{
+		runOrActivateWin("제목 없음 - 메모장", false, "notepad")
+		Send, ^#{Left}
+	} else {
+		VPC_ActivateVpc()
+	}
+}
+
 VPC_ChangeMode2VPC() {
 	ret := False
 	if (VPC_IsExistVpc()) {
