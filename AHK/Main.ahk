@@ -18,7 +18,6 @@
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
 ;타이머 용 별도 Script를 관리
 ;함수 모듈화 (#include)
-;On, Off를 True/False로 
 ;캡쳐단축키 Win 10은 따로 있던데 이거 어떻게 될런지
 ;Suspend 필요없는 거 정리
 ;GUI 이름 변경 & 스크립트 따로 분리
@@ -33,6 +32,10 @@
 SetWorkingDir, %A_ScriptDir%
 global path_setting := getParentPath(A_ScriptDir)
 
+
+global On 				:= True
+global Off 				:= False
+global Toggle			:= -1
 
 global isGuiOn			:= True
 global url_CurTabNum	:= 0
@@ -88,7 +91,7 @@ IfInString, A_ScriptName, .ahk, {
 BrowsingMode 	= BrowsingMode.%ext%
 DisableCapslock = DisableCapslock.%ext%
 
-programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "on")
+programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, On)
 
 SetCapsLockState, off
 SetScrollLockState, off
@@ -100,7 +103,7 @@ SetScrollLockState, off
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!^r:: 
-	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, "off")
+	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
 	Reload
 	Return
 
@@ -643,11 +646,11 @@ mouseMoveOnRightMid() {
 }
 
 programSwitch(ByRef PID, ByRef RunCmd, Mode := "switch") {
-    if (Mode = "off" || PID) {
+    if (Mode = Off || PID) {
 		Process, Close, %PID%,
 		PID := 0
 	}
-    else if (Mode = "on" || !PID) {
+    else if (Mode = Off || !PID) {
         Run, %RunCmd%, , , PID
 	}
 }
