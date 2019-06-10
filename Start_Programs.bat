@@ -20,7 +20,7 @@ echo ------------------------------------------------------
 echo Step 01. 시작 프로그램 등록
 echo ------------------------------------------------------
 set "PATH01=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
-reg add "%PATH01%" /v "AD_HotKey"	/t "REG_SZ" /d "%USERPROFILE%\Google 드라이브\pc_setting\Main.ahk"	/f
+reg add "%PATH01%" /v "AD_HotKey"	/t "REG_SZ" /d "%USERPROFILE%\Google 드라이브\pc_setting\AHK\Main.ahk"	/f
 :EXIT
 echo.
 echo ------------------------------------------------------
