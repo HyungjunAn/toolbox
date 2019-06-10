@@ -27,6 +27,9 @@
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
 ;///////////////////////////////////////////////////////////////
+#include %A_ScriptDir%
+#include Lib_VPC.ahk
+
 SetWorkingDir, %A_ScriptDir%
 global path_setting := getParentPath(A_ScriptDir)
 
@@ -43,7 +46,6 @@ global did_I_Think		:= False
 
 global recentlyWinTitle1
 global recentlyWinTitle2
-global VPC_WinTitle := "LGE_VPC - Desktop Viewer"
 
 global google_drive := USERPROFILE . "\Google 드라이브"
 global xnote_timer	:= path_setting . "\XNote_Timer\xntimer.exe"
@@ -250,8 +252,7 @@ $!^.::
 		else
 			Run, C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe
 	}
-	else if (isExistVPC()) {
-		WinActivate, %VPC_WinTitle%
+	else if (VPC_ActivateVpc()) {
 		Send, !^`;
 	}
 	else {
@@ -287,8 +288,8 @@ $#n::   Run, http://www.senaver.com
 
 ; Mail
 $!^d::
-	if (isExistVPC()) {
-		WinActivate, %VPC_WinTitle%
+	if VPC_ActivateVpc()
+	{
 		Send, !^d
 	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
@@ -300,8 +301,8 @@ $!^d::
 
 $+LButton::
 	Suspend, Permit
-	WinGetTitle, Title, A
-	IfInString, Title, %VPC_WinTitle%, {
+	if VPC_IsCurrWinVpc()
+	{
 		Send, {RButton}
 		sleep, 100
 		Send, e
@@ -320,16 +321,15 @@ $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
 ; Switch Between VPC and Local
 $!+n::
-$F12::
 $!^n::
 $^,::
 	Suspend, Permit
-	WinGetTitle, Title, A
-	IfInString, Title, %VPC_WinTitle%, {
+	if VPC_IsCurrWinVpc()
+	{
 		runOrActivateWin("제목 없음 - 메모장", false, "notepad")
 		Send, ^#{Left}
 	} else {
-		WinActivate, %VPC_WinTitle%
+		VPC_ActivateVpc()
 	}
 	Return
 
@@ -598,7 +598,6 @@ alarm_gui(sleepTime) {
 		Gui, Alarm_GUI:Destroy
 	}
 }
-
 alarm() {
 	m_interval 		:= 10
 	alarm_time 		:= 400
@@ -721,33 +720,6 @@ suspend_context() {
 		isGuiOn := True
 	}
 	return
-}
-
-isExistVPC() {
-	if (findWindow(VPC_WinTitle, True)) {
-		return True
-	}
-	return False
-}
-
-changeMode2VPC() {
-	ret := False
-	if (isExistVPC()) {
-		Suspend, On
-		suspend_context()
-		WinGetTitle, Title, A
-		IfNotInString, Title, %VPC_WinTitle%, {
-			IfNotInString, Title, TypeAndRun, {
-				if (Title != recentlyWinTitle1) {
-					recentlyWinTitle2 := recentlyWinTitle1
-					recentlyWinTitle1 := Title
-				}
-			}
-		}
-		WinActivate, %VPC_WinTitle%
-		ret := True
-	}
-	return ret
 }
 
 closeProcess(processName) {
