@@ -19,10 +19,8 @@
 ;타이머 용 별도 Script를 관리
 ;함수 모듈화 (#include)
 ;캡쳐단축키 Win 10은 따로 있던데 이거 어떻게 될런지
-;Suspend 필요없는 거 정리
 ;GUI 이름 변경 & 스크립트 따로 분리
 ;Program Switch -> Process Switch
-;Suspend 삭제: mail
 ;URI 파일 GVIM 켤 수 있게
 ;GVIM 찾아 바꾸기 어떻게 하는지 정리
 
@@ -31,7 +29,6 @@
 ;///////////////////////////////////////////////////////////////
 SetWorkingDir, %A_ScriptDir%
 global path_setting := getParentPath(A_ScriptDir)
-
 
 global On 				:= True
 global Off 				:= False
@@ -290,7 +287,6 @@ $#n::   Run, http://www.senaver.com
 
 ; Mail
 $!^d::
-	Suspend, Permit
 	if (isExistVPC()) {
 		WinActivate, %VPC_WinTitle%
 		Send, !^d
