@@ -300,11 +300,12 @@ $+LButton::
 	{
 		clipboard=""
 		Send, {RButton}
-		sleep, 100
+		sleep, 50
 		Send, e
-		sleep, 100
-		if clipboard
+		sleep, 50
+		if (InStr(clipboard, "http") == 1)
 		{
+			VPC_SwitchVpcAndLocal()
 			Run, Chrome.exe %clipboard%
 		}
 	} else { 
@@ -496,6 +497,10 @@ RShift & Left::
 	testFunc(USERPROFILE . " " . A_ScriptName)
 	return 
 !^+u::
+	tmp := "http://good"
+	tmp := InStr(tmp, "http")
+	MsgBox, %tmp%
+
 	Path = %A_ScriptDir%
 	Parent := SubStr(Path, 1, InStr(SubStr(Path,1,-1), "\", 0, 0)-1)
 	msgbox %parent%
