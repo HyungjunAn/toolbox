@@ -384,7 +384,7 @@ $!^p:: Send, !^p
 	Send, ^{%url_CurTabNum%}
 	sleep, 50
     WinGetTitle, Title, A
-	if (Title != garUriTitle[url_CurTabNum])
+	if (!InStr(Title, garUriTitle[url_CurTabNum]))
 	{
 		Send, ^l
 		clipboard := garUriAddress[url_CurTabNum]
