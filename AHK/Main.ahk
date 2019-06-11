@@ -8,7 +8,6 @@
 ; vpc gui 배너 뜰 수 있게 하면 이쁠듯
 ;Alt-tab이 VPC일 때는 원복으로 동작하게
 ;근태 들어가는 단축키 생성(새로 켜게 하는 것이 어떨런지 iexplorer에서)
-;jira 테이블 왔다갔다 할때 데시보드 아니면 다시 대시보드로 돌아가게
 ;메일 EP 대시보드 주소 근태 주소 등 텍스트 파일로 관리(이거는 Office 안에 들어가게)
 ;Shift-Click 이거 Clipboard에 적히는 내용보고 jira 같은 거일때만 넘어가도록
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
@@ -33,10 +32,6 @@ global Off 				:= False
 global Toggle			:= -1
 
 global isGuiOn			:= True
-global url_CurTabNum	:= 0
-global url_MaxTabNum	:= 2
-global url_epTabNum  	:= url_MaxTabNum + 1
-global url_mailTabNum 	:= url_MaxTabNum + 2
 global did_I_Think		:= False
 
 global recentlyWinTitle1
@@ -50,23 +45,60 @@ global dir_typeandrun	:= "D:\myUtility\TypeAndRun\"
 global typeandrun		:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfg	:= path_setting . "\TypeAndRun\Config.ini"
 
-global office_worklib 			:= "D:\Library"
-global office_worklib_setting 	:= office_worklib . "\setting"
+global url_CurTabNum	:= 0
+global url_MaxTabNum	:= 0
+global url_epTabNum  	:= 0	
+global url_mailTabNum 	:= 0
+
+global gsUriListPath	:= "data/uri_list.txt"
+global garUriTitle		:= []
+global garUriAddress 	:= []
 
 global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_DISABLE_CAPSLOCK	:= 0
 
 global isOffice := False
+
+global office_worklib 			:= "D:\Library"
+global office_worklib_setting 	:= office_worklib . "\setting"
+
 global google_homeID_num := 0
 
 myMotto(500)
 
+;-------------------------------------------
+; 	Process about Office Environment
+;-------------------------------------------
 If (A_UserName == "hyungjun.an") {
     isOffice := True
     google_homeID_num := 1
-	typeandrun_cfg := office_worklib_setting . "\TypeAndRun\Config.ini"
+	typeandrun_cfg	:= office_worklib_setting . "\TypeAndRun\Config.ini"
+	gsUriListPath	:= office_worklib_setting . "\AHK\url_dashboard.txt"
 }
 
+;-------------------------------------------
+; 	Get URI's Title and Address
+;-------------------------------------------
+bIsTitleReadTurn := True
+Loop, Read, %gsUriListPath%
+{
+	if bIsTitleReadTurn
+	{
+		garUriTitle.Push(A_LoopReadLine)
+		url_MaxTabNum += 1
+	}
+	else
+	{
+		garUriAddress.Push(A_LoopReadLine)
+	}
+	bIsTitleReadTurn := !bIsTitleReadTurn
+}
+url_epTabNum 	:= url_MaxTabNum + 1
+url_mailTabNum 	:= url_MaxTabNum + 2
+
+;-------------------------------------------
+; 	Process about TypeAndRun
+;-------------------------------------------
 ifExist, %typeandrun%, {
 	closeProcess("TypeAndRun.exe")
 	ifExist, %typeandrun_cfg%, {
@@ -348,9 +380,18 @@ $!^p:: Send, !^p
 
 !^0::
 	runOrActivateWin("- chrome", false, "chrome")
-	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum)
-	url_CurTabNum := url_CurTabNum + 1
+	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum) + 1
 	Send, ^{%url_CurTabNum%}
+	sleep, 50
+    WinGetTitle, Title, A
+	if (Title != garUriTitle[url_CurTabNum])
+	{
+		Send, ^l
+		clipboard := garUriAddress[url_CurTabNum]
+		sleep, 40
+		Send, ^v
+		Send, {Enter}
+	}
 	;url     = https://translate.google.com/?hl=ko
 	;url     = https://scholar.google.co.kr/
 	return
