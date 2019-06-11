@@ -14,7 +14,6 @@
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
 ;타이머 용 별도 Script를 관리
 ;함수 모듈화 (#include)
-;캡쳐단축키 Win 10은 따로 있던데 이거 어떻게 될런지
 ;GUI 이름 변경 & 스크립트 따로 분리
 ;Program Switch -> Process Switch
 ;URI 파일 GVIM 켤 수 있게
@@ -193,7 +192,7 @@ $!^+n:: runOrActivateGitBash("library", "--cd=""" . office_worklib . """")
 
 #z::
 	runOrActivateWin("캡처 도구", false, "SnippingTool")
-	if (!isOffice) {
+	if (getOsVer() == 10) {
 		Send, ^n
 	}
     Return
@@ -724,4 +723,10 @@ closeProcess(processName) {
 
 getParentPath(path) {
 	return SubStr(path, 1, InStr(SubStr(path,1,-1), "\", 0, 0)-1)
+}
+
+getOsVer() {
+	sFullVer := A_OSVersion
+	ver := SubStr(sFullVer, 1, InStr(sFullVer, ".") - 1)
+	return ver
 }
