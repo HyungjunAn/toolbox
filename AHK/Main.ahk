@@ -776,5 +776,3 @@ getOsVer() {
 	ver := SubStr(sFullVer, 1, InStr(sFullVer, ".") - 1)
 	return ver
 }
-
-activateChromeTab(process
