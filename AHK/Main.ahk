@@ -9,7 +9,6 @@
 ;Alt-tab이 VPC일 때는 원복으로 동작하게
 ;근태 들어가는 단축키 생성(새로 켜게 하는 것이 어떨런지 iexplorer에서)
 ;메일 EP 대시보드 주소 근태 주소 등 텍스트 파일로 관리(이거는 Office 안에 들어가게)
-;Shift-Click 이거 Clipboard에 적히는 내용보고 jira 같은 거일때만 넘어가도록
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
 ;타이머 용 별도 Script를 관리
 ;함수 모듈화 (#include)
@@ -17,6 +16,7 @@
 ;Program Switch -> Process Switch
 ;URI 파일 GVIM 켤 수 있게
 ;GVIM 찾아 바꾸기 어떻게 하는지 정리
+;!^0 로직을 따로 함수로 빼기
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -379,8 +379,8 @@ $!^p:: Send, !^p
 ;	Return
 
 !^0::
-	runOrActivateWin("- chrome", false, "chrome")
 	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum) + 1
+	runOrActivateWin("- chrome", false, "chrome")
 	Send, ^{%url_CurTabNum%}
 	sleep, 50
     WinGetTitle, Title, A
@@ -776,3 +776,5 @@ getOsVer() {
 	ver := SubStr(sFullVer, 1, InStr(sFullVer, ".") - 1)
 	return ver
 }
+
+activateChromeTab(process
