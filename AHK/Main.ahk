@@ -284,7 +284,7 @@ $!^.::
 		Send, !^`;
 	}
 	else {
-		activateChromeTabAsSpecificUri(%url_epTabNum%)
+		activateChromeTabAsSpecificUri(url_epTabNum)
 	}
 	return
 
