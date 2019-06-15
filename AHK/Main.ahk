@@ -10,7 +10,6 @@
 ;근태 들어가는 단축키 생성(새로 켜게 하는 것이 어떨런지 iexplorer에서)
 ;메일 EP 대시보드 주소 근태 주소 등 텍스트 파일로 관리(이거는 Office 안에 들어가게)
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
-;타이머 용 별도 Script를 관리
 ;함수 모듈화 (#include)
 ;GUI 이름 변경 & 스크립트 따로 분리
 ;Program Switch -> Process Switch
@@ -252,10 +251,10 @@ $!^.::
     if !ErrorLevel {
         Run, %xnote_timer%
         WinWaitActive, XNote Timer, , 2
-        Send, ^{F2}
-    }
-    else
-        Send, {F6}
+        Send, {F11}
+    } else {
+		Process, Close, xntimer.exe
+	}
     return
 
 ; Internet Explorer
@@ -401,13 +400,10 @@ Capslock::Ctrl
 
 +Esc::Send ~
 
-$Esc::
-$`::keySwap_ifInTitle("XNote Timer", "!{F4}", "{Esc}")
+$`::Esc
 
 $!Esc::
 $!`:: Send ``
-$Space::keySwap_ifInTitle("XNote Timer", "^{F2}", "{Space}")
-$Enter::keySwap_ifInTitle("XNote Timer", "^{F3}", "{Enter}")
 
 ^#m:: Send {AppsKey}
 ^#s:: Send {F2}
