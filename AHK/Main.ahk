@@ -380,20 +380,7 @@ $!^p:: Send, !^p
 
 !^0::
 	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum) + 1
-	runOrActivateWin("- chrome", false, "chrome")
-	Send, ^{%url_CurTabNum%}
-	sleep, 50
-    WinGetTitle, Title, A
-	if (!InStr(Title, garUriTitle[url_CurTabNum]))
-	{
-		Send, ^l
-		clipboard := garUriAddress[url_CurTabNum]
-		sleep, 40
-		Send, ^v
-		Send, {Enter}
-	}
-	;url     = https://translate.google.com/?hl=ko
-	;url     = https://scholar.google.co.kr/
+	activateChromeTabWithUri(url_CurTabNum)
 	return
 
 ;------------------------------------
@@ -775,4 +762,21 @@ getOsVer() {
 	sFullVer := A_OSVersion
 	ver := SubStr(sFullVer, 1, InStr(sFullVer, ".") - 1)
 	return ver
+}
+
+activateChromeTabWithUri(tabNum)
+{
+	runOrActivateWin("- chrome", false, "chrome")
+	Send, ^{%tabNum%}
+	sleep, 100
+    WinGetTitle, T, A
+	if (!InStr(T, garUriTitle[tabNum]))
+	{
+		Send, ^l
+		clipboard := garUriAddress[tabNum]
+		sleep, 60
+		Send, ^v
+		Send, {Enter}
+	}
+	return
 }
