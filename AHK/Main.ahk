@@ -136,7 +136,7 @@ $!^r::
 ; Suspend & Control Mode
 $!+a:: 
 	Suspend, Toggle
-	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Toggle)
+	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock)
 	if (A_IsSuspended) {
 		closeProcess("TypeAndRun.exe")
 	} else {
@@ -659,7 +659,7 @@ mouseMoveOnRightMid() {
     MouseMove, %x_corner%, %y_mid%, 0
 }
 
-programSwitch(ByRef PID, ByRef RunCmd, Mode := Toggle) {
+programSwitch(ByRef PID, ByRef RunCmd, Mode := -1) {
     if (Mode = Off || PID) {
 		Process, Close, %PID%,
 		PID := 0
