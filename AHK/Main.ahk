@@ -93,8 +93,9 @@ Loop, Read, %gsUriListPath%
 	}
 	bIsTitleReadTurn := !bIsTitleReadTurn
 }
-url_epTabNum 	:= url_MaxTabNum + 1
-url_mailTabNum 	:= url_MaxTabNum + 2
+url_epTabNum 	:= url_MaxTabNum - 1
+url_mailTabNum 	:= url_MaxTabNum
+url_MaxTabNum 	:= url_epTabNum - 1
 
 ;-------------------------------------------
 ; 	Process about TypeAndRun
@@ -283,8 +284,7 @@ $!^.::
 		Send, !^`;
 	}
 	else {
-		runOrActivateWin("- chrome", false, "chrome")
-		Send, ^{%url_epTabNum%}
+		activateChromeTabAsSpecificUri(%url_epTabNum%)
 	}
 	return
 
@@ -319,8 +319,7 @@ $!^d::
 	{
 		Send, !^d
 	} else if (isOffice) {
-		runOrActivateWin("- chrome", false, "chrome")
-		Send, ^{%url_mailTabNum%}
+		activateChromeTabAsSpecificUri(url_mailTabNum)
 	} else {
 		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
 	}
@@ -380,7 +379,7 @@ $!^p:: Send, !^p
 
 !^0::
 	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum) + 1
-	activateChromeTabWithUri(url_CurTabNum)
+	activateChromeTabAsSpecificUri(url_CurTabNum)
 	return
 
 ;------------------------------------
@@ -764,7 +763,7 @@ getOsVer() {
 	return ver
 }
 
-activateChromeTabWithUri(tabNum)
+activateChromeTabAsSpecificUri(tabNum)
 {
 	runOrActivateWin("- chrome", false, "chrome")
 	Send, ^{%tabNum%}
