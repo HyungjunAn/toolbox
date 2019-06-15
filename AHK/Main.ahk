@@ -256,8 +256,19 @@ $!^.::
     return
 
 ; Internet Explorer
-!^+i::
-!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
+$!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
+$!^+i::
+	If (!isOffice) {
+		;
+	}
+	else if (VPC_ActivateVpc()) {
+		Send, !^+i
+	}
+	else {
+		runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
+		Send, ^1
+	}
+	return
 
 ;Edit Time
 !^+t::Run, chrome.exe --profile-directory="Profile 1" --app-id=mdkfiefeoimmobmhdimachkfcpkgahlc
