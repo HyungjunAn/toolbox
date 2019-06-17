@@ -137,7 +137,9 @@ $!+a::
 	if (A_IsSuspended) {
 		closeProcess("TypeAndRun.exe")
 	} else {
-		Run, %typeandrun%
+		ifExist, %typeandrun%, {
+			Run, %typeandrun%
+		}
 	}
 	suspend_context()
 	return 
