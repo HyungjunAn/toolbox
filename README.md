@@ -1,3 +1,6 @@
+# Hyungjun's PC setting
+
+# My Program List
 Chrome
 google drive
 Git
@@ -42,8 +45,7 @@ Visual Studio Community 2015
 Understand Analyst	// hold
 
 VirtualBox
-Conemu
-(Settings->Integration-> ConEmu Here)
+Conemu (Settings->Integration-> ConEmu Here)
 Xming			// hold
 Putty
 
@@ -59,9 +61,6 @@ Rufus			// portable
 MediaCreationTool	// portable
 
 -------------------------------------------
-
-RaiDrive
-Folder Cryptor
 PROSetWindows(Intel)
 Potplayer
 MuseScore
