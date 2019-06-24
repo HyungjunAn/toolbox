@@ -604,9 +604,11 @@ suspend_notice() {
     y := A_screenHeight - h - 40
 	w := A_screenWidth
 
-	Gui, Suspend_GUI:Color, Red
-	Gui, Suspend_GUI:-Caption +alwaysontop +ToolWindow
-	Gui, Suspend_GUI:Show, y%y% w%w% h%h% NoActivate,
+	if (isGuiOn) {
+		Gui, Suspend_GUI:Color, Red
+		Gui, Suspend_GUI:-Caption +alwaysontop +ToolWindow
+		Gui, Suspend_GUI:Show, y%y% w%w% h%h% NoActivate,
+	}
 	return
 }
 
@@ -741,12 +743,12 @@ findWindow(subName, isFullMatching=True) {
 suspend_context() {
 	destroyAllGui()
 	if (A_IsSuspended) {
+		isGuiOn := True
 		suspend_notice()
-		isGuiOn := false
     	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, "off")
 	}
 	else {
-		isGuiOn := True
+		isGuiOn := False
 	}
 	return
 }
