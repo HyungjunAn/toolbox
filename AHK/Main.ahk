@@ -112,7 +112,6 @@ IfInString, A_ScriptName, .ahk, {
 BrowsingMode 	= BrowsingMode.%ext%
 DisableCapslock = DisableCapslock.%ext%
 
-programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, On)
 
 SetCapsLockState, off
 SetScrollLockState, off
@@ -123,9 +122,17 @@ SetScrollLockState, off
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
-$!^r:: 
+$!+r:: 
 	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
 	Reload
+	Return
+
+$!+ESC:: 
+	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
+    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	closeProcess("TypeAndRun.exe")
+	myMotto(500, "Red")
+	ExitApp
 	Return
 
 ;$!^F12:: did_I_Think := True
@@ -133,14 +140,6 @@ $!^r::
 ; Suspend & Control Mode
 $!+a:: 
 	Suspend, Toggle
-	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock)
-	if (A_IsSuspended) {
-		closeProcess("TypeAndRun.exe")
-	} else {
-		ifExist, %typeandrun%, {
-			Run, %typeandrun%
-		}
-	}
 	suspend_context()
 	return 
 
@@ -581,14 +580,14 @@ myMotto(Time, Color := "White") {
 
 gui_bar() {
 	static isOn := True
-	h := 30
+	h := 23
     y := A_screenHeight - h - 40
 	w := A_screenWidth
 	Color := "F39C12"		; Orange
 
     Gui, Bar_GUI:Color, %Color%
     Gui, Bar_GUI:-Caption +alwaysontop +ToolWindow
-    Gui, Bar_GUI:Font, s10 cBlack, Consolas
+    Gui, Bar_GUI:Font, s8 cBlack, Consolas
     Gui, Bar_GUI:Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
 
 	if (isGuiOn && isOn) {
@@ -600,7 +599,7 @@ gui_bar() {
 }
 
 suspend_notice() {
-	h := 30
+	h := 15
     y := A_screenHeight - h - 40
 	w := A_screenWidth
 
@@ -741,14 +740,25 @@ findWindow(subName, isFullMatching=True) {
 }
 
 suspend_context() {
+	Global PID_AHK_DISABLE_CAPSLOCK
+	Global PID_AHK_BROWSINGMODE
+	Global DisableCapslock
+	Global BrowsingMode
+	Global On
+	Global Off
+	Global typeandrun
+
 	destroyAllGui()
 	if (A_IsSuspended) {
-		isGuiOn := True
+		programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, On)
+		closeProcess("TypeAndRun.exe")
 		suspend_notice()
-    	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, "off")
-	}
-	else {
-		isGuiOn := False
+    	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	} else {
+		programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
+		ifExist, %typeandrun%, {
+			Run, %typeandrun%
+		}
 	}
 	return
 }
