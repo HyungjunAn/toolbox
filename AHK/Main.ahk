@@ -331,7 +331,7 @@ $!^d::
 	}
 	return 
 
-$+LButton::
+$^+LButton::
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
 	{
@@ -346,7 +346,7 @@ $+LButton::
 			Run, Chrome.exe %clipboard%
 		}
 	} else { 
-		Send, +{LButton}
+		Send, ^+{LButton}
 	}
 	return 
 
