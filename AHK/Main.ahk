@@ -212,7 +212,7 @@ $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 	cmd		= gvim %A_ScriptName%
 	runOrActivateWin(subName, false, cmd)
 	return
-!^+p:: runOrActivateWin("Config.ini", false, "gvim " . typeandrun_cfg)
+!^+p:: runOrActivateWin("Config.ini", false, "gvim " . """" . typeandrun_cfg . """")
 
 $!^e::  runOrActivateGitBash("pc_setting", "--cd=""" . path_setting . """")
 $!^+n:: runOrActivateGitBash("library", "--cd=""" . office_worklib . """")
