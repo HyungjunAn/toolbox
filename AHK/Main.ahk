@@ -331,6 +331,7 @@ $!^d::
 	}
 	return 
 
+$+SC11d::
 $^+LButton::
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
@@ -417,14 +418,12 @@ $!`:: Send ``
 !^w:: Send !{F4}
 
 ; For Right Hand
-$PrintScreen:: Send, ^x
-$ScrollLock:: Send, ^c
-$Pause:: Send, ^v
-RShift & PrintScreen:: Send, ^z
-RShift & Pause:: Send, ^+z
-LShift & PrintScreen:: Send, {PrintScreen}
-LShift & ScrollLock:: Send, {ScrollLock}
-LShift & Pause:: Send, {Pause}
+RShift & Left:: 	Send, ^c
+RShift & Down:: 	Send, ^z
+RShift & Up::	 	Send, ^+z
+RShift & Right:: 	Send, ^v
+
+RShift & Delete:: 	Send, ^x
 
 ; Virtual Desktop 
 $^#w:: Send ^#{F4}
@@ -522,7 +521,6 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 
-RShift & Left::
 !^+o:: 
 	testFunc(USERPROFILE . " " . A_ScriptName)
 	return 
