@@ -331,8 +331,8 @@ $!^d::
 	}
 	return 
 
-$+SC11d::
 $^+LButton::
+	MsgBox, good
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
 	{
@@ -401,6 +401,9 @@ $!^p:: Send, !^p
 ;------------------------------------
 Capslock::Ctrl
 !^+c::Capslock
+
+$SC11d:: RControl
+Shift & SC138:: Send, {sc1f1}
 
 !^Space:: Send {Home}+{End}
 #,::Send {backspace}
