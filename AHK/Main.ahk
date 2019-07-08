@@ -332,7 +332,6 @@ $!^d::
 	return 
 
 $^+LButton::
-	MsgBox, good
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
 	{
