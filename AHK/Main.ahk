@@ -279,7 +279,7 @@ $!^+i::
 !^]::   Run, C:\Program Files\Microsoft VS Code\Code.exe
 
 ; KakaoTalk or LG ep
-!^`;::
+$!^`;::
 	If (!isOffice) {
 		IfExist, C:\Program Files (x86)\Kakao
 			Run, C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe
