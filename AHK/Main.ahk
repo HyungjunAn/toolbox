@@ -331,7 +331,7 @@ $!^d::
 	}
 	return 
 
-$^RButton::
+$Pause::
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
 	{
@@ -346,7 +346,7 @@ $^RButton::
 			Run, Chrome.exe %clipboard%
 		}
 	} else { 
-		Send, ^{RButton}
+		Send, {Pause}
 	}
 	return 
 
@@ -427,6 +427,10 @@ RShift & Up::	 	Send, ^+z
 RShift & Right:: 	Send, ^v
 
 RShift & Delete:: 	Send, ^x
+
++PrintScreen:: 	Send, {PrintScreen}
++ScrollLock:: 	Send, {ScrollLock}
++Pause:: 		Send, {Pause}
 
 ; Virtual Desktop 
 $^#w:: Send ^#{F4}
