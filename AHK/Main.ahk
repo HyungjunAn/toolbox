@@ -331,7 +331,7 @@ $!^d::
 	}
 	return 
 
-$^+LButton::
+$^RButton::
 	Suspend, Permit
 	if VPC_IsCurrWinVpc()
 	{
@@ -346,7 +346,7 @@ $^+LButton::
 			Run, Chrome.exe %clipboard%
 		}
 	} else { 
-		Send, ^+{LButton}
+		Send, ^{RButton}
 	}
 	return 
 
@@ -402,6 +402,7 @@ Capslock::Ctrl
 !^+c::Capslock
 
 $SC11d:: RControl
+; special character translator(Shift & Right Alt)
 Shift & SC138:: Send, {sc1f1}
 
 !^Space:: Send {Home}+{End}
