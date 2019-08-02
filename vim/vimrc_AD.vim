@@ -58,6 +58,8 @@ set fillchars+=vert:\ " window 구분 문자 지정
 set tabstop=4		  		" 탭 끝을 지정한 숫자의 배수 위치로 제한
 set shiftwidth=4			" 기본 TAB 사이즈
 
+set clipboard=unnamed " use OS clipboard
+
 "[Last Cursor Position]
 au BufReadPost *
 \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -177,7 +179,6 @@ endif
 "set smarttab		  " 행 처음의 공백을 TAB처럼
 
 autocmd BufRead,BufNewFile *.txt set tabstop=2 shiftwidth=2 textwidth=79 " for txt(자동 줄 바꿈 포함)
-autocmd BufRead,BufNewFile *.vim set tabstop=2 shiftwidth=2              " for vim file
 autocmd BufRead,BufNewFile *.hs  set tabstop=2 shiftwidth=2              " for Haskell
 autocmd BufRead,BufNewFile *.ll	 set tabstop=2 shiftwidth=2              " for LLVM
 autocmd BufRead,BufNewFile *.py	 set tabstop=4 shiftwidth=4              " for Python
@@ -211,18 +212,21 @@ set printfont=Consolas:h10:b
 "--------------------------------------------------------------------
 " Key Mapping
 "--------------------------------------------------------------------
+noremap		<A-r>		:source $MYVIMRC<CR>
+noremap		<C-E>		<C-V>
+
 "<ETC>
 map		 <F8>    :NERDTreeToggle<CR>
 map		 <F9> 	 :TlistToggle<CR>
 
 if has("gui")
 "<Copy and Paste>
-  noremap   <C-A>						<esc>ggVG<CR>
-  noremap   <C-C> 	       	"+Y
-  noremap	<C-E>          	<C-V>
-  noremap	<C-V>    				<esc>"+gP
-  inoremap	<C-V>    				<esc>"+gP
-  noremap   <S-RightMouse>	"+gP
+  noremap	<C-A>			<esc>ggVG<CR>
+  vnoremap	<C-C> 	       	y
+  noremap  	<C-Y> 	       	v$hy
+  noremap	<C-V>    		<esc>p
+  inoremap	<C-V>    		<esc>pa
+  noremap   <S-RightMouse>	p
 
 "<Line Space>
   noremap  <F10> :if &linespace=~#'1'<Bar>set linespace=5<Bar>else<Bar>set linespace=1<Bar>endif<CR><CR>
