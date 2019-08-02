@@ -217,10 +217,12 @@ map		 <F9> 	 :TlistToggle<CR>
 
 if has("gui")
 "<Copy and Paste>
-  noremap   <C-A> 	       <esc>ggVG<CR>
-  noremap   <C-C> 	       "+Y
-  noremap   <C-E>          "+gP
-  noremap   <S-RightMouse> "+gP
+  noremap   <C-A>						<esc>ggVG<CR>
+  noremap   <C-C> 	       	"+Y
+  noremap	<C-E>          	<C-V>
+  noremap	<C-V>    				<esc>"+gP
+  inoremap	<C-V>    				<esc>"+gP
+  noremap   <S-RightMouse>	"+gP
 
 "<Line Space>
   noremap  <F10> :if &linespace=~#'1'<Bar>set linespace=5<Bar>else<Bar>set linespace=1<Bar>endif<CR><CR>
