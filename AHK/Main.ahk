@@ -205,7 +205,7 @@ $!^m::
 $^NumpadAdd:: runOrActivateWin("°è»ê±â", 	false, "calc")
 $!^u:: runOrActivateWin("_memo.md", 	false, "gvim %USERPROFILE%\desktop\_memo.md")
 ;$!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
-$!^v:: runOrActivateWin("vimrc_AD.vim",	false, "gvim vim\vimrc_AD.vim")
+$!^v:: runOrActivateWin("vimrc_AD.vim",	false, "gvim " . path_setting . "\vim\vimrc_AD.vim")
 $!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 
 	subName = %A_ScriptName%
