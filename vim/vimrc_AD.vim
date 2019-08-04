@@ -97,7 +97,7 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'taglist-plus'
 Plugin 'ap/vim-buftabline'
-Plugin 'cscope.vim'
+"Plugin 'cscope.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'The-NERD-tree'
 if filereadable('.ycm_extra_conf.py')

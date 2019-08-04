@@ -49,6 +49,7 @@ global gsUriListPath	:= "data/uri_list.txt"
 global garUriTitle		:= []
 global garUriAddress 	:= []
 
+global PID_GVIM_LIBRARY 		:= 0
 global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_DISABLE_CAPSLOCK	:= 0
 
@@ -126,12 +127,14 @@ SetScrollLockState, off
 ; Reload Script
 $!+r:: 
 	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
+	closeProcess(PID_GVIM_LIBRARY)
 	Reload
 	Return
 
 $!+ESC:: 
 	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	closeProcess(PID_GVIM_LIBRARY)
 	closeProcess("TypeAndRun.exe")
 	myMotto(500, "Red")
 	ExitApp
@@ -197,12 +200,20 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 $!^m::
 $^NumpadAdd:: runOrActivateWin("°è»ê±â", 	false, "calc")
-$!^u:: runOrActivateWin("_memo.md", 	false, "gvim %USERPROFILE%\desktop\_memo.md")
+$!^u:: 	runOrActivateWin("_memo.md", 	false, "gvim %USERPROFILE%\desktop\_memo.md")
 ;$!^m::Run, C:\Users\kysung\desktop\hyungjun_office\memo.xlsx
-$!^v:: runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
-$!^+v::runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
-!^+g:: runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
-!^+p:: runOrActivateWin("Config.ini", false, "gvim """ . typeandrun_cfg . """")
+$!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
+$!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
+!^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
+!^+p:: 	runOrActivateWin("Config.ini", false, "gvim """ . typeandrun_cfg . """")
+$^.::
+	Process, Exist, %PID_GVIM_LIBRARY%
+	if (ErrorLevel) {
+		WinActivate, ahk_pid %PID_GVIM_LIBRARY%
+	} else {
+		Run, "gvim ""%library%\*""",,, PID_GVIM_LIBRARY
+	}
+	return
 
 $!^e::  runOrActivateGitBash("pc_setting", "--cd=""" . path_setting . """")
 $!^+n:: runOrActivateGitBash("library", "--cd=""" . office_worklib . """")
@@ -758,8 +769,8 @@ suspend_context() {
 	return
 }
 
-closeProcess(processName) {
-	Process, Exist, %processName%,
+closeProcess(pidOrName) {
+	Process, Exist, %pidOrName%,
 	Process, Close, %ErrorLevel%
 	return
 }
