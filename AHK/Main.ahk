@@ -34,6 +34,7 @@ global recentlyWinTitle2
 global google_drive := USERPROFILE . "\Google 드라이브"
 global xnote_timer	:= path_setting . "\XNote_Timer\xntimer.exe"
 
+global library			:= google_drive . "\Library"
 global git_bash			:= "C:\Program Files\Git\git-bash.exe"
 global dir_typeandrun	:= "D:\myUtility\TypeAndRun\"
 global typeandrun		:= dir_typeandrun . "\TypeAndRun.exe"
@@ -66,6 +67,7 @@ myMotto(500)
 If (A_UserName == "hyungjun.an") {
     isOffice := True
     google_homeID_num := 1
+	library			:= office_worklib
 	typeandrun_cfg	:= office_worklib_setting . "\TypeAndRun\Config.ini"
 	gsUriListPath	:= office_worklib_setting . "\AHK\url_office.txt"
 }
@@ -181,15 +183,7 @@ $!^a::
 		Run, %google_drive%
 	}
 	return
-!^,::
-	if (isOffice) {
-		Run, %office_worklib%
-	}
-	else {
-		Run, %google_drive%\Library
-	}
-	return
-
+!^,:: 	Run, %library%
 !^g::	Run, %A_ScriptDir%
 !^+r::	Run, shell:RecycleBinFolder 
 !^+e:: 	Run, %USERPROFILE%\AppData\Local\lxss\home\hyungjun
