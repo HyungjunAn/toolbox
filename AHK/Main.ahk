@@ -25,6 +25,8 @@ global On 				:= True
 global Off 				:= False
 global Toggle			:= -1
 
+global isVirtualDesktopLeft := True
+
 global isGuiOn			:= True
 global did_I_Think		:= False
 
@@ -358,11 +360,19 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
 ; Switch Between VPC and Local
+; Or Virtual Desktop Toggle
 $!+n::
 $!^n::
 $^,::
 	Suspend, Permit
-	VPC_SwitchVpcAndLocal()
+	if (VPC_IsExistVpc()) {
+		VPC_SwitchVpcAndLocal()
+	} else if (isVirtualDesktopLeft) {
+		Send, ^#{right}
+	} else {
+		Send, ^#{left}
+	}
+	isVirtualDesktopLeft := !isVirtualDesktopLeft
 	Return
 
 $!^F12:: gui_bar()
