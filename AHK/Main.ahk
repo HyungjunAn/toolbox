@@ -258,16 +258,15 @@ $!^.::
 
 ; Internet Explorer
 $!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
+
 $!^+i::
-	If (!isOffice) {
-		;
-	}
-	else if (VPC_ActivateVpc()) {
+	if (VPC_ActivateVpc()) {
 		Send, !^+i
-	}
-	else {
+	} else if (isOffice) {
 		runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 		Send, ^1
+	} else {
+		;
 	}
 	return
 
@@ -324,8 +323,7 @@ $#n::   Run, http://www.senaver.com
 
 ; Mail
 $!^d::
-	if VPC_ActivateVpc()
-	{
+	if VPC_ActivateVpc() {
 		Send, !^d
 	} else if (isOffice) {
 		activateChromeTabAsSpecificUri(url_mailTabNum)
@@ -334,10 +332,11 @@ $!^d::
 	}
 	return 
 
-$Pause::
-	Suspend, Permit
-	if VPC_IsCurrWinVpc()
-	{
+$MButton::
+	if (!isOffice) {
+		Send, {MButton}
+	} else if VPC_IsCurrWinVpc() {
+		tmp := clipboard
 		clipboard=""
 		Send, {RButton}
 		sleep, 50
@@ -345,11 +344,9 @@ $Pause::
 		sleep, 50
 		if (InStr(clipboard, "http") == 1)
 		{
-			VPC_SwitchVpcAndLocal()
 			Run, Chrome.exe %clipboard%
 		}
-	} else { 
-		Send, {Pause}
+		clipboard := tmp
 	}
 	return 
 
@@ -359,15 +356,11 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 !^1::
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
-; Switch Between VPC and Local
-; Or Virtual Desktop Toggle
+; Virtual Desktop Toggle
 $!+n::
 $!^n::
 $^,::
-	Suspend, Permit
-	if (VPC_IsExistVpc()) {
-		VPC_SwitchVpcAndLocal()
-	} else if (isVirtualDesktopLeft) {
+	if (isVirtualDesktopLeft) {
 		Send, ^#{right}
 	} else {
 		Send, ^#{left}
