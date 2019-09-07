@@ -44,12 +44,16 @@ global typeandrun_cfg	:= path_setting . "\TypeAndRun\Config.ini"
 
 global url_CurTabNum	:= 0
 global url_MaxTabNum	:= 0
-global url_epTabNum  	:= 0	
-global url_mailTabNum 	:= 0
 
 global gsUriListPath	:= "data/uri_list.txt"
 global garUriTitle		:= []
 global garUriAddress 	:= []
+
+global gsMailUriTitle	:= "Gmail"
+global gsMailUriAddress	:= "https://mail.google.com/mail"
+
+global gsEpUriTitle		:= ""
+global gsEpUriAddress	:= ""
 
 global PID_GVIM_LIBRARY 		:= 0
 global PID_AHK_BROWSINGMODE 	:= 0
@@ -73,28 +77,19 @@ If (A_UserName == "hyungjun.an") {
 	library			:= office_worklib
 	typeandrun_cfg	:= office_worklib_setting . "\TypeAndRun\Config.ini"
 	gsUriListPath	:= office_worklib_setting . "\AHK\url_office.txt"
+
+	path := office_worklib_setting . "\AHK\url_mail.txt"
+	getUriFromFile(path, gsMailUriTitle, gsMailUriAddress)
+	
+	path := office_worklib_setting . "\AHK\url_ep.txt"
+	getUriFromFile(path, gsEpUriTitle, gsEpUriAddress)
 }
 
 ;-------------------------------------------
 ; 	Get URI's Title and Address
 ;-------------------------------------------
-bIsTitleReadTurn := True
-Loop, Read, %gsUriListPath%
-{
-	if bIsTitleReadTurn
-	{
-		garUriTitle.Push(A_LoopReadLine)
-		url_MaxTabNum += 1
-	}
-	else
-	{
-		garUriAddress.Push(A_LoopReadLine)
-	}
-	bIsTitleReadTurn := !bIsTitleReadTurn
-}
-url_epTabNum 	:= url_MaxTabNum - 1
-url_mailTabNum 	:= url_MaxTabNum
-url_MaxTabNum 	:= url_epTabNum - 1
+
+url_MaxTabNum := getUriArrayFromFile(gsUriListPath, garUriTitle, garUriAddress)
 
 ;-------------------------------------------
 ; 	Process about TypeAndRun
@@ -282,17 +277,20 @@ $!^+i::
 
 ; KakaoTalk or LG ep
 $!^`;::
-	If (!isOffice) {
+	if (VPC_ActivateVpc())
+	{
+		Send, !^`;
+	}
+	else if (isOffice)
+	{
+		openOrActivateUrl(gsEpUriTitle, true, gsEpUriAddress)
+	}
+	else
+	{
 		IfExist, C:\Program Files (x86)\Kakao
 			Run, C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe
 		else
 			Run, C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe
-	}
-	else if (VPC_ActivateVpc()) {
-		Send, !^`;
-	}
-	else {
-		activateChromeTabAsSpecificUri(url_epTabNum)
 	}
 	return
 
@@ -325,10 +323,8 @@ $#n::   Run, http://www.senaver.com
 $!^d::
 	if VPC_ActivateVpc() {
 		Send, !^d
-	} else if (isOffice) {
-		activateChromeTabAsSpecificUri(url_mailTabNum)
 	} else {
-		openOrActivateUrl("Gmail", false, "https://mail.google.com/mail")
+		openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
 	}
 	return 
 
@@ -804,3 +800,44 @@ activateChromeTabAsSpecificUri(tabNum)
 	}
 	return
 }
+
+getUriArrayFromFile(path, arTitle, arAddress)
+{
+	local bIsTitleReadTurn := True
+	local cnt := 0
+
+	Loop, Read, %path%
+	{
+		if bIsTitleReadTurn
+		{
+			arTitle.Push(A_LoopReadLine)
+			cnt += 1
+		}
+		else
+		{
+			arAddress.Push(A_LoopReadLine)
+		}
+		bIsTitleReadTurn := !bIsTitleReadTurn
+	}
+
+	return cnt
+}
+
+getUriFromFile(path, ByRef title, ByRef address)
+{
+	local bIsTitleReadTurn := True
+
+	Loop, Read, %path%
+	{
+		if bIsTitleReadTurn
+		{
+			title := A_LoopReadLine
+		}
+		else
+		{
+			address := A_LoopReadLine
+		}
+		bIsTitleReadTurn := !bIsTitleReadTurn
+	}
+}
+
