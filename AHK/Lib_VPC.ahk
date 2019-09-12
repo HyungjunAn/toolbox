@@ -58,3 +58,14 @@ VPC_ChangeMode2VPC() {
 	return ret
 }
 
+VPC_Send(vpcCmd, noneVpcCmd) {
+	if VPC_IsCurrWinVpc()
+	{
+		Send, %vpcCmd%
+	}
+	else
+	{
+		Send, %noneVpcCmd%
+	}
+	return 
+}
