@@ -329,9 +329,7 @@ $!^d::
 	return 
 
 $MButton::
-	if (!isOffice) {
-		Send, {MButton}
-	} else if VPC_IsCurrWinVpc() {
+	if VPC_IsCurrWinVpc() {
 		tmp := clipboard
 		clipboard=""
 		Send, {RButton}
@@ -343,6 +341,8 @@ $MButton::
 			Run, Chrome.exe %clipboard%
 		}
 		clipboard := tmp
+	} else {
+		Send, {MButton}
 	}
 	return 
 
