@@ -178,7 +178,6 @@ endif
 "set expandtab		  " TAB을 space로 인식
 "set smarttab		  " 행 처음의 공백을 TAB처럼
 
-autocmd BufRead,BufNewFile *.txt set tabstop=2 shiftwidth=2 textwidth=79 " for txt(자동 줄 바꿈 포함)
 autocmd BufRead,BufNewFile *.hs  set tabstop=2 shiftwidth=2              " for Haskell
 autocmd BufRead,BufNewFile *.ll	 set tabstop=2 shiftwidth=2              " for LLVM
 autocmd BufRead,BufNewFile *.py	 set tabstop=4 shiftwidth=4              " for Python
