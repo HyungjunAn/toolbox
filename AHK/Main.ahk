@@ -444,10 +444,8 @@ $^#p:: Send ^#{right}
 !^k:: Send #{up}
 !^l:: Send #{right}
 
-#Left::		VPC_Send("", "#{left}")
-#Down::		VPC_Send("", "#{down}")
-#Up::		VPC_Send("", "#{up}")
-#Right::	VPC_Send("", "#{right}")
+#Down::	VPC_Send("", "#{down}")
+#Up::	VPC_Send("", "#{up}")
 
 #h:: Send {Left}
 #j:: Send {Down}
