@@ -99,7 +99,7 @@ ifExist, %typeandrun%, {
 	ifExist, %typeandrun_cfgSrc%, {
 		FileDelete, %dir_typeandrun%\~Config.ini
 		cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
-		Run, %cmd%
+		RunWait, %cmd%
 	}
 	Run, %typeandrun%
 }
