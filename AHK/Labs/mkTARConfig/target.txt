@@ -1,0 +1,5 @@
+my1|exe1|my1.txt
+my1|exe1|my1.txt
+my2|exe2|"my2. txt"
+my3|exe2|my3.txt
+my4|exe2|my4.txt
