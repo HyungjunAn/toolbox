@@ -36,11 +36,11 @@ global recentlyWinTitle2
 global google_drive := USERPROFILE . "\Google 드라이브"
 global xnote_timer	:= path_setting . "\XNote_Timer\xntimer.exe"
 
-global library			:= google_drive . "\Library"
-global git_bash			:= "C:\Program Files\Git\git-bash.exe"
-global dir_typeandrun	:= "D:\myUtility\TypeAndRun\"
-global typeandrun		:= dir_typeandrun . "\TypeAndRun.exe"
-global typeandrun_cfg	:= path_setting . "\TypeAndRun\Config.ini"
+global library				:= google_drive . "\Library"
+global git_bash				:= "C:\Program Files\Git\git-bash.exe"
+global dir_typeandrun		:= "D:\myUtility\TypeAndRun\"
+global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
+global typeandrun_cfgSrc	:= path_setting . "\TypeAndRun\configSrc.txt"
 
 global url_CurTabNum	:= 0
 global url_MaxTabNum	:= 0
@@ -74,9 +74,9 @@ myMotto(500)
 If (A_UserName == "hyungjun.an") {
     isOffice := True
     google_homeID_num := 1
-	library			:= office_worklib
-	typeandrun_cfg	:= office_worklib_setting . "\TypeAndRun\Config.ini"
-	gsUriListPath	:= office_worklib_setting . "\AHK\url_office.txt"
+	library				:= office_worklib
+	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc.txt"
+	gsUriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
 
 	path := office_worklib_setting . "\AHK\url_mail.txt"
 	getUriFromFile(path, gsMailUriTitle, gsMailUriAddress)
@@ -96,9 +96,10 @@ url_MaxTabNum := getUriArrayFromFile(gsUriListPath, garUriTitle, garUriAddress)
 ;-------------------------------------------
 ifExist, %typeandrun%, {
 	closeProcess("TypeAndRun.exe")
-	ifExist, %typeandrun_cfg%, {
+	ifExist, %typeandrun_cfgSrc%, {
 		FileDelete, %dir_typeandrun%\~Config.ini
-		FileCopy, %typeandrun_cfg%, %dir_typeandrun%\Config.ini, 1
+		cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
+		Run, %cmd%
 	}
 	Run, %typeandrun%
 }
@@ -202,7 +203,7 @@ $!^u:: 	runOrActivateWin("_memo.md", 	false, "gvim %USERPROFILE%\desktop\_memo.m
 $!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
 $!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
-!^+p:: 	runOrActivateWin("Config.ini", false, "gvim """ . typeandrun_cfg . """")
+!^+p:: 	runOrActivateWin("configSrc.txt", false, "gvim """ . typeandrun_cfgSrc . """")
 $^.::
 	Process, Exist, %PID_GVIM_LIBRARY%
 	if (ErrorLevel) {
