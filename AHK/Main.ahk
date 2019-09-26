@@ -308,7 +308,8 @@ $#n::   Run, http://www.senaver.com
     url = https://keep.google.com
     Title := openOrActivateUrl(subName, false, url, true)
     W := 398
-    WinMove, %Title%, , A_screenWidth - W, 0, W, 1078
+	H := A_ScreenHeight - 40
+    WinMove, %Title%, , A_screenWidth - W, 0, W, H
     return
 
 !^q:: 
