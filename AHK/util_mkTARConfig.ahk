@@ -33,9 +33,6 @@ Loop
     if ErrorLevel
         break
 
-	if (!line)
-		continue
-
 	n := getTwoString(line, s1, s2)
 
 	if (n == 1)
@@ -50,7 +47,7 @@ Loop
 		cmd := TARCmd . "|" . TARExe . "|" . TAROpt
 		buffer.Push(cmd)
 	}
-	else
+	else if (n != 0)
 	{
 		MsgBox, Grammar Error: Line %A_Index%
 		return
@@ -69,6 +66,12 @@ getTwoString(string, ByRef str1, ByRef str2) {
 	local bIsFirstStr := True
 	local tmpStr := ""
 	local ret := 0
+
+	if (InStr(string, "//") == 1)
+	{
+		; Comment
+		return ret
+	}
 
 	arrString := StrSplit(string, A_Tab)
 
