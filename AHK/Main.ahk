@@ -533,9 +533,9 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 
-!^+o:: 
-	testFunc(USERPROFILE . " " . A_ScriptName)
-	return 
+!^+o:: break_gui()
+	;testFunc(USERPROFILE . " " . A_ScriptName)
+	;return 
 !^+u::
 	tmp := "http://good"
 	tmp := InStr(tmp, "http")
@@ -846,3 +846,18 @@ getUriFromFile(path, ByRef title, ByRef address)
 	}
 }
 
+break_gui() {
+	w := A_screenWidth / 2
+	TEXT := "`n`nPlease Break`n`n"
+	GUI := "Break_GUI"
+
+	Gui, %GUI%:Color, Black
+	Gui, %GUI%:-Caption +alwaysontop +ToolWindow
+    Gui, %GUI%:Font, s40 cWhite, Consolas
+    Gui, %GUI%:Add, Text, w%w% Center, %TEXT%
+	if (isGuiOn) {
+		Gui, %GUI%:Show, NoActivate,
+		Sleep, 2000
+		Gui, Break_GUI:Destroy
+	}
+}
