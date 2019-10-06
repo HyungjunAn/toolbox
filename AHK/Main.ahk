@@ -525,7 +525,6 @@ testFunc(ByRef str) {
 ;///////////////////////////////////////////////////////////////
 destroyAllGui() {
     Gui, MyMotto_GUI:Destroy
-    Gui, Suspend_GUI:Destroy
     Gui, Alarm_GUI:Destroy
 }
 
@@ -547,20 +546,6 @@ myMotto(Time, Color := "White") {
     	Sleep, %Time%
     	Gui, MyMotto_GUI:Destroy
 	}
-}
-
-
-suspend_notice() {
-	h := 15
-    y := A_screenHeight - h - 40
-	w := A_screenWidth
-
-	if (isGuiOn) {
-		Gui, Suspend_GUI:Color, Red
-		Gui, Suspend_GUI:-Caption +alwaysontop +ToolWindow
-		Gui, Suspend_GUI:Show, y%y% w%w% h%h% NoActivate,
-	}
-	return
 }
 
 alarm_gui(sleepTime) {
@@ -685,26 +670,6 @@ findWindow(subName, isFullMatching=True) {
 		}
     }
     return ""
-}
-
-suspend_context() {
-	Global PID_AHK_BROWSINGMODE
-	Global BrowsingMode
-	Global On
-	Global Off
-	Global typeandrun
-
-	destroyAllGui()
-	if (A_IsSuspended) {
-		closeProcess("TypeAndRun.exe")
-		suspend_notice()
-    	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	} else {
-		ifExist, %typeandrun%, {
-			Run, %typeandrun%
-		}
-	}
-	return
 }
 
 closeProcess(pidOrName) {

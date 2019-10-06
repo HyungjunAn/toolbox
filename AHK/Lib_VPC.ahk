@@ -42,7 +42,6 @@ VPC_ChangeMode2VPC() {
 	ret := False
 	if (VPC_IsExistVpc()) {
 		Suspend, On
-		suspend_context()
 		WinGetTitle, Title, A
 		IfNotInString, Title, %_gsVpcWinTitle%, {
 			IfNotInString, Title, TypeAndRun, {
