@@ -33,7 +33,6 @@ global Toggle			:= -1
 global isVirtualDesktopLeft := True
 
 global isGuiOn			:= True
-global did_I_Think		:= False
 
 global recentlyWinTitle1
 global recentlyWinTitle2
@@ -62,7 +61,6 @@ global gsEpUriAddress	:= ""
 
 global PID_GVIM_LIBRARY 		:= 0
 global PID_AHK_BROWSINGMODE 	:= 0
-global PID_AHK_DISABLE_CAPSLOCK	:= 0
 
 global isOffice := False
 
@@ -93,7 +91,6 @@ If (A_UserName == "hyungjun.an") {
 ;-------------------------------------------
 ; 	Get URI's Title and Address
 ;-------------------------------------------
-
 url_MaxTabNum := getUriArrayFromFile(gsUriListPath, garUriTitle, garUriAddress)
 
 ;-------------------------------------------
@@ -116,8 +113,6 @@ IfInString, A_ScriptName, .ahk, {
 }
 
 BrowsingMode 	= BrowsingMode.%ext%
-DisableCapslock = DisableCapslock.%ext%
-
 
 SetCapsLockState, off
 SetScrollLockState, off
@@ -129,13 +124,14 @@ SetScrollLockState, off
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!+r:: 
-	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
+    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	closeProcess(PID_GVIM_LIBRARY)
 	Reload
 	Return
 
+; Close All Custom Settings
 $!+ESC:: 
-	programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
+$ESC::
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	closeProcess(PID_GVIM_LIBRARY)
 	closeProcess("TypeAndRun.exe")
@@ -143,39 +139,13 @@ $!+ESC::
 	ExitApp
 	Return
 
-;$!^F12:: did_I_Think := True
-
-; Suspend & Control Mode
-$!+a:: 
-	Suspend, Toggle
-	suspend_context()
-	return 
-
 ; GUI Off
+$!+a:: 
 $!^a::
-	if (isGuiOn) {
-		myMotto(200, "Red")
-		isGuiOn := False
-	}
-	else {
-		isGuiOn := True
-		myMotto(200)
-	}
+	myMotto(200, "Red")
+	isGuiOn := !isGuiOn
+	myMotto(200)
 	Return
-    ;Process, Exist, flux.exe
-    ;PID := ErrorLevel
-    ;Process, Close, flux.exe
-    ;Run, %USERPROFILE%\AppData\Local\FluxSoftware\Flux\flux.exe
-    ;while !InStr(WinTitle, "f.lux")
-    ;    WinGetTitle, WinTitle, A
-    ;WinWaitActive, %WinTitle%
-    ;if PID {
-    ;    WinClose, %WinTitle%
-    ;}
-    ;else {
-    ;    Send, !{F4}
-    ;}
-    ;return
 
 ;------------------------------------
 ; Folder
@@ -595,11 +565,7 @@ suspend_notice() {
 
 alarm_gui(sleepTime) {
 	h := 40
-	if (did_I_Think) {
-		w := 100
-	} else {
-		w := A_screenWidth
-	}
+	w := A_screenWidth
 	y := A_screenHeight - h
 
 	Gui, Alarm_GUI:Color, Red
@@ -722,9 +688,7 @@ findWindow(subName, isFullMatching=True) {
 }
 
 suspend_context() {
-	Global PID_AHK_DISABLE_CAPSLOCK
 	Global PID_AHK_BROWSINGMODE
-	Global DisableCapslock
 	Global BrowsingMode
 	Global On
 	Global Off
@@ -732,12 +696,10 @@ suspend_context() {
 
 	destroyAllGui()
 	if (A_IsSuspended) {
-		programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, On)
 		closeProcess("TypeAndRun.exe")
 		suspend_notice()
     	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	} else {
-		programSwitch(PID_AHK_DISABLE_CAPSLOCK, DisableCapslock, Off)
 		ifExist, %typeandrun%, {
 			Run, %typeandrun%
 		}
