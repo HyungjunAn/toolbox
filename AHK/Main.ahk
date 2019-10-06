@@ -372,18 +372,6 @@ $!^F12:: gui_bar()
 $!^9::
 $!^-::
 $!^p:: Send, !^p
-;	Suspend, Off
-;	suspend_context()
-;	if (isExistVPC()) {
-;		if (findWindow(recentlyWinTitle2, True)) {
-;			WinActivate, %recentlyWinTitle2%
-;		} else {
-;			runOrActivateWin("- notepad++", false, "notepad++")			
-;		}
-;		WinActivate, %recentlyWinTitle1%
-;	}
-;	Send, !^9
-;	Return
 
 !^0::
 	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum) + 1
