@@ -13,6 +13,11 @@
 ;URI 파일 GVIM 켤 수 있게
 
 ;///////////////////////////////////////////////////////////////
+; 	Color Table
+;///////////////////////////////////////////////////////////////
+;	F39C12: Orange
+
+;///////////////////////////////////////////////////////////////
 ;		Serial Code
 ;///////////////////////////////////////////////////////////////
 #include %A_ScriptDir%
@@ -366,9 +371,8 @@ $^,::
 	isVirtualDesktopLeft := !isVirtualDesktopLeft
 	Return
 
-$!^F12:: gui_bar()
-
 ; TypeAndRun
+$!^F12::
 $!^9::
 $!^-::
 $!^p:: Send, !^p
@@ -553,7 +557,6 @@ destroyAllGui() {
     Gui, MyMotto_GUI:Destroy
     Gui, Suspend_GUI:Destroy
     Gui, Alarm_GUI:Destroy
-	Gui, Bar_GUI:Destroy
 }
 
 myMotto(Time, Color := "White") {
@@ -576,25 +579,6 @@ myMotto(Time, Color := "White") {
 	}
 }
 
-gui_bar() {
-	static isOn := True
-	h := 23
-    y := A_screenHeight - h - 40
-	w := A_screenWidth
-	Color := "F39C12"		; Orange
-
-    Gui, Bar_GUI:Color, %Color%
-    Gui, Bar_GUI:-Caption +alwaysontop +ToolWindow
-    Gui, Bar_GUI:Font, s8 cBlack, Consolas
-    Gui, Bar_GUI:Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
-
-	if (isGuiOn && isOn) {
-    	Gui, Bar_GUI:Show, y%y% w%w% h%h% NoActivate
-	} else {
-    	Gui, Bar_GUI:Destroy
-	}
-	isOn := !isOn
-}
 
 suspend_notice() {
 	h := 15
