@@ -69,7 +69,7 @@ global office_worklib_setting 	:= office_worklib . "\setting"
 
 global google_homeID_num := 0
 
-myMotto(500)
+myMotto(300)
 
 ;-------------------------------------------
 ; 	Process about Office Environment
@@ -135,14 +135,14 @@ $ESC::
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	closeProcess(PID_GVIM_LIBRARY)
 	closeProcess("TypeAndRun.exe")
-	myMotto(500, "Red")
+	myMotto(200, "Red")
 	ExitApp
 	Return
 
 ; GUI Off
 $!+a:: 
 $!^a::
-	myMotto(200, "Red")
+	myMotto(200, "Green")
 	isGuiOn := !isGuiOn
 	myMotto(200)
 	Return
@@ -492,7 +492,7 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 
-!^+o:: break_gui()
+!^+o:: myMotto(400)
 	;testFunc(USERPROFILE . " " . A_ScriptName)
 	;return 
 !^+u::
@@ -520,53 +520,33 @@ testFunc(ByRef str) {
 ;///////////////////////////////////////////////////////////////
 ;		Function Def.
 ;///////////////////////////////////////////////////////////////
-destroyAllGui() {
-    Gui, MyMotto_GUI:Destroy
-    Gui, Alarm_GUI:Destroy
-}
 
-myMotto(Time, Color := "White") {
-	h := 40
-    y := A_screenHeight - h
-	c := "Black"
-	if (Color != "White") {
-		c := "White"
-	}
+myMotto(Time, backC := "Black") {
+	fontC := "White"
 
-    Gui, MyMotto_GUI:Color, %Color%
-    Gui, MyMotto_GUI:-Caption +alwaysontop +ToolWindow
-    Gui, MyMotto_GUI:Font, s15 c%c%, Consolas
-    Gui, MyMotto_GUI:Add, Text, , True Nobility is being Superior to Your Former Self. - Hemingway
+	w := A_screenWidth / 2
+	TEXT := "`n`n`n`nTrue Nobility is`n       being Superior to Your Former Self.`n`n                               - Hemingway`n`n`n"
+	GUI := "MyMotto_GUI"
 
 	if (isGuiOn) {
-    	Gui, MyMotto_GUI:Show, y%y% h%h% NoActivate
-    	Sleep, %Time%
-    	Gui, MyMotto_GUI:Destroy
-	}
-}
-
-alarm_gui(sleepTime) {
-	h := 40
-	w := A_screenWidth
-	y := A_screenHeight - h
-
-	Gui, Alarm_GUI:Color, Red
-	Gui, Alarm_GUI:-Caption +alwaysontop +ToolWindow
-	if (isGuiOn) {
-		Gui, Alarm_GUI:Show, y%y% w%w% h%h% NoActivate,
-		Sleep, %sleepTime%
-		Gui, Alarm_GUI:Destroy
+		Gui, %GUI%:Color, %backC%
+		Gui, %GUI%:-Caption +alwaysontop +ToolWindow
+    	Gui, %GUI%:Font, s30 c%fontC%, Consolas
+    	Gui, %GUI%:Add, Text, w%w%, %TEXT%
+		Gui, %GUI%:Show, NoActivate,
+		Sleep % Time
+		Gui, %GUI%:Destroy
 	}
 }
 
 alarm() {
-	m_interval 		:= 15
+	m_interval 		:= 20
 	ms_interval		:= m_interval * 60 * 1000
-	ms_alarm_time 	:= 400
+	ms_alarm_time 	:= 10000
 
 	while True {
-		alarm_gui(ms_alarm_time)
-		Sleep % ms_interval - ms_alarm_time
+		Sleep % ms_interval
+		myMotto(ms_alarm_time)
 	}
 }
 
@@ -732,18 +712,3 @@ getUriFromFile(path, ByRef title, ByRef address)
 	}
 }
 
-break_gui() {
-	w := A_screenWidth / 2
-	TEXT := "`n`nPlease Break`n`n"
-	GUI := "Break_GUI"
-
-	Gui, %GUI%:Color, Black
-	Gui, %GUI%:-Caption +alwaysontop +ToolWindow
-    Gui, %GUI%:Font, s40 cWhite, Consolas
-    Gui, %GUI%:Add, Text, w%w% Center, %TEXT%
-	if (isGuiOn) {
-		Gui, %GUI%:Show, NoActivate,
-		Sleep, 2000
-		Gui, Break_GUI:Destroy
-	}
-}
