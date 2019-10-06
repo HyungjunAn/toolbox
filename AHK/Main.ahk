@@ -199,10 +199,7 @@ $!^+n:: runOrActivateGitBash("library", "--cd=""" . office_worklib . """")
 	}
     Return
     
-!^c::
-	runOrActivateWin("- chrome", false, "chrome")
-    myMotto(1000)
-    return
+!^c:: runOrActivateWin("- chrome", false, "chrome")
 
 ; MobaXterm
 $!^.:: 
