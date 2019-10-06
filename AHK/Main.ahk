@@ -8,7 +8,6 @@
 ; vpc gui 배너 뜰 수 있게 하면 이쁠듯
 ;Alt-tab이 VPC일 때는 원복으로 동작하게
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
-;GUI 이름 변경 & 스크립트 따로 분리
 ;Program Switch -> Process Switch
 ;URI 파일 GVIM 켤 수 있게
 
@@ -460,7 +459,6 @@ $^#.::
 $^BS:: Send ^+{Left }{Backspace}
 !^BS:: Send ^+{Right}{Backspace}
 
-
 ; Sound Control
 #`:: Send {Volume_Down}
 #1:: Send {Volume_Up}
@@ -496,10 +494,6 @@ ChangeResolution( cD, sW, sH, rR ) {
 	;testFunc(USERPROFILE . " " . A_ScriptName)
 	;return 
 !^+u::
-	tmp := "http://good"
-	tmp := InStr(tmp, "http")
-	MsgBox, %tmp%
-
 	Path = %A_ScriptDir%
 	Parent := SubStr(Path, 1, InStr(SubStr(Path,1,-1), "\", 0, 0)-1)
 	msgbox %parent%
@@ -524,8 +518,8 @@ testFunc(ByRef str) {
 myMotto(Time, backC := "Black") {
 	fontC := "White"
 
-	w := A_screenWidth / 2
-	TEXT := "`n`n`n`nTrue Nobility is`n       being Superior to Your Former Self.`n`n                               - Hemingway`n`n`n"
+	w := A_screenWidth
+	TEXT := "`n`n`nTrue Nobility is being Superior to Your Former Self.`n`n                                           - Hemingway`n`n"
 	GUI := "MyMotto_GUI"
 
 	if (isGuiOn) {
