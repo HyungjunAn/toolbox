@@ -117,7 +117,7 @@ BrowsingMode 	= BrowsingMode.%ext%
 SetCapsLockState, off
 SetScrollLockState, off
 
-;alarm()
+alarm()
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
@@ -561,25 +561,15 @@ alarm_gui(sleepTime) {
 		Gui, Alarm_GUI:Destroy
 	}
 }
+
 alarm() {
-	m_interval 		:= 10
-	alarm_time 		:= 400
-	alarm_interval 	:= 200
-	repeat_n 		:= 10
+	m_interval 		:= 15
+	ms_interval		:= m_interval * 60 * 1000
+	ms_alarm_time 	:= 400
 
 	while True {
-	    FormatTime, s, , s
-	    FormatTime, m, , m
-	    if !Mod(m, m_interval) {
-	        Loop %repeat_n% {
-	            alarm_gui(alarm_time)
-	            Sleep, %alarm_interval%
-	        }
-	        Sleep % 60000 * m_interval - ((alarm_time + alarm_interval) * repeat_n + 200)
-	    }
-	    else {
-	        Sleep % (60 - s) * 1000
-		}
+		alarm_gui(ms_alarm_time)
+		Sleep % ms_interval - ms_alarm_time
 	}
 }
 
