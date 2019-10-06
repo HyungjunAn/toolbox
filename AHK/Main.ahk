@@ -522,15 +522,15 @@ testFunc(ByRef str) {
 myMotto(Time, backC := "Black") {
 	fontC := "White"
 
-	w := A_screenWidth
-	TEXT := "`n`n`nTrue Nobility is being Superior to Your Former Self.`n`n                                           - Hemingway`n`n"
+	TEXT :=        "`nTrue Nobility is being Superior to Your Former Self."
+	TEXT := TEXT . "`n                                               - Hemingway`n"
 	GUI := "MyMotto_GUI"
 
 	if (isGuiOn) {
 		Gui, %GUI%:Color, %backC%
 		Gui, %GUI%:-Caption +alwaysontop +ToolWindow
     	Gui, %GUI%:Font, s30 c%fontC%, Consolas
-    	Gui, %GUI%:Add, Text, w%w%, %TEXT%
+    	Gui, %GUI%:Add, Text, , %TEXT%
 		Gui, %GUI%:Show, NoActivate,
 		Sleep % Time
 		Gui, %GUI%:Destroy
