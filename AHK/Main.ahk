@@ -144,6 +144,10 @@ $!^a::
 	myMotto(200, "Green")
 	isGuiOn := !isGuiOn
 	myMotto(200)
+	if (!isGuiOn) {
+		sleep % 60 * 60 * 1000
+		isGuiOn = True
+	}
 	Return
 
 ;------------------------------------
@@ -490,7 +494,7 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 
-!^+o:: myMotto(400)
+!^+o:: myMotto(1000000)
 	;testFunc(USERPROFILE . " " . A_ScriptName)
 	;return 
 !^+u::
