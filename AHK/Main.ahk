@@ -32,6 +32,7 @@ global Toggle			:= -1
 global isVirtualDesktopLeft := True
 
 global isGuiOn			:= True
+global isGuiOnBackUp	:= True
 
 global recentlyWinTitle1
 global recentlyWinTitle2
@@ -123,22 +124,37 @@ alarm()
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!+r:: 
-	closePresettedEnv()
+	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	closeProcess(PID_GVIM_LIBRARY)
 	Reload
 	Return
 
-; Close All Custom Settings
-$!+ESC:: 
+; Control Script Suspending
 $ESC::
-	closePresettedEnv()
+$!^ESC::
+	Suspend, On
+    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	isGuiOnBackUp := isGuiOn
+	isGuiOn := True
 	myMotto(200, "Red")
-	ExitApp
+	Return
+
+$!+a:: 
+	Suspend, Toggle
+    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	isGuiOnBackUp := isGuiOn
+	isGuiOn := True
+	if (!A_IsSuspended) {
+		myMotto(200, "Green")
+		isGuiOn := isGuiOnBackUp
+	} else {
+		myMotto(200, "Red")
+	}
 	Return
 
 ; GUI Off
-$!+a:: 
 $!^a::
-	myMotto(200, "Green")
+	myMotto(200, "Blue")
 	isGuiOn := False
 	sleep % 60 * 60 * 1000
 	isGuiOn := True
@@ -702,11 +718,4 @@ getUriFromFile(path, ByRef title, ByRef address)
 		}
 		bIsTitleReadTurn := !bIsTitleReadTurn
 	}
-}
-
-closePresettedEnv()
-{
-    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	closeProcess(PID_GVIM_LIBRARY)
-	closeProcess("TypeAndRun.exe")
 }
