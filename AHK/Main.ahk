@@ -129,8 +129,12 @@ $!+r::
 	Reload
 	Return
 
-; Control Script Suspending
 $ESC::
+	Gui, Destroy
+	Send, {ESC}
+	return
+
+; Control Script Suspending
 $!^ESC::
 	Suspend, On
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
@@ -534,16 +538,15 @@ myMotto(Time, backC := "Black") {
 
 	TEXT :=        "`n  True Nobility is being Superior to Your Former Self."
 	TEXT := TEXT . "`n                                                 - Hemingway  `n"
-	GUI := "MyMotto_GUI"
 
 	if (isGuiOn) {
-		Gui, %GUI%:Color, %backC%
-		Gui, %GUI%:-Caption +alwaysontop +ToolWindow
-    	Gui, %GUI%:Font, s30 c%fontC%, Consolas
-    	Gui, %GUI%:Add, Text, , %TEXT%
-		Gui, %GUI%:Show, NoActivate,
+		Gui, Color, %backC%
+		Gui, -Caption +alwaysontop +ToolWindow
+    	Gui, Font, s30 c%fontC%, Consolas
+    	Gui, Add, Text, , %TEXT%
+		Gui, Show, NoActivate,
 		Sleep % Time
-		Gui, %GUI%:Destroy
+		Gui, Destroy
 	}
 }
 
