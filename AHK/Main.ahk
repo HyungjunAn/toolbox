@@ -123,17 +123,14 @@ alarm()
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!+r:: 
-    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	closeProcess(PID_GVIM_LIBRARY)
+	closePresettedEnv()
 	Reload
 	Return
 
 ; Close All Custom Settings
 $!+ESC:: 
 $ESC::
-    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	closeProcess(PID_GVIM_LIBRARY)
-	closeProcess("TypeAndRun.exe")
+	closePresettedEnv()
 	myMotto(200, "Red")
 	ExitApp
 	Return
@@ -710,3 +707,9 @@ getUriFromFile(path, ByRef title, ByRef address)
 	}
 }
 
+closePresettedEnv()
+{
+    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	closeProcess(PID_GVIM_LIBRARY)
+	closeProcess("TypeAndRun.exe")
+}
