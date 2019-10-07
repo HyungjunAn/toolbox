@@ -139,12 +139,9 @@ $ESC::
 $!+a:: 
 $!^a::
 	myMotto(200, "Green")
-	isGuiOn := !isGuiOn
-	myMotto(200)
-	if (!isGuiOn) {
-		sleep % 60 * 60 * 1000
-		isGuiOn = True
-	}
+	isGuiOn := False
+	sleep % 60 * 60 * 1000
+	isGuiOn := True
 	Return
 
 ;------------------------------------
