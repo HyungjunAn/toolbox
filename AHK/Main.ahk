@@ -137,22 +137,22 @@ $ESC::
 ; Control Script Suspending
 $!^ESC::
 	Suspend, On
-    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	isGuiOnBackUp := isGuiOn
 	isGuiOn := True
 	myMotto(200, "Red")
+	isGuiOn := False
+    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	Return
 
 $!+a:: 
 	Suspend, Toggle
-    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	isGuiOnBackUp := isGuiOn
 	isGuiOn := True
 	if (!A_IsSuspended) {
 		myMotto(200, "Green")
-		isGuiOn := isGuiOnBackUp
+		SetCapsLockState, off
 	} else {
 		myMotto(200, "Red")
+		isGuiOn := False
+    	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	}
 	Return
 
