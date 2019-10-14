@@ -32,7 +32,7 @@ global Toggle			:= -1
 global isVirtualDesktopLeft := True
 
 global isGuiOn			:= True
-global isGuiOnBackUp	:= True
+global guiShowFlag		:= False
 
 global recentlyWinTitle1
 global recentlyWinTitle2
@@ -128,11 +128,6 @@ $!+r::
 	closeProcess(PID_GVIM_LIBRARY)
 	Reload
 	Return
-
-$ESC::
-	Gui, Destroy
-	Send, {ESC}
-	return
 
 ; Control Script Suspending
 $!^ESC::
@@ -387,9 +382,15 @@ Shift & SC138:: Send, {sc1f1}
 #,::Send {backspace}
 #.::Send {delete}
 
-+Esc::Send ~
-
-$`::Esc
+$ESC::
+$`::
+	if (guiShowFlag) {
+		Gui, Destroy
+		guiShowFlag := False
+	} else {
+		Send {ESC}
+	}
+	return
 
 $!Esc::
 $!`:: Send ``
@@ -508,7 +509,7 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 
-!^+o:: myMotto(1000000)
+!^+o:: myMotto(10000)
 	;testFunc(USERPROFILE . " " . A_ScriptName)
 	;return 
 !^+u::
@@ -545,7 +546,9 @@ myMotto(Time, backC := "Black") {
     	Gui, Font, s30 c%fontC%, Consolas
     	Gui, Add, Text, , %TEXT%
 		Gui, Show, NoActivate,
+		guiShowFlag := True
 		Sleep % Time
+		guiShowFlag := False
 		Gui, Destroy
 	}
 }
