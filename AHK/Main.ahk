@@ -536,14 +536,12 @@ testFunc(ByRef str) {
 
 myMotto(Time, backC := "Black") {
 	fontC := "White"
-
-	TEXT :=        "`n  True Nobility is being Superior to Your Former Self."
-	TEXT := TEXT . "`n                                                 - Hemingway  `n"
+	TEXT := "`n  True Nobility is being Superior to Your Former Self.  `n"
 
 	if (isGuiOn) {
 		Gui, Color, %backC%
 		Gui, -Caption +alwaysontop +ToolWindow
-    	Gui, Font, s30 c%fontC%, Consolas
+    	Gui, Font, s18 c%fontC%, Consolas
     	Gui, Add, Text, , %TEXT%
 		Gui, Show, NoActivate,
 		guiShowFlag := True
