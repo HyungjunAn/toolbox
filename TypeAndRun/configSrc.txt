@@ -7,6 +7,7 @@ toeicspeaking	"C:\Users\ADSY\Google 드라이브\English\필기_토스.txt"
 //-----------------------------------------------------------------
 	C:\Windows\explorer.exe
 //-----------------------------------------------------------------
+billiards		"C:\Users\ADSY\Google 드라이브\Library\Billiards"
 living			"C:\Users\ADSY\Google 드라이브\Library\Living"
 cooking			"C:\Users\ADSY\Google 드라이브\Library\Living\cooking"
 ghlql			"C:\Users\ADSY\Google 드라이브\DocTemplates\회비 계산"
