@@ -17,3 +17,5 @@ ghlql			"C:\Users\ADSY\Google 드라이브\DocTemplates\회비 계산"
 //-----------------------------------------------------------------
 wndrhskfk		https://cafe.naver.com/joonggonara
 npay			https://order.pay.naver.com/home
+nshopping		https://shopping.naver.com/
+cctv			https://alfred.camera/webapp/
