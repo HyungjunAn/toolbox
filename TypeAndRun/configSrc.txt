@@ -16,6 +16,7 @@ ghlql			"C:\Users\ADSY\Google 드라이브\DocTemplates\회비 계산"
 	C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
 //-----------------------------------------------------------------
 wndrhskfk		https://cafe.naver.com/joonggonara
+cctv			https://alfred.camera/webapp/
 npay			https://order.pay.naver.com/home
 nshopping		https://shopping.naver.com/
-cctv			https://alfred.camera/webapp/
+nmap			https://map.naver.com/
