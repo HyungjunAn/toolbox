@@ -42,7 +42,7 @@ global xnote_timer	:= path_setting . "\XNote_Timer\xntimer.exe"
 
 global library				:= google_drive . "\Library"
 global git_bash				:= "C:\Program Files\Git\git-bash.exe"
-global dir_typeandrun		:= "D:\myUtility\TypeAndRun\"
+global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc	:= path_setting . "\TypeAndRun\configSrc.txt"
 
