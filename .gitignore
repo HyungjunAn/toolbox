@@ -3,4 +3,7 @@
 TypeAndRun/exe/~Config.ini
 TypeAndRun/exe/Config.ini
 TypeAndRun/exe/History.ini
-
+Q-Dir/Q-Dir.ini
+Q-Dir/*.qdr
+Q-Dir/Favoriten/*.qdr
+Q-Dir/Favoriten/Quick-Link/*
