@@ -59,6 +59,8 @@ global gsMailUriAddress	:= "https://mail.google.com/mail"
 global gsEpUriTitle		:= ""
 global gsEpUriAddress	:= ""
 
+global gsTmpGvimLibPid	:= "tmp/tmpGvimLibPid.txt"
+
 global PID_GVIM_LIBRARY 		:= 0
 global PID_AHK_BROWSINGMODE 	:= 0
 
@@ -114,6 +116,10 @@ IfInString, A_ScriptName, .ahk, {
 
 BrowsingMode 	= BrowsingMode.%ext%
 
+IfExist, %gsTmpGvimLibPid%, {
+	FileReadLine, PID_GVIM_LIBRARY, %gsTmpGvimLibPid%, 1
+}
+
 SetCapsLockState, off
 SetScrollLockState, off
 
@@ -125,7 +131,6 @@ alarm()
 ; Reload Script
 $!+r:: 
 	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	closeProcess(PID_GVIM_LIBRARY)
 	Reload
 	Return
 
@@ -192,11 +197,20 @@ $!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
 !^+p:: 	runOrActivateWin("configSrc.txt", false, "gvim """ . typeandrun_cfgSrc . """")
 $^.::
+	Title := ""
 	Process, Exist, %PID_GVIM_LIBRARY%
+
 	if (ErrorLevel) {
+		WinGetTitle, Title, ahk_pid %PID_GVIM_LIBRARY%
+	}
+
+	IfInString, Title, GVIM
+	{
 		WinActivate, ahk_pid %PID_GVIM_LIBRARY%
 	} else {
 		Run, "gvim ""%library%\*""",,, PID_GVIM_LIBRARY
+		FileDelete, %gsTmpGvimLibPid%
+		FileAppend, %PID_GVIM_LIBRARY%, %gsTmpGvimLibPid%
 	}
 	return
 
