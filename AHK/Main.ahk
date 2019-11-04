@@ -169,7 +169,7 @@ $!^a::
 ;------------------------------------
 !^z::
 	if (isOffice) {
-		runOrActivateWin("Q-Dir", false, path_setting . "Q-Dir\Q-Dir_x64.exe")
+		runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
 		;Run, %USERPROFILE%\Downloads
 	}
 	else {
