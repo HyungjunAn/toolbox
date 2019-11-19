@@ -304,9 +304,9 @@ $#n::   Run, http://www.senaver.com
     subName = Google Keep
     url = https://keep.google.com
     Title := openOrActivateUrl(subName, false, url, true)
-    W := 398
-	H := A_ScreenHeight - 40
-    WinMove, %Title%, , A_screenWidth - W, 0, W, H
+    ;W := 398
+	;H := A_ScreenHeight - 40
+    ;WinMove, %Title%, , A_screenWidth - W, 0, W, H
     return
 
 !^q:: 
