@@ -548,16 +548,18 @@ testFunc(ByRef str) {
 ;		Function Def.
 ;///////////////////////////////////////////////////////////////
 
-myMotto(Time, backC := "Black") {
+myMotto(Time, backC := "Red") {
 	fontC := "White"
-	TEXT := "`n  True Nobility is being Superior to Your Former Self.  `n"
+	TEXT := "    True Nobility is being Superior to Your Former Self.    "
+	h := 40
+	y := A_ScreenHeight - h
 
 	if (isGuiOn) {
 		Gui, Color, %backC%
 		Gui, -Caption +alwaysontop +ToolWindow
-    	Gui, Font, s18 c%fontC%, Consolas
+    	Gui, Font, s12 c%fontC%, Consolas
     	Gui, Add, Text, , %TEXT%
-		Gui, Show, NoActivate,
+		Gui, Show, y%y% h%h% NoActivate,
 		guiShowFlag := True
 		Sleep % Time
 		guiShowFlag := False
