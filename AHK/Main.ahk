@@ -135,7 +135,7 @@ $!+r::
 	Return
 
 ; Control Script Suspending
-$!^ESC::
+$!+ESC::
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	ExitApp
 	return
