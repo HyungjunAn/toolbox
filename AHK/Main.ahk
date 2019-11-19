@@ -136,21 +136,18 @@ $!+r::
 
 ; Control Script Suspending
 $!^ESC::
-	Suspend, On
-	isGuiOn := True
-	myMotto(200, "Red")
-	isGuiOn := False
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
-	Return
+	ExitApp
+	return
 
 $!+a:: 
 	Suspend, Toggle
 	isGuiOn := True
 	if (!A_IsSuspended) {
-		myMotto(200, "Green")
 		SetCapsLockState, off
+		myMotto(200)
 	} else {
-		myMotto(200, "Red")
+		myMotto(200, "Green")
 		isGuiOn := False
     	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	}
@@ -158,10 +155,12 @@ $!+a::
 
 ; GUI Off
 $!^a::
-	myMotto(200, "Blue")
-	isGuiOn := False
-	sleep % 60 * 60 * 1000
-	isGuiOn := True
+	myMotto(200, "F39C12")
+	isGuiOn := !isGuiOn
+	if (!isGuiOn) {
+		Gui, Destroy
+	}
+	myMotto(200)
 	Return
 
 ;------------------------------------
@@ -396,15 +395,7 @@ Shift & SC138:: Send, {sc1f1}
 #,::Send {backspace}
 #.::Send {delete}
 
-$ESC::
-$`::
-	if (guiShowFlag) {
-		Gui, Destroy
-		guiShowFlag := False
-	} else {
-		Send {ESC}
-	}
-	return
+$`::ESC
 
 $!Esc::
 $!`:: Send ``
@@ -560,9 +551,7 @@ myMotto(Time, backC := "Red") {
     	Gui, Font, s12 c%fontC%, Consolas
     	Gui, Add, Text, , %TEXT%
 		Gui, Show, y%y% h%h% NoActivate,
-		guiShowFlag := True
 		Sleep % Time
-		guiShowFlag := False
 		Gui, Destroy
 	}
 }
