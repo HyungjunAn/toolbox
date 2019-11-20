@@ -562,9 +562,9 @@ myMotto(Time, backC := "Red") {
 }
 
 alarm() {
-	m_interval 		:= 20
+	m_interval 		:= 15
 	ms_interval		:= m_interval * 60 * 1000
-	ms_alarm_time 	:= 10000
+	ms_alarm_time 	:= 20000
 
 	while True {
 		Sleep % ms_interval
