@@ -335,9 +335,9 @@ $!^d::
 
 $MButton::
 	if VPC_IsCurrWinVpc() {
+		Send, {RButton}
 		tmp := clipboard
 		clipboard=""
-		Send, {RButton}
 		sleep, 50
 		Send, t
 		sleep, 50
