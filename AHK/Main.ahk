@@ -10,6 +10,8 @@
 ;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
 ;Program Switch -> Process Switch
 ;URI 파일 GVIM 켤 수 있게
+;!^+i 단축키 유용성 판단해서 삭제
+;메일 uri 파일에서 읽어오는 부분 필요없으면 삭제
 
 ;///////////////////////////////////////////////////////////////
 ; 	Color Table
@@ -324,6 +326,8 @@ $#n::   Run, http://www.senaver.com
 $!^d::
 	if VPC_ActivateVpc() {
 		Send, !^d
+	} else if (isOffice) {
+		runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 	} else {
 		openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
 	}
@@ -335,7 +339,7 @@ $MButton::
 		clipboard=""
 		Send, {RButton}
 		sleep, 50
-		Send, e
+		Send, t
 		sleep, 50
 		if (InStr(clipboard, "http") == 1)
 		{
