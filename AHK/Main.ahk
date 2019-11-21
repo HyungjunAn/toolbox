@@ -327,7 +327,7 @@ $!^d::
 	if VPC_ActivateVpc() {
 		Send, !^d
 	} else if (isOffice) {
-		runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
+		runOrActivateWin("- chrome", false, "chrome")
 	} else {
 		openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
 	}
@@ -339,7 +339,7 @@ $MButton::
 		tmp := clipboard
 		clipboard=""
 		sleep, 50
-		Send, t
+		Send, e
 		sleep, 50
 		if (InStr(clipboard, "http") == 1)
 		{
