@@ -361,7 +361,7 @@ $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 ; Virtual Desktop Toggle
 $!+n::
 $!^n::
-;$^,::
+$^,::
 	if (isVirtualDesktopLeft) {
 		Send, ^#{right}
 	} else {
@@ -744,7 +744,6 @@ getUriFromFile(path, ByRef title, ByRef address)
 
 $ESC::
 $`::
-$^,::
 	if (!VIM_ChangeMode_Command()) {
 		Send, {ESC}
 	}
