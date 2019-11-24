@@ -138,7 +138,7 @@ $!+r::
 	Return
 
 ; Control Script Suspending
-$!+ESC::
+$^Delete::
 	isGuiOn := True
 	myMotto(200, "White")
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
