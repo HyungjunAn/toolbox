@@ -35,6 +35,8 @@ global isVirtualDesktopLeft := True
 
 global isGuiOn			:= True
 global guiShowFlag		:= False
+Global isViMode			:= False
+Global isVisualMode		:= False
 
 global recentlyWinTitle1
 global recentlyWinTitle2
@@ -125,7 +127,7 @@ IfExist, %gsTmpGvimLibPid%, {
 SetCapsLockState, off
 SetScrollLockState, off
 
-alarm()
+;alarm()
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
@@ -360,7 +362,7 @@ $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 ; Virtual Desktop Toggle
 $!+n::
 $!^n::
-$^,::
+;$^,::
 	if (isVirtualDesktopLeft) {
 		Send, ^#{right}
 	} else {
@@ -737,3 +739,71 @@ getUriFromFile(path, ByRef title, ByRef address)
 		bIsTitleReadTurn := !bIsTitleReadTurn
 	}
 }
+
+$^,:: 
+	isVisualMode := False
+	isViMode := True
+	GUIviMode()
+	return 
+
+$i::
+	if (isViMode) {
+		isViMode := False
+		isVisualMode := False
+		GUIviMode()
+	} else {
+		Send, i
+	}
+	return
+
+
+$v::
+	if (isViMode) {
+		isVisualMode := True
+		GUIviMode()
+	} else {
+		Send, v
+	}
+	return
+
+GUIviMode()
+{
+	h := 40
+	w := 400
+	y := A_ScreenHeight - h
+	c := "Red"
+
+	if (isViMode) {
+		if (isVisualMode) {
+			c := "Blue"
+		}
+		Gui, Color, %c%
+		Gui, -Caption +alwaysontop +ToolWindow
+		Gui, Show, y%y% w%w% h%h% NoActivate,
+	} else {
+		Gui, Destroy
+	}
+	return
+}
+
+$h::tmpFunc("h", "{Left}")
+$l::tmpFunc("l", "{Right}")
+$j::tmpFunc("j", "{Down}")
+$k::tmpFunc("k", "{Up}")
+
+$w::tmpFunc("w", "^{Right}")
+$b::tmpFunc("b", "^{Left}")
+
+tmpFunc(key1, key2)
+{
+	if (!isViMode) {
+		Send, %key1%
+	} else if (isVisualMode) {
+		Send, +%key2%
+	} else {
+		Send, %key2%
+	}
+}
+	
+
+
