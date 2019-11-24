@@ -23,6 +23,7 @@
 ;///////////////////////////////////////////////////////////////
 #include %A_ScriptDir%
 #include Lib_VPC.ahk
+#include Lib_Vim.ahk
 
 SetWorkingDir, %A_ScriptDir%
 global path_setting := getParentPath(A_ScriptDir)
@@ -35,8 +36,6 @@ global isVirtualDesktopLeft := True
 
 global isGuiOn			:= True
 global guiShowFlag		:= False
-Global isViMode			:= False
-Global isVisualMode		:= False
 
 global recentlyWinTitle1
 global recentlyWinTitle2
@@ -406,8 +405,6 @@ Shift & SC138:: Send, {sc1f1}
 $+`::  
 $+ESC:: Send, ~
 
-$`::ESC
-
 $!Esc::
 $!`:: Send ``
 
@@ -504,6 +501,10 @@ $^BS:: Send ^+{Left }{Backspace}
     WinGetTitle, Title, A
     WinSet, Alwaysontop, Toggle, %Title%
     return
+
+;------------------------------------
+; VI Mode
+;------------------------------------
 
 ;------------------------------------
 ; Display Resolution
@@ -740,70 +741,37 @@ getUriFromFile(path, ByRef title, ByRef address)
 	}
 }
 
-$^,:: 
-	isVisualMode := False
-	isViMode := True
-	GUIviMode()
-	return 
 
-$i::
-	if (isViMode) {
-		isViMode := False
-		isVisualMode := False
-		GUIviMode()
-	} else {
+$ESC::
+$`::
+$^,::
+	if (!VIM_ChangeMode_Command()) {
+		Send, {ESC}
+	}
+	return
+
+$#::
+$i:: 
+	if (!VIM_ChangeMode_Insert()) {
 		Send, i
 	}
 	return
 
-
-$v::
-	if (isViMode) {
-		isVisualMode := True
-		GUIviMode()
-	} else {
+$v:: 
+	if (!VIM_ChangeMode_Visual()) {
 		Send, v
 	}
 	return
 
-GUIviMode()
-{
-	h := 40
-	w := 400
-	y := A_ScreenHeight - h
-	c := "Red"
+$h::VIM_SendKey("h", "{Left}")
+$l::VIM_SendKey("l", "{Right}")
+$j::VIM_SendKey("j", "{Down}")
+$k::VIM_SendKey("k", "{Up}")
 
-	if (isViMode) {
-		if (isVisualMode) {
-			c := "Blue"
-		}
-		Gui, Color, %c%
-		Gui, -Caption +alwaysontop +ToolWindow
-		Gui, Show, y%y% w%w% h%h% NoActivate,
-	} else {
-		Gui, Destroy
-	}
-	return
-}
+$w::VIM_SendKey("w", "^{Right}")
+$b::VIM_SendKey("b", "^{Left}")
 
-$h::tmpFunc("h", "{Left}")
-$l::tmpFunc("l", "{Right}")
-$j::tmpFunc("j", "{Down}")
-$k::tmpFunc("k", "{Up}")
 
-$w::tmpFunc("w", "^{Right}")
-$b::tmpFunc("b", "^{Left}")
-
-tmpFunc(key1, key2)
-{
-	if (!isViMode) {
-		Send, %key1%
-	} else if (isVisualMode) {
-		Send, +%key2%
-	} else {
-		Send, %key2%
-	}
-}
 	
 
 
