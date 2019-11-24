@@ -23,7 +23,6 @@
 ;///////////////////////////////////////////////////////////////
 #include %A_ScriptDir%
 #include Lib_VPC.ahk
-#include Lib_Vim.ahk
 
 SetWorkingDir, %A_ScriptDir%
 global path_setting := getParentPath(A_ScriptDir)
@@ -405,6 +404,8 @@ Shift & SC138:: Send, {sc1f1}
 $+`::  
 $+ESC:: Send, ~
 
+$`::ESC
+
 $!Esc::
 $!`:: Send ``
 
@@ -501,10 +502,6 @@ $^BS:: Send ^+{Left }{Backspace}
     WinGetTitle, Title, A
     WinSet, Alwaysontop, Toggle, %Title%
     return
-
-;------------------------------------
-; VI Mode
-;------------------------------------
 
 ;------------------------------------
 ; Display Resolution
