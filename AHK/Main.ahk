@@ -740,37 +740,3 @@ getUriFromFile(path, ByRef title, ByRef address)
 		bIsTitleReadTurn := !bIsTitleReadTurn
 	}
 }
-
-
-$ESC::
-$`::
-	if (!VIM_ChangeMode_Command()) {
-		Send, {ESC}
-	}
-	return
-
-$#::
-$i:: 
-	if (!VIM_ChangeMode_Insert()) {
-		Send, i
-	}
-	return
-
-$v:: 
-	if (!VIM_ChangeMode_Visual()) {
-		Send, v
-	}
-	return
-
-$h::VIM_SendKey("h", "{Left}")
-$l::VIM_SendKey("l", "{Right}")
-$j::VIM_SendKey("j", "{Down}")
-$k::VIM_SendKey("k", "{Up}")
-
-$w::VIM_SendKey("w", "^{Right}")
-$b::VIM_SendKey("b", "^{Left}")
-
-
-	
-
-

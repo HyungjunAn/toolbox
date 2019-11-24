@@ -1,3 +1,6 @@
+;///////////////////////////////////////////////////////////////
+;		Initializing
+;///////////////////////////////////////////////////////////////
 Global _insert 	:= 0
 Global _command	:= 1
 Global _visual	:= 2
@@ -6,6 +9,91 @@ Global VIM_curMode := _command
 
 VIM_GUI()
 
+;///////////////////////////////////////////////////////////////
+;		Hot Key
+;///////////////////////////////////////////////////////////////
+; Mode Change
+$ESC::
+$`::
+	if (!VIM_ChangeMode_Command()) {
+		Send, {ESC}
+	}
+	return
+
+$i:: 
+	if (!VIM_ChangeMode_Insert()) {
+		Send, i
+	}
+	return
+
+$v:: 
+	if (!VIM_ChangeMode_Visual()) {
+		Send, v
+	}
+	return
+
+; Moving
+$h::VIM_SendKey("h", "{Left}")
+$l::VIM_SendKey("l", "{Right}")
+$j::VIM_SendKey("j", "{Down}")
+$k::VIM_SendKey("k", "{Up}")
+
+$w::VIM_SendKey("w", "^{Right}")
+$b::VIM_SendKey("b", "^{Left}")
+
+$,::VIM_SendKey(",", "{Home}")
+$.::VIM_SendKey(".", "{End}")
+
+; Copy & Paste & Delete
+$y::
+	if (VIM_curMode = _visual && VIM_ChangeMode_Command()) {
+		Send, ^c
+	} else {
+		Send, y
+	}
+	return
+
+$d::
+	if (VIM_curMode = _visual && VIM_ChangeMode_Command()) {
+		Send, ^x
+	} else {
+		Send, d
+	}
+	return
+
+$p::
+	if (VIM_curMode = _command && VIM_IsSupportProgram()) {
+		Send, ^v
+	} else {
+		Send, p
+	}
+	return
+
+$^c::
+	if (VIM_curMode = _visual) {
+		VIM_ChangeMode_Command()
+	}
+	Send, ^c
+	return
+
+$^x::
+	if (VIM_curMode = _visual) {
+		VIM_ChangeMode_Command()
+	}
+	Send, ^x
+	return
+
+$x::
+	if (VIM_curMode = _insert || !VIM_IsSupportProgram()) {
+		Send, x
+	} else {
+		VIM_ChangeMode_Command()
+		Send, {Delete}
+	}
+	return
+;///////////////////////////////////////////////////////////////
+;		Function Define
+;///////////////////////////////////////////////////////////////
 VIM_IsSupportProgram()
 {
     WinGetTitle, T, A
