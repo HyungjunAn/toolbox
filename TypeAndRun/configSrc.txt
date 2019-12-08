@@ -21,6 +21,8 @@ npay			https://order.pay.naver.com/home
 nshopping		https://shopping.naver.com/
 nmap			https://map.naver.com/
 
+netflex			https://www.netflix.com/browse
+
 //-----------------------------------------------------------------
 	C:\Users\ADSY\Google 드라이브\pc_setting\AHK\util_runOrActivateGvim.ahk
 //-----------------------------------------------------------------
