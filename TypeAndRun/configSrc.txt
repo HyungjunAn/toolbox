@@ -27,3 +27,4 @@ netflex			https://www.netflix.com/browse
 	%USERPROFILE%\Google 드라이브\pc_setting\AHK\util_runOrActivateGvim.ahk
 //-----------------------------------------------------------------
 tmp				"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
+apache			"C:\Apache24\conf\httpd.conf"
