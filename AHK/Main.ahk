@@ -62,6 +62,7 @@ global gsEpUriTitle		:= ""
 global gsEpUriAddress	:= ""
 
 global gsTmpGvimLibPid	:= "tmp/tmpGvimLibPid.txt"
+global gbIsFirstCallGvimLib := TRUE
 
 global PID_GVIM_LIBRARY 		:= 0
 global PID_AHK_BROWSINGMODE 	:= 0
@@ -118,9 +119,6 @@ IfInString, A_ScriptName, .ahk, {
 
 BrowsingMode 	= BrowsingMode.%ext%
 
-IfExist, %gsTmpGvimLibPid%, {
-	FileReadLine, PID_GVIM_LIBRARY, %gsTmpGvimLibPid%, 1
-}
 
 SetCapsLockState, off
 SetScrollLockState, off
@@ -200,6 +198,13 @@ $!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
 !^+p:: 	runOrActivateWin("configSrc.txt", false, "gvim """ . typeandrun_cfgSrc . """")
 $^.::
+	if (gbIsFirstCallGvimLib) {
+		IfExist, %gsTmpGvimLibPid%, {
+			FileReadLine, PID_GVIM_LIBRARY, %gsTmpGvimLibPid%, 1
+		}
+		gbIsFirstCallGvimLib := false
+	}
+
 	Title := ""
 	Process, Exist, %PID_GVIM_LIBRARY%
 
