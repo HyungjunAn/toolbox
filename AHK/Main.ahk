@@ -271,7 +271,10 @@ $!^+i::
 
 ;Visual Studio Code
 !^[::
-!^]::   Run, C:\Program Files\Microsoft VS Code\Code.exe
+!^]::
+	cmd := USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe"
+	runOrActivateWin("- Visual Studio Code", false, cmd)
+	return
 
 ; KakaoTalk or LG ep
 $!^`;::
