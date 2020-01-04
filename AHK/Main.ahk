@@ -362,6 +362,22 @@ $^,::
 	Return
 
 ; TypeAndRun
+!^h::
+!^j::
+!^k::
+!^l:: 
+^#h::
+^#j::
+^#k::
+^#l::
++#h::
++#j::
++#k::
++#l::
++#w::
++#s::
+!^x::
+!^+y::
 $!^F12::
 $!^9::
 $!^-::
@@ -375,8 +391,6 @@ $!^p:: Send, !^p
 ;------------------------------------
 ; YouTube
 ;------------------------------------
-!^x::
-!^+y::
 !^y:: openOrActivateUrl("YouTube", false, "https://www.youtube.com/")
 
 ;------------------------------------
@@ -424,12 +438,6 @@ $^#w:: Send ^#{F4}
 $^#n:: Send ^#{left}
 $^#p:: Send ^#{right}
 
-; Window Positioning
-!^h:: Send #{left}
-!^j:: Send #{down}
-!^k:: Send #{up}
-!^l:: Send #{right}
-
 #Down::	VPC_Send("", "#{down}")
 #Up::	VPC_Send("", "#{up}")
 
@@ -437,21 +445,11 @@ $^#p:: Send ^#{right}
 #j:: Send {Down}
 #k:: Send {Up}
 #l:: Send {Right}
-^#h:: Send ^{Left}
-^#j:: Send ^{Down}
-^#k:: Send ^{Up}
-^#l:: Send ^{Right}
-+#h:: Send +{Left}
-+#j:: Send +{Down}
-+#k:: Send +{Up}
-+#l:: Send +{Right}
 
 #w:: Send {Home}
 #s:: Send {End}
 #q:: Send {PgUp}
 #a:: Send {PgDn}
-+#w:: Send +{Home}
-+#s:: Send +{End}
 
 $^n:: 
     If isInActiveProcessName("KakaoTalk.exe") {
