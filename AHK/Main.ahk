@@ -36,14 +36,10 @@ global isVirtualDesktopLeft := True
 global isGuiOn			:= True
 global guiShowFlag		:= False
 
-global recentlyWinTitle1
-global recentlyWinTitle2
-
-global google_drive := USERPROFILE . "\Google 드라이브"
 global xnote_timer	:= path_setting . "\XNote_Timer\xntimer.exe"
 
-global library				:= google_drive . "\Library"
 global git_bash				:= "C:\Program Files\Git\git-bash.exe"
+global library				:= USERPROFILE . "\Google 드라이브\Library"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc	:= path_setting . "\TypeAndRun\configSrc.txt"
