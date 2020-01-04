@@ -168,15 +168,7 @@ $!^a::
 ;------------------------------------
 ; Folder
 ;------------------------------------
-!^z::
-	if (isOffice) {
-		runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
-		;Run, %USERPROFILE%\Downloads
-	}
-	else {
-		Run, %google_drive%
-	}
-	return
+!^z::	runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
 !^,:: 	Run, %library%
 !^g::	Run, %A_ScriptDir%
 !^+r::	Run, shell:RecycleBinFolder 
