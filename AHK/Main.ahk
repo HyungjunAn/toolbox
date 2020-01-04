@@ -57,7 +57,7 @@ global gsMailUriAddress	:= "https://mail.google.com/mail"
 global gsEpUriTitle		:= ""
 global gsEpUriAddress	:= ""
 
-global gbIsPidInitDone := False
+global gbIsInitDone 	:= False
 
 global gsPath_PID_GVIM_LIBRARY	:= "tmp/tmpGvimLibPid.txt"
 global PID_GVIM_LIBRARY 		:= 0
@@ -125,7 +125,6 @@ Loop % maxSelectPidNum
 	FileReadLine, PID, %path%, 1
 	garSelectPid_pid[A_Index] := PID
 }
-gbIsPidInitDone := True
 
 IfInString, A_ScriptName, .ahk, {
 	ext = ahk
@@ -135,11 +134,11 @@ IfInString, A_ScriptName, .ahk, {
 
 BrowsingMode 	= BrowsingMode.%ext%
 
-
 SetCapsLockState, off
 SetScrollLockState, off
 
 ;alarm()
+gbIsInitDone := True
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
@@ -205,15 +204,11 @@ $!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
 !^+p:: 	runOrActivateWin("configSrc.txt", false, "gvim """ . typeandrun_cfgSrc . """")
 $^.::
-	if (!gbIsPidInitDone)
+	if (!gbIsInitDone)
 		return
 
 	Title := ""
-	Process, Exist, %PID_GVIM_LIBRARY%
-
-	if (ErrorLevel) {
-		WinGetTitle, Title, ahk_pid %PID_GVIM_LIBRARY%
-	}
+	WinGetTitle, Title, ahk_pid %PID_GVIM_LIBRARY%
 
 	IfInString, Title, GVIM
 	{
@@ -754,12 +749,18 @@ getUriFromFile(path, ByRef title, ByRef address)
 
 activateSelectPid(index)
 {
+	if (!gbIsInitDone)
+		return
+
 	pid := garSelectPid_pid[index]
 	WinActivate, ahk_pid %pid%
 }
 
 setSelectPid(index)
 {
+	if (!gbIsInitDone)
+		return
+
 	WinGet, PID, PID, A
 	garSelectPid_pid[index] := PID
 
