@@ -766,6 +766,5 @@ setSelectPid(index)
 	path := garSelectPid_file[index]
 	FileDelete, %path%
 	FileAppend, %PID%, %path%
-	MsgBox, %path%`n%PID%
-
+	myMotto(300)
 }
