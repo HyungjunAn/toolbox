@@ -57,10 +57,15 @@ global gsMailUriAddress	:= "https://mail.google.com/mail"
 global gsEpUriTitle		:= ""
 global gsEpUriAddress	:= ""
 
-global gsTmpGvimLibPid	:= "tmp/tmpGvimLibPid.txt"
-global gbIsFirstCallGvimLib := TRUE
+global gbIsPidInitDone := False
 
+global gsPath_PID_GVIM_LIBRARY	:= "tmp/tmpGvimLibPid.txt"
 global PID_GVIM_LIBRARY 		:= 0
+
+global maxSelectPidNum		:= 4
+global garSelectPid_pid		:= []
+global garSelectPid_file	:= []
+
 global PID_AHK_BROWSINGMODE 	:= 0
 
 global isOffice := False
@@ -106,6 +111,21 @@ ifExist, %typeandrun%, {
 	}
 	Run, %typeandrun%
 }
+
+;-------------------------------------------
+; 	Process about PID
+;-------------------------------------------
+FileReadLine, PID_GVIM_LIBRARY, %gsPath_PID_GVIM_LIBRARY%, 1
+
+Loop % maxSelectPidNum
+{
+	garSelectPid_pid[A_Index] := 0
+	garSelectPid_file[A_Index] := "tmp/pidSelect_" . A_Index . ".txt"
+	path := garSelectPid_file[A_Index]
+	FileReadLine, PID, %path%, 1
+	garSelectPid_pid[A_Index] := PID
+}
+gbIsPidInitDone := True
 
 IfInString, A_ScriptName, .ahk, {
 	ext = ahk
@@ -185,12 +205,8 @@ $!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
 !^+p:: 	runOrActivateWin("configSrc.txt", false, "gvim """ . typeandrun_cfgSrc . """")
 $^.::
-	if (gbIsFirstCallGvimLib) {
-		IfExist, %gsTmpGvimLibPid%, {
-			FileReadLine, PID_GVIM_LIBRARY, %gsTmpGvimLibPid%, 1
-		}
-		gbIsFirstCallGvimLib := false
-	}
+	if (!gbIsPidInitDone)
+		return
 
 	Title := ""
 	Process, Exist, %PID_GVIM_LIBRARY%
@@ -204,10 +220,20 @@ $^.::
 		WinActivate, ahk_pid %PID_GVIM_LIBRARY%
 	} else {
 		Run, "gvim ""%library%\*""",,, PID_GVIM_LIBRARY
-		FileDelete, %gsTmpGvimLibPid%
-		FileAppend, %PID_GVIM_LIBRARY%, %gsTmpGvimLibPid%
+		FileDelete, %gsPath_PID_GVIM_LIBRARY%
+		FileAppend, %PID_GVIM_LIBRARY%, %gsPath_PID_GVIM_LIBRARY%
 	}
 	return
+
+!^h::	activateSelectPid(0)
+!^j::	activateSelectPid(1)
+!^k::	activateSelectPid(2)
+!^l::	activateSelectPid(3)
+
+!^+h::	setSelectPid(0)	
+!^+j::	setSelectPid(1)	
+!^+k::	setSelectPid(2)	
+!^+l::	setSelectPid(3)	
 
 $!^e::  runOrActivateGitBash("pc_setting", "--cd=""" . path_setting . """")
 $!^+n:: runOrActivateGitBash("library", "--cd=""" . office_worklib . """")
@@ -362,10 +388,6 @@ $^,::
 	Return
 
 ; TypeAndRun
-!^h::
-!^j::
-!^k::
-!^l:: 
 ^#h::
 ^#j::
 ^#k::
@@ -728,4 +750,22 @@ getUriFromFile(path, ByRef title, ByRef address)
 		}
 		bIsTitleReadTurn := !bIsTitleReadTurn
 	}
+}
+
+activateSelectPid(index)
+{
+	pid := garSelectPid_pid[index]
+	WinActivate, ahk_pid %pid%
+}
+
+setSelectPid(index)
+{
+	WinGet, PID, PID, A
+	garSelectPid_pid[index] := PID
+
+	path := garSelectPid_file[index]
+	FileDelete, %path%
+	FileAppend, %PID%, %path%
+	MsgBox, %path%`n%PID%
+
 }
