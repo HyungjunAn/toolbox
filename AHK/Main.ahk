@@ -266,9 +266,6 @@ $!^+i::
 ;Edit Time
 !^+t::Run, chrome.exe --profile-directory="Profile 1" --app-id=mdkfiefeoimmobmhdimachkfcpkgahlc
 
-;Window Media Player
-;!^+p::  Run, wmplayer
-
 ;Visual Studio Code
 !^[::
 !^]::
