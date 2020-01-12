@@ -34,7 +34,6 @@
 ;!^x::
 ;!^+y::
 ;$!^F12::
-;$!^9::
 ;$!^-::
 
 ;///////////////////////////////////////////////////////////////
@@ -217,6 +216,7 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 $!^m::
 $^NumpadAdd:: runOrActivateWin("°è»ê±â", 	false, "calc")
+$!^9:: 	runOrActivateWin("_todo.txt", 	false, "gvim %USERPROFILE%\desktop\_todo.txt")
 $!^u:: 	runOrActivateWin("_memo.txt", 	false, "gvim %USERPROFILE%\desktop\_memo.txt")
 $!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
 $!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
