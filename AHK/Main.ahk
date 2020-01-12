@@ -35,6 +35,7 @@
 ;!^+y::
 ;$!^F12::
 ;$!^-::
+;!^1::
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -72,9 +73,6 @@ global garUriAddress 	:= []
 global gsMailUriTitle	:= "Gmail"
 global gsMailUriAddress	:= "https://mail.google.com/mail"
 
-global gsEpUriTitle		:= ""
-global gsEpUriAddress	:= ""
-
 global gbIsInitDone 	:= False
 
 global gsPath_PID_GVIM_LIBRARY	:= "tmp/tmpGvimLibPid.txt"
@@ -107,9 +105,6 @@ If (A_UserName == "hyungjun.an") {
 
 	path := office_worklib_setting . "\AHK\url_mail.txt"
 	getUriFromFile(path, gsMailUriTitle, gsMailUriAddress)
-	
-	path := office_worklib_setting . "\AHK\url_ep.txt"
-	getUriFromFile(path, gsEpUriTitle, gsEpUriAddress)
 }
 
 ;-------------------------------------------
@@ -309,15 +304,15 @@ $!^+i::
 	runOrActivateWin("- Visual Studio Code", false, cmd)
 	return
 
-; KakaoTalk or LG ep
+; KakaoTalk or ACtivate VPC
 $!^`;::
 	if (VPC_ActivateVpc())
 	{
-		Send, !^`;
+		return
 	}
 	else if (isOffice)
 	{
-		openOrActivateUrl(gsEpUriTitle, true, gsEpUriAddress)
+		return
 	}
 	else
 	{
@@ -386,7 +381,6 @@ $MButton::
 $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
 !^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 
-!^1::
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
 ; Virtual Desktop Toggle
