@@ -19,6 +19,25 @@
 ;	F39C12: Orange
 
 ;///////////////////////////////////////////////////////////////
+; 	Not Using
+;///////////////////////////////////////////////////////////////
+;^#h::
+;^#j::
+;^#k::
+;^#l::
+;+#h::
+;+#j::
+;+#k::
+;+#l::
+;+#w::
+;+#s::
+;!^x::
+;!^+y::
+;$!^F12::
+;$!^9::
+;$!^-::
+
+;///////////////////////////////////////////////////////////////
 ;		Serial Code
 ;///////////////////////////////////////////////////////////////
 #include %A_ScriptDir%
@@ -198,7 +217,7 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 $!^m::
 $^NumpadAdd:: runOrActivateWin("°è»ê±â", 	false, "calc")
-$!^u:: 	runOrActivateWin("_memo.md", 	false, "gvim %USERPROFILE%\desktop\_memo.md")
+$!^u:: 	runOrActivateWin("_memo.txt", 	false, "gvim %USERPROFILE%\desktop\_memo.txt")
 $!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
 $!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
@@ -383,21 +402,6 @@ $^,::
 	Return
 
 ; TypeAndRun
-^#h::
-^#j::
-^#k::
-^#l::
-+#h::
-+#j::
-+#k::
-+#l::
-+#w::
-+#s::
-!^x::
-!^+y::
-$!^F12::
-$!^9::
-$!^-::
 $!^p:: Send, !^p
 
 !^0::
