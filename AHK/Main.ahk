@@ -248,7 +248,7 @@ $!^e::  runOrActivateGitBash("pc_setting", "--cd=""" . path_setting . """")
 $!^+n:: runOrActivateGitBash("library", "--cd=""" . office_worklib . """")
 ;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
 
-#z::
+#c::
 	runOrActivateWin("Ä¸Ã³ µµ±¸", false, "SnippingTool")
 	if (getOsVer() == 10) {
 		Send, ^n
@@ -499,6 +499,17 @@ $^#.::
 $^BS:: Send ^+{Left }{Backspace}
 !^BS:: Send ^+{Right}{Backspace}
 
+; Wheel Up, Down
+#z::
+	mouseMoveOnRightMid()
+	Send, {WheelDown}
+	return
+	
+#x::
+	mouseMoveOnRightMid()
+	Send, {WheelUp}
+	return
+
 ; Sound Control
 #`:: Send {Volume_Down}
 #1:: Send {Volume_Up}
@@ -533,6 +544,7 @@ ChangeResolution( cD, sW, sH, rR ) {
 !^+o:: myMotto(10000)
 	;testFunc(USERPROFILE . " " . A_ScriptName)
 	;return 
+
 !^+u::
 	Path = %A_ScriptDir%
 	Parent := SubStr(Path, 1, InStr(SubStr(Path,1,-1), "\", 0, 0)-1)
