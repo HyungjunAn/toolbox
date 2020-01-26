@@ -21,6 +21,8 @@
 ;///////////////////////////////////////////////////////////////
 ; 	Not Using
 ;///////////////////////////////////////////////////////////////
+;#z::
+;#x::
 ;^#h::
 ;^#j::
 ;^#k::
@@ -499,21 +501,16 @@ $^#.::
 $^BS:: Send ^+{Left }{Backspace}
 !^BS:: Send ^+{Right}{Backspace}
 
-; Wheel Up, Down
-#z::
-	mouseMoveOnRightMid()
-	Send, {WheelDown}
-	return
-	
-#x::
-	mouseMoveOnRightMid()
-	Send, {WheelUp}
-	return
-
 ; Sound Control
 #`:: Send {Volume_Down}
 #1:: Send {Volume_Up}
 #2:: Send {Volume_Mute}
+
+; Click Window
+#f:: 
+	mouseMoveOnRightMid()
+	Send, {LButton}
+	return
 
 ; Windows Always on Top Toggle
 #'::
