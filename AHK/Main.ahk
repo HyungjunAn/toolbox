@@ -87,7 +87,7 @@ global PID_AHK_BROWSINGMODE 	:= 0
 
 global isOffice := False
 
-global office_worklib 			:= "D:\Library"
+global office_worklib 			:= "D:\Library\link"
 global office_worklib_setting 	:= office_worklib . "\setting"
 
 global google_homeID_num := 0
