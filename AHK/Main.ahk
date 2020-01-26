@@ -610,7 +610,7 @@ isInActiveProcessName(str) {
 
 mouseMoveOnRightMid() {
     WinGetPos, , , Width, Height, A
-    x_corner := Width - 25
+    x_corner := Width - 40
     y_mid    := Height // 2
     MouseMove, %x_corner%, %y_mid%, 0
 }
