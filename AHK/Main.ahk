@@ -35,7 +35,6 @@
 ;+#s::
 ;!^x::
 ;!^+y::
-;$!^F12::
 ;$!^-::
 ;!^1::
 
@@ -517,6 +516,14 @@ $^BS:: Send ^+{Left }{Backspace}
     WinGetTitle, Title, A
     WinSet, Alwaysontop, Toggle, %Title%
     return
+
+$!^F12::
+	Title := findWindow(" - GVIM", False)
+	if (!Title) 
+		MsgBox, There is no GVIM window.
+	else
+		WinActivate, %Title%	
+	return 
 
 ;------------------------------------
 ; Display Resolution
