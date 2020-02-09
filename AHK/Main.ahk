@@ -518,11 +518,19 @@ $^BS:: Send ^+{Left }{Backspace}
     return
 
 $!^F12::
-	Title := findWindow(" - GVIM", False)
-	if (!Title) 
+	existFlag := False
+	subName := " - GVIM"
+    WinGet windows, List
+    Loop %windows% {
+    	id := windows%A_Index%
+    	WinGetTitle Title, ahk_id %id%
+        IfInString, Title, %subName%, {
+			existFlag := True
+			WinActivate, %Title%	
+		}
+    }
+	if (!existFlag) 
 		MsgBox, There is no GVIM window.
-	else
-		WinActivate, %Title%	
 	return 
 
 ;------------------------------------
