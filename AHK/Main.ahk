@@ -419,6 +419,9 @@ $SC11d:: RControl
 ; special character translator(Shift & Right Alt)
 Shift & SC138:: Send, {sc1f1}
 
+; korean english trans
++SPACE:: Send, {vk15SC138}
+
 !^Space:: Send {Home}+{End}
 #,::Send {backspace}
 #.::Send {delete}
@@ -791,3 +794,4 @@ setSelectPid(index)
 	FileAppend, %PID%, %path%
 	myMotto(300)
 }
+
