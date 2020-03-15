@@ -426,10 +426,8 @@ Shift & SC138:: Send, {sc1f1}
 #,::Send {backspace}
 #.::Send {delete}
 
-$+`::  
 $+ESC:: Send, ~
-
-$`::ESC
+$`::Send, {ESC}
 
 $^`:: Send, ^``
 
