@@ -92,7 +92,7 @@ global office_worklib_setting 	:= office_worklib . "\setting"
 
 global google_homeID_num := 0
 
-myMotto(300)
+myMotto()
 
 ;-------------------------------------------
 ; 	Process about Office Environment
@@ -153,6 +153,7 @@ SetScrollLockState, off
 
 ;alarm()
 gbIsInitDone := True
+Gui, Destroy
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
@@ -554,7 +555,7 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 
-!^+o:: myMotto(10000)
+!^+o::
 	;testFunc(USERPROFILE . " " . A_ScriptName)
 	;return 
 
@@ -580,7 +581,7 @@ testFunc(ByRef str) {
 ;		Function Def.
 ;///////////////////////////////////////////////////////////////
 
-myMotto(Time, backC := "Red") {
+myMotto(Time := 0, backC := "Red") {
 	fontC := "White"
 	TEXT := "    True Nobility is being Superior to Your Former Self.    "
 	h := 40
@@ -592,8 +593,11 @@ myMotto(Time, backC := "Red") {
     	Gui, Font, s12 c%fontC%, Consolas
     	Gui, Add, Text, , %TEXT%
 		Gui, Show, y%y% h%h% NoActivate,
-		Sleep % Time
-		Gui, Destroy
+
+		if(Time) {
+			Sleep % Time
+			Gui, Destroy
+		}
 	}
 }
 
