@@ -244,6 +244,8 @@ noremap <C-F12> :
   let cwf=guifontwidesize " Default Han Font Size
   noremap <A-[>  :let cgf-=1<CR>:let cwf-=1<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
   noremap <A-]>  :let cgf+=1<CR>:let cwf+=1<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
+  noremap <A-{>  :let cgf-=5<CR>:let cwf-=5<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
+  noremap <A-}>  :let cgf+=5<CR>:let cwf+=5<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
 
 "<Comment(nerdcommenter)>
   map	<A-j>	<leader>cm
