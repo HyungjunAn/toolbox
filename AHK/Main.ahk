@@ -37,6 +37,9 @@
 ;!^+y::
 ;$!^-::
 ;!^1::
+;!^,:: 	
+;$!^+v::
+;$!^+n:: 
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -161,6 +164,7 @@ Gui, Destroy
 ; Reload Script
 $!+r:: 
 	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	gbIsInitDone = False
 	Reload
 	Return
 
@@ -199,7 +203,6 @@ $!^a::
 ; Folder
 ;------------------------------------
 !^z::	runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
-!^,:: 	Run, %library%
 !^g::	Run, %A_ScriptDir%
 !^+r::	Run, shell:RecycleBinFolder 
 !^+e:: 	Run, %USERPROFILE%\AppData\Local\lxss\home\hyungjun
@@ -216,23 +219,20 @@ $^NumpadAdd:: runOrActivateWin("계산기", 	false, "calc")
 $!^9:: 	runOrActivateWin("_todo.txt", 	false, "gvim %USERPROFILE%\desktop\_todo.txt")
 $!^u:: 	runOrActivateWin("_memo.txt", 	false, "gvim %USERPROFILE%\desktop\_memo.txt")
 $!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
-$!^+v::	runOrActivateWin("_vimrc", 		false, "gvim %USERPROFILE%\_vimrc")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
 !^+p:: 	runOrActivateWin("configSrc.txt", false, "gvim """ . typeandrun_cfgSrc . """")
 $^.::
-	if (!gbIsInitDone)
-		return
-
-	Title := ""
-	WinGetTitle, Title, ahk_pid %PID_GVIM_LIBRARY%
-
-	IfInString, Title, GVIM
-	{
-		WinActivate, ahk_pid %PID_GVIM_LIBRARY%
-	} else {
-		Run, "gvim ""%library%\*""",,, PID_GVIM_LIBRARY
-		FileDelete, %gsPath_PID_GVIM_LIBRARY%
-		FileAppend, %PID_GVIM_LIBRARY%, %gsPath_PID_GVIM_LIBRARY%
+	if (gbIsInitDone) {
+		Title := ""
+		WinGetTitle, Title, ahk_pid %PID_GVIM_LIBRARY%
+	
+		IfInString, Title, GVIM, {
+			WinActivate, ahk_pid %PID_GVIM_LIBRARY%
+		} else {
+			Run, "gvim ""%library%\*""",,, PID_GVIM_LIBRARY
+			FileDelete, %gsPath_PID_GVIM_LIBRARY%
+			FileAppend, %PID_GVIM_LIBRARY%, %gsPath_PID_GVIM_LIBRARY%
+		}
 	}
 	return
 
@@ -247,8 +247,21 @@ $^.::
 !^+l::	setSelectPid(3)	
 
 $!^e::  runOrActivateGitBash("pc_setting", "--cd=""" . path_setting . """")
-$!^+n:: runOrActivateGitBash("library", "--cd=""" . office_worklib . """")
-;$!^e::Run, C:\Program Files\ConEmu\ConEmu64.exe -Dir %USERPROFILE%
+
+$#n::
+	cur_path := Explorer_GetCurrentPath()
+	if (cur_path) {
+		FormatTime, cur_time ,, yyMMddHHmm
+		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
+	}
+	return
+
+$!^n:: 
+	cur_path := Explorer_GetCurrentPath()
+	if (cur_path) {
+		Run, %git_bash% --cd="%cur_path%"
+	}
+	return
 
 #c::
 	runOrActivateWin("캡처 도구", false, "SnippingTool")
@@ -331,8 +344,6 @@ $!^s:: Run, ms-settings:bluetooth
 ;------------------------------------
 ; Web Page
 ;------------------------------------
-$#n::   Run, http://www.senaver.com
-
 !^o:: 
     subName = Google Keep
     url = https://keep.google.com
@@ -387,7 +398,6 @@ $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
 ; Virtual Desktop Toggle
 $!+n::
-$!^n::
 $^,::
 	if (isVirtualDesktopLeft) {
 		Send, ^#{right}
@@ -555,7 +565,15 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 
-!^+o::
+!^+o:: 
+	cur_path := Explorer_GetCurrentPath()
+	if (cur_path) {
+		MsgBox % cur_path
+		FormatTime, cur_time ,, yyMMddHHmm
+		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
+	}
+	return
+
 	;testFunc(USERPROFILE . " " . A_ScriptName)
 	;return 
 
@@ -797,3 +815,16 @@ setSelectPid(index)
 	myMotto(300)
 }
 
+Explorer_GetCurrentPath(hwnd="") {
+    WinGet, process, processName, % "ahk_id" hwnd := hwnd? hwnd:WinExist("A")
+    WinGetClass class, ahk_id %hwnd%
+    if  (process = "explorer.exe") 
+        if (class ~= "(Cabinet|Explore)WClass") {
+            for window in ComObjCreate("Shell.Application").Windows
+                if  (window.hwnd==hwnd)
+                    path := window.Document.FocusedItem.path
+
+            SplitPath, path,,dir
+        }
+        return dir
+}
