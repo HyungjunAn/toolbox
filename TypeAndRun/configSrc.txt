@@ -15,6 +15,7 @@ library			"%USERPROFILE%\Google 드라이브\Library"
 billiards		"%USERPROFILE%\Google 드라이브\Library\Billiards"
 living			"%USERPROFILE%\Google 드라이브\Library\Living"
 cooking			"%USERPROFILE%\Google 드라이브\Library\Living\cooking"
+board_games		"%USERPROFILE%\Google 드라이브\Library\board games"
 ghlql			"%USERPROFILE%\Google 드라이브\DocTemplates\회비 계산"
 
 //-----------------------------------------------------------------
