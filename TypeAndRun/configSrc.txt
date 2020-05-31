@@ -20,10 +20,11 @@ ghlql			"%USERPROFILE%\Google 드라이브\DocTemplates\회비 계산"
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
 //-----------------------------------------------------------------
-naver			http://www.senaver.com
-npay			https://order.pay.naver.com/home
-nshopping		https://shopping.naver.com/
-nmap			https://map.naver.com/
+naver					http://www.senaver.com
+npay					https://order.pay.naver.com/home
+nshopping				https://shopping.naver.com/
+nmap					https://map.naver.com/
+googledrive_online		https://drive.google.com/
 
 wndrhskfk		https://cafe.naver.com/joonggonara
 cctv			https://alfred.camera/webapp/

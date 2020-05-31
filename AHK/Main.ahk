@@ -21,6 +21,11 @@
 ;///////////////////////////////////////////////////////////////
 ; 	Not Using
 ;///////////////////////////////////////////////////////////////
+;!^+z::
+;$!^.::
+;$^NumpadAdd:: 
+;!^b::
+;!^+e::
 ;#z::
 ;#x::
 ;^#h::
@@ -205,17 +210,11 @@ $!^a::
 !^z::	runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
 !^g::	Run, %A_ScriptDir%
 !^+r::	Run, shell:RecycleBinFolder 
-!^+e:: 	Run, %USERPROFILE%\AppData\Local\lxss\home\hyungjun
 $#d:: 	Run, %USERPROFILE%\Desktop
-
-; DropBox
-!^b::Run, Z:\\
 
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^m::
-$^NumpadAdd:: runOrActivateWin("°è»ê±â", 	false, "calc")
 $!^9:: 	runOrActivateWin("_todo.txt", 	false, "gvim %USERPROFILE%\desktop\_todo.txt")
 $!^u:: 	runOrActivateWin("_memo.txt", 	false, "gvim %USERPROFILE%\desktop\_memo.txt")
 $!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
@@ -273,7 +272,7 @@ $!^n::
 !^c:: runOrActivateWin("- chrome", false, "chrome")
 
 ; MobaXterm
-$!^.:: 
+$!^m:: 
 	cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
 	runOrActivateWin("__", false, cmd)
 	return 
@@ -321,20 +320,17 @@ $!^+i::
 
 ; KakaoTalk or ACtivate VPC
 $!^`;::
-	if (VPC_ActivateVpc())
-	{
+	if (VPC_ActivateVpc()) {
 		return
-	}
-	else if (isOffice)
-	{
+	} else if (isOffice) {
 		return
-	}
-	else
-	{
+	} else {
 		IfExist, C:\Program Files (x86)\Kakao
-			Run, C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe
+			cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
 		else
-			Run, C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe
+			cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
+
+		runOrActivateWin("Ä«Ä«¿ÀÅå", false, cmd)
 	}
 	return
 
@@ -392,7 +388,6 @@ $MButton::
 	return 
 
 $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
-!^+z::  Run, https://drive.google.com/drive/u/%google_homeID_num%/my-drive
 
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
@@ -518,7 +513,7 @@ $^BS:: Send ^+{Left }{Backspace}
 #2:: Send {Volume_Mute}
 
 ; Click Window
-#f:: 
+#!^,:: 
 	mouseMoveOnRightMid()
 	Send, {LButton}
 	return
@@ -578,17 +573,14 @@ ChangeResolution( cD, sW, sH, rR ) {
 	;return 
 
 !^+u::
-	Path = %A_ScriptDir%
-	Parent := SubStr(Path, 1, InStr(SubStr(Path,1,-1), "\", 0, 0)-1)
-	msgbox %parent%
-	Process, Exist, TypeAndRun.exe,
-	Process, Close, %ErrorLevel%
-	;MsgBox, %PID_TYPEANDRUN%
+	;Path = %A_ScriptDir%
+	;Parent := SubStr(Path, 1, InStr(SubStr(Path,1,-1), "\", 0, 0)-1)
+	;msgbox %parent%
     WinGetTitle, Title, A
     WinGet, PID, PID, A
     WinGetPos, x, y, W, H, %Title%
     MsgBox, %Title%`n`nx:%x% y:%y% W:%W% H:%H%`n`nPID: %PID%
-	MsgBox, %m_interval%
+	;MsgBox, %m_interval%
     return
 
 testFunc(ByRef str) {
