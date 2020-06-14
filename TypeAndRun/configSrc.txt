@@ -19,6 +19,8 @@ board_games		"%USERPROFILE%\Google 드라이브\Library\board games"
 ghlql			"%USERPROFILE%\Google 드라이브\DocTemplates\회비 계산"
 guitar			"%USERPROFILE%\Google 드라이브\Music\Guitar"
 
+hk_vim			%USERPROFILE%\pc_setting\Hotkeys\vim.png
+
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
 //-----------------------------------------------------------------
@@ -36,8 +38,10 @@ guitar_lecture			https://spmusic.tistory.com/category/%ED%86%B5%EA%B8%B0%ED%83%8
 netflex					https://www.netflix.com/browse
 
 //-----------------------------------------------------------------
-	%USERPROFILE%\Google 드라이브\pc_setting\AHK\util_runOrActivateGvim.ahk
+	%USERPROFILE%\pc_setting\AHK\util_runOrActivateGvim.ahk
 //-----------------------------------------------------------------
 vimrc			%USERPROFILE%\_vimrc
 tmp				"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
 apache			"C:\Apache24\conf\httpd.conf"
+
+
