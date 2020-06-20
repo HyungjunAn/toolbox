@@ -44,4 +44,6 @@ vimrc			%USERPROFILE%\_vimrc
 tmp				"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
 apache			"C:\Apache24\conf\httpd.conf"
 
+sykim			"%USERPROFILE%\Google 드라이브\수영\김수영 어록.txt"
+
 
