@@ -421,6 +421,16 @@ $!^p:: Send, !^p
 Capslock::Ctrl
 !^+c::Capslock
 
+$F1::
+	if (GetKeyState("CapsLock", "T")) {
+		SetCapsLockState, off
+	} else {
+		SetCapsLockState, on
+	}
+	return
+
+$!^F1::Send, {F1}
+
 $SC11d:: RControl
 ; special character translator(Shift & Right Alt)
 Shift & SC138:: Send, {sc1f1}
