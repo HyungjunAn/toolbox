@@ -11,6 +11,7 @@ recycle			shell:RecycleBinFolder
 home			"%USERPROFILE%"
 
 googledrive		"%USERPROFILE%\Google 드라이브"
+finance			"%USERPROFILE%\Google 드라이브\finance"
 library			"%USERPROFILE%\Google 드라이브\Library"
 billiards		"%USERPROFILE%\Google 드라이브\Library\Billiards"
 living			"%USERPROFILE%\Google 드라이브\Library\Living"
