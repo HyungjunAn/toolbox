@@ -234,15 +234,15 @@ $^.::
 	}
 	return
 
-!^h::	activateSelectPid(0)
-!^j::	activateSelectPid(1)
-!^k::	activateSelectPid(2)
-!^l::	activateSelectPid(3)
+!^h::	activateSelectPid(1)
+!^j::	activateSelectPid(2)
+!^k::	activateSelectPid(3)
+!^l::	activateSelectPid(4)
 
-!^+h::	setSelectPid(0)	
-!^+j::	setSelectPid(1)	
-!^+k::	setSelectPid(2)	
-!^+l::	setSelectPid(3)	
+!^+h::	setSelectPid(1)	
+!^+j::	setSelectPid(2)	
+!^+k::	setSelectPid(3)	
+!^+l::	setSelectPid(4)	
 
 $!^e::  runOrActivateGitBash("pc_setting", "--cd=""" . path_setting . """")
 
@@ -801,7 +801,22 @@ activateSelectPid(index)
 		return
 
 	pid := garSelectPid_pid[index]
+
+	Process, Exist, %pid%,
+
+	if (!ErrorLevel)
+		return
+
 	WinActivate, ahk_pid %pid%
+
+    WinGetPos, X, Y, W, , A
+
+	Gui, Color, white
+	Gui, -Caption +alwaysontop +ToolWindow
+	Gui, Show, x%X% y%Y% w%W% h80 NoActivate,
+
+	Sleep % 150
+	Gui, Destroy
 }
 
 setSelectPid(index)
