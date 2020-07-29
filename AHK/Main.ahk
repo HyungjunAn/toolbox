@@ -809,13 +809,13 @@ activateSelectPid(index)
 
 	WinActivate, ahk_pid %pid%
 
-    WinGetPos, X, Y, W, , A
-
-	Gui, Color, white
+    WinGetPos, X, Y, W, H, A
+	
+	Gui, Color, F39C12
 	Gui, -Caption +alwaysontop +ToolWindow
-	Gui, Show, x%X% y%Y% w%W% h80 NoActivate,
+	Gui, Show, x%X% y%Y% w%W% h%H% NoActivate,
 
-	Sleep % 150
+	Sleep % 70
 	Gui, Destroy
 }
 
