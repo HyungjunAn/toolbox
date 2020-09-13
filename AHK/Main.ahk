@@ -435,7 +435,7 @@ $SC11d:: RControl
 Shift & SC138:: Send, {sc1f1}
 
 ; korean english trans
-+SPACE:: Send, {vk15SC138}
+;+SPACE:: Send, {vk15SC138}
 
 !^Space:: Send {Home}+{End}
 #,::Send {backspace}
