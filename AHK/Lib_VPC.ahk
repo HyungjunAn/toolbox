@@ -1,7 +1,7 @@
 global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
 
 VPC_IsExistVpc() {
-	if (findWindow(_gsVpcWinTitle, True)) {
+	if (findWindow(_gsVpcWinTitle, False)) {
 		return True
 	}
 	return False
@@ -9,12 +9,16 @@ VPC_IsExistVpc() {
 
 VPC_ActivateVpc()
 {
-	ret := VPC_IsExistVPC()
-	if ret
-	{
-		WinActivate, %_gsVpcWinTitle%
+	WinActivate, %_gsVpcWinTitle%
+}
+
+VPC_ActivateVpcIfExist()
+{
+	if (VPC_IsExistVPC()) {
+		VPC_ActivateVpc()
+		return True
 	}
-	return ret
+	return False
 }
 
 VPC_IsCurrWinVpc()
@@ -27,16 +31,22 @@ VPC_IsCurrWinVpc()
 	return False
 }
 
-VPC_SwitchVpcAndLocal()
-{
-	if VPC_IsCurrWinVpc()
-	{
-		runOrActivateWin("제목 없음 - 메모장", false, "notepad")
-		Send, ^#{Left}
-	} else {
-		VPC_ActivateVpc()
-	}
-}
+;VPC_SwitchWinIfExist()
+;{
+;	if (!VPC_IsExistVPC()) {
+;		return False
+;	}
+;
+;	if (VPC_IsCurrWinVpc()) {
+;		runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
+;		Send, ^#{Left}
+;	} else {
+;		Send, ^#{Right}
+;		VPC_ActivateVpc()
+;	}
+;	
+;	return True
+;}
 
 VPC_ChangeMode2VPC() {
 	ret := False

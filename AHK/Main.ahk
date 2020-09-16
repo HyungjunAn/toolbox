@@ -297,7 +297,7 @@ $!^m::
 $!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 
 $!^+i::
-	if (VPC_ActivateVpc()) {
+	if (VPC_ActivateVpcIfExist()) {
 		Send, !^+i
 	} else if (isOffice) {
 		runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
@@ -319,18 +319,12 @@ $!^+i::
 
 ; KakaoTalk or ACtivate VPC
 $!^`;::
-	if (VPC_ActivateVpc()) {
-		return
-	} else if (isOffice) {
-		return
-	} else {
-		IfExist, C:\Program Files (x86)\Kakao
-			cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
-		else
-			cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
+	IfExist, C:\Program Files (x86)\Kakao
+		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
+	else
+		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
 
-		runOrActivateWin("朝朝神套", false, cmd)
-	}
+	runOrActivateWin("朝朝神套", false, cmd)
 	return
 
 ; SystemSettings.exe
@@ -359,7 +353,7 @@ $!^s:: Run, ms-settings:bluetooth
 
 ; Mail
 $!^d::
-	if VPC_ActivateVpc() {
+	if (VPC_ActivateVpcIfExist()) {
 		Send, !^d
 	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
@@ -395,7 +389,12 @@ $!+n::
 $^,::
 	if (isVirtualDesktopLeft) {
 		Send, ^#{right}
+		sleep, 50
+		VPC_ActivateVpc()
 	} else {
+		if (VPC_IsCurrWinVpc()) {
+			runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
+		}
 		Send, ^#{left}
 	}
 	isVirtualDesktopLeft := !isVirtualDesktopLeft
