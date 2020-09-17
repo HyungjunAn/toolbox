@@ -369,9 +369,11 @@ $MButton::
 		clipboard=""
 		sleep, 50
 		Send, e
-		sleep, 50
-		if (InStr(clipboard, "http") == 1)
-		{
+
+		runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
+		Send, ^#{left}
+
+		if (InStr(clipboard, "http") == 1) {
 			Run, Chrome.exe %clipboard%
 		}
 		clipboard := tmp
@@ -387,14 +389,21 @@ $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 ; Virtual Desktop Toggle
 $!+n::
 $^,::
+	IfExist, %USERPROFILE%/desktop/vpc.txt, {
+		if(VPC_IsCurrWinVpc()) {
+			runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
+			Send, ^#{left}
+		} else {
+			Send, ^#{right}
+			sleep, 50
+			VPC_ActivateVpc()
+		}
+		return
+	}
+
 	if (isVirtualDesktopLeft) {
 		Send, ^#{right}
-		sleep, 50
-		VPC_ActivateVpc()
 	} else {
-		if (VPC_IsCurrWinVpc()) {
-			runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
-		}
 		Send, ^#{left}
 	}
 	isVirtualDesktopLeft := !isVirtualDesktopLeft
