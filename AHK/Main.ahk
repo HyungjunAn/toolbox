@@ -370,7 +370,7 @@ $MButton::
 		sleep, 50
 		Send, e
 
-		runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
+		VPC_FocusOut()
 		Send, ^#{left}
 
 		if (InStr(clipboard, "http") == 1) {
@@ -389,15 +389,7 @@ $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 ; Virtual Desktop Toggle
 $!+n::
 $^,::
-	IfExist, %USERPROFILE%/desktop/vpc.txt, {
-		if(VPC_IsCurrWinVpc()) {
-			runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
-			Send, ^#{left}
-		} else {
-			Send, ^#{right}
-			sleep, 50
-			VPC_ActivateVpc()
-		}
+	if (VPC_SwitchWinIfExist()) {
 		return
 	}
 

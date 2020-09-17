@@ -31,22 +31,26 @@ VPC_IsCurrWinVpc()
 	return False
 }
 
-;VPC_SwitchWinIfExist()
-;{
-;	if (!VPC_IsExistVPC()) {
-;		return False
-;	}
-;
-;	if (VPC_IsCurrWinVpc()) {
-;		runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
-;		Send, ^#{Left}
-;	} else {
-;		Send, ^#{Right}
-;		VPC_ActivateVpc()
-;	}
-;	
-;	return True
-;}
+VPC_FocusOut()
+{
+	runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
+}
+
+VPC_SwitchWinIfExist()
+{
+	IfExist, %USERPROFILE%/desktop/vpc.txt, {
+		if(VPC_IsCurrWinVpc()) {
+			VPC_FocusOut()
+			Send, ^#{left}
+		} else {
+			Send, ^#{right}
+			sleep, 50
+			VPC_ActivateVpc()
+		}
+		return True
+	}
+	return False
+}
 
 VPC_ChangeMode2VPC() {
 	ret := False
