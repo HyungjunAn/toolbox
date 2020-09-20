@@ -386,6 +386,9 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
+; VPC
+!^+c:: VPC_ToggleMode()
+
 ; Virtual Desktop Toggle
 $!+n::
 $^,::
@@ -418,8 +421,6 @@ $!^p:: Send, !^p
 ; Key & System
 ;------------------------------------
 Capslock::Ctrl
-!^+c::Capslock
-
 $F1::
 	if (GetKeyState("CapsLock", "T")) {
 		SetCapsLockState, off
@@ -584,6 +585,15 @@ ChangeResolution( cD, sW, sH, rR ) {
 	;return 
 
 !^+u::
+    WinGet windows, List
+	tmpStr := ""
+    Loop %windows% {
+    	id := windows%A_Index%
+    	WinGetTitle Title, ahk_id %id%
+		tmpStr := tmpStr . "`n" . Title
+    }
+	MsgBox, %tmpStr%
+    return
 	;Path = %A_ScriptDir%
 	;Parent := SubStr(Path, 1, InStr(SubStr(Path,1,-1), "\", 0, 0)-1)
 	;msgbox %parent%

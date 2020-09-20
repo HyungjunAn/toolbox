@@ -1,4 +1,5 @@
 global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
+global _gsVpcTxt := USERPROFILE . "/desktop/vpcTxt"
 
 VPC_IsExistVpc() {
 	if (findWindow(_gsVpcWinTitle, False)) {
@@ -31,15 +32,37 @@ VPC_IsCurrWinVpc()
 	return False
 }
 
+VPC_ToggleMode()
+{
+	IfExist, %_gsVpcTxt%, {
+		backC := "Green"
+		TEXT := "VPC Mode Off"
+		FileDelete, %_gsVpcTxt%
+	} else {
+		backC := "Red"
+		TEXT := "VPC Mode On"
+		FileAppend, vpc txt file.`n, %_gsVpcTxt%
+	}
+
+	Gui, Color, %backC%
+	Gui, -Caption +alwaysontop +ToolWindow
+    Gui, Font, s15 cWhite, Consolas
+    Gui, Add, Text, , %TEXT%
+	Gui, Show, h40 NoActivate,
+
+	Sleep, 500
+	Gui, Destroy
+}
+
 VPC_FocusOut()
 {
-	runOrActivateWin("vpc.txt", false, "gvim ~\Desktop\vpc.txt")
+	runOrActivateWin("vpcTxt", false, "notepad " . _gsVpcTxt)
 }
 
 VPC_SwitchWinIfExist()
 {
-	IfExist, %USERPROFILE%/desktop/vpc.txt, {
-		if(VPC_IsCurrWinVpc()) {
+	IfExist, %_gsVpcTxt%, {
+		if (VPC_IsCurrWinVpc()) {
 			VPC_FocusOut()
 			Send, ^#{left}
 		} else {
