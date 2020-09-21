@@ -67,7 +67,7 @@ VPC_SwitchWinIfExist()
 			Send, ^#{left}
 		} else {
 			Send, ^#{right}
-			sleep, 50
+			sleep, 100
 			VPC_ActivateVpc()
 		}
 		return True
