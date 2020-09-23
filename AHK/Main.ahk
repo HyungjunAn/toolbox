@@ -443,7 +443,10 @@ Shift & SC138:: Send, {sc1f1}
 #.::Send {delete}
 
 $+ESC:: Send, ~
-$`::Send, {ESC}
+$`::
+	Gui, Destroy
+	Send, {ESC}
+	Return
 
 $^`:: Send, ^``
 
