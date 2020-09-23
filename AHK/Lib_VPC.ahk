@@ -1,6 +1,4 @@
 global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
-global _gsVpcTxt := USERPROFILE . "/desktop/vpcTxt"
-global _gsVpcTxtWin := "vpcTxt - Windows ¸Þ¸ðÀå"
 
 VPC_IsExistVpc() {
 	if (findWindow(_gsVpcWinTitle, False)) {
@@ -11,6 +9,7 @@ VPC_IsExistVpc() {
 
 VPC_ActivateVpc()
 {
+	Gui, Destroy
 	WinActivate, %_gsVpcWinTitle%
 	VPC_Notify("Red", "VPC Activate")
 }
@@ -61,17 +60,15 @@ VPC_Notify(backC, text)
 	Gui, Destroy
 	Gui, Color, %backC%
 	Gui, -Caption +alwaysontop +ToolWindow
-    Gui, Font, s15 cWhite, Consolas
+    Gui, Font, s13 cWhite, Consolas
     Gui, Add, Text, , %text%
-	Gui, Show, y0 h40 NoActivate,
+	Gui, Show, y0 h40 NoActivate, %text%
 }
 
 VPC_FocusOut()
 {
-	;WinActivate, %_gsVpcTxtWin%
-	;runOrActivateWin("vpcTxt", false, "notepad " . _gsVpcTxt)
-	VPC_Notify("Green", "VPC Deactivate")
 	WinMinimize, %_gsVpcWinTitle%
+	VPC_Notify("Green", "VPC Deactivate")
 }
 
 VPC_SwitchWinIfExist()
