@@ -11,7 +11,7 @@ VPC_ActivateVpc()
 {
 	Gui, Destroy
 	WinActivate, %_gsVpcWinTitle%
-	VPC_Notify("Red", "VPC Activate")
+	VPC_Notify("Red")
 }
 
 VPC_ActivateVpcIfExist()
@@ -55,20 +55,20 @@ VPC_ToggleMode()
 	Gui, Destroy
 }
 
-VPC_Notify(backC, text)
+VPC_Notify(backC)
 {
 	Gui, Destroy
 	Gui, Color, %backC%
 	Gui, -Caption +alwaysontop +ToolWindow
-    Gui, Font, s13 cWhite, Consolas
-    Gui, Add, Text, , %text%
-	Gui, Show, y0 h40 NoActivate, %text%
+	H := 40
+	Y := A_ScreenHeight - H
+	Gui, Show, w400 y%Y% h%H% NoActivate,
 }
 
 VPC_FocusOut()
 {
 	WinMinimize, %_gsVpcWinTitle%
-	VPC_Notify("Green", "VPC Deactivate")
+	VPC_Notify("Green")
 }
 
 VPC_SwitchWinIfExist()
