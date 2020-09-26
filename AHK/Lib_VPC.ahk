@@ -62,7 +62,7 @@ VPC_Notify(backC)
 	Gui, -Caption +alwaysontop +ToolWindow
 	H := 40
 	Y := A_ScreenHeight - H
-	Gui, Show, w400 y%Y% h%H% NoActivate,
+	Gui, Show, w400 y%Y% h%H% NoActivate, GUI_VPC_NOTIFIY
 }
 
 VPC_FocusOut()

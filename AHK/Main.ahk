@@ -442,7 +442,6 @@ Shift & SC138:: Send, {sc1f1}
 
 $+ESC:: Send, ~
 $`::
-	Gui, Destroy
 	Send, {ESC}
 	Return
 
@@ -701,6 +700,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 			sleep, 200
 		}
 	}
+	VPC_FocusOut()
 	WinActivate, %Title%
 	return Title
 }
