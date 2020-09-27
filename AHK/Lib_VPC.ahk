@@ -80,8 +80,10 @@ VPC_SwitchWinIfExist()
 			VPC_ActivateVpc()
 		}
 		return True
+	} else {
+		Gui, Destroy
+		return False
 	}
-	return False
 }
 
 VPC_ChangeMode2VPC() {

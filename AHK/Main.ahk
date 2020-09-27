@@ -363,7 +363,7 @@ $!^d::
 	return 
 
 $MButton::
-	if VPC_IsCurrWinVpc() {
+	if (VPC_IsCurrWinVpc() && isOffice) {
 		Send, {RButton}
 		tmp := clipboard
 		clipboard=""
