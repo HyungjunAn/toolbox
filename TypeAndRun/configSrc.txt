@@ -20,7 +20,7 @@ board_games		"%USERPROFILE%\Google 드라이브\Library\board games"
 ghlql			"%USERPROFILE%\Google 드라이브\DocTemplates\회비 계산"
 guitar			"%USERPROFILE%\Google 드라이브\Music\Guitar"
 
-hk_vim			%USERPROFILE%\pc_setting\Hotkeys\vim.png
+hk_vim			%USERPROFILE%\pc_setting\devTips\vim.png
 
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
@@ -42,7 +42,9 @@ netflex					https://www.netflix.com/browse
 	%USERPROFILE%\pc_setting\AHK\util_runOrActivateGvim.ahk
 //-----------------------------------------------------------------
 vimrc			%USERPROFILE%\_vimrc
-hk				%USERPROFILE%\pc_setting\Hotkeys\hk_summary.txt
+hk				%USERPROFILE%\pc_setting\devTips\hk_summary.txt
+linux			%USERPROFILE%\pc_setting\devTips\cs_linux.txt
+git				%USERPROFILE%\pc_setting\devTips\cs_git.txt
 
 tmp				"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
 apache			"C:\Apache24\conf\httpd.conf"
