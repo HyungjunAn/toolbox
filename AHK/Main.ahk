@@ -472,9 +472,6 @@ $^#w:: Send ^#{F4}
 $^#n:: Send ^#{left}
 $^#p:: Send ^#{right}
 
-#Down::	VPC_Send("", "#{down}")
-#Up::	VPC_Send("", "#{up}")
-
 #h:: Send {Left}
 #j:: Send {Down}
 #k:: Send {Up}
