@@ -369,10 +369,11 @@ $MButton::
 		clipboard=""
 		sleep, 50
 		Send, e
+		sleep, 50
 
 		if (InStr(clipboard, "http") == 1) {
-			VPC_FocusOut()
 			Run, Chrome.exe %clipboard%
+			VPC_FocusOut()
 		}
 		clipboard := tmp
 	} else {
