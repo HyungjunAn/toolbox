@@ -94,7 +94,7 @@ global PID_AHK_BROWSINGMODE 	:= 0
 
 global isOffice := False
 
-global office_worklib 			:= "D:\Library\link"
+global office_worklib 			:= "D:\library_office"
 global office_worklib_setting 	:= office_worklib . "\setting"
 
 global google_homeID_num := 0
@@ -227,7 +227,7 @@ $^.::
 		IfInString, Title, GVIM, {
 			WinActivate, ahk_pid %PID_GVIM_LIBRARY%
 		} else {
-			Run, "gvim ""%library%\*""",,, PID_GVIM_LIBRARY
+			Run, gvim "%library%\*",,, PID_GVIM_LIBRARY
 			FileDelete, %gsPath_PID_GVIM_LIBRARY%
 			FileAppend, %PID_GVIM_LIBRARY%, %gsPath_PID_GVIM_LIBRARY%
 		}
