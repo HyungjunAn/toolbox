@@ -184,9 +184,11 @@ $!+a::
 	Suspend, Toggle
 	isGuiOn := True
 	if (!A_IsSuspended) {
+		Run, %typeandrun%
 		SetCapsLockState, off
 		myMotto(200)
 	} else {
+		closeProcess("TypeAndRun.exe")
 		myMotto(200, "Green")
 		isGuiOn := False
     	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
