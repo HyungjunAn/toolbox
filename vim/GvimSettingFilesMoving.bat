@@ -18,7 +18,7 @@ echo.
 echo ------------------------------------------------------
 echo 	Gvim 테마, vimrc, vim 파일 이동
 echo ------------------------------------------------------
-set "VIMPATH=C:\Program Files (x86)\Vim\vim81"
+set "VIMPATH=C:\Program Files\Vim\vim82"
 copy "colors"	"%VIMPATH%\colors"
 copy "syntax"	"%VIMPATH%\syntax\"
 
