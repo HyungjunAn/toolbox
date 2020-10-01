@@ -9,6 +9,7 @@ toeicspeaking	"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
 //-----------------------------------------------------------------
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
+project			"%USERPROFILE%\Desktop\project"
 
 googledrive		"%USERPROFILE%\Google 드라이브"
 finance			"%USERPROFILE%\Google 드라이브\finance"
