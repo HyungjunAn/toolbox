@@ -33,28 +33,6 @@ VPC_IsCurrWinVpc()
 	return False
 }
 
-VPC_ToggleMode()
-{
-	IfExist, %_gsVpcTxt%, {
-		backC := "Green"
-		TEXT := "VPC Mode Off"
-		FileDelete, %_gsVpcTxt%
-	} else {
-		backC := "Red"
-		TEXT := "VPC Mode On"
-		FileAppend, vpc txt file.`n, %_gsVpcTxt%
-	}
-
-	Gui, Color, %backC%
-	Gui, -Caption +alwaysontop +ToolWindow
-    Gui, Font, s15 cWhite, Consolas
-    Gui, Add, Text, , %TEXT%
-	Gui, Show, h40 NoActivate,
-
-	Sleep, 500
-	Gui, Destroy
-}
-
 VPC_Notify(backC)
 {
 	Gui, Destroy

@@ -387,8 +387,6 @@ $!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/c
 
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
-; VPC
-!^+c:: VPC_ToggleMode()
 
 ; Virtual Desktop Toggle
 $!+n::
@@ -422,7 +420,9 @@ $!^p:: Send, !^p
 ; Key & System
 ;------------------------------------
 Capslock::Ctrl
+
 $F1::
+!^+c::
 	if (GetKeyState("CapsLock", "T")) {
 		SetCapsLockState, off
 	} else {
