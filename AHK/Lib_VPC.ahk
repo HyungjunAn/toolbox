@@ -45,8 +45,10 @@ VPC_Notify(backC)
 
 VPC_FocusOut()
 {
-	WinMinimize, %_gsVpcWinTitle%
-	VPC_Notify("Green")
+	if (VPC_IsCurrWinVpc()) {
+		WinMinimize, %_gsVpcWinTitle%
+		VPC_Notify("Green")
+	}
 }
 
 VPC_SwitchWinIfExist()

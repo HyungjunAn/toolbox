@@ -254,6 +254,7 @@ $#n::
 		FormatTime, cur_time ,, yyMMddHHmm
 		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
 	}
+	MsgBox, %cur_path%
 	return
 
 $!^n:: 
@@ -684,6 +685,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	Local check := 0
 
 	Title := findWindow(subName, isFullMatching)
+
 	if !Title {
 		Run, %cmd%
 		while (!Title && check < 1000) {
@@ -700,6 +702,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 			sleep, 200
 		}
 	}
+
 	VPC_FocusOut()
 	WinActivate, %Title%
 	return Title
