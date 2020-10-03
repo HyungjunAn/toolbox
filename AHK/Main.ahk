@@ -254,7 +254,6 @@ $#n::
 		FormatTime, cur_time ,, yyMMddHHmm
 		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
 	}
-	MsgBox, %cur_path%
 	return
 
 $!^n:: 
