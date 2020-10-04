@@ -828,7 +828,7 @@ activateSelectPid(index)
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Show, x%X% y%Y% w%W% h%H% NoActivate,
 
-	Sleep % 70
+	Sleep % 40
 	Gui, Destroy
 }
 
