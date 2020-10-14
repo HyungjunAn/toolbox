@@ -69,3 +69,17 @@ $ git push -f origin master
 [alias]
 	custom = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	ahj = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit 
+
+
+-----------------------------------------
+	git config // 계정 설정
+-----------------------------------------
+// global
+$ git config --global user.name "NAME"
+$ git config --global user.email NAME@NAME.com
+
+// 모듈별
+$ git config user.name "NAME"
+$ git config user.email NAME@NAME.com
+
+출처: https://goodtogreate.tistory.com/entry/Git-config-설정-계정설정 [GOOD to GREAT]
