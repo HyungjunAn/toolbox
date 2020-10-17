@@ -422,6 +422,7 @@ $!^p:: Send, !^p
 Capslock::Ctrl
 
 $F1::
+$!^b::
 !^+c::
 	if (GetKeyState("CapsLock", "T")) {
 		SetCapsLockState, off
@@ -585,6 +586,8 @@ ChangeResolution( cD, sW, sH, rR ) {
 	;return 
 
 !^+u::
+	ListHotKeys
+	return
     WinGet windows, List
 	tmpStr := ""
     Loop %windows% {
