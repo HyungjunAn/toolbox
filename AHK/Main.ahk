@@ -91,6 +91,9 @@ global garSelectPid_pid		:= []
 global garSelectPid_file	:= []
 
 global PID_AHK_BROWSINGMODE 	:= 0
+global PID_AHK_VIMMODE 			:= 0
+
+global VimMode := "VimMode.ahk"
 
 global isOffice := False
 
@@ -161,6 +164,7 @@ SetScrollLockState, off
 ;alarm()
 gbIsInitDone := True
 Gui, Destroy
+Run, %VimMode%, , , PID_AHK_VIMMODE
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
@@ -168,6 +172,7 @@ Gui, Destroy
 ; Reload Script
 $!+r:: 
 	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	Process, Close, %PID_AHK_VIMMODE%
 	gbIsInitDone = False
 	Reload
 	Return
@@ -177,6 +182,7 @@ $^Delete::
 	isGuiOn := True
 	myMotto(200, "White")
     programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+	Process, Close, %PID_AHK_VIMMODE%
 	ExitApp
 	return
 
@@ -187,11 +193,12 @@ $!+a::
 		Run, %typeandrun%
 		SetCapsLockState, off
 		myMotto(200)
+		Run, %VimMode%, , , PID_AHK_VIMMODE
 	} else {
 		closeProcess("TypeAndRun.exe")
 		myMotto(200, "Green")
 		isGuiOn := False
-    	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
+		Process, Close, %PID_AHK_VIMMODE%
 	}
 	Return
 
@@ -421,7 +428,6 @@ $!^p:: Send, !^p
 ;------------------------------------
 Capslock::Ctrl
 
-$F1::
 $!^b::
 !^+c::
 	if (GetKeyState("CapsLock", "T")) {
