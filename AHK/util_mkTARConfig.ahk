@@ -54,8 +54,6 @@ Loop
 	}
 }
 
-FileDelete, %gsTargetFile%
-
 Loop % buffer.Length()
 {
 	line := buffer[A_Index]

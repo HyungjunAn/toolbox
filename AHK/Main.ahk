@@ -69,7 +69,8 @@ global git_bash				:= "C:\Program Files\Git\git-bash.exe"
 global library				:= USERPROFILE . "\Google 드라이브\Library"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
-global typeandrun_cfgSrc	:= path_setting . "\TypeAndRun\configSrc.txt"
+global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
+global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc.txt"
 
 global url_CurTabNum	:= 0
 global url_MaxTabNum	:= 0
@@ -128,9 +129,14 @@ url_MaxTabNum := getUriArrayFromFile(gsUriListPath, garUriTitle, garUriAddress)
 ;-------------------------------------------
 ifExist, %typeandrun%, {
 	closeProcess("TypeAndRun.exe")
-	ifExist, %typeandrun_cfgSrc%, {
+	if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common)) {
 		FileDelete, %dir_typeandrun%\~Config.ini
+		FileDelete, %dir_typeandrun%\Config.ini
+
 		cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
+		RunWait, %cmd%
+
+		cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc_Common%" "%dir_typeandrun%\Config.ini"
 		RunWait, %cmd%
 	}
 	Run, %typeandrun%
