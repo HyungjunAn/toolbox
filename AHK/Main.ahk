@@ -457,9 +457,7 @@ Shift & SC138:: Send, {sc1f1}
 #.::Send {delete}
 
 $+ESC:: Send, ~
-$`::
-	Send, {ESC}
-	Return
+$`:: Send, {ESC}
 
 $^`:: Send, ^``
 
@@ -598,6 +596,8 @@ ChangeResolution( cD, sW, sH, rR ) {
 	;return 
 
 !^+u::
+	WinGet, PName, ProcessName, A
+	MsgBox, %PName%
 	ListHotKeys
 	return
     WinGet windows, List

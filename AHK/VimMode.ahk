@@ -1,28 +1,50 @@
 Global isLineCopy := False
+Global isBlock := False
 Global isVisual := False
+Global isLineVisual := False
+Global curLine := 0
 
 Suspend, on
 
 $F1::
 	Suspend, Toggle
 	if (A_IsSuspended) {
+		isBlock := True
 		Gui, VimMode:Destroy
 	} else {
+		isBlock := False
 		VimMode_SetVisualMode(False)
 	}
 	return
 
+$ESC::
+$`::
+	Suspend, Permit
+	WinGet, PName, ProcessName, A
+	if (!isBlock && PName != "gvim.exe") {
+		Suspend, Off
+		VimMode_SetVisualMode(False)
+	} else {
+		VimMode_Suspend()
+	}
+	Send, {ESC}
+	return
+
 x::Delete
-h::VimMode_SendIfVisual("+{Left}", "{Left}")
-j::VimMode_SendIfVisual("+{Down}", "{Down}")
-k::VimMode_SendIfVisual("+{Up}", "{Up}")
-l::VimMode_SendIfVisual("+{Right}", "{Right}")
-w::VimMode_SendIfVisual("+^{Right}", "^{Right}")
-b::VimMode_SendIfVisual("+^{Left}", "^{Left}")
-,::VimMode_SendIfVisual("+{Home}", "{Home}")
-.::VimMode_SendIfVisual("+{End}", "{End}")
+h::VimMode_SendVisual("{Left}")
+j::VimMode_SendVisual("{Down}")
+k::VimMode_SendVisual("{Up}")
+l::VimMode_SendVisual("{Right}")
+w::VimMode_SendVisual("^{Right}")
+b::VimMode_SendVisual("^{Left}")
+,::VimMode_SendVisual("{Home}")
+.::VimMode_SendVisual("{End}")
 
 v:: VimMode_SetVisualMode(!isVisual)
++v:: VimMode_SetVisualMode(!isVisual, !isLineVisual)
+
+u::Send ^z
+^r::Send ^y
 
 $y::
 	Send, ^c
@@ -64,19 +86,41 @@ $+a::
 	Send, {End}
 	VimMode_Suspend()
 	return
+$o::
+	Send, {End}{Enter}
+	VimMode_Suspend()
+	return
+$+o::
+	Send, {Home}{Enter}{Up}
+	VimMode_Suspend()
+	return
 
-VimMode_SendIfVisual(key_visual, key_noneVisual)
+VimMode_SendVisual(key)
 {
 	if (isVisual) {
-		Send, %key_visual%
+		if (isLineVisual && key == "{Up}") {
+			if (curLine == 0) {
+				Send, {End}
+			}
+			curLine--
+		} else if (isLineVisual && key == "{Down}") {
+			if (curLine == 0) {
+				Send, {Home}
+			}
+			curLine++
+		}
+
+		Send, +%key%
 	} else {
-		Send, %key_noneVisual%
+		Send, %key%
 	}
 }
 
-VimMode_SetVisualMode(mode)
+VimMode_SetVisualMode(visual, lineVisual := False)
 {
-	isVisual := mode
+	isVisual := visual
+	isLineVisual := lineVisual
+	curLine := 0
 
 	if (isVisual) {
 		VimMode_Notify("F39C12")
