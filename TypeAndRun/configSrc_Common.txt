@@ -32,5 +32,8 @@ git				%USERPROFILE%\pc_setting\devTips\cs_git.txt
 
 apache			"C:\Apache24\conf\httpd.conf"
 
-tarCfg_home		"%USERPROFILE%\pc_setting\TypeAndRun\configSrc.txt
-tarCfg_common	"%USERPROFILE%\pc_setting\TypeAndRun\configSrc_common.txt
+tarCfg_home		%USERPROFILE%\pc_setting\TypeAndRun\configSrc.txt
+tarCfg_common	%USERPROFILE%\pc_setting\TypeAndRun\configSrc_common.txt
+
+ahkMain			%USERPROFILE%\pc_setting\AHK\Main.ahk
+ahkVimMode		%USERPROFILE%\pc_setting\AHK\VimMode.ahk

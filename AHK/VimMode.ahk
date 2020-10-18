@@ -2,7 +2,10 @@ Global isLineCopy := False
 Global isBlock := False
 Global isVisual := False
 Global isLineVisual := False
+Global isCommand := False
+Global isCut := False
 Global curLine := 0
+Global VIM_CMD := ""
 
 Suspend, on
 
@@ -21,13 +24,39 @@ $ESC::
 $`::
 	Suspend, Permit
 	WinGet, PName, ProcessName, A
-	if (!isBlock && PName != "gvim.exe") {
+	if (isBlock
+			|| PName == "gvim.exe"
+			|| PName == "mintty.exe") {
+		VimMode_Suspend()
+		Send, {ESC}
+	} else if (!A_IsSuspended) {
+		Send, {ESC}
+	} else {
 		Suspend, Off
 		VimMode_SetVisualMode(False)
-	} else {
-		VimMode_Suspend()
 	}
-	Send, {ESC}
+	return
+
+$+`;:: isCommand := True
+
+Enter::
+	if (isCommand) {
+		if (VIM_CMD == "save") {
+			Send, ^s
+		}
+
+		isCommand := False
+	} else {
+		Send, {Enter}
+	}
+	return 
+
+d::
+	if (isCut) {
+		Send, {Home}+{End}^x{Delete}
+		isLineCopy := True
+	}
+	isCut := !isCut
 	return
 
 x::Delete
@@ -35,8 +64,30 @@ h::VimMode_SendVisual("{Left}")
 j::VimMode_SendVisual("{Down}")
 k::VimMode_SendVisual("{Up}")
 l::VimMode_SendVisual("{Right}")
-w::VimMode_SendVisual("^{Right}")
-b::VimMode_SendVisual("^{Left}")
+
++w::
+w::
+	if (isCommand) {
+		VIM_CMD := "save"
+	} else if (isCut) {
+		Send, +^{Right}^x
+		isCut := False
+		isLineCopy := False
+	} else {
+		VimMode_SendVisual("^{Right}")
+	}
+	return
+
+b::
+	if (isCut) {
+		Send, +^{Left}^x
+		isCut := False
+		isLineCopy := False
+	} else {
+		VimMode_SendVisual("^{Left}")
+	}
+	return
+
 ,::VimMode_SendVisual("{Home}")
 .::VimMode_SendVisual("{End}")
 
@@ -120,6 +171,7 @@ VimMode_SetVisualMode(visual, lineVisual := False)
 {
 	isVisual := visual
 	isLineVisual := lineVisual
+	isCommand := False
 	curLine := 0
 
 	if (isVisual) {
@@ -140,8 +192,10 @@ VimMode_Notify(backC)
 	Gui, VimMode:Destroy
 	Gui, VimMode:Color, %backC%
 	Gui, VimMode:-Caption +alwaysontop +ToolWindow
-	H := 15
+	H := 8
 	;Y := A_ScreenHeight - H
-	Y := 100
-	Gui, VimMode:Show, w600 y%Y% h%H% NoActivate, VimMode
+	;Y := 100
+	Y := 72
+	W := A_ScreenWidth
+	Gui, VimMode:Show, w%W% y%Y% h%H% NoActivate, VimMode
 }
