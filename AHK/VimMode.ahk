@@ -12,34 +12,56 @@ Suspend, on
 $F1::
 	Suspend, Toggle
 	if (A_IsSuspended) {
-		isBlock := True
 		Gui, VimMode:Destroy
 	} else {
-		isBlock := False
 		VimMode_SetVisualMode(False)
 	}
+	isBlock := A_IsSuspended
 	return
 
 $ESC::
 $`::
 	Suspend, Permit
-	WinGet, PName, ProcessName, A
-	if (isBlock
-			|| PName == "gvim.exe"
-			|| PName == "mintty.exe") {
-		VimMode_Suspend()
-		Send, {ESC}
-	} else if (!A_IsSuspended) {
-		Send, {ESC}
-	} else {
+
+	if (VimMode_SuspendIfNotSupportedApp()) {
+		Send, {Esc}
+		return
+	}
+
+	if (!isBlock && A_IsSuspended) {
 		Suspend, Off
 		VimMode_SetVisualMode(False)
+		isSendEsc := False
+	} else {
+		Send, {Esc}
 	}
 	return
+;	Suspend, Permit
+;	WinGet, PName, ProcessName, A
+;	if (isBlock
+;			|| PName == "gvim.exe"
+;			|| PName == "mintty.exe") {
+;		VimMode_Suspend()
+;		Send, {ESC}
+;	} else if (!A_IsSuspended) {
+;		Send, {ESC}
+;	} else {
+;		Suspend, Off
+;		VimMode_SetVisualMode(False)
+;	}
+;	return
 
-$+`;:: isCommand := True
+$+`;::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
+	isCommand := True
+	return
 
 Enter::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	if (isCommand) {
 		if (VIM_CMD == "save") {
 			Send, ^s
@@ -52,6 +74,9 @@ Enter::
 	return 
 
 d::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	if (isCut) {
 		Send, {Home}+{End}^x{Delete}
 		isLineCopy := True
@@ -65,8 +90,12 @@ j::VimMode_SendVisual("{Down}")
 k::VimMode_SendVisual("{Up}")
 l::VimMode_SendVisual("{Right}")
 
+
 +w::
 w::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	if (isCommand) {
 		VIM_CMD := "save"
 	} else if (isCut) {
@@ -79,6 +108,9 @@ w::
 	return
 
 b::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	if (isCut) {
 		Send, +^{Left}^x
 		isCut := False
@@ -94,22 +126,42 @@ b::
 v:: VimMode_SetVisualMode(!isVisual)
 +v:: VimMode_SetVisualMode(!isVisual, !isLineVisual)
 
-u::Send ^z
-^r::Send ^y
+u::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
+	Send ^z
+	return
+
+^r::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
+	Send ^y
+	return
 
 $y::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	Send, ^c
 	isLineCopy := False
 	VimMode_SetVisualMode(False)
 	return
 
 $+y::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	Send, {Home}+{End}^c
 	isLineCopy := True
 	VimMode_SetVisualMode(False)
 	return
 
 $p::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	if (isLineCopy) {
 		Send, {End}{Enter}^v
 	} else {
@@ -118,6 +170,9 @@ $p::
 	return
 
 $+p::
+	if (VimMode_SuspendIfNotSupportedApp) {
+		return
+	}
 	if (isLineCopy) {
 		Send, {Home}{Enter}{Up}^v
 	} else {
@@ -146,8 +201,15 @@ $+o::
 	VimMode_Suspend()
 	return
 
+n::
+f::VimMode_Suspend()
+
 VimMode_SendVisual(key)
 {
+	if (VimMode_SuspendIfNotSupportedApp()) {
+		return
+	}
+
 	if (isVisual) {
 		if (isLineVisual && key == "{Up}") {
 			if (curLine == 0) {
@@ -185,6 +247,24 @@ VimMode_Suspend()
 {
 	Suspend, On
 	Gui, VimMode:Destroy
+}
+
+VimMode_SuspendIfNotSupportedApp() {
+	if (!VimMode_IsSupportedApp()) {
+		VimMode_Suspend()
+		return True
+	}
+	return False
+}
+
+VimMode_IsSupportedApp() {
+	WinGet, PName, ProcessName, A
+
+	if (PName == "Code.exe"
+			|| PName == "notepad++.exe") {
+		return True
+	}
+	return False
 }
 
 VimMode_Notify(backC)
