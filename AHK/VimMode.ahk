@@ -1,20 +1,36 @@
 Global isLineCopy := False
 Global isBlock := False
-Global isVisual := False
-Global isLineVisual := False
-Global isCommand := False
 Global isCut := False
 Global curLine := 0
 Global VIM_CMD := ""
 
-Suspend, on
+Global M_EDIT := 0
+Global M_VISUAL := 1
+Global M_LINE := 2
+Global M_NORMAL := 3
+
+Global curMode := M_NORMAL
+Global oldValue := False
+Global newValue := False
+
+while (1) {
+	sleep, 100
+
+	newValue := VimMode_IsSupportedApp()
+	if (oldValue == False && newValue == True && !isBlock) {
+		VimMode_SetMode(curMode)
+	} else if (oldValue == True && newValue == False) {
+		VimMode_Suspend()
+	}
+	oldValue := newValue
+}
 
 $F1::
 	Suspend, Toggle
 	if (A_IsSuspended) {
 		Gui, VimMode:Destroy
 	} else {
-		VimMode_SetVisualMode(False)
+		VimMode_SetMode(M_NORMAL)
 	}
 	isBlock := A_IsSuspended
 	return
@@ -23,60 +39,31 @@ $ESC::
 $`::
 	Suspend, Permit
 
-	if (VimMode_SuspendIfNotSupportedApp()) {
+	if (!VimMode_IsSupportedApp()) {
 		Send, {Esc}
-		return
-	}
-
-	if (!isBlock && A_IsSuspended) {
+	} else if (!isBlock && A_IsSuspended) {
 		Suspend, Off
-		VimMode_SetVisualMode(False)
-		isSendEsc := False
+		VimMode_SetMode(M_NORMAL)
 	} else {
+		VimMode_SetMode(M_NORMAL)
 		Send, {Esc}
 	}
 	return
-;	Suspend, Permit
-;	WinGet, PName, ProcessName, A
-;	if (isBlock
-;			|| PName == "gvim.exe"
-;			|| PName == "mintty.exe") {
-;		VimMode_Suspend()
-;		Send, {ESC}
-;	} else if (!A_IsSuspended) {
-;		Send, {ESC}
-;	} else {
-;		Suspend, Off
-;		VimMode_SetVisualMode(False)
-;	}
-;	return
 
-$+`;::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
-	isCommand := True
-	return
+$+`;:: VimMode_SetMode(M_COMMAND)
 
 Enter::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
-	if (isCommand) {
+	if (curMode == M_COMMAND) {
 		if (VIM_CMD == "save") {
 			Send, ^s
 		}
-
-		isCommand := False
+		VimMode_SetMode(M_NORMAL)
 	} else {
 		Send, {Enter}
 	}
 	return 
 
 d::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	if (isCut) {
 		Send, {Home}+{End}^x{Delete}
 		isLineCopy := True
@@ -85,83 +72,62 @@ d::
 	return
 
 x::Delete
-h::VimMode_SendVisual("{Left}")
-j::VimMode_SendVisual("{Down}")
-k::VimMode_SendVisual("{Up}")
-l::VimMode_SendVisual("{Right}")
+h::VimMode_Send("{Left}")
+j::VimMode_Send("{Down}")
+k::VimMode_Send("{Up}")
+l::VimMode_Send("{Right}")
 
 
 +w::
 w::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
-	if (isCommand) {
+	if (curMode == M_COMMAND) {
 		VIM_CMD := "save"
 	} else if (isCut) {
 		Send, +^{Right}^x
 		isCut := False
 		isLineCopy := False
 	} else {
-		VimMode_SendVisual("^{Right}")
+		VimMode_Send("^{Right}")
 	}
 	return
 
 b::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	if (isCut) {
 		Send, +^{Left}^x
 		isCut := False
 		isLineCopy := False
 	} else {
-		VimMode_SendVisual("^{Left}")
+		VimMode_Send("^{Left}")
 	}
 	return
 
-,::VimMode_SendVisual("{Home}")
-.::VimMode_SendVisual("{End}")
+,::VimMode_Send("{Home}")
+.::VimMode_Send("{End}")
 
-v:: VimMode_SetVisualMode(!isVisual)
-+v:: VimMode_SetVisualMode(!isVisual, !isLineVisual)
+v:: VimMode_SetMode(M_VISUAL)
++v:: VimMode_SetMode(M_LINE)
 
 u::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	Send ^z
 	return
 
 ^r::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	Send ^y
 	return
 
 $y::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	Send, ^c
 	isLineCopy := False
-	VimMode_SetVisualMode(False)
+	VimMode_SetMode(M_NORMAL)
 	return
 
 $+y::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	Send, {Home}+{End}^c
 	isLineCopy := True
-	VimMode_SetVisualMode(False)
+	VimMode_SetMode(M_NORMAL)
 	return
 
 $p::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	if (isLineCopy) {
 		Send, {End}{Enter}^v
 	} else {
@@ -170,9 +136,6 @@ $p::
 	return
 
 $+p::
-	if (VimMode_SuspendIfNotSupportedApp) {
-		return
-	}
 	if (isLineCopy) {
 		Send, {Home}{Enter}{Up}^v
 	} else {
@@ -180,81 +143,70 @@ $+p::
 	}
 	return
 
-; Suspend
+; Edit Mode
 $i::
-	VimMode_Suspend()
+	VimMode_SetMode(M_EDIT)
 	return
+
 $+i::
 	Send, {Home}
-	VimMode_Suspend()
+	VimMode_SetMode(M_EDIT)
 	return
+
 $+a::
 	Send, {End}
-	VimMode_Suspend()
+	VimMode_SetMode(M_EDIT)
 	return
+
 $o::
 	Send, {End}{Enter}
-	VimMode_Suspend()
+	VimMode_SetMode(M_EDIT)
 	return
+
 $+o::
 	Send, {Home}{Enter}{Up}
-	VimMode_Suspend()
+	VimMode_SetMode(M_EDIT)
 	return
 
-n::
-f::VimMode_Suspend()
-
-VimMode_SendVisual(key)
-{
-	if (VimMode_SuspendIfNotSupportedApp()) {
-		return
-	}
-
-	if (isVisual) {
-		if (isLineVisual && key == "{Up}") {
+VimMode_Send(key) {
+	if (curMode == M_VISUAL) {
+		Send, +%key%
+	} else if (curMode == M_LINE) {
+		if (key == "{Up}") {
 			if (curLine == 0) {
 				Send, {End}
 			}
 			curLine--
-		} else if (isLineVisual && key == "{Down}") {
+		} else if (key == "{Down}") {
 			if (curLine == 0) {
 				Send, {Home}
 			}
 			curLine++
 		}
-
 		Send, +%key%
 	} else {
 		Send, %key%
 	}
 }
 
-VimMode_SetVisualMode(visual, lineVisual := False)
-{
-	isVisual := visual
-	isLineVisual := lineVisual
-	isCommand := False
+VimMode_SetMode(mode) {
+	curMode := mode
 	curLine := 0
 
-	if (isVisual) {
+	if (curMode == M_EDIT) {
+		VimMode_Suspend()
+	} else if (curMode == M_VISUAL || curMode == M_LINE) {
+		Suspend, off
 		VimMode_Notify("F39C12")
 	} else {
+		Suspend, off
 		VimMode_Notify("Red")
 	}
 }
 
-VimMode_Suspend()
-{
+VimMode_Suspend() {
 	Suspend, On
 	Gui, VimMode:Destroy
-}
-
-VimMode_SuspendIfNotSupportedApp() {
-	if (!VimMode_IsSupportedApp()) {
-		VimMode_Suspend()
-		return True
-	}
-	return False
 }
 
 VimMode_IsSupportedApp() {
@@ -269,7 +221,7 @@ VimMode_IsSupportedApp() {
 
 VimMode_Notify(backC)
 {
-	Gui, VimMode:Destroy
+	;Gui, VimMode:Destroy
 	Gui, VimMode:Color, %backC%
 	Gui, VimMode:-Caption +alwaysontop +ToolWindow
 	H := 8
