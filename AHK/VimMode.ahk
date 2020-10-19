@@ -15,14 +15,16 @@ Global newValue := False
 
 while (1) {
 	sleep, 100
-
 	newValue := VimMode_IsSupportedApp()
-	if (oldValue == False && newValue == True && !isBlock) {
-		VimMode_SetMode(curMode)
-	} else if (oldValue == True && newValue == False) {
-		VimMode_Suspend()
+
+	if (oldValue != newValue) {
+		if (newValue == True && !isBlock) {
+			VimMode_SetMode(curMode)
+		} else if (newValue == False) {
+			VimMode_Suspend()
+		}
+		oldValue := newValue
 	}
-	oldValue := newValue
 }
 
 $F1::
@@ -64,11 +66,18 @@ Enter::
 	return 
 
 d::
-	if (isCut) {
+	if (curMode = M_LINE) {
+		Send, ^x{Delete}
+		isLineCopy := True
+		VimMode_SetMode(M_NORMAL)
+		isCut := False
+	} else if (isCut) {
 		Send, {Home}+{End}^x{Delete}
 		isLineCopy := True
+		isCut := False
+	} else {
+		isCut := True
 	}
-	isCut := !isCut
 	return
 
 x::Delete
@@ -117,7 +126,11 @@ u::
 
 $y::
 	Send, ^c
-	isLineCopy := False
+	if (curMode == M_LINE) {
+		isLineCopy := True
+	} else {
+		isLineCopy := False
+	}
 	VimMode_SetMode(M_NORMAL)
 	return
 
@@ -168,22 +181,44 @@ $+o::
 	VimMode_SetMode(M_EDIT)
 	return
 
+/::Send, ^f
++/::Send, ^+f
+
+; Ignore Key
+t::
+f::
+q::
+e::
+c::
+z:: Send, {}
+
 VimMode_Send(key) {
 	if (curMode == M_VISUAL) {
 		Send, +%key%
-	} else if (curMode == M_LINE) {
-		if (key == "{Up}") {
-			if (curLine == 0) {
+	} else if (curMode == M_LINE && (key == "{Up}" || key == "{Down}")) {
+		if (curLine == 0) {
+			if (key == "{Up}") {
 				Send, {End}
-			}
-			curLine--
-		} else if (key == "{Down}") {
-			if (curLine == 0) {
+			} else {
 				Send, {Home}
 			}
+		}
+
+		if (key == "{Up}") {
+			curLine--
+		} else {
 			curLine++
 		}
+
 		Send, +%key%
+
+		if (curLine < 0) {
+			Send, +{Home}
+		} else if (curLine > 0) {
+			Send, +{End}
+		} else {
+			Send, {Home}+{End}
+		}
 	} else {
 		Send, %key%
 	}
@@ -195,9 +230,13 @@ VimMode_SetMode(mode) {
 
 	if (curMode == M_EDIT) {
 		VimMode_Suspend()
-	} else if (curMode == M_VISUAL || curMode == M_LINE) {
+	} else if (curMode == M_VISUAL) {
 		Suspend, off
 		VimMode_Notify("F39C12")
+	} else if (curMode == M_LINE) {
+		Suspend, off
+		VimMode_Notify("F39C12")
+		Send, {Home}+{End}
 	} else {
 		Suspend, off
 		VimMode_Notify("Red")
