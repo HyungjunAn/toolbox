@@ -8,6 +8,7 @@ Global M_EDIT := 0
 Global M_VISUAL := 1
 Global M_LINE := 2
 Global M_NORMAL := 3
+Global M_COMMAND := 4
 
 Global curMode := M_NORMAL
 Global oldValue := False
@@ -230,6 +231,9 @@ VimMode_SetMode(mode) {
 
 	if (curMode == M_EDIT) {
 		VimMode_Suspend()
+	} else if (curMode == M_COMMAND) {
+		Suspend, off
+		VimMode_Notify("Green")
 	} else if (curMode == M_VISUAL) {
 		Suspend, off
 		VimMode_Notify("F39C12")
