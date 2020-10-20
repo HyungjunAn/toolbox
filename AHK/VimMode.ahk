@@ -202,6 +202,7 @@ $+o::
 +/::Send, ^+f
 
 ; Ignore Key
+s::
 t::
 f::
 q::
@@ -278,8 +279,7 @@ VimMode_Suspend() {
 	Gui, VimMode:Destroy
 }
 
-VimMode_Notify(backC)
-{
+VimMode_Notify(backC) {
 	;Gui, VimMode:Destroy
 	Gui, VimMode:Color, %backC%
 	Gui, VimMode:-Caption +alwaysontop +ToolWindow
@@ -289,11 +289,9 @@ VimMode_Notify(backC)
 	Y := 72
 	W := A_ScreenWidth
 	Gui, VimMode:Show, w%W% y%Y% h%H% NoActivate, VimMode
-
 }
 
-VimMode_MainLoop(hWinEventHook, vEvent, hWnd)
-{
+VimMode_MainLoop(hWinEventHook, vEvent, hWnd) {
 	WinGet, curPName, ProcessName, A
 
 	if (isBlock) {

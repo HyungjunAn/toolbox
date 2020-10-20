@@ -1,4 +1,5 @@
 global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
+global _gsVpcMutex := False
 
 VPC_IsExistVpc() {
 	if (findWindow(_gsVpcWinTitle, False)) {
@@ -7,15 +8,17 @@ VPC_IsExistVpc() {
 	return False
 }
 
-VPC_ActivateVpc()
-{
-	Gui, Destroy
+VPC_ActivateVpc() {
+	while (_gsVpcMutex) {
+	}
+	_gsVpcMutex := True
+	Gui, VPC:Destroy
 	WinActivate, %_gsVpcWinTitle%
 	VPC_Notify("Red")
+	_gsVpcMutex := False
 }
 
-VPC_ActivateVpcIfExist()
-{
+VPC_ActivateVpcIfExist() {
 	if (VPC_IsExistVPC()) {
 		VPC_ActivateVpc()
 		return True
@@ -23,8 +26,7 @@ VPC_ActivateVpcIfExist()
 	return False
 }
 
-VPC_IsCurrWinVpc()
-{
+VPC_IsCurrWinVpc() {
 	WinGetTitle, Title, A
 	IfInString, Title, %_gsVpcWinTitle%
 	{
@@ -33,26 +35,26 @@ VPC_IsCurrWinVpc()
 	return False
 }
 
-VPC_Notify(backC)
-{
-	Gui, Destroy
-	Gui, Color, %backC%
-	Gui, -Caption +alwaysontop +ToolWindow
+VPC_Notify(backC) {
+	Gui, VPC:Color, %backC%
+	Gui, VPC:-Caption +alwaysontop +ToolWindow
 	H := 40
 	Y := A_ScreenHeight - H
-	Gui, Show, w400 y%Y% h%H% NoActivate, GUI_VPC_NOTIFIY
+	Gui, VPC:Show, w400 y%Y% h%H% NoActivate, GUI_VPC_NOTIFIY
 }
 
-VPC_FocusOut()
-{
+VPC_FocusOut() {
+	while (_gsVpcMutex) {
+	}
+	_gsVpcMutex := True
 	if (VPC_IsCurrWinVpc()) {
 		WinMinimize, %_gsVpcWinTitle%
 		VPC_Notify("Green")
 	}
+	_gsVpcMutex := False
 }
 
-VPC_SwitchWinIfExist()
-{
+VPC_SwitchWinIfExist() {
 	if (VPC_IsExistVpc()) {
 		if (VPC_IsCurrWinVpc()) {
 			VPC_FocusOut()
@@ -61,38 +63,7 @@ VPC_SwitchWinIfExist()
 		}
 		return True
 	} else {
-		Gui, Destroy
+		Gui, VPC:Destroy
 		return False
 	}
-}
-
-VPC_ChangeMode2VPC() {
-	ret := False
-	if (VPC_IsExistVpc()) {
-		Suspend, On
-		WinGetTitle, Title, A
-		IfNotInString, Title, %_gsVpcWinTitle%, {
-			IfNotInString, Title, TypeAndRun, {
-				if (Title != recentlyWinTitle1) {
-					recentlyWinTitle2 := recentlyWinTitle1
-					recentlyWinTitle1 := Title
-				}
-			}
-		}
-		WinActivate, %_gsVpcWinTitle%
-		ret := True
-	}
-	return ret
-}
-
-VPC_Send(vpcCmd, noneVpcCmd) {
-	if VPC_IsCurrWinVpc()
-	{
-		Send, %vpcCmd%
-	}
-	else
-	{
-		Send, %noneVpcCmd%
-	}
-	return 
 }
