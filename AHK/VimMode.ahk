@@ -11,28 +11,9 @@ Global M_NORMAL := 3
 Global M_COMMAND := 4
 
 Global isSupport := False
-
 Global curMode := M_NORMAL
-Global oldValue := False
-Global newValue := False
 
-VimMode_Suspend()
-
-while (1) {
-	sleep, 100
-	newValue := VimMode_IsSupportedApp()
-
-	if (oldValue != newValue) {
-		if (newValue == True && !isBlock) {
-			VimMode_SetMode(curMode)
-			isSupport := True
-		} else {
-			VimMode_Suspend()
-			isSupport := False
-		}
-		oldValue := newValue
-	}
-}
+VimMode_MainLoop("", "", "")
 
 $F1::
 	Suspend, Permit
@@ -42,8 +23,8 @@ $F1::
 		VimMode_Notify("White")
 		sleep, 300
 		VimMode_Suspend()
-	} else {
-		oldValue := False
+	} else if (isSupport) {
+		VimMode_SetMode(curMode)
 	}
 	return
 
@@ -297,16 +278,6 @@ VimMode_Suspend() {
 	Gui, VimMode:Destroy
 }
 
-VimMode_IsSupportedApp() {
-	WinGet, curPName, ProcessName, A
-
-	if (curPName == "Code.exe"
-			|| curPName == "notepad++.exe") {
-		return True
-	}
-	return False
-}
-
 VimMode_Notify(backC)
 {
 	;Gui, VimMode:Destroy
@@ -318,4 +289,26 @@ VimMode_Notify(backC)
 	Y := 72
 	W := A_ScreenWidth
 	Gui, VimMode:Show, w%W% y%Y% h%H% NoActivate, VimMode
+
+}
+
+VimMode_MainLoop(hWinEventHook, vEvent, hWnd)
+{
+	WinGet, curPName, ProcessName, A
+
+	if (isBlock) {
+		VimMode_SetMode(curMode)
+		isSupport := True
+	} else if (curMode == M_COMMAND
+				|| curPName == "Code.exe"
+				|| curPName == "notepad++.exe") {
+		VimMode_SetMode(curMode)
+		isSupport := True
+	} else {
+		VimMode_Suspend()
+		isSupport := False
+	}
+
+	;EVENT_SYSTEM_FOREGROUND := 0x3
+	static _ := DllCall("user32\SetWinEventHook", UInt,0x3, UInt,0x3, Ptr,0, Ptr, RegisterCallback("VimMode_MainLoop"), UInt,0, UInt,0, UInt,0, Ptr)
 }
