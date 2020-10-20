@@ -81,3 +81,6 @@ $ git config --global user.email NAME@NAME.com
 // 모듈별
 $ git config user.name "NAME"
 $ git config user.email NAME@NAME.com
+
+// editor 설정
+git config --global core.editor "gvim"
