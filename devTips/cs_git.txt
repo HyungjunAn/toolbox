@@ -81,5 +81,3 @@ $ git config --global user.email NAME@NAME.com
 // 모듈별
 $ git config user.name "NAME"
 $ git config user.email NAME@NAME.com
-
-출처: https://goodtogreate.tistory.com/entry/Git-config-설정-계정설정 [GOOD to GREAT]
