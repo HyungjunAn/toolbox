@@ -2,7 +2,7 @@ Global isLineCopy := False
 Global isBlock := False
 Global isCut := False
 Global curLine := 0
-Global VIM_CMD := ""
+Global curPName := ""
 
 Global M_EDIT := 0
 Global M_VISUAL := 1
@@ -10,9 +10,13 @@ Global M_LINE := 2
 Global M_NORMAL := 3
 Global M_COMMAND := 4
 
+Global isSupport := False
+
 Global curMode := M_NORMAL
 Global oldValue := False
 Global newValue := False
+
+VimMode_Suspend()
 
 while (1) {
 	sleep, 100
@@ -21,30 +25,37 @@ while (1) {
 	if (oldValue != newValue) {
 		if (newValue == True && !isBlock) {
 			VimMode_SetMode(curMode)
-		} else if (newValue == False) {
+			isSupport := True
+		} else {
 			VimMode_Suspend()
+			isSupport := False
 		}
 		oldValue := newValue
 	}
 }
 
 $F1::
-	Suspend, Toggle
-	if (A_IsSuspended) {
-		Gui, VimMode:Destroy
+	Suspend, Permit
+	isBlock := !isBlock
+
+	if (isBlock) {
+		VimMode_Notify("White")
+		sleep, 300
+		VimMode_Suspend()
 	} else {
-		VimMode_SetMode(M_NORMAL)
+		oldValue := False
 	}
-	isBlock := A_IsSuspended
 	return
 
 $ESC::
 $`::
 	Suspend, Permit
 
-	if (!VimMode_IsSupportedApp()) {
+	if (!isSupport) {
 		Send, {Esc}
-	} else if (!isBlock && A_IsSuspended) {
+	} else if (curMode == M_COMMAND) {
+		Send, {Esc}
+	} else if (A_IsSuspended) {
 		Suspend, Off
 		VimMode_SetMode(M_NORMAL)
 	} else {
@@ -53,46 +64,70 @@ $`::
 	}
 	return
 
-$+`;:: VimMode_SetMode(M_COMMAND)
+$+`;::
+	VimMode_SetMode(M_COMMAND)
+	InputBox, UserInput, :, , , 40, 100
+	;Input, UserInput, L5, {Enter}
+	if (!ErrorLevel) {
+		isGoToLine := false
+		if UserInput is integer
+			isGoToLine := true
 
-Enter::
-	if (curMode == M_COMMAND) {
-		if (VIM_CMD == "save") {
+		if (UserInput == "w" || UserInput == "W") {
 			Send, ^s
+		} else if (isGoToLine) {
+			if (curPName == "Code.exe") {
+				Send, ^g
+				sleep, 50
+				Send, %UserInput%
+				sleep, 50
+				Send, {Enter}
+			}
+		} else {
+			MsgBox, bad command!!
 		}
-		VimMode_SetMode(M_NORMAL)
-	} else {
-		Send, {Enter}
 	}
-	return 
+	VimMode_SetMode(M_NORMAL)
+	return
 
-d::
-	if (curMode = M_LINE) {
+$d::
+	if (curMode == M_LINE) {
 		Send, ^x{Delete}
 		isLineCopy := True
-		VimMode_SetMode(M_NORMAL)
 		isCut := False
+		VimMode_SetMode(M_NORMAL)
 	} else if (isCut) {
-		Send, {Home}+{End}^x{Delete}
+		Send, {End}+{Home}+{Home}^x
+		
+		if (curMode != M_VISUAL) {
+			Send, {Delete}
+		}
 		isLineCopy := True
 		isCut := False
+		VimMode_SetMode(M_NORMAL)
 	} else {
 		isCut := True
 	}
 	return
 
-x::Delete
-h::VimMode_Send("{Left}")
-j::VimMode_Send("{Down}")
-k::VimMode_Send("{Up}")
-l::VimMode_Send("{Right}")
+$x::Delete
+$h::VimMode_Send("{Left}")
+$j::VimMode_Send("{Down}")
+$k::VimMode_Send("{Up}")
+$l::VimMode_Send("{Right}")
 
+$+j::Send, {End}{Delete}
 
-+w::
-w::
-	if (curMode == M_COMMAND) {
-		VIM_CMD := "save"
-	} else if (isCut) {
+$^+p::
+	Send, ^+p
+	if (curPName == "Code.exe") {
+		VimMode_SetMode(M_EDIT)
+	}
+	return
+
+$+w::
+$w::
+	if (isCut) {
 		Send, +^{Right}^x
 		isCut := False
 		isLineCopy := False
@@ -101,7 +136,7 @@ w::
 	}
 	return
 
-b::
+$b::
 	if (isCut) {
 		Send, +^{Left}^x
 		isCut := False
@@ -114,14 +149,14 @@ b::
 ,::VimMode_Send("{Home}")
 .::VimMode_Send("{End}")
 
-v:: VimMode_SetMode(M_VISUAL)
-+v:: VimMode_SetMode(M_LINE)
+$v:: VimMode_SetMode(M_VISUAL)
+$+v:: VimMode_SetMode(M_LINE)
 
-u::
+$u::
 	Send ^z
 	return
 
-^r::
+$^r::
 	Send ^y
 	return
 
@@ -143,7 +178,7 @@ $+y::
 
 $p::
 	if (isLineCopy) {
-		Send, {End}{Enter}^v
+		Send, {End}{Enter}{End}+{Home}^v
 	} else {
 		Send, ^v
 	}
@@ -151,7 +186,7 @@ $p::
 
 $+p::
 	if (isLineCopy) {
-		Send, {Home}{Enter}{Up}^v
+		Send, {End}{Home}{Home}{Enter}{Up}^v
 	} else {
 		Send, ^v
 	}
@@ -196,16 +231,26 @@ z:: Send, {}
 VimMode_Send(key) {
 	if (curMode == M_VISUAL) {
 		Send, +%key%
-	} else if (curMode == M_LINE && (key == "{Up}" || key == "{Down}")) {
+	} else if (curMode == M_LINE) {
+		isUp := False
+		if (key == "{Up}") {
+			isUp := True
+		} else if (key == "{Down}") {
+			isUp := False
+		} else {
+			MsgBox, Error
+			return
+		}
+
 		if (curLine == 0) {
-			if (key == "{Up}") {
+			if (isUp) {
 				Send, {End}
 			} else {
-				Send, {Home}
+				Send, {End}{Home}{Home}
 			}
 		}
 
-		if (key == "{Up}") {
+		if (isUp) {
 			curLine--
 		} else {
 			curLine++
@@ -214,11 +259,11 @@ VimMode_Send(key) {
 		Send, +%key%
 
 		if (curLine < 0) {
-			Send, +{Home}
+			Send, +{Home}+{Home}
 		} else if (curLine > 0) {
 			Send, +{End}
 		} else {
-			Send, {Home}+{End}
+			Send, {End}+{Home}+{Home}
 		}
 	} else {
 		Send, %key%
@@ -232,7 +277,7 @@ VimMode_SetMode(mode) {
 	if (curMode == M_EDIT) {
 		VimMode_Suspend()
 	} else if (curMode == M_COMMAND) {
-		Suspend, off
+		Suspend, on
 		VimMode_Notify("Green")
 	} else if (curMode == M_VISUAL) {
 		Suspend, off
@@ -240,7 +285,7 @@ VimMode_SetMode(mode) {
 	} else if (curMode == M_LINE) {
 		Suspend, off
 		VimMode_Notify("F39C12")
-		Send, {Home}+{End}
+		Send, {End}+{Home}+{Home}
 	} else {
 		Suspend, off
 		VimMode_Notify("Red")
@@ -253,10 +298,10 @@ VimMode_Suspend() {
 }
 
 VimMode_IsSupportedApp() {
-	WinGet, PName, ProcessName, A
+	WinGet, curPName, ProcessName, A
 
-	if (PName == "Code.exe"
-			|| PName == "notepad++.exe") {
+	if (curPName == "Code.exe"
+			|| curPName == "notepad++.exe") {
 		return True
 	}
 	return False
