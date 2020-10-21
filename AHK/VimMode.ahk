@@ -292,7 +292,9 @@ VimMode_Notify(backC) {
 }
 
 VimMode_MainLoop(hWinEventHook, vEvent, hWnd) {
+	DetectHiddenWindows, On
 	WinGet, curPName, ProcessName, A
+	;ToolTip, %curPName%
 
 	if (isBlock) {
 		VimMode_SetMode(curMode)
