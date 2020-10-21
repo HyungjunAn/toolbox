@@ -99,6 +99,21 @@ $l::VimMode_Send("{Right}")
 
 $+j::Send, {End}{Delete}
 
+$!+s::
+	Send, !+s
+	if (curPName == "Code.exe") {
+		VimMode_SetMode(M_EDIT)
+	}
+	return
+
+$!+k::
+	Send, !+k
+	if (curPName == "Code.exe") {
+		VimMode_SetMode(M_EDIT)
+	}
+	return
+
+
 $^+p::
 	Send, ^+p
 	if (curPName == "Code.exe") {
