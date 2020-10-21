@@ -214,13 +214,13 @@ $+/::
 	return
 
 ; Ignore Key
-s::
-t::
-f::
-q::
-e::
-c::
-z:: Send, {}
+$s::
+$t::
+$f::
+$q::
+$e::
+$c::
+$z:: Send, {}
 
 VimMode_Send(key) {
 	if (curMode == M_VISUAL) {

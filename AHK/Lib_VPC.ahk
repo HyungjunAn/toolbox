@@ -1,5 +1,6 @@
+#include Lib_Common.ahk
+
 global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
-global _gsVpcMutex := False
 
 VPC_IsExistVpc() {
 	if (findWindow(_gsVpcWinTitle, False)) {
@@ -8,28 +9,24 @@ VPC_IsExistVpc() {
 	return False
 }
 
-VPC_ActivateVpc() {
-	while (_gsVpcMutex) {
-	}
-	_gsVpcMutex := True
-	Gui, VPC:Destroy
-	WinActivate, %_gsVpcWinTitle%
-	VPC_Notify("Red")
-	_gsVpcMutex := False
-}
-
-VPC_ActivateVpcIfExist() {
-	if (VPC_IsExistVPC()) {
-		VPC_ActivateVpc()
+VPC_IsCurWinVpc() {
+	WinGetTitle, Title, A
+	IfInString, Title, %_gsVpcWinTitle%
+	{
 		return True
 	}
 	return False
 }
 
-VPC_IsCurrWinVpc() {
-	WinGetTitle, Title, A
-	IfInString, Title, %_gsVpcWinTitle%
-	{
+VPC_ActivateVpc() {
+	Gui, VPC:Destroy
+	WinActivate, %_gsVpcWinTitle%
+	VPC_Notify("Red")
+}
+
+VPC_ActivateVpcIfExist() {
+	if (VPC_IsExistVPC()) {
+		VPC_ActivateVpc()
 		return True
 	}
 	return False
@@ -44,19 +41,16 @@ VPC_Notify(backC) {
 }
 
 VPC_FocusOut() {
-	while (_gsVpcMutex) {
-	}
-	_gsVpcMutex := True
-	if (VPC_IsCurrWinVpc()) {
+	if (VPC_IsCurWinVpc()) {
+		MsgBox, , , , 0.001
 		WinMinimize, %_gsVpcWinTitle%
 		VPC_Notify("Green")
 	}
-	_gsVpcMutex := False
 }
 
 VPC_SwitchWinIfExist() {
 	if (VPC_IsExistVpc()) {
-		if (VPC_IsCurrWinVpc()) {
+		if (VPC_IsCurWinVpc()) {
 			VPC_FocusOut()
 		} else {
 			VPC_ActivateVpc()
