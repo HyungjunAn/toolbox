@@ -198,8 +198,20 @@ $+o::
 	VimMode_SetMode(M_EDIT)
 	return
 
-/::Send, ^f
-+/::Send, ^+f
+$^p::
+	Send, ^p
+	VimMode_SetMode(M_EDIT)
+	return
+
+$/::
+	Send, ^f
+	VimMode_SetMode(M_EDIT)
+	return
+	
+$+/::
+	Send, ^+f
+	VimMode_SetMode(M_EDIT)
+	return
 
 ; Ignore Key
 s::
