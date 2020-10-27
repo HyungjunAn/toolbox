@@ -1,5 +1,9 @@
 # Hyungjun's PC setting
 
+# TODO
+- make environment variable(auto)
+- rename project(ex. pc_settings -> toolBox)
+
 # My Program List
 Chrome
 google drive

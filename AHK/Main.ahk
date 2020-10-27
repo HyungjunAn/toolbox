@@ -66,8 +66,6 @@ global isVirtualDesktopLeft := True
 global isGuiOn			:= True
 global guiShowFlag		:= False
 
-global xnote_timer	:= path_setting . "\XNote_Timer\xntimer.exe"
-
 global git_bash				:= "C:\Program Files\Git\git-bash.exe"
 global library				:= USERPROFILE . "\Google 드라이브\Library"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
@@ -299,18 +297,6 @@ $!^m::
    ;     Send, !e{Tab}{Down}
    ; return
 
-; XNote Timer
-!^t::
-    Process, Exist, xntimer.exe
-    if !ErrorLevel {
-        Run, %xnote_timer%
-        WinWaitActive, XNote Timer, , 2
-        Send, {F11}
-    } else {
-		Process, Close, xntimer.exe
-	}
-    return
-
 ; Internet Explorer
 $!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 
@@ -324,9 +310,6 @@ $!^+i::
 		;
 	}
 	return
-
-;Edit Time
-!^+t::Run, chrome.exe --profile-directory="Profile 1" --app-id=mdkfiefeoimmobmhdimachkfcpkgahlc
 
 ;Visual Studio Code
 !^[::
