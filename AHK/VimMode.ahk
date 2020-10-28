@@ -20,10 +20,12 @@ $F1::
 	isBlock := !isBlock
 
 	if (isBlock) {
+		isSupport := False
 		VimMode_Notify("White")
 		sleep, 300
 		VimMode_Suspend()
-	} else if (isSupport) {
+	} else {
+		isSupport := True
 		VimMode_SetMode(curMode)
 	}
 	return
@@ -36,8 +38,7 @@ $`::
 		Send, {Esc}
 	} else if (curMode == M_COMMAND) {
 		Send, {Esc}
-	} else if (A_IsSuspended) {
-		Suspend, Off
+	} else if (curMode == M_EDIT) {
 		VimMode_SetMode(M_NORMAL)
 	} else {
 		VimMode_SetMode(M_NORMAL)
@@ -218,14 +219,19 @@ $^p::
 	VimMode_SetMode(M_EDIT)
 	return
 
+$^f::
 $/::
 	Send, ^f
 	VimMode_SetMode(M_EDIT)
 	return
 	
-$+/::
+$^+f::
 	Send, ^+f
 	VimMode_SetMode(M_EDIT)
+	return
+
+$+/::
+	Send, ^d^+f
 	return
 
 ; Ignore Key
@@ -324,11 +330,9 @@ VimMode_MainLoop(hWinEventHook, vEvent, hWnd) {
 	;ToolTip, %curPName%
 
 	if (isBlock) {
-		VimMode_SetMode(curMode)
-		isSupport := True
-	} else if (curMode == M_COMMAND
-				|| curPName == "Code.exe"
-				|| curPName == "notepad++.exe") {
+		VimMode_Suspend()
+		isSupport := False
+	} else if (curPName == "Code.exe" || curPName == "notepad++.exe") {
 		VimMode_SetMode(curMode)
 		isSupport := True
 	} else {
