@@ -13,18 +13,32 @@ if '%errorlevel%' NEQ '0' (
     echo !!!      Please Run as Administrator      !!!
     goto EXIT
 )
+
+echo Done!!
 pushd "%~dp0"
+
+echo ------------------------------------------------------
+echo 	환경 변수 설정
+echo ------------------------------------------------------
+echo Current Path: %cd%
+setx AHJ_TB "%cd%"
+setx AHJ_TB_AHK "%AHJ_TB%\AHK"
+setx AHJ_TB_TAR "%AHJ_TB%\TypeAndRun"
+setx AHJ_TB_LIB_CS "%AHJ_TB%\devTips"
+set "AHJ_TB_VIM=%AHJ_TB%\vim"
+
+del "%USERPROFILE%\Desktop\ahk"
+mklink "%USERPROFILE%\Desktop\ahk" "%AHJ_TB_AHK%\Main.ahk"
 echo.
 echo ------------------------------------------------------
 echo 	Gvim 테마, vimrc, vim 파일 이동
 echo ------------------------------------------------------
 set "VIMPATH=C:\Program Files\Vim\vim82"
-copy "colors"	"%VIMPATH%\colors"
-copy "syntax"	"%VIMPATH%\syntax\"
+copy "%AHJ_TB_VIM%\colors"	"%VIMPATH%\colors"
+copy "%AHJ_TB_VIM%\syntax"	"%VIMPATH%\syntax\"
+copy "%AHJ_TB_VIM%\ctags58.exe"	"%VIMPATH%\ctags.exe"
 
-copy ctags58.exe 				"%VIMPATH%\ctags.exe"
-
-echo source %cd%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
+echo source %AHJ_TB_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
 echo.
 echo ------------------------------------------------------
 echo 	Vundle 다운로드
@@ -32,6 +46,6 @@ echo ------------------------------------------------------
 git clone https://github.com/VundleVim/Vundle.vim.git %USERPROFILE%/vimfiles/
 echo.
 echo ------------------------------------------------------
-echo (종료를 원하시면 아무 키나 누르세요...)
 :EXIT
+echo (종료를 원하시면 아무 키나 누르세요...)
 pause > nul

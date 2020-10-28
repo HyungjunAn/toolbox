@@ -31,7 +31,7 @@ guitar_lecture			https://spmusic.tistory.com/category/%ED%86%B5%EA%B8%B0%ED%83%8
 netflex					https://www.netflix.com/browse
 
 //-----------------------------------------------------------------
-	%USERPROFILE%\pc_setting\AHK\util_runOrActivateGvim.ahk
+	%AHJ_TB_AHK%\util_runOrActivateGvim.ahk
 //-----------------------------------------------------------------
 tmp				"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
 sykim			"%USERPROFILE%\Google 드라이브\수영\김수영 어록.txt"

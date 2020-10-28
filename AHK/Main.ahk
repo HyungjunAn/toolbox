@@ -44,6 +44,7 @@
 ;!^,:: 	
 ;$!^+v::
 ;$!^+n:: 
+;!^+p::
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -71,7 +72,7 @@ global library				:= USERPROFILE . "\Google 드라이브\Library"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
-global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc.txt"
+global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
 
 global url_CurTabNum	:= 0
 global url_MaxTabNum	:= 0
@@ -113,7 +114,7 @@ If (A_UserName == "hyungjun.an") {
     isOffice := True
     google_homeID_num := 1
 	library				:= office_worklib
-	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc.txt"
+	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc_Office.txt"
 	gsUriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
 
 	path := office_worklib_setting . "\AHK\url_mail.txt"
@@ -223,7 +224,7 @@ $!^a::
 ; Folder
 ;------------------------------------
 !^z::	runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
-!^g::	Run, %A_ScriptDir%
+!^g::	Run, %AHJ_TB%
 !^+r::	Run, shell:RecycleBinFolder 
 $#d:: 	Run, %USERPROFILE%\Desktop
 
@@ -234,7 +235,6 @@ $!^9:: 	runOrActivateWin("_todo.txt", 	false, "gvim %USERPROFILE%\desktop\_todo.
 $!^u:: 	runOrActivateWin("_memo.txt", 	false, "gvim %USERPROFILE%\desktop\_memo.txt")
 $!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
-!^+p:: 	runOrActivateWin("configSrc.txt", false, "gvim """ . typeandrun_cfgSrc . """")
 $^.::
 	if (gbIsInitDone) {
 		Title := ""

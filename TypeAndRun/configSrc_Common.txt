@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------
-	%USERPROFILE%\pc_setting\AHK\util_timerOnOff.ahk
+	%AHJ_TB_AHK%\util_timerOnOff.ahk
 //-----------------------------------------------------------------
 timer			""
 
@@ -14,7 +14,7 @@ memo			%USERPROFILE%\Desktop\memo.txt
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 
-hk_vim			%USERPROFILE%\pc_setting\devTips\vim.png
+hk_vim			%AHJ_TB_LIB_CS%\vim.png
 
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
@@ -28,17 +28,16 @@ cctv					https://alfred.camera/webapp/
 translator				https://papago.naver.com/
 
 //-----------------------------------------------------------------
-	%USERPROFILE%\pc_setting\AHK\util_runOrActivateGvim.ahk
+	%AHJ_TB_AHK%\util_runOrActivateGvim.ahk
 //-----------------------------------------------------------------
 vimrc			%USERPROFILE%\_vimrc
-hk				%USERPROFILE%\pc_setting\devTips\hk_summary.txt
-linux			%USERPROFILE%\pc_setting\devTips\cs_linux.txt
-git				%USERPROFILE%\pc_setting\devTips\cs_git.txt
+hk				%AHJ_TB_LIB_CS%\hk_summary.txt
+linux			%AHJ_TB_LIB_CS%\cs_linux.txt
+git				%AHJ_TB_LIB_CS%\cs_git.txt
 
 apache			"C:\Apache24\conf\httpd.conf"
 
-tarCfg_home		%USERPROFILE%\pc_setting\TypeAndRun\configSrc.txt
-tarCfg_common	%USERPROFILE%\pc_setting\TypeAndRun\configSrc_common.txt
-
-ahkMain			%USERPROFILE%\pc_setting\AHK\Main.ahk
-ahkVimMode		%USERPROFILE%\pc_setting\AHK\VimMode.ahk
+tarCfg_home		%AHJ_TB_TAR%\configSrc_home.txt
+tarCfg_common	%AHJ_TB_TAR%\configSrc_common.txt
+ahkMain			%AHJ_TB_AHK%\Main.ahk
+ahkVimMode		%AHJ_TB_AHK%\VimMode.ahk

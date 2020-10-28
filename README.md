@@ -1,5 +1,8 @@
 # Hyungjun's PC setting
 
+# How to Use
+- Run init.bat as admin
+
 # TODO
 - make environment variable(auto)
 - rename project(ex. pc_settings -> toolBox)
