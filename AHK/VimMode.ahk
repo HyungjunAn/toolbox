@@ -219,19 +219,19 @@ $^p::
 	VimMode_SetMode(M_EDIT)
 	return
 
-$^f::
 $/::
 	Send, ^f
 	VimMode_SetMode(M_EDIT)
 	return
 	
+$^f::
 $^+f::
 	Send, ^+f
 	VimMode_SetMode(M_EDIT)
 	return
 
 $+/::
-	Send, ^d^+f
+	Send, ^d^+f^{Down}
 	return
 
 ; Ignore Key

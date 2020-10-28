@@ -4,8 +4,6 @@
 - Run init.bat
 
 # TODO
-- make environment variable(auto)
-- rename project(ex. pc_settings -> toolBox)
 
 # My Program List
 Chrome
