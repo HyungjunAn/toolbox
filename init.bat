@@ -1,21 +1,21 @@
 @echo off
 echo ------------------------------------------------------
-echo 	Title	: AD's Gvim Setting Files Moving
+echo 	Title	: AD's Setting init batch
 echo 	Author	: An, Hyungjun
 echo 	E-mal	: hyungjun0429@gmail.com
 echo ------------------------------------------------------
 echo.
-echo ------------------------------------------------------
-echo 	Check Admin
-echo ------------------------------------------------------
-fsutil dirty query %systemdrive% > nul
-if '%errorlevel%' NEQ '0' (		
-    echo !!!      Please Run as Administrator      !!!
-    goto EXIT
-)
-
-echo Done!!
-pushd "%~dp0"
+rem echo ------------------------------------------------------
+rem echo 	Check Admin
+rem echo ------------------------------------------------------
+rem fsutil dirty query %systemdrive% > nul
+rem if '%errorlevel%' NEQ '0' (		
+rem     echo !!!      Please Run as Administrator      !!!
+rem     goto EXIT
+rem )
+rem 
+rem echo Done!!
+rem pushd "%~dp0"
 
 echo ------------------------------------------------------
 echo 	환경 변수 설정

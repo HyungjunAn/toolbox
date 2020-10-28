@@ -1,7 +1,7 @@
 # Hyungjun's PC setting
 
 # How to Use
-- Run init.bat as admin
+- Run init.bat
 
 # TODO
 - make environment variable(auto)
