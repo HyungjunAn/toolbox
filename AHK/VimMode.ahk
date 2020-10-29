@@ -324,15 +324,19 @@ VimMode_Notify(backC) {
 	Gui, VimMode:Show, w%W% y%Y% h%H% NoActivate, VimMode
 }
 
+VimMode_IsSupportProcess() {
+	if (curPName == "Code.exe" || curPName == "notepad++.exe") {
+		return True
+	}
+	return False
+}
+
 VimMode_MainLoop(hWinEventHook, vEvent, hWnd) {
 	DetectHiddenWindows, On
 	WinGet, curPName, ProcessName, A
 	;ToolTip, %curPName%
 
-	if (isBlock) {
-		VimMode_Suspend()
-		isSupport := False
-	} else if (curPName == "Code.exe" || curPName == "notepad++.exe") {
+	if (!isBlock && VimMode_IsSupportProcess()) {
 		VimMode_SetMode(curMode)
 		isSupport := True
 	} else {
