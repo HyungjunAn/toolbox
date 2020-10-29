@@ -219,12 +219,12 @@ $^p::
 	VimMode_SetMode(M_EDIT)
 	return
 
+$^f::
 $/::
 	Send, ^f
 	VimMode_SetMode(M_EDIT)
 	return
 	
-$^f::
 $^+f::
 	Send, ^+f
 	VimMode_SetMode(M_EDIT)
