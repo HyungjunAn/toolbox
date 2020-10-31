@@ -224,7 +224,6 @@ $!^a::
 ;------------------------------------
 !^z::	runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
 !^g::	Run, %AHJ_TB%
-!^+r::	Run, shell:RecycleBinFolder 
 $#d:: 	Run, %USERPROFILE%\Desktop
 
 ;------------------------------------
@@ -232,7 +231,6 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 $!^9:: 	runOrActivateWin("_todo.txt", 	false, "gvim %USERPROFILE%\desktop\_todo.txt")
 $!^u:: 	runOrActivateWin("_memo.txt", 	false, "gvim %USERPROFILE%\desktop\_memo.txt")
-$!^v:: 	runOrActivateWin("vimrc_AD.vim",	false, "gvim """ . path_setting . "\vim\vimrc_AD.vim""")
 !^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
 $^.::
 	if (gbIsInitDone) {
@@ -286,15 +284,7 @@ $!^n::
 !^c:: runOrActivateWin("- chrome", false, "chrome")
 
 ; MobaXterm
-$!^m:: 
-	cmd = C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
-	runOrActivateWin("__", false, cmd)
-	return 
-   ; Run, C:\Program Files\PuTTY\putty.exe
-   ; WinWaitActive, PuTTY Configuration, , 2
-   ; if !ErrorLevel
-   ;     Send, !e{Tab}{Down}
-   ; return
+$!^m:: runOrActivateProc("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 
 ; Internet Explorer
 $!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
@@ -336,10 +326,7 @@ $!^s:: Run, ms-settings:bluetooth
 !^o:: 
     subName = Google Keep
     url = https://keep.google.com
-    Title := openOrActivateUrl(subName, false, url, true)
-    ;W := 398
-	;H := A_ScreenHeight - 40
-    ;WinMove, %Title%, , A_screenWidth - W, 0, W, H
+    Title := openOrActivateUrl(subName, false, url, false)
     return
 
 !^q:: 

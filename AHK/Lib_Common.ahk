@@ -36,6 +36,26 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	return Title
 }
 
+runOrActivateProc(exePath) {
+	VPC_FocusOut()
+	SplitPath, exePath, procName
+	WinGet windows, List
+	
+	Loop %windows% {
+		id := windows%A_Index%
+		WinGet, name, ProcessName, ahk_id %id%
+	
+		if (name == procName) {
+			WinGetTitle, title, ahk_id %id%
+			WinActivate, %title%
+			return
+		}
+	}
+
+	Run, %exePath%
+
+}
+
 findWindow(subName, isFullMatching=True) {
     WinGet windows, List
     Loop %windows% {
