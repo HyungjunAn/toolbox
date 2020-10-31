@@ -34,17 +34,6 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	return Title
 }
 
-runOrActivateGitBash(subName, option="") {
-	VPC_FocusOut()
-	Title := findWindow("MINGW64:", False)
-	
-	IfInString, Title, %subName%, {
-		WinActivate, %Title%
-	} else {
-		Run, %git_bash% %option%
-	}
-}
-
 findWindow(subName, isFullMatching=True) {
     WinGet windows, List
     Loop %windows% {
