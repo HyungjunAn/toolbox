@@ -67,7 +67,6 @@ global isVirtualDesktopLeft := True
 global isGuiOn			:= True
 global guiShowFlag		:= False
 
-global git_bash				:= "C:\Program Files\Git\git-bash.exe"
 global library				:= USERPROFILE . "\Google 드라이브\Library"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
@@ -260,7 +259,7 @@ $^.::
 !^+k::	setSelectPid(3)	
 !^+l::	setSelectPid(4)	
 
-$!^e::  runOrActivateGitBash("pc_setting", "--cd=""" . path_setting . """")
+$!^e::	runOrActivateGitBash(AHJ_TB)
 
 $#n::
 	cur_path := Explorer_GetCurrentPath()
@@ -273,7 +272,7 @@ $#n::
 $!^n:: 
 	cur_path := Explorer_GetCurrentPath()
 	if (cur_path) {
-		Run, %git_bash% --cd="%cur_path%"
+		runOrActivateGitBash(cur_path)
 	}
 	return
 

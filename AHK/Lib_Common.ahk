@@ -1,5 +1,7 @@
 #include Lib_VPC.ahk
 
+global git_bash				:= "C:\Program Files\Git\git-bash.exe"
+
 openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
 	cmd = chrome.exe --app=%url%
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
@@ -34,17 +36,6 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	return Title
 }
 
-runOrActivateGitBash(subName, option="") {
-	VPC_FocusOut()
-	Title := findWindow("MINGW64:", False)
-	
-	IfInString, Title, %subName%, {
-		WinActivate, %Title%
-	} else {
-		Run, %git_bash% %option%
-	}
-}
-
 findWindow(subName, isFullMatching=True) {
     WinGet windows, List
     Loop %windows% {
@@ -63,3 +54,27 @@ findWindow(subName, isFullMatching=True) {
     }
     return ""
 }
+
+runOrActivateGitBash(folderPath) {
+	VPC_FocusOut()
+
+	SplitPath, folderPath, folderName
+	WinGet windows, List
+	
+	Loop %windows% {
+		id := windows%A_Index%
+		WinGet, name, ProcessName, ahk_id %id%
+	
+		if (name == "mintty.exe") {
+			WinGetTitle, title, ahk_id %id%
+			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
+	        IfInString, title, %folderName%, {
+				WinActivate, %title%
+				return
+			}
+		}
+	}
+	
+	Run, %git_bash% --cd="%folderPath%"
+}
+
