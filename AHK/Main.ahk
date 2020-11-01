@@ -229,9 +229,10 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^9:: 	runOrActivateWin("_todo.txt", 	false, "gvim %USERPROFILE%\desktop\_todo.txt")
-$!^u:: 	runOrActivateWin("_memo.txt", 	false, "gvim %USERPROFILE%\desktop\_memo.txt")
-!^+g:: 	runOrActivateWin(A_ScriptName, false, "gvim """ . A_ScriptName . """")
+$!^9::
+$!^u:: 	runOrActivateGvim("%USERPROFILE%\desktop\_memo.txt")
+$!^+g:: runOrActivateGvim(A_ScriptName)
+
 $^.::
 	if (gbIsInitDone) {
 		Title := ""

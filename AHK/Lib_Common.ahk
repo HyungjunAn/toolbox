@@ -1,7 +1,5 @@
 #include Lib_VPC.ahk
 
-global git_bash				:= "C:\Program Files\Git\git-bash.exe"
-
 openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
 	cmd = chrome.exe --app=%url%
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
@@ -95,6 +93,27 @@ runOrActivateGitBash(folderPath) {
 		}
 	}
 	
-	Run, %git_bash% --cd="%folderPath%"
+	Run, C:\Program Files\Git\git-bash.exe --cd="%folderPath%"
 }
 
+runOrActivateGvim(filePath) {
+	VPC_FocusOut()
+
+	SplitPath, filePath, fileName
+
+	WinGet windows, List
+	Loop %windows% {
+		id := windows%A_Index%
+		WinGet, name, ProcessName, ahk_id %id%
+
+		if (name == "gvim.exe") {
+			WinGetTitle, title, ahk_id %id%
+	        IfInString, title, %fileName%, {
+				WinActivate, %title%
+				return
+			}
+		}
+	}
+	
+	Run, gvim "%filePath%"
+}
