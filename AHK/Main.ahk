@@ -5,11 +5,6 @@
 ;///////////////////////////////////////////////////////////////
 ;		TODO
 ;///////////////////////////////////////////////////////////////
-; vpc gui 배너 뜰 수 있게 하면 이쁠듯
-;Alt-tab이 VPC일 때는 원복으로 동작하게
-;VPC일 때만 켜지는 단축키들을 별도의 스크립트로 관리
-;Program Switch -> Process Switch
-;URI 파일 GVIM 켤 수 있게
 ;!^+i 단축키 유용성 판단해서 삭제
 ;메일 uri 파일에서 읽어오는 부분 필요없으면 삭제
 
@@ -56,12 +51,6 @@
 SetWorkingDir, %A_ScriptDir%
 global path_setting := getParentPath(A_ScriptDir)
 
-global On 				:= True
-global Off 				:= False
-global Toggle			:= -1
-
-global winToggleLock	:= False
-
 global isVirtualDesktopLeft := True
 
 global isGuiOn			:= True
@@ -92,7 +81,6 @@ global maxSelectPidNum		:= 4
 global garSelectPid_pid		:= []
 global garSelectPid_file	:= []
 
-global PID_AHK_BROWSINGMODE 	:= 0
 global PID_AHK_VIMMODE 			:= 0
 
 global VimMode := "VimMode.ahk"
@@ -157,14 +145,6 @@ Loop % maxSelectPidNum
 	garSelectPid_pid[A_Index] := PID
 }
 
-IfInString, A_ScriptName, .ahk, {
-	ext = ahk
-} else {
-	ext = exe
-}
-
-BrowsingMode 	= BrowsingMode.%ext%
-
 SetCapsLockState, off
 SetScrollLockState, off
 
@@ -178,7 +158,6 @@ Run, %VimMode%, , , PID_AHK_VIMMODE
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!+r:: 
-	programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	Process, Close, %PID_AHK_VIMMODE%
 	gbIsInitDone = False
 	Reload
@@ -188,7 +167,6 @@ $!+r::
 $^Delete::
 	isGuiOn := True
 	myMotto(200, "White")
-    programSwitch(PID_AHK_BROWSINGMODE, BrowsingMode, Off)
 	Process, Close, %PID_AHK_VIMMODE%
 	ExitApp
 	return
@@ -231,7 +209,6 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 $!^9::
 $!^u:: 	runOrActivateGvim("%USERPROFILE%\desktop\_memo.txt")
-$!^+g:: runOrActivateGvim(A_ScriptName)
 
 $^.::
 	if (gbIsInitDone) {
@@ -290,17 +267,6 @@ $!^m:: runOrActivateProc("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
 ; Internet Explorer
 $!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 
-$!^+i::
-	if (VPC_ActivateVpcIfExist()) {
-		Send, !^+i
-	} else if (isOffice) {
-		runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
-		Send, ^1
-	} else {
-		;
-	}
-	return
-
 ;Visual Studio Code
 !^[::
 !^]::
@@ -308,7 +274,7 @@ $!^+i::
 	runOrActivateWin("- Visual Studio Code", false, cmd)
 	return
 
-; KakaoTalk or ACtivate VPC
+; KakaoTalk
 $!^`;::
 	IfExist, C:\Program Files (x86)\Kakao
 		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
@@ -375,7 +341,6 @@ $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
 
 ; Virtual Desktop Toggle
-$!+n::
 $^,::
 	if (VPC_SwitchWinIfExist()) {
 		return
@@ -427,7 +392,6 @@ Shift & SC138:: Send, {sc1f1}
 
 ; korean english trans
 ;+SPACE:: Send, {vk15SC138}
-
 !^Space:: Send {Home}+{End}
 #,::Send {backspace}
 #.::Send {delete}
@@ -472,20 +436,29 @@ $^#p:: Send ^#{right}
 #a:: Send {PgDn}
 
 $^n:: 
-    If isInActiveProcessName("KakaoTalk.exe") {
+    WinGet, p_name, ProcessName, A
+
+    if (p_name == "KakaoTalk.exe") {
         mouseMoveOnRightMid()
         Send, {WheelDown}
-    }
-    else
-        keySwap_ifInTitle("powershell", "{Down}", "^n")
+    } else if (p_name == "powershell.exe") {
+		Send, {Down}
+	} else {
+		Send, ^n
+	}
     return
+
 $^p::
-    If isInActiveProcessName("KakaoTalk.exe") {
+    WinGet, p_name, ProcessName, A
+
+    if (p_name == "KakaoTalk.exe") {
         mouseMoveOnRightMid()
         Send, {WheelUp}
-    }
-    else
-        keySwap_ifInTitle("powershell", "{Up}", "^p")
+    } else if (p_name == "powershell.exe") {
+		Send, {Up}
+	} else {
+		Send, ^p
+	}
     return
 
 $^#,:: 
@@ -634,14 +607,6 @@ alarm() {
 	}
 }
 
-keySwap_ifInTitle(str, key1, key2) {
-    WinGetTitle, Title, A
-    IfInString, Title, %str%
-        Send, %key1%
-    else
-        Send, %key2%
-}
-
 isInActiveProcessName(str) {
     WinGet, p_name, ProcessName, A
     return, InStr(p_name, str)
@@ -652,16 +617,6 @@ mouseMoveOnRightMid() {
     x_corner := Width - 40
     y_mid    := Height // 2
     MouseMove, %x_corner%, %y_mid%, 0
-}
-
-programSwitch(ByRef PID, ByRef RunCmd, Mode := -1) {
-    if (Mode = Off || PID) {
-		Process, Close, %PID%,
-		PID := 0
-	}
-    else if (Mode = On || !PID) {
-        Run, %RunCmd%, , , PID
-	}
 }
 
 closeProcess(pidOrName) {
