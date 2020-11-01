@@ -210,7 +210,7 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ; Program
 ;------------------------------------
 $!^9::
-$!^u:: 	runOrActivateGvim("%USERPROFILE%\desktop\_memo.txt")
+$!^u:: Run, onenote:
 
 $^.::
 	if (gbIsInitDone) {
