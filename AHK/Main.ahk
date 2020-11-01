@@ -57,6 +57,7 @@ global isGuiOn			:= True
 global guiShowFlag		:= False
 
 global library				:= USERPROFILE . "\Google 드라이브\Library"
+global gvimFavorite			:= USERPROFILE . "\Desktop"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
@@ -74,8 +75,8 @@ global gsMailUriAddress	:= "https://mail.google.com/mail"
 
 global gbIsInitDone 	:= False
 
-global gsPath_PID_GVIM_LIBRARY	:= "tmp/tmpGvimLibPid.txt"
-global PID_GVIM_LIBRARY 		:= 0
+global gsPath_PID_GVIM_FAVORITE	:= "tmp/tmpGvimFavoritePid.txt"
+global PID_GVIM_FAVORITE 		:= 0
 
 global maxSelectPidNum		:= 4
 global garSelectPid_pid		:= []
@@ -101,6 +102,7 @@ If (A_UserName == "hyungjun.an") {
     isOffice := True
     google_homeID_num := 1
 	library				:= office_worklib
+	gvimFavorite		:= office_worklib
 	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc_Office.txt"
 	gsUriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
 
@@ -134,7 +136,7 @@ ifExist, %typeandrun%, {
 ;-------------------------------------------
 ; 	Process about PID
 ;-------------------------------------------
-FileReadLine, PID_GVIM_LIBRARY, %gsPath_PID_GVIM_LIBRARY%, 1
+FileReadLine, PID_GVIM_FAVORITE, %gsPath_PID_GVIM_FAVORITE%, 1
 
 Loop % maxSelectPidNum
 {
@@ -212,15 +214,21 @@ $!^u:: 	runOrActivateGvim("%USERPROFILE%\desktop\_memo.txt")
 
 $^.::
 	if (gbIsInitDone) {
-		Title := ""
-		WinGetTitle, Title, ahk_pid %PID_GVIM_LIBRARY%
-	
-		IfInString, Title, GVIM, {
-			WinActivate, ahk_pid %PID_GVIM_LIBRARY%
+    	WinGet, p_name, ProcessName, ahk_pid %PID_GVIM_FAVORITE%
+
+		if (p_name != "gvim.exe") {
+			Run, gvim "%gvimFavorite%\*.txt" "%USERPROFILE%\Desktop\_memo.txt",,, PID_GVIM_FAVORITE
+			FileDelete, %gsPath_PID_GVIM_FAVORITE%
+			FileAppend, %PID_GVIM_FAVORITE%, %gsPath_PID_GVIM_FAVORITE%
+			return
+		}
+
+    	WinGet, curPid, PID, A
+		
+		if (curPid != PID_GVIM_FAVORITE) {
+			WinActivate, ahk_pid %PID_GVIM_FAVORITE%
 		} else {
-			Run, gvim "%library%\*",,, PID_GVIM_LIBRARY
-			FileDelete, %gsPath_PID_GVIM_LIBRARY%
-			FileAppend, %PID_GVIM_LIBRARY%, %gsPath_PID_GVIM_LIBRARY%
+			Send, ^p
 		}
 	}
 	return
