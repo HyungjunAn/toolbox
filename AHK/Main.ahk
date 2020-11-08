@@ -210,7 +210,8 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ; Program
 ;------------------------------------
 $!^9::
-$!^u:: Run, onenote:
+$!^u:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+;		Run, onenote:
 
 $^.::
 	if (gbIsInitDone) {
