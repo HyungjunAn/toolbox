@@ -59,7 +59,7 @@ $ git submodule update --remote
 	원격 branch reset
 -----------------------------------------
 $ git reset --hard <RESET_POINT>
-$ git push -f origin master
+$ git push -f origin <BRANCH>
 // -f 옵션 필수
 
 
