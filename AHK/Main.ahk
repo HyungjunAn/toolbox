@@ -444,6 +444,16 @@ $^#p:: Send ^#{right}
 #q:: Send {PgUp}
 #a:: Send {PgDn}
 
+$!f::
+    WinGet, p_name, ProcessName, A
+
+	if (p_name == "Code.exe") {
+		Send, ^d^+f
+	} else {
+		Send, !f
+	}
+	return
+
 $^n:: 
     WinGet, p_name, ProcessName, A
 
