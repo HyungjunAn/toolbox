@@ -207,6 +207,18 @@ $!^a::
 $#d:: 	Run, %USERPROFILE%\Desktop
 
 ;------------------------------------
+; Memo
+;------------------------------------
+!^]::
+    subName = Google Keep
+    url = https://keep.google.com
+    Title := openOrActivateUrl(subName, false, url, false)
+    return
+
+!^o:: 
+!^[:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\boostnote.next\Boost Note.exe")
+
+;------------------------------------
 ; Program
 ;------------------------------------
 $!^9::
@@ -276,13 +288,6 @@ $!^m:: runOrActivateProc("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe
 ; Internet Explorer
 $!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 
-;Visual Studio Code
-!^[::
-!^]::
-	cmd := USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe"
-	runOrActivateWin("- Visual Studio Code", false, cmd)
-	return
-
 ; KakaoTalk
 $!^`;::
 	IfExist, C:\Program Files (x86)\Kakao
@@ -299,12 +304,6 @@ $!^s:: Run, ms-settings:bluetooth
 ;------------------------------------
 ; Web Page
 ;------------------------------------
-!^o:: 
-    subName = Google Keep
-    url = https://keep.google.com
-    Title := openOrActivateUrl(subName, false, url, false)
-    return
-
 !^q:: 
     subName = 다음 영어사전
     url = http://small.dic.daum.net/index.do?dic=eng
