@@ -14,8 +14,6 @@ memo			%USERPROFILE%\Desktop\memo.txt
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 
-hk_vim			%AHJ_TB_LIB_CS%\vim.png
-
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
 //-----------------------------------------------------------------
@@ -30,12 +28,9 @@ translator				https://papago.naver.com/
 //-----------------------------------------------------------------
 	%AHJ_TB_AHK%\util_runOrActivateGvim.ahk
 //-----------------------------------------------------------------
-vimrc			%USERPROFILE%\_vimrc
+vimrc			%AHJ_TB%\vim\vimrc_AD.vim
+vimrc_dummy		%USERPROFILE%\_vimrc
 batInit			%AHJ_TB%\init.bat
-hk				%AHJ_TB_LIB_CS%\hk_summary.txt
-linux			%AHJ_TB_LIB_CS%\cs_linux.txt
-git				%AHJ_TB_LIB_CS%\cs_git.txt
-en_office		%AHJ_TB_LIB_CS%\english\en_office.txt
 
 apache			"C:\Apache24\conf\httpd.conf"
 

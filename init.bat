@@ -24,7 +24,6 @@ echo Current Path: %cd%
 setx AHJ_TB "%cd%"
 setx AHJ_TB_AHK "%AHJ_TB%\AHK"
 setx AHJ_TB_TAR "%AHJ_TB%\TypeAndRun"
-setx AHJ_TB_LIB_CS "%AHJ_TB%\devTips"
 set "AHJ_TB_VIM=%AHJ_TB%\vim"
 
 del "%USERPROFILE%\Desktop\ahk"

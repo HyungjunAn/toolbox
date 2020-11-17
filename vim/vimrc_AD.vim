@@ -234,7 +234,6 @@ set printfont=Consolas:h10:b
 " Key Mapping
 "--------------------------------------------------------------------
 noremap		<A-r>		:source $MYVIMRC<CR>
-noremap		<C-E>		<C-V>
 
 "<ETC>
 map		 <F8>    :NERDTreeToggle<CR>
@@ -245,7 +244,6 @@ if has("gui")
   noremap	<C-A>			<esc>ggVG<CR>
   vnoremap	<C-C> 	       	y
   noremap  	<C-Y> 	       	v$hy
-  noremap	<C-V>    		<esc>p
   inoremap	<C-V>    		<esc>pa
   noremap   <S-RightMouse>	p
 
