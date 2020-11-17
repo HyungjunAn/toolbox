@@ -322,7 +322,7 @@ VimMode_Notify(backC) {
 }
 
 VimMode_IsSupportProcess() {
-	if (curPName == "Code.exe" || curPName == "notepad++.exe") {
+	if (curPName == "Code.exe") {
 		return True
 	}
 	return False

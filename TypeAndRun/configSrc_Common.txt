@@ -11,6 +11,7 @@ memo			%USERPROFILE%\Desktop\memo.txt
 //-----------------------------------------------------------------
 	C:\Windows\explorer.exe
 //-----------------------------------------------------------------
+lib				%AHJ_TB_LIB%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 
@@ -38,3 +39,10 @@ tarCfg_home		%AHJ_TB_TAR%\configSrc_home.txt
 tarCfg_common	%AHJ_TB_TAR%\configSrc_common.txt
 ahkMain			%AHJ_TB_AHK%\Main.ahk
 ahkVimMode		%AHJ_TB_AHK%\VimMode.ahk
+
+git				%AHJ_TB_LIB%\git.md
+linux_cmd		%AHJ_TB_LIB%\linux_cmd.md
+hotkeys			%AHJ_TB_LIB%\hotkeys.md
+en_biz			%AHJ_TB_LIB%\en_biz.md
+en_voca			%AHJ_TB_LIB%\en_voca.md
+coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
