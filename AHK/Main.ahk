@@ -209,14 +209,19 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 ; Memo
 ;------------------------------------
-!^]::
+!^[::
     subName = Google Keep
     url = https://keep.google.com
-    Title := openOrActivateUrl(subName, false, url, false)
+    Title := openOrActivateUrl(subName, False, url, false)
     return
 
 !^o:: 
-!^[:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\boostnote.next\Boost Note.exe")
+    subName := "Boost Note"
+    url = https://note.boostio.co/app/
+    Title := openOrActivateUrl(subName, True, url, false)
+    return
+
+!^]:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\boostnote.next\Boost Note.exe")
 
 ;------------------------------------
 ; Program

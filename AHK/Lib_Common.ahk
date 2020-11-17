@@ -13,7 +13,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	VPC_FocusOut()
 	Title := findWindow(subName, isFullMatching)
 
-	if !Title {
+	if (!Title) {
 		Run, %cmd%
 		while (!Title && check < 1000) {
 			Title := findWindow(subName, isFullMatching)
@@ -29,7 +29,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 			sleep, 200
 		}
 	}
-
+	
 	WinActivate, %Title%
 	return Title
 }
