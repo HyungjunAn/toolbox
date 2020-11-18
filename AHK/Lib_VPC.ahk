@@ -61,3 +61,26 @@ VPC_SwitchWinIfExist() {
 		return False
 	}
 }
+
+VPC_OpenUrlOnLocal() {
+	ret := False
+
+	if (VPC_IsCurWinVpc()) {
+		Send, {RButton}
+		tmp := clipboard
+		clipboard=""
+		sleep, 50
+		Send, e
+		sleep, 50
+
+		if (InStr(clipboard, "http") == 1) {
+			Run, Chrome.exe %clipboard%
+			VPC_FocusOut()
+			ret := True
+		}
+		clipboard := tmp
+	}
+	
+	return ret
+}
+
