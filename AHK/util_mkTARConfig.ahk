@@ -35,20 +35,15 @@ Loop
 
 	n := getTwoString(line, s1, s2)
 
-	if (n == 1)
-	{
+	if (n == 1) {
 		TARExe := s1
-	}
-	else if (n == 2)
-	{
+	} else if (n == 2) {
 		TARCmd := s1
 		TAROpt := s2
 
 		cmd := TARCmd . "|" . TARExe . "|" . TAROpt
 		buffer.Push(cmd)
-	}
-	else if (n != 0)
-	{
+	} else if (n != 0) {
 		MsgBox, Grammar Error: Line %A_Index%
 		return
 	}
@@ -65,29 +60,26 @@ getTwoString(string, ByRef str1, ByRef str2) {
 	local tmpStr := ""
 	local ret := 0
 
-	if (InStr(string, "//") == 1)
-	{
-		; Comment
-		return ret
-	}
-
 	arrString := StrSplit(string, A_Tab)
 
 	Loop % arrString.Length()
 	{
 		tmpStr := arrString[A_Index]
-		if (!tmpStr)
-		{
+	
+		; comment
+		if (InStr(tmpStr, "//") == 1) {
+			return ret
+		}
+
+		; multiple tab
+		if (!tmpStr) {
 			continue
 		}
 
-		if (bIsFirstStr)
-		{
+		if (bIsFirstStr) {
 			str1 := tmpStr
 			bIsFirstStr := False
-		}
-		else 
-		{
+		} else {
 			str2 := tmpStr
 		}
 		ret++
