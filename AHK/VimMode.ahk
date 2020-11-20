@@ -1,3 +1,4 @@
+Global isCopying := False
 Global isLineCopy := False
 Global isBlock := False
 Global isCutReady := False
@@ -72,24 +73,7 @@ $+`;::
 	VimMode_SetMode(M_NORMAL)
 	return
 
-$d::
-	if (curMode == M_VISUAL) {
-		Send, ^x
-		VimMode_SetLineCopy(False)
-	} else if (curMode == M_LINE) {
-		Send, ^x{Delete}
-		VimMode_SetLineCopy(True, True)
-	} else if (isCutReady) {
-		Send, {End}+{Home}+{Home}+{Left}^x
-		VimMode_SetLineCopy(True)
-	} else {
-		isCutReady := True
-	}
 
-	VimMode_SetMode(M_NORMAL)
-	return
-
-$x::Delete
 $h::VimMode_Send("{Left}")
 $j::VimMode_Send("{Down}")
 $k::VimMode_Send("{Up}")
@@ -122,8 +106,8 @@ $^+p::
 $+w::
 $w::
 	if (isCutReady) {
-		Send, +^{Right}^x
-		VimMode_SetLineCopy(False)
+		Send, +^{Right}
+		VimMode_Clip("^x", False)
 	} else {
 		VimMode_Send("^{Right}")
 	}
@@ -131,8 +115,8 @@ $w::
 
 $b::
 	if (isCutReady) {
-		Send, +^{Left}^x
-		VimMode_SetLineCopy(False)
+		Send, +^{Left}
+		VimMode_Clip("^x", False)
 	} else {
 		VimMode_Send("^{Left}")
 	}
@@ -153,31 +137,63 @@ $^r::
 	return
 
 
-; Copy & Paste
-$y::
-	Send, ^c
-	if (curMode == M_LINE) {
-		VimMode_SetLineCopy(True, True)
+; Copy & Cut & Paste
+$+p::
+$p::
+	if (isLineCopy) {
+		Send, {End}
+	}
+	VimMode_Paste()
+	return
+
+$d::
+	if (curMode == M_NORMAL && !isCutReady) {
+		isCutReady := True
+		return
+	}
+
+	if (curMode == M_VISUAL) {
+		VimMode_Clip("^x", False)
+	} else if (curMode == M_LINE) {
+		VimMode_Clip("^x", True, True)
+		Send, {Delete}
+	} else if (isCutReady) {
+		Send, {End}+{Home}+{Home}+{Left}
+		VimMode_Clip("^x", True)
+	}
+
+	VimMode_SetMode(M_NORMAL)
+	return
+
+$x:: 
+	if (curMode == M_VISUAL) {
+		VimMode_Clip("^x", False)
+	} else if (curMode == M_LINE) {
+		VimMode_Clip("^x", True, True)
+		Send, {Delete}
 	} else {
-		VimMode_SetLineCopy(False)
+		Send, +{Right}
+		VimMode_Clip("^x", False)
+	}
+
+	VimMode_SetMode(M_NORMAL)
+	return
+
+$y::
+	if (curMode == M_LINE) {
+		VimMode_Clip("^c", True, True)
+	} else {
+		VimMode_Clip("^c", False)
 	}
 	VimMode_SetMode(M_NORMAL)
 	return
 
 $+y::
-	Send, {End}+{Home}+{Home}^c
-	VimMode_SetLineCopy(True, True)
+	Send, {End}+{Home}+{Home}
+	VimMode_Clip("^c", True, True)
 	VimMode_SetMode(M_NORMAL)
 	return
 
-$+p::
-p::
-	if (VimMode_GetLineCopy()) {
-		Send, {End}^v
-	} else {
-		Send, ^v
-	}
-	return
 
 ; Edit Mode
 $i::
@@ -282,21 +298,37 @@ VimMode_SetMode(mode) {
 		VimMode_Notify("F39C12")
 		Send, {End}+{Home}+{Home}
 	} else {
+		isCutReady := False
 		Suspend, off
 		VimMode_Notify("Red")
 	}
 }
 
-VimMode_SetLineCopy(setVal, bAppendNewLine=False) {
-	isLineCopy := setVal
-	isCutReady := False
-	if (isLineCopy && bAppendNewLine) {
-		Clipboard := "`n" . clipboard
+VimMode_Paste() {
+	if (isCopying) {
+		return
 	}
+
+	Send, ^v
 }
 
-VimMode_GetLineCopy() {
-	return isLineCopy
+VimMode_Clip(sendStr, lineCopy, bAppendNewLine = False) {
+	isCopying := True
+	Clipboard := ""
+
+	isLineCopy := lineCopy
+
+	Send, %sendStr%
+
+	ClipWait, 0.5
+
+	if (ErrorLevel) {
+		MsgBox, ClipWait Error
+	} else if (bAppendNewLine) {
+		Clipboard := "`r`n" . Clipboard
+	}
+
+	isCopying := False
 }
 
 VimMode_Suspend() {
