@@ -107,7 +107,7 @@ $+w::
 $w::
 	if (isCutReady) {
 		Send, +^{Right}
-		VimMode_Clip("^x", False)
+		VimMode_Clip("^x")
 	} else {
 		VimMode_Send("^{Right}")
 	}
@@ -116,7 +116,7 @@ $w::
 $b::
 	if (isCutReady) {
 		Send, +^{Left}
-		VimMode_Clip("^x", False)
+		VimMode_Clip("^x")
 	} else {
 		VimMode_Send("^{Left}")
 	}
@@ -152,46 +152,26 @@ $d::
 		return
 	}
 
-	if (curMode == M_VISUAL) {
-		VimMode_Clip("^x", False)
-	} else if (curMode == M_LINE) {
-		VimMode_Clip("^x", True, True)
-		Send, {Delete}
-	} else if (isCutReady) {
-		Send, {End}+{Home}+{Home}+{Left}
-		VimMode_Clip("^x", True)
+	if (isCutReady) {
+		VimMode_SetMode(M_LINE)
 	}
-
-	VimMode_SetMode(M_NORMAL)
+	
+	VimMode_Clip("^x")
 	return
 
-$x:: 
-	if (curMode == M_VISUAL) {
-		VimMode_Clip("^x", False)
-	} else if (curMode == M_LINE) {
-		VimMode_Clip("^x", True, True)
-		Send, {Delete}
-	} else {
+$x::
+	if (curMode != M_VISUAL && curMode != M_LINE) {
 		Send, +{Right}
-		VimMode_Clip("^x", False)
 	}
 
-	VimMode_SetMode(M_NORMAL)
+	VimMode_Clip("^x")
 	return
 
-$y::
-	if (curMode == M_LINE) {
-		VimMode_Clip("^c", True, True)
-	} else {
-		VimMode_Clip("^c", False)
-	}
-	VimMode_SetMode(M_NORMAL)
-	return
+$y:: VimMode_Clip("^c")
 
 $+y::
-	Send, {End}+{Home}+{Home}
-	VimMode_Clip("^c", True, True)
-	VimMode_SetMode(M_NORMAL)
+	VimMode_SetMode(M_LINE)
+	VimMode_Clip("^c")
 	return
 
 
@@ -321,22 +301,40 @@ VimMode_Paste() {
 	Send, ^v
 }
 
-VimMode_Clip(sendStr, lineCopy, bAppendNewLine = False) {
+VimMode_Clip(sendStr) {
 	isCopying := True
 	Clipboard := ""
+	isLineCopy := False
 
-	isLineCopy := lineCopy
+	if (curMode == M_LINE) {
+		isLineCopy := True
+
+		if (curLine == 0) {
+			Send, {End}+{Home}+{Home}+{Left}
+		} else if (curLine < 0) {
+			Send, +{Left}
+		} else if (curLine > 0) {
+			Send, {Right}+{Home}+{Home}
+			Loop %curLine% {
+				Send, +{Up}
+			}
+			Send, +{Left}
+		}
+	}
 
 	Send, %sendStr%
+	
+	if (curMode == M_LINE) {
+		Send, {Right}
+	}
 
 	ClipWait, 0.5
 
 	if (ErrorLevel) {
 		MsgBox, ClipWait Error
-	} else if (bAppendNewLine) {
-		Clipboard := "`r`n" . Clipboard
 	}
 
+	VimMode_SetMode(M_NORMAL)
 	isCopying := False
 }
 
