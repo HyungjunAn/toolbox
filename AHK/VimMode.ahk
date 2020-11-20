@@ -1,6 +1,6 @@
 Global isLineCopy := False
 Global isBlock := False
-Global isCut := False
+Global isCutReady := False
 Global curLine := 0
 Global curPName := ""
 
@@ -73,23 +73,20 @@ $+`;::
 	return
 
 $d::
-	if (curMode == M_LINE) {
+	if (curMode == M_VISUAL) {
+		Send, ^x
+		VimMode_SetLineCopy(False)
+	} else if (curMode == M_LINE) {
 		Send, ^x{Delete}
-		isLineCopy := True
-		isCut := False
-		VimMode_SetMode(M_NORMAL)
-	} else if (isCut) {
-		Send, {End}+{Home}+{Home}^x
-		
-		if (curMode != M_VISUAL) {
-			Send, {Delete}
-		}
-		isLineCopy := True
-		isCut := False
-		VimMode_SetMode(M_NORMAL)
+		VimMode_SetLineCopy(True, True)
+	} else if (isCutReady) {
+		Send, {End}+{Home}+{Home}+{Left}^x
+		VimMode_SetLineCopy(True)
 	} else {
-		isCut := True
+		isCutReady := True
 	}
+
+	VimMode_SetMode(M_NORMAL)
 	return
 
 $x::Delete
@@ -124,20 +121,18 @@ $^+p::
 
 $+w::
 $w::
-	if (isCut) {
+	if (isCutReady) {
 		Send, +^{Right}^x
-		isCut := False
-		isLineCopy := False
+		VimMode_SetLineCopy(False)
 	} else {
 		VimMode_Send("^{Right}")
 	}
 	return
 
 $b::
-	if (isCut) {
+	if (isCutReady) {
 		Send, +^{Left}^x
-		isCut := False
-		isLineCopy := False
+		VimMode_SetLineCopy(False)
 	} else {
 		VimMode_Send("^{Left}")
 	}
@@ -157,33 +152,28 @@ $^r::
 	Send ^y
 	return
 
+
+; Copy & Paste
 $y::
 	Send, ^c
 	if (curMode == M_LINE) {
-		isLineCopy := True
+		VimMode_SetLineCopy(True, True)
 	} else {
-		isLineCopy := False
+		VimMode_SetLineCopy(False)
 	}
 	VimMode_SetMode(M_NORMAL)
 	return
 
 $+y::
-	Send, {Home}+{End}^c
-	isLineCopy := True
+	Send, {End}+{Home}+{Home}^c
+	VimMode_SetLineCopy(True, True)
 	VimMode_SetMode(M_NORMAL)
 	return
 
-$p::
-	if (isLineCopy) {
-		Send, {End}{Enter}{End}+{Home}^v
-	} else {
-		Send, ^v
-	}
-	return
-
 $+p::
-	if (isLineCopy) {
-		Send, {End}{Home}{Home}{Enter}{Up}^v
+p::
+	if (VimMode_GetLineCopy()) {
+		Send, {End}^v
 	} else {
 		Send, ^v
 	}
@@ -295,6 +285,18 @@ VimMode_SetMode(mode) {
 		Suspend, off
 		VimMode_Notify("Red")
 	}
+}
+
+VimMode_SetLineCopy(setVal, bAppendNewLine=False) {
+	isLineCopy := setVal
+	isCutReady := False
+	if (isLineCopy && bAppendNewLine) {
+		Clipboard := "`n" . clipboard
+	}
+}
+
+VimMode_GetLineCopy() {
+	return isLineCopy
 }
 
 VimMode_Suspend() {
