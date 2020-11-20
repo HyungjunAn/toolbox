@@ -245,33 +245,26 @@ VimMode_Send(key) {
 		Send, +%key%
 	} else if (curMode == M_LINE) {
 		isUp := False
+		tmpLine := curLine + 1
+
 		if (key == "{Up}") {
 			isUp := True
-		} else if (key == "{Down}") {
-			isUp := False
-		} else {
-			MsgBox, Error
-			return
+			tmpLine := curLine - 1
 		}
 
 		if (curLine == 0) {
 			if (isUp) {
-				Send, {End}
+				Send, {End}+{Home}+{Home}
 			} else {
 				Send, {End}{Home}{Home}
 			}
 		}
 
-		if (isUp) {
-			curLine--
-		} else {
-			curLine++
-		}
-
+		curLine := tmpLine
 		Send, +%key%
 
 		if (curLine < 0) {
-			Send, +{Home}+{Home}
+			;
 		} else if (curLine > 0) {
 			Send, +{End}
 		} else {
