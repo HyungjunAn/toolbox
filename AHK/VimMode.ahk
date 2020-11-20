@@ -230,6 +230,15 @@ $^j:: Send, ^{Down}
 $^k:: Send, ^{Up}
 $^l:: Send, ^{Right}
 
+; Auto Formating
+$=::
+	if (curPName == "Code.exe") {
+		Send, ^k^f
+	} else {
+		Send, =
+	}
+	return
+
 ; Search
 $^f::
 $/::
