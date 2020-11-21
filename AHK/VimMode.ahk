@@ -107,7 +107,7 @@ $+w::
 $w::
 	if (isCutReady) {
 		Send, +^{Right}
-		VimMode_Clip("^x")
+		VimMode_Cut()
 	} else {
 		VimMode_Send("^{Right}")
 	}
@@ -116,7 +116,7 @@ $w::
 $b::
 	if (isCutReady) {
 		Send, +^{Left}
-		VimMode_Clip("^x")
+		VimMode_Cut()
 	} else {
 		VimMode_Send("^{Left}")
 	}
@@ -156,7 +156,7 @@ $d::
 		VimMode_SetMode(M_LINE)
 	}
 	
-	VimMode_Clip("^x")
+	VimMode_Cut()
 	return
 
 $x::
@@ -164,14 +164,14 @@ $x::
 		Send, +{Right}
 	}
 
-	VimMode_Clip("^x")
+	VimMode_Cut()
 	return
 
-$y:: VimMode_Clip("^c")
+$y:: VimMode_Copy()
 
 $+y::
 	VimMode_SetMode(M_LINE)
-	VimMode_Clip("^c")
+	VimMode_Copy()
 	return
 
 
@@ -301,7 +301,15 @@ VimMode_Paste() {
 	Send, ^v
 }
 
-VimMode_Clip(sendStr) {
+VimMode_Cut() {
+	_VimMode_Clip("^x")
+}
+
+VimMode_Copy() {
+	_VimMode_Clip("^c")
+}
+
+_VimMode_Clip(sendStr) {
 	isCopying := True
 	Clipboard := ""
 	isLineCopy := False
