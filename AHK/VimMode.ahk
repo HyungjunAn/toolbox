@@ -16,7 +16,7 @@ Global curMode := M_NORMAL
 
 VimMode_MainLoop("", "", "")
 
-$F1::
+$!^b::
 	Suspend, Permit
 	isBlock := !isBlock
 
