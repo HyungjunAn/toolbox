@@ -4,6 +4,7 @@ Global isBlock := False
 Global isCutReady := False
 Global curLine := 0
 Global curPName := ""
+Global curWTitle := ""
 
 Global M_EDIT := 0
 Global M_VISUAL := 1
@@ -363,19 +364,25 @@ VimMode_Notify(backC) {
 	Gui, VimMode:Show, w%W% y%Y% h%H% NoActivate, VimMode
 }
 
-VimMode_IsSupportProcess() {
+VimMode_IsSupport() {
 	if (curPName == "Code.exe") {
 		return True
 	}
+
+	if (curPName == "chrome.exe" && curWTitle == "Boost Note") {
+		return True
+	}
+
 	return False
 }
 
 VimMode_MainLoop(hWinEventHook, vEvent, hWnd) {
 	DetectHiddenWindows, On
 	WinGet, curPName, ProcessName, A
+    WinGetTitle, curWTitle, A
 	;ToolTip, %curPName%
 
-	if (!isBlock && VimMode_IsSupportProcess()) {
+	if (!isBlock && VimMode_IsSupport()) {
 		VimMode_SetMode(curMode)
 		isSupport := True
 	} else {
