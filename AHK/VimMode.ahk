@@ -356,12 +356,26 @@ VimMode_Notify(backC) {
 	;Gui, VimMode:Destroy
 	Gui, VimMode:Color, %backC%
 	Gui, VimMode:-Caption +alwaysontop +ToolWindow
-	H := 8
-	;Y := A_ScreenHeight - H
-	;Y := 100
-	Y := 72
-	W := A_ScreenWidth
-	Gui, VimMode:Show, w%W% y%Y% h%H% NoActivate, VimMode
+    WinGetPos, X, Y, W, H, A
+
+	;H := 8
+	;;Y := A_ScreenHeight - H
+	;;Y := 100
+	;Y := 72
+	;W := A_ScreenWidth
+	;Gui, VimMode:Show, w%W% y%Y% h%H% NoActivate, VimMode
+
+	H := 40
+	d := W / 4
+	X := X + d
+	W := W - 2 * d
+
+	;d := 30
+	;X := X + W - d
+	;W := d
+
+	Gui, VimMode:Show, w%W% y%Y% x%X% h%H% NoActivate, VimMode
+
 }
 
 VimMode_IsSupport() {
