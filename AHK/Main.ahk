@@ -562,7 +562,8 @@ ChangeResolution( cD, sW, sH, rR ) {
 !^+u::
 	WinGetTitle, Title, A
 	WinGet, PName, ProcessName, A
-	MsgBox, ProcessName: %PName% `n WinTitle: %Title%
+    WinGet, PID, PID, A
+	MsgBox, PID: %PID%`nProcessName: %PName%`nWinTitle: %Title%
 	;ListHotKeys
 	return
     WinGet windows, List
