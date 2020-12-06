@@ -1,7 +1,9 @@
 #include Lib_VPC.ahk
 
+global isVirtualDesktopLeft := True
+
 openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
-	cmd = chrome.exe --app=%url%
+	local cmd = chrome.exe --app=%url%
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
 	return Title
 }
@@ -118,4 +120,52 @@ runOrActivateGvim(filePath) {
 	}
 	
 	Run, gvim "%filePath%"
+}
+
+getTwoString(string, ByRef str1, ByRef str2) {
+	local bIsFirstStr := True
+	local tmpStr := ""
+	local ret := 0
+	local arrString := StrSplit(string, A_Tab)
+
+	Loop % arrString.Length()
+	{
+		tmpStr := arrString[A_Index]
+	
+		; comment
+		if (InStr(tmpStr, "//") == 1) {
+			return ret
+		}
+
+		; multiple tab
+		if (!tmpStr) {
+			continue
+		}
+
+		if (bIsFirstStr) {
+			str1 := tmpStr
+			bIsFirstStr := False
+		} else {
+			str2 := tmpStr
+		}
+		ret++
+	}
+	return ret
+}
+
+VDesktop_toggle() {
+	if (isVirtualDesktopLeft) {
+		Send, ^#{right}
+	} else {
+		Send, ^#{left}
+	}
+	isVirtualDesktopLeft := !isVirtualDesktopLeft
+}
+
+VDesktop_left() {
+	if (isVirtualDesktopLeft == False) {
+		Send, ^#{left}
+		isVirtualDesktopLeft := True
+		sleep 200
+	}
 }

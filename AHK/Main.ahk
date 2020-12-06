@@ -52,8 +52,6 @@
 SetWorkingDir, %A_ScriptDir%
 global path_setting := getParentPath(A_ScriptDir)
 
-global isVirtualDesktopLeft := True
-
 global isGuiOn			:= True
 global guiShowFlag		:= False
 
@@ -64,12 +62,19 @@ global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
 global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
 
-global url_CurTabNum	:= 0
-global url_MaxTabNum	:= 0
+; For Chrome
+global C_curTabNum	:= 0
+global C_maxTabNum	:= 0
+global C_uriListPath	:= "data/uri_list_chrome.txt"
+global C_uriTitles		:= []
+global C_uriAddresses 	:= []
 
-global gsUriListPath	:= "data/uri_list.txt"
-global garUriTitle		:= []
-global garUriAddress 	:= []
+; For MSEDGE
+global E_curTabNum	:= 0
+global E_maxTabNum	:= 0
+global E_uriListPath	:= "data/uri_list_edge.txt"
+global E_uriTitles		:= []
+global E_uriAddresses 	:= []
 
 global gsMailUriTitle	:= "Gmail"
 global gsMailUriAddress	:= "https://mail.google.com/mail"
@@ -105,7 +110,7 @@ If (A_UserName == "hyungjun.an") {
 	library				:= office_worklib
 	gvimFavorite		:= office_worklib
 	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc_Office.txt"
-	gsUriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
+	C_uriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
 
 	path := office_worklib_setting . "\AHK\url_mail.txt"
 	getUriFromFile(path, gsMailUriTitle, gsMailUriAddress)
@@ -114,7 +119,8 @@ If (A_UserName == "hyungjun.an") {
 ;-------------------------------------------
 ; 	Get URI's Title and Address
 ;-------------------------------------------
-url_MaxTabNum := getUriArrayFromFile(gsUriListPath, garUriTitle, garUriAddress)
+C_maxTabNum := getUriArrayFromFile(C_uriListPath, C_uriTitles, C_uriAddresses)
+E_maxTabNum := getUriArrayFromFile(E_uriListPath, E_uriTitles, E_uriAddresses)
 
 ;-------------------------------------------
 ; 	Process about TypeAndRun
@@ -211,16 +217,19 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ; Memo
 ;------------------------------------
 !^[::
-    subName = Google Keep
-    url = https://keep.google.com
-    Title := openOrActivateUrl(subName, False, url, false)
+    ;subName = Google Keep
+    ;url = https://keep.google.com
+    ;Title := openOrActivateUrl(subName, False, url, false)
+	ROA_BrowserTab("edge", 1)
     return
 
 !^o:: 
-    subName := "Boost Note"
-    url = https://note.boostio.co/app/
-    Title := openOrActivateUrl(subName, True, url, false)
-    return
+	ROA_BrowserTab("edge", 3)
+	return
+    ;subName := "Boost Note"
+    ;url = https://note.boostio.co/app/
+    ;Title := openOrActivateUrl(subName, True, url, false)
+    ;return
 
 !^]:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\boostnote.next\Boost Note.exe")
 
@@ -311,12 +320,13 @@ $!^s:: Run, ms-settings:bluetooth
 ; Web Page
 ;------------------------------------
 !^q:: 
-    subName = 다음 영어사전
-    url = http://small.dic.daum.net/index.do?dic=eng
-    Title := openOrActivateUrl(subName, false, url, true)
-    W = 389
-    H = 420
-    WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
+	ROA_BrowserTab("edge", 2)
+    ;subName = 다음 영어사전
+    ;url = http://small.dic.daum.net/index.do?dic=eng
+    ;Title := openOrActivateUrl(subName, false, url, true)
+    ;W = 389
+    ;H = 420
+    ;WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
     return
 
 ; Mail
@@ -326,7 +336,8 @@ $!^d::
 	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
 	} else {
-		openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
+		ROA_BrowserTab("edge", 4)
+		;openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
 	}
 	return 
 
@@ -353,23 +364,21 @@ $^,::
 		return
 	}
 
-	if (isVirtualDesktopLeft) {
-		Send, ^#{right}
-	} else {
-		Send, ^#{left}
-	}
-	isVirtualDesktopLeft := !isVirtualDesktopLeft
+	VDesktop_toggle()
 	Return
 
 ; TypeAndRun
 $!^p::
 	VPC_FocusOut()
+	VDesktop_left()
 	Send, !^p
 	return
 
 !^0::
-	url_CurTabNum := Mod(url_CurTabNum, url_MaxTabNum) + 1
-	activateChromeTabAsSpecificUri(url_CurTabNum)
+	C_curTabNum := Mod(C_curTabNum, C_maxTabNum) + 1
+	ROA_BrowserTab("chrome", C_curTabNum)
+	;E_curTabNum := Mod(E_curTabNum, E_maxTabNum) + 1
+	;ROA_BrowserTab("edge", E_curTabNum)
 	return
 
 ;------------------------------------
@@ -490,7 +499,7 @@ $^#.::
         Send, ^#.
     return
 
-$^BS:: Send ^+{Left }{Backspace}
+$^BS:: Send ^+{Left}{Backspace}
 !^BS:: Send ^+{Right}{Backspace}
 
 ; Sound Control
@@ -652,18 +661,44 @@ getOsVer() {
 	return ver
 }
 
-activateChromeTabAsSpecificUri(tabNum)
+ROA_BrowserTab(browser, tabNum)
 {
-	runOrActivateWin("- chrome", false, "chrome")
+	local maxNum
+	local uriTitles
+	local uriAddresses
+
+	VDesktop_left()
+
+	if (browser == "chrome") {
+		runOrActivateProc("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")
+		C_curTabNum		:= tabNum
+		maxNum			:= C_maxTabNum
+		uriTitles		:= C_uriTitles
+		uriAddresses	:= C_uriAddresses
+	} else {
+		runOrActivateProc("C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
+		E_curTabNum		:= tabNum
+		maxNum			:= E_maxTabNum
+		uriTitles		:= E_uriTitles
+		uriAddresses	:= E_uriAddresses
+	}
+
+	if (maxNum < tabNum) {
+		MsgBox, Error: tabNum is bigger then MaxTabNum
+		return
+	}
+
 	Send, ^{%tabNum%}
 	sleep, 100
     WinGetTitle, T, A
-	if (!InStr(T, garUriTitle[tabNum]))
+	if (!InStr(T, uriTitles[tabNum]))
 	{
 		Send, ^l
-		clipboard := garUriAddress[tabNum]
+		tmp := clipboard
+		clipboard := uriAddresses[tabNum]
 		sleep, 60
 		Send, ^v
+		clipboard := tmp
 		Send, {Enter}
 	}
 	return
@@ -673,19 +708,18 @@ getUriArrayFromFile(path, arTitle, arAddress)
 {
 	local bIsTitleReadTurn := True
 	local cnt := 0
+	local title := ""
+	local uri := ""
 
 	Loop, Read, %path%
 	{
-		if bIsTitleReadTurn
-		{
-			arTitle.Push(A_LoopReadLine)
+		local n := getTwoString(A_LoopReadLine, title, uri)
+
+		if (n == 2) {
+			arTitle.Push(title)
+			arAddress.Push(uri)
 			cnt += 1
 		}
-		else
-		{
-			arAddress.Push(A_LoopReadLine)
-		}
-		bIsTitleReadTurn := !bIsTitleReadTurn
 	}
 
 	return cnt

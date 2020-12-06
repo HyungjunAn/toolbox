@@ -383,9 +383,9 @@ VimMode_IsSupport() {
 		return True
 	}
 
-	if (curPName == "chrome.exe" && curWTitle == "Boost Note") {
-		return True
-	}
+	;if (curPName == "msedge.exe" && InStr(curWTitle, "Boost Note")) {
+	;	return True
+	;}
 
 	return False
 }

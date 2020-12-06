@@ -9,6 +9,7 @@
 ;myFolder			"C:\Users\name\myFolder"
 
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+#include Lib_Common.ahk
 
 if A_Args.Length() < 2
 {
@@ -26,6 +27,7 @@ global buffer := []
 global TARCmd := ""
 global TARExe := ""
 global TAROpt := ""
+global line := ""
 
 Loop
 {
@@ -45,7 +47,7 @@ Loop
 		buffer.Push(cmd)
 	} else if (n != 0) {
 		MsgBox, Grammar Error: Line %A_Index%
-		return
+		break
 	}
 }
 
@@ -55,34 +57,4 @@ Loop % buffer.Length()
 	FileAppend, %line%`n, %gsTargetFile%
 }
 
-getTwoString(string, ByRef str1, ByRef str2) {
-	local bIsFirstStr := True
-	local tmpStr := ""
-	local ret := 0
-
-	arrString := StrSplit(string, A_Tab)
-
-	Loop % arrString.Length()
-	{
-		tmpStr := arrString[A_Index]
-	
-		; comment
-		if (InStr(tmpStr, "//") == 1) {
-			return ret
-		}
-
-		; multiple tab
-		if (!tmpStr) {
-			continue
-		}
-
-		if (bIsFirstStr) {
-			str1 := tmpStr
-			bIsFirstStr := False
-		} else {
-			str2 := tmpStr
-		}
-		ret++
-	}
-	return ret
-}
+ExitApp
