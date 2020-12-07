@@ -211,6 +211,9 @@ $^j:: Send, ^{Down}
 $^k:: Send, ^{Up}
 $^l:: Send, ^{Right}
 
+$^d:: Send, {PgDn}
+$^u:: Send, {PgUp}
+
 ; Auto Formating
 $=::
 	if (curPName == "Code.exe") {
@@ -379,7 +382,7 @@ VimMode_Notify(backC) {
 }
 
 VimMode_IsSupport() {
-	if (curPName == "Code.exe") {
+	if (curPName == "Code.exe" || curPName == "firefox.exe") {
 		return True
 	}
 
