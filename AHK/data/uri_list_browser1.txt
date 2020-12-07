@@ -1,4 +1,4 @@
 Google Keep			https://keep.google.com
-네이버 사전			https://dict.naver.com
+네이버 영어사전		https://en.dict.naver.com/#/main
 Boost Note			https://note.boostio.co/app/
 Gmail				https://mail.google.com/mail

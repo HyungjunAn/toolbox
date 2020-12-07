@@ -3,7 +3,7 @@
 global isVirtualDesktopLeft := True
 
 openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
-	local cmd = chrome.exe --app=%url%
+	local cmd := "chrome.exe --app=" . url
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
 	return Title
 }

@@ -63,18 +63,18 @@ global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.
 global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
 
 ; For Chrome
-global C_curTabNum	:= 0
-global C_maxTabNum	:= 0
-global C_uriListPath	:= "data/uri_list_chrome.txt"
-global C_uriTitles		:= []
-global C_uriAddresses 	:= []
+global BR0_curTabNum	:= 0
+global BR0_maxTabNum	:= 0
+global BR0_uriListPath	:= "data/uri_list_browser0.txt"
+global BR0_uriTitles		:= []
+global BR0_uriAddresses 	:= []
 
-; For MSEDGE
-global E_curTabNum	:= 0
-global E_maxTabNum	:= 0
-global E_uriListPath	:= "data/uri_list_edge.txt"
-global E_uriTitles		:= []
-global E_uriAddresses 	:= []
+; For Second Browser(ex. firefox, edge...)
+global BR1_curTabNum	:= 0
+global BR1_maxTabNum	:= 0
+global BR1_uriListPath	:= "data/uri_list_browser1.txt"
+global BR1_uriTitles		:= []
+global BR1_uriAddresses 	:= []
 
 global gsMailUriTitle	:= "Gmail"
 global gsMailUriAddress	:= "https://mail.google.com/mail"
@@ -110,7 +110,7 @@ If (A_UserName == "hyungjun.an") {
 	library				:= office_worklib
 	gvimFavorite		:= office_worklib
 	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc_Office.txt"
-	C_uriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
+	BR0_uriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
 
 	path := office_worklib_setting . "\AHK\url_mail.txt"
 	getUriFromFile(path, gsMailUriTitle, gsMailUriAddress)
@@ -119,8 +119,8 @@ If (A_UserName == "hyungjun.an") {
 ;-------------------------------------------
 ; 	Get URI's Title and Address
 ;-------------------------------------------
-C_maxTabNum := getUriArrayFromFile(C_uriListPath, C_uriTitles, C_uriAddresses)
-E_maxTabNum := getUriArrayFromFile(E_uriListPath, E_uriTitles, E_uriAddresses)
+BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
+BR1_maxTabNum := getUriArrayFromFile(BR1_uriListPath, BR1_uriTitles, BR1_uriAddresses)
 
 ;-------------------------------------------
 ; 	Process about TypeAndRun
@@ -217,21 +217,20 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ; Memo
 ;------------------------------------
 !^[::
+!^]::
     ;subName = Google Keep
     ;url = https://keep.google.com
     ;Title := openOrActivateUrl(subName, False, url, false)
-	ROA_BrowserTab("edge", 1)
+	ROA_BrowserTab(1, 1)
     return
 
 !^o:: 
-	ROA_BrowserTab("edge", 3)
+	ROA_BrowserTab(1, 3)
 	return
     ;subName := "Boost Note"
     ;url = https://note.boostio.co/app/
     ;Title := openOrActivateUrl(subName, True, url, false)
     ;return
-
-!^]:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\boostnote.next\Boost Note.exe")
 
 ;------------------------------------
 ; Program
@@ -320,7 +319,7 @@ $!^s:: Run, ms-settings:bluetooth
 ; Web Page
 ;------------------------------------
 !^q:: 
-	ROA_BrowserTab("edge", 2)
+	ROA_BrowserTab(1, 2)
     ;subName = 다음 영어사전
     ;url = http://small.dic.daum.net/index.do?dic=eng
     ;Title := openOrActivateUrl(subName, false, url, true)
@@ -336,7 +335,7 @@ $!^d::
 	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
 	} else {
-		ROA_BrowserTab("edge", 4)
+		ROA_BrowserTab(1, 4)
 		;openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
 	}
 	return 
@@ -375,10 +374,10 @@ $!^p::
 	return
 
 !^0::
-	C_curTabNum := Mod(C_curTabNum, C_maxTabNum) + 1
-	ROA_BrowserTab("chrome", C_curTabNum)
-	;E_curTabNum := Mod(E_curTabNum, E_maxTabNum) + 1
-	;ROA_BrowserTab("edge", E_curTabNum)
+	BR0_curTabNum := Mod(BR0_curTabNum, BR0_maxTabNum) + 1
+	ROA_BrowserTab(0, BR0_curTabNum)
+	;BR1_curTabNum := Mod(BR1_curTabNum, BR1_maxTabNum) + 1
+	;ROA_BrowserTab(1, BR1_curTabNum)
 	return
 
 ;------------------------------------
@@ -663,24 +662,32 @@ getOsVer() {
 
 ROA_BrowserTab(browser, tabNum)
 {
+	static readyChk := True
 	local maxNum
 	local uriTitles
 	local uriAddresses
 
+	if (!readyChk) {
+		return
+	} else {
+		readyChk := False
+	}
+
 	VDesktop_left()
 
-	if (browser == "chrome") {
+	if (browser == 0) {
 		runOrActivateProc("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")
-		C_curTabNum		:= tabNum
-		maxNum			:= C_maxTabNum
-		uriTitles		:= C_uriTitles
-		uriAddresses	:= C_uriAddresses
+		BR0_curTabNum		:= tabNum
+		maxNum			:= BR0_maxTabNum
+		uriTitles		:= BR0_uriTitles
+		uriAddresses	:= BR0_uriAddresses
 	} else {
-		runOrActivateProc("C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
-		E_curTabNum		:= tabNum
-		maxNum			:= E_maxTabNum
-		uriTitles		:= E_uriTitles
-		uriAddresses	:= E_uriAddresses
+		;runOrActivateProc("C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
+		runOrActivateProc("C:\Program Files\Mozilla Firefox\firefox.exe")
+		BR1_curTabNum		:= tabNum
+		maxNum			:= BR1_maxTabNum
+		uriTitles		:= BR1_uriTitles
+		uriAddresses	:= BR1_uriAddresses
 	}
 
 	if (maxNum < tabNum) {
@@ -689,7 +696,7 @@ ROA_BrowserTab(browser, tabNum)
 	}
 
 	Send, ^{%tabNum%}
-	sleep, 100
+	sleep, 300
     WinGetTitle, T, A
 	if (!InStr(T, uriTitles[tabNum]))
 	{
@@ -701,6 +708,8 @@ ROA_BrowserTab(browser, tabNum)
 		clipboard := tmp
 		Send, {Enter}
 	}
+
+	readyChk := True
 	return
 }
 
