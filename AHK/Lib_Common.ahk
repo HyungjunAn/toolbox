@@ -56,6 +56,8 @@ runOrActivateProc(exePath) {
 	if (!flag) {
 		Run, %exePath%
 	}
+
+	return flag
 }
 
 findWindow(subName, isFullMatching=True) {

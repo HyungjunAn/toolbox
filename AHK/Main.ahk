@@ -666,6 +666,7 @@ ROA_BrowserTab(browser, tabNum)
 	local maxNum
 	local uriTitles
 	local uriAddresses
+	local exePath := ""
 
 	if (!readyChk) {
 		return
@@ -676,30 +677,34 @@ ROA_BrowserTab(browser, tabNum)
 	VDesktop_left()
 
 	if (browser == 0) {
-		runOrActivateProc("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")
-		BR0_curTabNum		:= tabNum
+		exePath := "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+		BR0_curTabNum	:= tabNum
 		maxNum			:= BR0_maxTabNum
 		uriTitles		:= BR0_uriTitles
 		uriAddresses	:= BR0_uriAddresses
 	} else {
-		;runOrActivateProc("C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
-		runOrActivateProc("C:\Program Files\Mozilla Firefox\firefox.exe")
-		BR1_curTabNum		:= tabNum
+		;exePath := "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+		exePath := "C:\Program Files\Mozilla Firefox\firefox.exe"
+		BR1_curTabNum	:= tabNum
 		maxNum			:= BR1_maxTabNum
 		uriTitles		:= BR1_uriTitles
 		uriAddresses	:= BR1_uriAddresses
 	}
 
+	if (!runOrActivateProc(exePath)) {
+		Goto, FINISH
+	}
+
 	if (maxNum < tabNum) {
 		MsgBox, Error: tabNum is bigger then MaxTabNum
-		return
+		Goto, FINISH
 	}
 
 	Send, ^{%tabNum%}
 	sleep, 300
     WinGetTitle, T, A
-	if (!InStr(T, uriTitles[tabNum]))
-	{
+
+	if (!InStr(T, uriTitles[tabNum])) {
 		Send, ^l
 		tmp := clipboard
 		clipboard := uriAddresses[tabNum]
@@ -709,6 +714,7 @@ ROA_BrowserTab(browser, tabNum)
 		Send, {Enter}
 	}
 
+FINISH:
 	readyChk := True
 	return
 }
