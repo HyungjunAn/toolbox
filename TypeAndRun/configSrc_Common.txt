@@ -4,6 +4,11 @@
 timer			""
 
 //-----------------------------------------------------------------
+	%AHJ_TB_AHK%\util_suspend.ahk
+//-----------------------------------------------------------------
+_kill_suspend			""
+
+//-----------------------------------------------------------------
 	C:\Program Files (x86)\Notepad++\notepad++.exe
 //-----------------------------------------------------------------
 memo			%USERPROFILE%\Desktop\memo.txt
@@ -20,6 +25,8 @@ home			"%USERPROFILE%"
 //-----------------------------------------------------------------
 naver					http://www.senaver.com
 nmap					https://map.naver.com/
+npay					https://order.pay.naver.com/home
+nshopping				https://shopping.naver.com/
 googledrive_online		https://drive.google.com/
 
 cctv					https://alfred.camera/webapp/
@@ -46,3 +53,7 @@ hotkeys			%AHJ_TB_LIB%\hotkeys.md
 en_biz			%AHJ_TB_LIB%\en_biz.md
 en_voca			%AHJ_TB_LIB%\en_voca.md
 coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
+
+//-----------------------------------------------------------------
+	%AHJ_TB_AHK%\util_runOrActivateGvim.ahk
+//-----------------------------------------------------------------
