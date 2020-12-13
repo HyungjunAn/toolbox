@@ -241,6 +241,7 @@ $!^u:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Cod
 
 $^.::
 	if (gbIsInitDone) {
+		focusOnMain()
     	WinGet, p_name, ProcessName, ahk_pid %PID_GVIM_FAVORITE%
 
 		if (p_name != "gvim.exe") {

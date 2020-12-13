@@ -12,7 +12,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 	Local interval := 50
 	Local check := 0
 
-	VPC_FocusOut()
+	focusOnMain()
 	Title := findWindow(subName, isFullMatching)
 
 	if (!Title) {
@@ -37,7 +37,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 }
 
 runOrActivateProc(exePath) {
-	VPC_FocusOut()
+	focusOnMain()
 	flag := False
 	SplitPath, exePath, procName
 	WinGet windows, List
@@ -80,7 +80,7 @@ findWindow(subName, isFullMatching=True) {
 }
 
 runOrActivateGitBash(folderPath) {
-	VPC_FocusOut()
+	focusOnMain()
 
 	SplitPath, folderPath, folderName
 	WinGet windows, List
@@ -103,7 +103,7 @@ runOrActivateGitBash(folderPath) {
 }
 
 runOrActivateGvim(filePath) {
-	VPC_FocusOut()
+	focusOnMain()
 
 	SplitPath, filePath, fileName
 
@@ -170,4 +170,9 @@ VDesktop_left() {
 		isVirtualDesktopLeft := True
 		sleep 200
 	}
+}
+
+focusOnMain() {
+	VDesktop_left()
+	VPC_FocusOut()
 }
