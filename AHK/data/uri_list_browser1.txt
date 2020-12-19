@@ -1,4 +1,6 @@
 Google Keep			https://keep.google.com
 네이버 영어사전		https://en.dict.naver.com/#/main
 Boost Note			https://note.boostio.co/app/
+Papago				https://papago.naver.com/
+Google 캘린더		https://calendar.google.com
 Gmail				https://mail.google.com/mail

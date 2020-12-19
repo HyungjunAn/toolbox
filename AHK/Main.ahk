@@ -336,7 +336,7 @@ $!^d::
 	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
 	} else {
-		ROA_BrowserTab(1, 4)
+		ROA_BrowserTab(1, 6)
 		;openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
 	}
 	return 
@@ -353,7 +353,12 @@ RShift & LButton::
 	}
 	return 
 
-$!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
+; Google Ä¶¸°´õ
+$!^f:: ROA_BrowserTab(1, 5)
+;$!^f::  openOrActivateUrl("Google Ä¶¸°´õ", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
+
+; Papago
+$!^t:: ROA_BrowserTab(1, 4)
 
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
