@@ -66,11 +66,11 @@ VPC_OpenUrlOnLocal() {
 	ret := False
 
 	if (VPC_IsCurWinVpc()) {
-		Send, {RButton}
+		SendInput, {RButton}
 		tmp := clipboard
 		clipboard=""
 		sleep, 50
-		Send, e
+		SendInput, e
 		sleep, 50
 
 		if (InStr(clipboard, "http") == 1) {

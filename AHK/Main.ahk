@@ -256,7 +256,7 @@ $^.::
 		if (curPid != PID_GVIM_FAVORITE) {
 			WinActivate, ahk_pid %PID_GVIM_FAVORITE%
 		} else {
-			Send, ^p
+			SendInput, ^p
 		}
 	}
 	return
@@ -291,7 +291,7 @@ $!^n::
 #c::
 	runOrActivateWin("Ä¸Ã³ µµ±¸", false, "SnippingTool")
 	if (getOsVer() == 10) {
-		Send, ^n
+		SendInput, ^n
 	}
     Return
     
@@ -332,7 +332,7 @@ $!^s:: Run, ms-settings:bluetooth
 ; Mail
 $!^d::
 	if (VPC_ActivateVpcIfExist()) {
-		Send, !^d
+		SendInput, !^d
 	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
 	} else {
@@ -343,13 +343,13 @@ $!^d::
 
 $MButton::
 	if (!isOffice || !VPC_OpenUrlOnLocal()) {
-		Send, {MButton}
+		SendInput, {MButton}
 	}
 	return 
 
 RShift & LButton::
 	if (!isOffice || !VPC_OpenUrlOnLocal()) {
-		Send, +{LButton}
+		SendInput, +{LButton}
 	}
 	return 
 
@@ -376,7 +376,7 @@ $^,::
 $!^p::
 	VPC_FocusOut()
 	VDesktop_left()
-	Send, !^p
+	SendInput, !^p
 	return
 
 !^0::
@@ -404,64 +404,64 @@ $F1::
 	}
 	return
 
-$!^F1::Send, {F1}
+$!^F1::SendInput, {F1}
 
 $SC11d:: RControl
 ; special character translator(Shift & Right Alt)
-Shift & SC138:: Send, {sc1f1}
+Shift & SC138:: SendInput, {sc1f1}
 
 ; korean english trans
-;+SPACE:: Send, {vk15SC138}
-!^Space:: Send {Home}+{End}
-#,::Send {backspace}
-#.::Send {delete}
+;+SPACE:: SendInput, {vk15SC138}
+!^Space:: SendInput, {Home}+{End}
+#,::SendInput, {backspace}
+#.::SendInput, {delete}
 
-$+ESC:: Send, ~
-$`:: Send, {ESC}
+$+ESC:: SendInput, ~
+$`:: SendInput, {ESC}
 
-$^`:: Send, ^``
+$^`:: SendInput, ^``
 
 $!Esc::
-$!`:: Send ``
+$!`:: SendInput, ``
 
-^#m:: Send {AppsKey}
-^#s:: Send {F2}
-!^w:: Send !{F4}
+^#m:: SendInput, {AppsKey}
+^#s:: SendInput, {F2}
+!^w:: SendInput, !{F4}
 
 ; For Right Hand
-RShift & Left:: 	Send, ^c
-RShift & Down:: 	Send, ^z
-RShift & Up::	 	Send, ^+z
-RShift & Right:: 	Send, ^v
+RShift & Left:: 	SendInput, ^c
+RShift & Down:: 	SendInput, ^z
+RShift & Up::	 	SendInput, ^+z
+RShift & Right:: 	SendInput, ^v
 
-RShift & Delete:: 	Send, ^x
+RShift & Delete:: 	SendInput, ^x
 
-+PrintScreen:: 	Send, {PrintScreen}
-+ScrollLock:: 	Send, {ScrollLock}
-+Pause:: 		Send, {Pause}
++PrintScreen:: 	SendInput, {PrintScreen}
++ScrollLock:: 	SendInput, {ScrollLock}
++Pause:: 		SendInput, {Pause}
 
 ; Virtual Desktop 
-$^#w:: Send ^#{F4}
-$^#n:: Send ^#{left}
-$^#p:: Send ^#{right}
+$^#w:: SendInput, ^#{F4}
+$^#n:: SendInput, ^#{left}
+$^#p:: SendInput, ^#{right}
 
-#h:: Send {Left}
-#j:: Send {Down}
-#k:: Send {Up}
-#l:: Send {Right}
+#h:: SendInput, {Left}
+#j:: SendInput, {Down}
+#k:: SendInput, {Up}
+#l:: SendInput, {Right}
 
-#w:: Send {Home}
-#s:: Send {End}
-#q:: Send {PgUp}
-#a:: Send {PgDn}
+#w:: SendInput, {Home}
+#s:: SendInput, {End}
+#q:: SendInput, {PgUp}
+#a:: SendInput, {PgDn}
 
 $!f::
     WinGet, p_name, ProcessName, A
 
 	if (p_name == "Code.exe") {
-		Send, ^d^+f
+		SendInput, ^d^+f
 	} else {
-		Send, !f
+		SendInput, !f
 	}
 	return
 
@@ -470,11 +470,11 @@ $^n::
 
     if (p_name == "KakaoTalk.exe") {
         mouseMoveOnRightMid()
-        Send, {WheelDown}
+        SendInput, {WheelDown}
     } else if (p_name == "powershell.exe") {
-		Send, {Down}
+		SendInput, {Down}
 	} else {
-		Send, ^n
+		SendInput, ^n
 	}
     return
 
@@ -483,39 +483,39 @@ $^p::
 
     if (p_name == "KakaoTalk.exe") {
         mouseMoveOnRightMid()
-        Send, {WheelUp}
+        SendInput, {WheelUp}
     } else if (p_name == "powershell.exe") {
-		Send, {Up}
+		SendInput, {Up}
 	} else {
-		Send, ^p
+		SendInput, ^p
 	}
     return
 
 $^#,:: 
     If isInActiveProcessName("Chrome.exe")
-        Send, !{Left}
+        SendInput, !{Left}
     else
-        Send, ^#,
+        SendInput, ^#,
     return
 $^#.:: 
     If isInActiveProcessName("Chrome.exe")
-        Send, !{Right}
+        SendInput, !{Right}
     else
-        Send, ^#.
+        SendInput, ^#.
     return
 
-$^BS:: Send ^+{Left}{Backspace}
-!^BS:: Send ^+{Right}{Backspace}
+$^BS:: SendInput, ^+{Left}{Backspace}
+!^BS:: SendInput, ^+{Right}{Backspace}
 
 ; Sound Control
-#`:: Send {Volume_Down}
-#1:: Send {Volume_Up}
-#2:: Send {Volume_Mute}
+#`:: SendInput, {Volume_Down}
+#1:: SendInput, {Volume_Up}
+#2:: SendInput, {Volume_Mute}
 
 ; Click Window
 #!^,:: 
 	mouseMoveOnRightMid()
-	Send, {LButton}
+	SendInput, {LButton}
 	return
 
 ; Windows Always on Top Toggle
@@ -540,7 +540,7 @@ $!^F12::
 		MsgBox, There is no GVIM window.
 	return 
 
-$!^-:: Send, -------------------------------------------------------------
+$!^-:: SendInput, -------------------------------------------------------------
 
 ;------------------------------------
 ; Display Resolution
@@ -706,18 +706,18 @@ ROA_BrowserTab(browser, tabNum)
 		Goto, FINISH
 	}
 
-	Send, ^{%tabNum%}
+	SendInput, ^{%tabNum%}
 	sleep, 300
     WinGetTitle, T, A
 
 	if (!InStr(T, uriTitles[tabNum])) {
-		Send, ^l
+		SendInput, ^l
 		tmp := clipboard
 		clipboard := uriAddresses[tabNum]
 		sleep, 60
-		Send, ^v
+		SendInput, ^v
 		clipboard := tmp
-		Send, {Enter}
+		SendInput, {Enter}
 	}
 
 FINISH:

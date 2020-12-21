@@ -37,14 +37,14 @@ $`::
 	Suspend, Permit
 
 	if (!isSupport) {
-		Send, {Esc}
+		SendInput, {Esc}
 	} else if (curMode == M_COMMAND) {
-		Send, {Esc}
+		SendInput, {Esc}
 	} else if (curMode == M_EDIT) {
 		VimMode_SetMode(M_NORMAL)
 	} else {
 		VimMode_SetMode(M_NORMAL)
-		Send, {Esc}
+		SendInput, {Esc}
 	}
 	return
 
@@ -58,14 +58,14 @@ $+`;::
 			isGoToLine := true
 
 		if (UserInput == "w" || UserInput == "W") {
-			Send, ^s
+			SendInput, ^s
 		} else if (isGoToLine) {
 			if (curPName == "Code.exe") {
-				Send, ^g
+				SendInput, ^g
 				sleep, 50
-				Send, %UserInput%
+				SendInput, %UserInput%
 				sleep, 50
-				Send, {Enter}
+				SendInput, {Enter}
 			}
 		} else {
 			MsgBox, bad command!!
@@ -80,17 +80,17 @@ $j::VimMode_Send("{Down}")
 $k::VimMode_Send("{Up}")
 $l::VimMode_Send("{Right}")
 
-$+j::Send, {End}{Delete}
+$+j::SendInput, {End}{Delete}
 
 $!+s::
-	Send, !+s
+	SendInput, !+s
 	if (curPName == "Code.exe") {
 		VimMode_SetMode(M_EDIT)
 	}
 	return
 
 $!+k::
-	Send, !+k
+	SendInput, !+k
 	if (curPName == "Code.exe") {
 		VimMode_SetMode(M_EDIT)
 	}
@@ -98,7 +98,7 @@ $!+k::
 
 
 $^+p::
-	Send, ^+p
+	SendInput, ^+p
 	if (curPName == "Code.exe") {
 		VimMode_SetMode(M_EDIT)
 	}
@@ -107,7 +107,7 @@ $^+p::
 $+w::
 $w::
 	if (isCutReady) {
-		Send, +^{Right}
+		SendInput, +^{Right}
 		VimMode_Cut()
 	} else {
 		VimMode_Send("^{Right}")
@@ -116,7 +116,7 @@ $w::
 
 $b::
 	if (isCutReady) {
-		Send, +^{Left}
+		SendInput, +^{Left}
 		VimMode_Cut()
 	} else {
 		VimMode_Send("^{Left}")
@@ -130,11 +130,11 @@ $v:: VimMode_SetMode(M_VISUAL)
 $+v:: VimMode_SetMode(M_LINE)
 
 $u::
-	Send ^z
+	SendInput, ^z
 	return
 
 $^r::
-	Send ^y
+	SendInput, ^y
 	return
 
 
@@ -142,7 +142,7 @@ $^r::
 $+p::
 $p::
 	if (isLineCopy) {
-		Send, {End}
+		SendInput, {End}
 	}
 	VimMode_Paste()
 	return
@@ -162,7 +162,7 @@ $d::
 
 $x::
 	if (curMode != M_VISUAL && curMode != M_LINE) {
-		Send, +{Right}
+		SendInput, +{Right}
 	}
 
 	VimMode_Cut()
@@ -182,51 +182,51 @@ $i::
 	return
 
 $+i::
-	Send, {Home}
+	SendInput, {Home}
 	VimMode_SetMode(M_EDIT)
 	return
 
 $+a::
-	Send, {End}
+	SendInput, {End}
 	VimMode_SetMode(M_EDIT)
 	return
 
 $o::
-	Send, {End}{Enter}
+	SendInput, {End}{Enter}
 	VimMode_SetMode(M_EDIT)
 	return
 
 $+o::
-	Send, {Home}{Enter}{Up}
+	SendInput, {Home}{Enter}{Up}
 	VimMode_SetMode(M_EDIT)
 	return
 
 $^p::
-	Send, ^p
+	SendInput, ^p
 	VimMode_SetMode(M_EDIT)
 	return
 
-$^h:: Send, ^{Left}
-$^j:: Send, ^{Down}
-$^k:: Send, ^{Up}
-$^l:: Send, ^{Right}
+$^h:: SendInput, ^{Left}
+$^j:: SendInput, ^{Down}
+$^k:: SendInput, ^{Up}
+$^l:: SendInput, ^{Right}
 
-$^d:: Send, {PgDn}
-$^u:: Send, {PgUp}
+$^d:: SendInput, {PgDn}
+$^u:: SendInput, {PgUp}
 
 ; Auto Formating
 $=::
 	if (curPName == "Code.exe") {
-		Send, ^k^f
+		SendInput, ^k^f
 	} else {
-		Send, =
+		SendInput, =
 	}
 	return
 
 ; Search
 $^f::
 $/::
-	Send, ^f
+	SendInput, ^f
 	VimMode_SetMode(M_EDIT)
 	return
 
@@ -237,11 +237,11 @@ $f::
 $q::
 $e::
 $c::
-$z:: Send, {}
+$z:: SendInput, {}
 
 VimMode_Send(key) {
 	if (curMode == M_VISUAL) {
-		Send, +%key%
+		SendInput, +%key%
 	} else if (curMode == M_LINE) {
 		isUp := False
 		tmpLine := curLine + 1
@@ -253,24 +253,24 @@ VimMode_Send(key) {
 
 		if (curLine == 0) {
 			if (isUp) {
-				Send, {End}+{Home}+{Home}
+				SendInput, {End}+{Home}+{Home}
 			} else {
-				Send, {End}{Home}{Home}
+				SendInput, {End}{Home}{Home}
 			}
 		}
 
 		curLine := tmpLine
-		Send, +%key%
+		SendInput, +%key%
 
 		if (curLine < 0) {
 			;
 		} else if (curLine > 0) {
-			Send, +{End}
+			SendInput, +{End}
 		} else {
-			Send, {End}+{Home}+{Home}
+			SendInput, {End}+{Home}+{Home}
 		}
 	} else {
-		Send, %key%
+		SendInput, %key%
 	}
 }
 
@@ -289,7 +289,7 @@ VimMode_SetMode(mode) {
 	} else if (curMode == M_LINE) {
 		Suspend, off
 		VimMode_Notify("F39C12")
-		Send, {End}+{Home}+{Home}
+		SendInput, {End}+{Home}+{Home}
 	} else {
 		isCutReady := False
 		Suspend, off
@@ -302,7 +302,7 @@ VimMode_Paste() {
 		return
 	}
 
-	Send, ^v
+	SendInput, ^v
 }
 
 VimMode_Cut() {
@@ -322,22 +322,22 @@ _VimMode_Clip(sendStr) {
 		isLineCopy := True
 
 		if (curLine == 0) {
-			Send, {End}+{Home}+{Home}+{Left}
+			SendInput, {End}+{Home}+{Home}+{Left}
 		} else if (curLine < 0) {
-			Send, +{Left}
+			SendInput, +{Left}
 		} else if (curLine > 0) {
-			Send, {Right}+{Home}+{Home}
+			SendInput, {Right}+{Home}+{Home}
 			Loop %curLine% {
-				Send, +{Up}
+				SendInput, +{Up}
 			}
-			Send, +{Left}
+			SendInput, +{Left}
 		}
 	}
 
-	Send, %sendStr%
+	SendInput, %sendStr%
 	
 	if (curMode == M_LINE) {
-		Send, {Right}
+		SendInput, {Right}
 	}
 
 	ClipWait, 0.5

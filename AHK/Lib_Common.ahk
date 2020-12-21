@@ -27,7 +27,7 @@ runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
 		}
 		if isCancelingFullScreen {
 			WinActivate, %Title%
-			Send, #{Down}
+			SendInput, #{Down}
 			sleep, 200
 		}
 	}
@@ -157,16 +157,16 @@ getTwoString(string, ByRef str1, ByRef str2) {
 
 VDesktop_toggle() {
 	if (isVirtualDesktopLeft) {
-		Send, ^#{right}
+		SendInput, ^#{right}
 	} else {
-		Send, ^#{left}
+		SendInput, ^#{left}
 	}
 	isVirtualDesktopLeft := !isVirtualDesktopLeft
 }
 
 VDesktop_left() {
 	if (isVirtualDesktopLeft == False) {
-		Send, ^#{left}
+		SendInput, ^#{left}
 		isVirtualDesktopLeft := True
 		sleep 200
 	}

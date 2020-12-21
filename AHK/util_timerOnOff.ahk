@@ -17,7 +17,7 @@ Process, Exist, xntimer.exe
 if !ErrorLevel {
     Run, %xnote_timer%
     WinWaitActive, XNote Timer, , 2
-    Send, {F11}
+    SendInput, {F11}
 } else {
 	Process, Close, xntimer.exe
 }
