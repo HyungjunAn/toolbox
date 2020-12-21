@@ -70,9 +70,7 @@ $+`;::
 			if (curPName == "Code.exe") {
 				SendInput, ^g
 				sleep, 50
-				SendInput, %UserInput%
-				sleep, 50
-				SendInput, {Enter}
+				SendInput, %UserInput%{Enter}
 			}
 		} else {
 			MsgBox, bad command!!

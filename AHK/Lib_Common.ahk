@@ -168,13 +168,12 @@ VDesktop_left() {
 	if (isVirtualDesktopLeft == False) {
 		SendInput, ^#{left}
 		isVirtualDesktopLeft := True
-		sleep 200
 	}
 }
 
 focusOnMain() {
-	VDesktop_left()
 	VPC_FocusOut()
+	VDesktop_left()
 }
 
 removeBeginNewline(str) {

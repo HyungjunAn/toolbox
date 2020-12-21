@@ -68,16 +68,17 @@ VPC_OpenUrlOnLocal() {
 	if (VPC_IsCurWinVpc()) {
 		SendInput, {RButton}
 		tmp := clipboard
-		clipboard=""
-		sleep, 50
+		clipboard := ""
+		sleep, 30
 		SendInput, e
-		sleep, 50
+		sleep, 30
 
 		if (InStr(clipboard, "http") == 1) {
 			Run, Chrome.exe %clipboard%
 			VPC_FocusOut()
 			ret := True
 		}
+
 		clipboard := tmp
 	}
 	

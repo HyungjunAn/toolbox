@@ -712,12 +712,12 @@ ROA_BrowserTab(browser, tabNum)
 
 	if (!InStr(T, uriTitles[tabNum])) {
 		SendInput, ^l
+		sleep, 30
 		tmp := clipboard
 		clipboard := uriAddresses[tabNum]
-		sleep, 60
-		SendInput, ^v
+		SendInput, ^v{Enter}
+		sleep, 30
 		clipboard := tmp
-		SendInput, {Enter}
 	}
 
 FINISH:
@@ -784,7 +784,7 @@ activateSelectPid(index)
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Show, x%X% y%Y% w%W% h%H% NoActivate,
 
-	Sleep % 40
+	Sleep, 40
 	Gui, Destroy
 }
 
