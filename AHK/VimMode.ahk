@@ -1,3 +1,5 @@
+#include Lib_Common.ahk
+
 Global isCopying := False
 Global isLineCopy := False
 Global isBlock := False
@@ -11,6 +13,11 @@ Global M_VISUAL := 1
 Global M_LINE := 2
 Global M_NORMAL := 3
 Global M_COMMAND := 4
+
+Global PASTE_PREV	:= 0
+Global PASTE_NEXT	:= 1
+Global CLIP_COPY	:= 0
+Global CLIP_CUT		:= 1
 
 Global isSupport := False
 Global curMode := M_NORMAL
@@ -139,13 +146,8 @@ $^r::
 
 
 ; Copy & Cut & Paste
-$+p::
-$p::
-	if (isLineCopy) {
-		SendInput, {End}
-	}
-	VimMode_Paste()
-	return
+$+p::  VimMode_Paste(PASTE_PREV)
+$p::   VimMode_Paste(PASTE_NEXT)
 
 $d::
 	if (curMode == M_NORMAL && !isCutReady) {
@@ -297,55 +299,102 @@ VimMode_SetMode(mode) {
 	}
 }
 
-VimMode_Paste() {
+VimMode_Paste(mode) {
+	local backup := ""
+
 	if (isCopying) {
 		return
 	}
 
+	isCopying := True
+	backup := Clipboard
+	
+	if (isLineCopy) {
+		if (mode == PASTE_PREV) {
+			Send, {End}{Home}{Home}
+			Clipboard := backup . "`n"
+		} else if (mode == PASTE_NEXT) {
+			Send, {End}
+			Clipboard := "`n" . backup
+		} else {
+			MsgBox, Error: Worng Paste Mode!!
+			return
+		} 
+	}
+
 	SendInput, ^v
+	sleep, 50
+	Clipboard := backup
+	isCopying := False
 }
 
 VimMode_Cut() {
-	_VimMode_Clip("^x")
+	_VimMode_Clip(CLIP_CUT)
 }
 
 VimMode_Copy() {
-	_VimMode_Clip("^c")
+	_VimMode_Clip(CLIP_COPY)
 }
 
-_VimMode_Clip(sendStr) {
-	isCopying := True
+_VimMode_ClipSendInput(mode) {
 	Clipboard := ""
-	isLineCopy := False
 
-	if (curMode == M_LINE) {
-		isLineCopy := True
-
-		if (curLine == 0) {
-			SendInput, {End}+{Home}+{Home}+{Left}
-		} else if (curLine < 0) {
-			SendInput, +{Left}
-		} else if (curLine > 0) {
-			SendInput, {Right}+{Home}+{Home}
-			Loop %curLine% {
-				SendInput, +{Up}
-			}
-			SendInput, +{Left}
-		}
+	if (mode == CLIP_COPY) {
+		SendInput, ^c
+	} else if (mode == CLIP_CUT) {
+		SendInput, ^x
 	}
-
-	SendInput, %sendStr%
 	
-	if (curMode == M_LINE) {
-		SendInput, {Right}
-	}
-
 	ClipWait, 0.5
 
 	if (ErrorLevel) {
 		MsgBox, ClipWait Error
 	}
+}
 
+_VimMode_Clip(mode) {
+	isCopying := True
+
+	if (curMode != M_LINE) {
+		isLineCopy := False
+		_VimMode_ClipSendInput(mode)
+		Goto, FINISH
+	}
+
+	; curMode is M_LINE
+	isLineCopy := True
+
+	if (curLine == 0) {
+		SendInput, {End}+{Home}+{Home}
+	}
+
+	if (mode == CLIP_COPY) {
+		_VimMode_ClipSendInput(mode)
+
+		if (curLine <= 0) {
+			SendInput, {Left}
+		} else {
+			SendInput, {Right}
+		}
+	} else if (mode == CLIP_CUT) {
+		if (curLine <= 0) {
+			SendInput, +{Left}
+		} else if (curLine > 0) {
+			SendInput, +{Right}
+		}
+
+		_VimMode_ClipSendInput(mode)
+
+		if (curLine <= 0) {
+			Clipboard := removeBeginNewline(Clipboard)
+		} else {
+			Clipboard := removeEndNewline(Clipboard)
+		}
+	} else {
+		MsgBox, Error: wrong mode!
+	}
+
+FINISH:
 	VimMode_SetMode(M_NORMAL)
 	isCopying := False
 }

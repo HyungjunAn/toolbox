@@ -176,3 +176,31 @@ focusOnMain() {
 	VDesktop_left()
 	VPC_FocusOut()
 }
+
+removeBeginNewline(str) {
+	local n := 0
+	
+	if (SubStr(str, 1, 2) == "`r`n") {
+		n := 2
+	} else if (SubStr(str, 1, 1) == "`n") {
+		n := 1
+	} else {
+		return str
+	}
+
+	return SubStr(str, 1 + n)
+}
+
+removeEndNewline(str) {
+	local n := 0
+
+	if (SubStr(str, -1) == "`r`n") {
+		n := 2
+	} else if (SubStr(str, 0) == "`n") {
+		n := 1
+	} else {
+		return str
+	}
+
+	return SubStr(str, 1, StrLen(str) - n)
+}
