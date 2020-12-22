@@ -429,7 +429,7 @@ VimMode_Notify(backC) {
 }
 
 VimMode_IsSupport() {
-	if (curPName == "Code.exe" || curPName == "firefox.exe") {
+	if (curPName == "Code.exe") {
 		return True
 	}
 

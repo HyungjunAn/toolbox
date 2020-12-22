@@ -216,21 +216,13 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 ; Memo
 ;------------------------------------
-!^[::
-!^]::
-    ;subName = Google Keep
-    ;url = https://keep.google.com
-    ;Title := openOrActivateUrl(subName, False, url, false)
-	ROA_BrowserTab(1, 1)
-    return
+; Google Keep - home
+!^o:: ROA_BrowserTab(1, 1)
 
-!^o:: 
-	ROA_BrowserTab(1, 3)
-	return
-    ;subName := "Boost Note"
-    ;url = https://note.boostio.co/app/
-    ;Title := openOrActivateUrl(subName, True, url, false)
-    ;return
+; Google Keep - archive
+!^[::
+!^]:: ROA_BrowserTab(1, 3)
+
 
 ;------------------------------------
 ; Program
@@ -374,8 +366,7 @@ $^,::
 
 ; TypeAndRun
 $!^p::
-	VPC_FocusOut()
-	VDesktop_left()
+	focusOnMain()
 	SendInput, !^p
 	return
 
@@ -666,9 +657,9 @@ getOsVer() {
 	return ver
 }
 
-ROA_BrowserTab(browser, tabNum)
-{
+ROA_BrowserTab(browser, tabNum) {
 	static readyChk := True
+
 	local maxNum
 	local uriTitles
 	local uriAddresses
@@ -680,7 +671,7 @@ ROA_BrowserTab(browser, tabNum)
 		readyChk := False
 	}
 
-	VDesktop_left()
+	focusOnMain()
 
 	if (browser == 0) {
 		exePath := PATH_CHROME
@@ -706,17 +697,13 @@ ROA_BrowserTab(browser, tabNum)
 	}
 
 	SendInput, ^{%tabNum%}
-	sleep, 300
-    WinGetTitle, T, A
 
-	if (!InStr(T, uriTitles[tabNum])) {
+	if (!COMMON_WinWait("", uriTitles[tabNum], 1000)) {
 		SendInput, ^l
-		sleep, 30
-		tmp := clipboard
-		clipboard := uriAddresses[tabNum]
-		SendInput, ^v{Enter}
-		sleep, 30
-		clipboard := tmp
+		sleep, 50
+		uri := uriAddresses[tabNum]
+		SendInput, %uri%{Enter}
+		COMMON_WinWait("", uriTitles[tabNum], 3000)
 	}
 
 FINISH:

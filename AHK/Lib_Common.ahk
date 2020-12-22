@@ -237,3 +237,32 @@ openUrl(url) {
 
 	return
 }
+
+COMMON_WinWait(title, text, timeout_ms) {
+	static interval := 50
+
+	local T := ""
+	local cnt := 0
+	local threshold := timeout_ms / interval
+	
+	if ((title && text) || (!title && !text) || timeout_ms <= 0) {
+		MsgBox, Error: wrong param
+		return False
+	}
+
+	if (title) {
+		while (T != title && cnt < threshold) {
+    		WinGetTitle, T, A
+			cnt++
+			sleep, %interval%
+		}
+	} else {
+		while (!InStr(T, text) && cnt < threshold) {
+    		WinGetTitle, T, A
+			cnt++
+			sleep, %interval%
+		}
+	}
+
+	return (cnt < threshold)
+}
