@@ -1,4 +1,8 @@
 #include Lib_VPC.ahk
+		
+global PATH_CHROME	:= "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
 global isVirtualDesktopLeft := True
 
@@ -50,6 +54,7 @@ runOrActivateProc(exePath) {
 			WinGetTitle, title, ahk_id %id%
 			WinActivate, %title%
 			flag := True
+			break
 		}
 	}
 
@@ -202,4 +207,33 @@ removeEndNewline(str) {
 	}
 
 	return SubStr(str, 1, StrLen(str) - n)
+}
+
+openUrl(url) {
+	focusOnMain()
+	flag := False
+	SplitPath, PATH_CHROME, procName
+	WinGet windows, List
+	
+	Loop %windows% {
+		id := windows%A_Index%
+		WinGet, name, ProcessName, ahk_id %id%
+	
+		if (name == procName) {
+			WinGetTitle, title, ahk_id %id%
+			WinActivate, %title%
+			flag := True
+			break
+		}
+	}
+
+	if (flag) {
+		SendInput, ^t
+		sleep, 30
+		SendInput, %url%{Enter}
+	} else {
+		Run, %PATH_CHROME% %url%
+	}
+
+	return
 }

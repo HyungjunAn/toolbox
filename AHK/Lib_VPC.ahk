@@ -74,8 +74,8 @@ VPC_OpenUrlOnLocal() {
 		sleep, 30
 
 		if (InStr(clipboard, "http") == 1) {
-			Run, Chrome.exe %clipboard%
 			VPC_FocusOut()
+			openUrl(clipboard)
 			ret := True
 		}
 

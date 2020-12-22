@@ -19,7 +19,8 @@ ghlql			"%USERPROFILE%\Google 드라이브\DocTemplates\회비 계산"
 guitar			"%USERPROFILE%\Google 드라이브\Music\Guitar"
 
 //-----------------------------------------------------------------
-	C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
+	//C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
+	%AHJ_TB_AHK%\util_openUrl.ahk
 //-----------------------------------------------------------------
 guitar_lecture			https://spmusic.tistory.com/category/%ED%86%B5%EA%B8%B0%ED%83%80%20%EB%B0%B0%EC%9A%B0%EA%B8%B0-%EA%B8%B0%EC%B4%88%ED%8E%B8?page=2
 

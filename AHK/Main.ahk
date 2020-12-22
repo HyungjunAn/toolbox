@@ -683,14 +683,13 @@ ROA_BrowserTab(browser, tabNum)
 	VDesktop_left()
 
 	if (browser == 0) {
-		exePath := "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+		exePath := PATH_CHROME
 		BR0_curTabNum	:= tabNum
 		maxNum			:= BR0_maxTabNum
 		uriTitles		:= BR0_uriTitles
 		uriAddresses	:= BR0_uriAddresses
 	} else {
-		;exePath := "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-		exePath := "C:\Program Files\Mozilla Firefox\firefox.exe"
+		exePath := PATH_FIREFOX
 		BR1_curTabNum	:= tabNum
 		maxNum			:= BR1_maxTabNum
 		uriTitles		:= BR1_uriTitles
