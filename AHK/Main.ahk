@@ -90,6 +90,11 @@ global garSelectPid_file	:= []
 
 global PID_AHK_VIMMODE 			:= 0
 
+global DIRECTION_LEFT	:= 0
+global DIRECTION_RIGHT	:= 1
+global DIRECTION_UP		:= 2
+global DIRECTION_DOWN	:= 3
+
 global VimMode := "VimMode.ahk"
 
 global isOffice := False
@@ -457,43 +462,28 @@ $!f::
 	return
 
 $^n:: 
-    WinGet, p_name, ProcessName, A
-
-    if (p_name == "KakaoTalk.exe") {
-        mouseMoveOnRightMid()
-        SendInput, {WheelDown}
-    } else if (p_name == "powershell.exe") {
-		SendInput, {Down}
-	} else {
+	if(!IfSend_UpDown(DIRECTION_DOWN)) {
 		SendInput, ^n
 	}
-    return
+	return
 
 $^p::
-    WinGet, p_name, ProcessName, A
-
-    if (p_name == "KakaoTalk.exe") {
-        mouseMoveOnRightMid()
-        SendInput, {WheelUp}
-    } else if (p_name == "powershell.exe") {
-		SendInput, {Up}
-	} else {
+	if(!IfSend_UpDown(DIRECTION_UP)) {
 		SendInput, ^p
 	}
-    return
+	return
 
-$^#,:: 
-    If isInActiveProcessName("Chrome.exe")
-        SendInput, !{Left}
-    else
-        SendInput, ^#,
-    return
-$^#.:: 
-    If isInActiveProcessName("Chrome.exe")
-        SendInput, !{Right}
-    else
-        SendInput, ^#.
-    return
+$!^,:: 
+	if (!IfSend_LeftRight(DIRECTION_LEFT)) {
+		SendInput, !^,
+	}
+	return
+
+$!^.:: 
+	if (!IfSend_LeftRight(DIRECTION_RIGHT)) {
+		SendInput, !^,
+	}
+	return
 
 $^BS:: SendInput, ^+{Left}{Backspace}
 !^BS:: SendInput, ^+{Right}{Backspace}
@@ -504,10 +494,10 @@ $^BS:: SendInput, ^+{Left}{Backspace}
 #2:: SendInput, {Volume_Mute}
 
 ; Click Window
-#!^,:: 
-	mouseMoveOnRightMid()
-	SendInput, {LButton}
-	return
+;#!^,:: 
+;	mouseMoveOnRightMid()
+;	SendInput, {LButton}
+;	return
 
 ; Windows Always on Top Toggle
 #'::
@@ -627,11 +617,6 @@ alarm() {
 		Sleep % ms_interval
 		myMotto(ms_alarm_time)
 	}
-}
-
-isInActiveProcessName(str) {
-    WinGet, p_name, ProcessName, A
-    return, InStr(p_name, str)
 }
 
 mouseMoveOnRightMid() {
@@ -800,4 +785,43 @@ Explorer_GetCurrentPath(hwnd="") {
             SplitPath, path,,dir
         }
         return dir
+}
+
+IfSend_UpDown(mode) {
+	local isWheel := False
+	local direction := (mode == DIRECTION_UP)? "Up": "Down"
+
+    WinGet, p_name, ProcessName, A
+
+    if (p_name == "KakaoTalk.exe" || p_name == "firefox.exe") {
+		isWheel := True
+    } else if (p_name == "powershell.exe") {
+		;
+	} else {
+		return False
+	}
+
+	if (isWheel) {
+        mouseMoveOnRightMid()
+    	SendInput, {Wheel%direction%}
+	} else {
+		SendInput, {%$direction%}
+	}
+
+	return True
+}
+
+IfSend_LeftRight(mode) {
+	local direction := (mode == DIRECTION_LEFT)? "Left": "Right"
+
+    WinGet, p_name, ProcessName, A
+
+    if (p_name == "Chrome.exe" || p_name == "firefox.exe") {
+		;
+	} else {
+		return False
+	}
+
+	SendInput, !{%direction%}
+	return True
 }
