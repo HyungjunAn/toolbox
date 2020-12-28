@@ -210,6 +210,8 @@ removeEndNewline(str) {
 }
 
 openUrl(url) {
+	local tmp := ""
+
 	focusOnMain()
 	flag := False
 	SplitPath, PATH_CHROME, procName
@@ -229,8 +231,13 @@ openUrl(url) {
 
 	if (flag) {
 		SendInput, ^t
-		sleep, 30
-		SendInput, %url%{Enter}
+		sleep, 50
+		tmp := Clipboard
+		Clipboard := url
+		SendInput, ^v
+		sleep, 50
+		SendInput, {Enter}
+		Clipboard := tmp
 	} else {
 		Run, %PATH_CHROME% %url%
 	}
