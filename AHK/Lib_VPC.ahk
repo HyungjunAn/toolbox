@@ -63,25 +63,26 @@ VPC_SwitchWinIfExist() {
 }
 
 VPC_OpenUrlOnLocal() {
-	ret := False
+	local uri := ""
 
 	if (VPC_IsCurWinVpc()) {
 		SendInput, {RButton}
-		tmp := clipboard
-		clipboard := ""
-		sleep, 30
+		tmp := Clipboard
+		Clipboard := ""
+		sleep, 50
 		SendInput, e
-		sleep, 30
+		sleep, 50
+		uri := Clipboard
+		Clipboard := tmp
 
-		if (InStr(clipboard, "http") == 1) {
+		if (InStr(uri, "http") == 1) {
 			VPC_FocusOut()
-			openUrl(clipboard)
-			ret := True
+			openUrl(uri)
 		}
 
-		clipboard := tmp
+		return True
+	} else {
+		return False
 	}
-	
-	return ret
 }
 
