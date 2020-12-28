@@ -649,6 +649,7 @@ ROA_BrowserTab(browser, tabNum) {
 	local uriTitles
 	local uriAddresses
 	local exePath := ""
+	local tmp := ""
 
 	if (!readyChk) {
 		return
@@ -686,8 +687,12 @@ ROA_BrowserTab(browser, tabNum) {
 	if (!COMMON_WinWait("", uriTitles[tabNum], 1000)) {
 		SendInput, ^l
 		sleep, 50
-		uri := uriAddresses[tabNum]
-		SendInput, %uri%{Enter}
+		tmp := Clipboard
+		Clipboard := uriAddresses[tabNum]
+		SendInput, ^v
+		sleep, 50
+		SendInput, {Enter}
+		Clipboard := tmp
 		COMMON_WinWait("", uriTitles[tabNum], 3000)
 	}
 
