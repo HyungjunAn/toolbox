@@ -235,7 +235,7 @@ openUrl(url) {
 		tmp := Clipboard
 		Clipboard := url
 		SendInput, ^v
-		sleep, 100
+		sleep, 200
 		SendInput, {Enter}
 		Clipboard := tmp
 	} else {
