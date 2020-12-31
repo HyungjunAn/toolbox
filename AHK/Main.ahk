@@ -810,7 +810,7 @@ IfSend_UpDown(mode) {
         mouseMoveOnRightMid()
     	SendInput, {Wheel%direction%}
 	} else {
-		SendInput, {%$direction%}
+		SendInput, {%direction%}
 	}
 
 	return True
