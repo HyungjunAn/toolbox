@@ -800,7 +800,7 @@ IfSend_UpDown(mode) {
 
     if (p_name == "KakaoTalk.exe" || p_name == "firefox.exe") {
 		isWheel := True
-    } else if (p_name == "powershell.exe") {
+    } else if (p_name == "PowerShell.exe") {
 		;
 	} else {
 		return False
