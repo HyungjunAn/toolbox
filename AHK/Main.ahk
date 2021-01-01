@@ -689,11 +689,9 @@ ROA_BrowserTab(browser, tabNum) {
 		sleep, 50
 		tmp := Clipboard
 		Clipboard := uriAddresses[tabNum]
-		SendInput, ^v
-		sleep, 50
-		SendInput, {Enter}
-		Clipboard := tmp
+		SendInput, ^v{Enter}
 		COMMON_WinWait("", uriTitles[tabNum], 3000)
+		Clipboard := tmp
 	}
 
 FINISH:
