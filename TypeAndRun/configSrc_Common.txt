@@ -51,8 +51,8 @@ ahkVimMode		%AHJ_TB_AHK%\VimMode.ahk
 git				%AHJ_TB_LIB%\git.md
 linux_cmd		%AHJ_TB_LIB%\linux_cmd.md
 hotkeys			%AHJ_TB_LIB%\hotkeys.md
-en_biz			%AHJ_TB_LIB%\en_biz.md
-en_voca			%AHJ_TB_LIB%\en_voca.md
+en_note			%AHJ_TB_LIB%\en_note.md
+en_grammar		%AHJ_TB_LIB%\en_grammar.md
 coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
 
 //-----------------------------------------------------------------
