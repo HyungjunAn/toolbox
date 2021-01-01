@@ -7,7 +7,7 @@ global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 global isVirtualDesktopLeft := True
 
 openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
-	local cmd := "chrome.exe --app=" . url
+	local cmd := PATH_CHROME . " --app=" . url
 	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
 	return Title
 }
@@ -213,36 +213,40 @@ openUrl(url) {
 	local tmp := ""
 
 	focusOnMain()
-	flag := False
-	SplitPath, PATH_CHROME, procName
-	WinGet windows, List
-	
-	Loop %windows% {
-		id := windows%A_Index%
-		WinGet, name, ProcessName, ahk_id %id%
-	
-		if (name == procName) {
-			WinGetTitle, title, ahk_id %id%
-			WinActivate, %title%
-			flag := True
-			break
-		}
-	}
 
-	if (flag) {
-		SendInput, ^t
-		sleep, 50
-		tmp := Clipboard
-		Clipboard := url
-		SendInput, ^v
-		sleep, 200
-		SendInput, {Enter}
-		Clipboard := tmp
-	} else {
-		Run, %PATH_CHROME% %url%
-	}
-
+	Run, %PATH_CHROME% %url%
 	return
+
+;	flag := False
+;	SplitPath, PATH_CHROME, procName
+;	WinGet windows, List
+;	
+;	Loop %windows% {
+;		id := windows%A_Index%
+;		WinGet, name, ProcessName, ahk_id %id%
+;	
+;		if (name == procName) {
+;			WinGetTitle, title, ahk_id %id%
+;			WinActivate, %title%
+;			flag := True
+;			break
+;		}
+;	}
+;
+;	if (flag) {
+;		SendInput, ^t
+;		sleep, 50
+;		tmp := Clipboard
+;		Clipboard := url
+;		SendInput, ^v
+;		sleep, 200
+;		SendInput, {Enter}
+;		Clipboard := tmp
+;	} else {
+;		Run, %PATH_CHROME% %url%
+;	}
+;
+;	return
 }
 
 COMMON_WinWait(title, text, timeout_ms) {
