@@ -819,7 +819,7 @@ IfSend_LeftRight(mode) {
 
     WinGet, p_name, ProcessName, A
 
-    if (p_name == "Chrome.exe" || p_name == "firefox.exe") {
+    if (p_name == "chrome.exe" || p_name == "firefox.exe") {
 		;
 	} else {
 		return False
