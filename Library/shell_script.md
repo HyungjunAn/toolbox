@@ -248,6 +248,72 @@
 		# 문자열이 부분문자열로 끝나면 치환:	${<변수>/%<부분문자열>/<치환문자열>}
 ```
 
+-------------------------------------------------------------
+
+## 분기문 if
+```bash
+	# 문법
+		if <CONDITION1>
+		then
+			...
+		elif <CONDITION2>
+		then
+			...
+		else
+			...
+		fi
+
+		if <CONDITION1>; then
+			...
+		fi
+```
+```bash
+	# Condition type 1: test 명령어
+		// 산술 비교
+		test $n1 -eq $n2		// ==	(EQual)
+		test $n1 -ne $n2		// !=	(Not Equal)
+		test $n1 -gt $n2		// >	(Greater Than)
+		test $n1 -ge $n2		// >=	(Greater Equal)
+		test $n1 -lt $n2		// <	(Less Than)
+		test $n1 -le $n2		// <=	(Less Equal)
+
+		// 문자열 비교
+		test -n $str			// 빈 문자열이 아니면 참
+		test $str				
+
+		test $str1 = $str2		// 같다면 참
+		test $str1 == $str2
+
+		test $str1 != $str2		// 다르면 참
+
+		test -z $str			// 빈 문자열이면 참
+
+		// 파일 비교
+		test -b $FILE		// 블럭 디바이스이면 참
+		test -c $FILE		// 문자 디바이스이면 참
+		test -d $FILE 		// 디렉토리이면 참
+		test -e $FILE		// 존재하면 참
+		test -f $FILE		// 존재하고 정규파일이면 참
+		test -L $FILE		// 심볼릭 링크이면 참
+		test -p $FILE		// 파이프이면 참
+		test -r $FILE		// 현재 사용자가 읽을 수 있으면 참
+		test -s $FILE		// 존재하고 그 크기가 0보다 크면 참
+		test -S $FILE		// 소켓 디바이스이면 참
+		test -w $FILE		// 현재 사용자가 쓸 수 있으면 참
+		test -x $FILE		// 현재 사용자가 실행할 수 있으면 참
+		test $FILE1 -nt $FILE2		// FILE1이 더 최근 파일이면 참
+		test $FILE1 -ot $FILE2		// FILE1이 더 오래된 파일이면 참
+	
+
+	# Condition type 2: [] 이용
+		# test와 동일하게 사용됨
+		# !!반드시 앞 뒤로 공백이 있어야 함!!
+
+		if [ $n1 -eq 0 ]; then
+			...
+		fi
+
+```
 
 
 
