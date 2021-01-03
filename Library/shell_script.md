@@ -266,6 +266,10 @@
 		if <CONDITION1>; then
 			...
 		fi
+
+		if <CMD>; then
+			...
+		fi
 ```
 ```bash
 	# Condition type 1: test 명령어
@@ -305,7 +309,7 @@
 		test $FILE1 -ot $FILE2		// FILE1이 더 오래된 파일이면 참
 	
 
-	# Condition type 2: [] 이용
+	# Condition type 2: []		// test 대체
 		# test와 동일하게 사용됨
 		# !!반드시 앞 뒤로 공백이 있어야 함!!
 
@@ -313,7 +317,229 @@
 			...
 		fi
 
+	# Condition type 3: ()		// 산술식
+		if (( (($n1 % 2)) == 0 )); then
+			echo "even"
+		else
+			echo "odd"
+		fi
+	
+	# Condition type 4: [[]]	// 정규 표현식
+		# 앞 뒤로 공백 필수
+		# $str =~ <REGEX>
+
+		if [[ ! "$str" =~ ^-?[0-9]+$ ]]; then
+			echo "str is not an integer"
+		fi
+
+	# Logical Operator
+	|--------|----|----------|
+	|Operator|test|[[]], (())|
+	|--------|----|----------|
+	|AND     |-a  | &&       |
+	|OR      |-o  | ||       |
+	|NOT     |!   | !        |
+	|--------|----|----------|
 ```
 
+## 분기문 case
+```bash
+	case $str in
+		0) ...; exit;
+		1) ...; exit;
+		*) ...; exit;
+	esac
 
+	|--------------|--------------------|
+	| Pattern      | Description        |
+	|--------------|--------------------|
+	| word)        | == word            |
+	| [[:alpha:]]) | One alpabet        |
+	| ???)         | three character    |
+	| *.txt)       | wild card          |
+	| *)           | wild card(default) |
+	| q|Q)         | q or Q             |
+	|--------------|--------------------|
+```
 
+## 삼항 연산자
+```bash
+	expr1 ? expr2 : expr3
+
+	((n > 0 ? ++n : --n))
+```
+
+## 반복문 while: 조건이 참인동안 수행
+```bash
+	while <CONDITION>
+	do
+		...
+			continue
+		...
+			break
+	done
+```
+
+## 반복문 until: 조건이 거짓일동안 수행
+```bash
+	until <CONDITION>; do
+		...
+	done
+```
+
+## 반복문 for
+```bash
+	// 기본
+	for i in 1 2 3 4 5; do
+		echo "$i:"
+	done
+
+	// 문자열
+	ns="1 2 3 4 5"
+	for i in $ns; do
+		echo "$i:"
+	done
+
+	// 명령어 치환
+	for i in $(cat input.txt); do
+		echo "$i:"
+	done
+```
+
+## 배열
+```bash
+	// 선언 및 배정
+	arr1=(1 2 3)
+	arr2=([2]=1 [4]="word" [10]=$(pwd))
+	arr3[2]=4
+
+	// 참조
+	arr=("alpha" "bravo" "Charlie")
+	echo $arr
+	echo ${arr[1]}
+	echo ${arr[*]}
+	# length
+	echo ${#arr[@]}
+
+	// 원소 삭제
+	arr=("alpha" "bravo" "Charlie")
+	unset arr[2]
+	echo ${arr[*]}
+	unset arr
+	echo ${arr[*]}
+```
+
+## 함수
+```bash
+	function func {
+		...
+		return
+	}
+```
+```bash
+	# 매개변수 확인: $1 $2 ... ${10}
+		# 10 이후의 매개변수는 {} 사용해야 함
+
+	function isEven() {
+		# 지역변수는 local 키워드를 반드시 붙혀야 함 / 아니면 전역으로 판단됨
+		local ret=0
+
+		if (( $1 % 2 )); then
+			ret=0
+		else 
+			ret=1
+		fi
+
+		return $ret
+	}
+
+	# return 값 확인: ${?}
+	isEven 1
+	echo ${?}
+
+	isEven 2
+	echo ${?}
+```
+```bash
+	# 매개 변수 개수: $#	// $0은 제외됨
+	# 매개 변수를 순회하는 shift 명령어
+	function printAll() {
+		echo "num of param: $#"
+
+		while [ -n "$1" ]; do
+			echo -n "$1 "
+			shift
+		done
+		echo
+	}
+
+	printAll 1 2 3 4
+	printAll apple bravo charlie
+```
+```bash
+	# 매개변수 확장
+		# $* / $@: 모든 인자를 목록으로 확장함
+		# "$*": 하나의 문자열로 확장
+		# "$@": 각각의 문자열로 확장
+
+	function printParam() {
+		echo \$*: $*
+		echo \$@: $@
+		echo
+		echo '"$*":'
+		for arg in "$*"; do
+			echo "$arg"
+		done
+		echo
+
+		echo '"$@":'
+		for arg in "$@"; do
+			echo "$arg"
+		done
+	}
+
+	printParam alpha bravo charlie
+```
+```bash
+	# 스크립트 이름: $0
+	echo $0
+```
+
+## 옵션처리
+```bash
+	while getopts "abc" opt; do
+		case $opt in
+			a) echo "-a"
+			b) echo "-b"
+			c) echo "-c"
+			*) echo " wrong"
+		esac
+	done
+```
+
+## signal(시그널) 처리
+```bash
+	# 등록:
+		# trap "<CMD>" <SIGNAL>
+		# trap '<CMD>' <SIGNAL>
+	# 해제: trap -- <SIGNAL>
+
+	function mySig() {
+		echo "mySig::'Ctrl + C'"
+	}
+	
+	echo "set trap with cmd"
+	trap "echo 'Ctrl + C'" SIGINT
+	sleep 10
+	
+	echo "set trap with function"
+	trap mySig SIGINT
+	sleep 10
+	
+	echo "unset trap"
+	trap -- SIGINT
+	sleep 10
+
+	# 스크립트 종료시에 실행될 동작 지정
+	trap "echo 'Exit Script!!'" EXIT
+```
