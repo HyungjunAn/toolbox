@@ -344,9 +344,9 @@ $MButton::
 	}
 	return 
 
-RShift & LButton::
+RShift & Space::
 	if (!isOffice || !VPC_OpenUrlOnLocal()) {
-		SendInput, +{LButton}
+		SendInput, +{Space}
 	}
 	return 
 
