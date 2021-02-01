@@ -32,6 +32,7 @@ googledrive_online		https://drive.google.com/
 
 cctv					https://alfred.camera/webapp/
 
+papago					https://papago.naver.com/
 translator				https://papago.naver.com/
 
 //-----------------------------------------------------------------

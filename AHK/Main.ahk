@@ -222,11 +222,12 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ; Memo
 ;------------------------------------
 ; Google Keep - home
-!^o:: ROA_BrowserTab(1, 1)
+;!^o:: ROA_BrowserTab(1, 1)
+!^o:: openOrActivateUrl("Google Keep", false, "https://keep.google.com")
 
 ; Google Keep - archive
-!^[::
-!^]:: ROA_BrowserTab(1, 3)
+;!^[::
+;!^]:: ROA_BrowserTab(1, 3)
 
 
 ;------------------------------------
@@ -316,8 +317,9 @@ $!^s:: Run, ms-settings:bluetooth
 ;------------------------------------
 ; Web Page
 ;------------------------------------
-!^q:: 
-	ROA_BrowserTab(1, 2)
+!^q:: openOrActivateUrl("네이버 영어사전", false, "https://en.dict.naver.com/#/main")
+;!^q:: 
+	;ROA_BrowserTab(1, 2)
     ;subName = 다음 영어사전
     ;url = http://small.dic.daum.net/index.do?dic=eng
     ;Title := openOrActivateUrl(subName, false, url, true)
@@ -333,8 +335,8 @@ $!^d::
 	} else if (isOffice) {
 		runOrActivateWin("- chrome", false, "chrome")
 	} else {
-		ROA_BrowserTab(1, 6)
-		;openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
+		;ROA_BrowserTab(1, 6)
+		openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
 	}
 	return 
 
@@ -351,11 +353,12 @@ RShift & Space::
 	return 
 
 ; Google 캘린더
-$!^f:: ROA_BrowserTab(1, 5)
-;$!^f::  openOrActivateUrl("Google 캘린더", false, "https://calendar.google.com/calendar/b/" . google_homeID_num . "/r")
+;$!^f:: ROA_BrowserTab(1, 5)
+$!^f:: openOrActivateUrl("Google Calendar", false, "https://calendar.google.com/")
 
 ; Papago
-$!^t:: ROA_BrowserTab(1, 4)
+;$!^t:: ROA_BrowserTab(1, 4)
+$!^[:: openOrActivateUrl("Papago", false, "https://papago.naver.com/")
 
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
