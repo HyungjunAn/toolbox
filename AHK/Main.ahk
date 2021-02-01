@@ -378,12 +378,15 @@ $!^p::
 	SendInput, !^p
 	return
 
-!^0::
-	BR0_curTabNum := Mod(BR0_curTabNum, BR0_maxTabNum) + 1
-	ROA_BrowserTab(0, BR0_curTabNum)
-	;BR1_curTabNum := Mod(BR1_curTabNum, BR1_maxTabNum) + 1
-	;ROA_BrowserTab(1, BR1_curTabNum)
-	return
+;!^0::
+;	BR0_curTabNum := Mod(BR0_curTabNum, BR0_maxTabNum) + 1
+;	ROA_BrowserTab(0, BR0_curTabNum)
+;	;BR1_curTabNum := Mod(BR1_curTabNum, BR1_maxTabNum) + 1
+;	;ROA_BrowserTab(1, BR1_curTabNum)
+;	return
+
+!^0:: openOrActivateUrl(BR0_uriTitles[1], false, BR0_uriAddresses[1])
+;BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
 
 ;------------------------------------
 ; YouTube
