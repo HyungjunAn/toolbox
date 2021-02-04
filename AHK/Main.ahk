@@ -848,6 +848,8 @@ reloadTypeAndRun() {
 runWinFindTool() {
 	Local Title := ""
 	Local Titles := ""
+	Local Line := 0
+	Local Height := 0
 
     WinGet windows, List
 
@@ -856,12 +858,23 @@ runWinFindTool() {
     	WinGetTitle Title, ahk_id %id%
 		if (Title) {
 			Titles := Titles . Title . "`n"
+			Line := Line + 1
 		}
     }
 
-	InputBox, UserInput, Type Window Name to Find, %Titles%, , 400, 400, , , , 2
+	;MsgBox, %Line%
 
-	if (!ErrorLevel) {
+	if (Line > 20) {
+		Height := 600
+	} else if (Line > 10) {
+		Height := 400
+	} else {
+		Height := 200
+	}
+
+	InputBox, UserInput, Type Window Name to Find, %Titles%, , 800, %Height%, , , , 10
+
+	if (!ErrorLevel && UserInput) {
 		subName := UserInput
 	} else {
 		return
