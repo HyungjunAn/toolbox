@@ -34,6 +34,7 @@ cctv					https://alfred.camera/webapp/
 
 papago					https://papago.naver.com/
 translator				https://papago.naver.com/
+vpc						https://vpc.lge.com/
 
 //-----------------------------------------------------------------
 	%AHJ_TB_AHK%\util_runOrActivateGvim.ahk
