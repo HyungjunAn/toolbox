@@ -130,20 +130,7 @@ BR1_maxTabNum := getUriArrayFromFile(BR1_uriListPath, BR1_uriTitles, BR1_uriAddr
 ;-------------------------------------------
 ; 	Process about TypeAndRun
 ;-------------------------------------------
-ifExist, %typeandrun%, {
-	closeProcess("TypeAndRun.exe")
-	if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common)) {
-		FileDelete, %dir_typeandrun%\~Config.ini
-		FileDelete, %dir_typeandrun%\Config.ini
-
-		cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
-		RunWait, %cmd%
-
-		cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc_Common%" "%dir_typeandrun%\Config.ini"
-		RunWait, %cmd%
-	}
-	Run, %typeandrun%
-}
+reloadTypeAndRun()
 
 ;-------------------------------------------
 ; 	Process about PID
@@ -298,7 +285,7 @@ $!^n::
 $!^m:: runOrActivateProc("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 
 ; Internet Explorer
-$!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
+;$!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
 
 ; KakaoTalk
 $!^`;::
@@ -376,6 +363,13 @@ $!^p::
 	focusOnMain()
 	SendInput, !^p
 	return
+
+$!^+p::
+	reloadTypeAndRun()
+	myMotto(300)
+	return
+
+$!^i:: runWinFindTool()
 
 !^9::
 	BR0_curTabNum := Mod(BR0_curTabNum, BR0_maxTabNum) + 1
@@ -832,4 +826,52 @@ IfSend_LeftRight(mode) {
 
 	SendInput, !{%direction%}
 	return True
+}
+
+reloadTypeAndRun() {
+	ifExist, %typeandrun%, {
+		closeProcess("TypeAndRun.exe")
+		if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common)) {
+			FileDelete, %dir_typeandrun%\~Config.ini
+			FileDelete, %dir_typeandrun%\Config.ini
+	
+			cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
+			RunWait, %cmd%
+	
+			cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc_Common%" "%dir_typeandrun%\Config.ini"
+			RunWait, %cmd%
+		}
+		Run, %typeandrun%
+	}
+}
+
+runWinFindTool() {
+	Local Title := ""
+	Local Titles := ""
+
+    WinGet windows, List
+
+    Loop %windows% {
+    	id := windows%A_Index%
+    	WinGetTitle Title, ahk_id %id%
+		if (Title) {
+			Titles := Titles . Title . "`n"
+		}
+    }
+
+	InputBox, UserInput, Type Window Name to Find, %Titles%, , 400, 400, , , , 2
+
+	if (!ErrorLevel) {
+		subName := UserInput
+	} else {
+		return
+	}
+	
+    Loop %windows% {
+    	id := windows%A_Index%
+    	WinGetTitle Title, ahk_id %id%
+        IfInString, Title, %subName%, {
+			WinActivate, %Title%
+		}
+    }
 }
