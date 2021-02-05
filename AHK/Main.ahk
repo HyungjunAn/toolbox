@@ -862,12 +862,14 @@ runWinFindTool() {
 		}
     }
 
-	;MsgBox, %Line%
+	;MsgBox, %Line% %A_DetectHiddenWindows%
 
 	if (Line > 20) {
-		Height := 600
+		Height := 800
+	} else if (Line > 15) {
+		Height := 500
 	} else if (Line > 10) {
-		Height := 400
+		Height := 300
 	} else {
 		Height := 200
 	}
