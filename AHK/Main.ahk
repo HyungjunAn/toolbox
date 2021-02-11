@@ -81,7 +81,6 @@ global gsMailUriAddress	:= "https://mail.google.com/mail"
 
 global gbIsInitDone 	:= False
 
-global gsPath_PID_GVIM_FAVORITE	:= "tmp/tmpGvimFavoritePid.txt"
 global PID_GVIM_FAVORITE 		:= 0
 
 global maxSelectPidNum		:= 4
@@ -135,8 +134,6 @@ reloadTypeAndRun()
 ;-------------------------------------------
 ; 	Process about PID
 ;-------------------------------------------
-FileReadLine, PID_GVIM_FAVORITE, %gsPath_PID_GVIM_FAVORITE%, 1
-
 Loop % maxSelectPidNum
 {
 	garSelectPid_pid[A_Index] := 0
@@ -224,25 +221,46 @@ $!^u:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Cod
 ;		Run, onenote:
 
 $^.::
-	if (gbIsInitDone) {
-		focusOnMain()
-    	WinGet, p_name, ProcessName, ahk_pid %PID_GVIM_FAVORITE%
+	focusOnMain()
+    WinGet, p_name, ProcessName, ahk_pid %PID_GVIM_FAVORITE%
 
-		if (p_name != "gvim.exe") {
-			Run, gvim "%gvimFavorite%\*.txt" "%USERPROFILE%\Desktop\_memo.txt",,, PID_GVIM_FAVORITE
-			FileDelete, %gsPath_PID_GVIM_FAVORITE%
-			FileAppend, %PID_GVIM_FAVORITE%, %gsPath_PID_GVIM_FAVORITE%
-			return
+	if (p_name != "gvim.exe") {
+		FileList := "_memo.txt`n"
+
+		Loop, Files, %gvimFavorite%\*.txt,
+		{
+			FileList .= A_LoopFileName "`n"
 		}
 
-    	WinGet, curPid, PID, A
-		
-		if (curPid != PID_GVIM_FAVORITE) {
-			WinActivate, ahk_pid %PID_GVIM_FAVORITE%
-		} else {
-			SendInput, ^p
+		Loop, Parse, FileList, `n
+		{
+			title := findWindow(A_LoopField, False)
+
+			if (title) {
+				WinActivate, %title%
+				WinWaitActive, %title%,, 2
+
+				if (!ErrorLevel) {
+    				WinGet, PID_GVIM_FAVORITE, PID, A
+				}
+
+				return
+			}
 		}
+
+		Run, gvim "%gvimFavorite%\*.txt" "%USERPROFILE%\Desktop\_memo.txt",,, PID_GVIM_FAVORITE
+
+		return
 	}
+
+    WinGet, curPid, PID, A
+	
+	if (curPid != PID_GVIM_FAVORITE) {
+		WinActivate, ahk_pid %PID_GVIM_FAVORITE%
+	} else {
+		SendInput, ^p
+	}
+
 	return
 
 !^h::	activateSelectPid(1)
