@@ -1,0 +1,3 @@
+##.ytp-pause-overlay
+www.youtube.com##.ytp-scroll-min.ytp-pause-overlay
+
