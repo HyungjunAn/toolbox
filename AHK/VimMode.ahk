@@ -1,3 +1,4 @@
+ExitApp
 #include Lib_Common.ahk
 
 Global isCopying := False
