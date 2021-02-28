@@ -425,9 +425,6 @@ Shift & SC138:: SendInput, {sc1f1}
 
 ; korean english trans
 ;+SPACE:: SendInput, {vk15SC138}
-!^Space:: SendInput, {Home}+{End}
-#,::SendInput, {backspace}
-#.::SendInput, {delete}
 
 $+ESC:: SendInput, ~
 $`:: SendInput, {ESC}
@@ -458,15 +455,47 @@ $^#w:: SendInput, ^#{F4}
 $^#n:: SendInput, ^#{left}
 $^#p:: SendInput, ^#{right}
 
+;-------------------------------------------------------------
+; Move & Edit
+;-------------------------------------------------------------
+!^Space:: SendInput, {Home}+{End}
+#,::SendInput, {backspace}
+#.::SendInput, {delete}
+
+; Undo
+^#,::SendInput, ^z
+; Redo
+^#.::SendInput, ^y
+
 #h:: SendInput, {Left}
 #j:: SendInput, {Down}
 #k:: SendInput, {Up}
 #l:: SendInput, {Right}
 
++#h:: SendInput, +{Left}
++#j:: SendInput, +{Down}
++#k:: SendInput, +{Up}
++#l:: SendInput, +{Right}
+
+^#h:: SendInput, ^{Left}
+^#j:: SendInput, ^{Down}
+^#k:: SendInput, ^{Up}
+^#l:: SendInput, ^{Right}
+
++^#h:: SendInput, +^{Left}
++^#j:: SendInput, +^{Down}
++^#k:: SendInput, +^{Up}
++^#l:: SendInput, +^{Right}
+
 #w:: SendInput, {Home}
 #s:: SendInput, {End}
 #q:: SendInput, {PgUp}
 #a:: SendInput, {PgDn}
+
++#w:: SendInput, +{Home}
++#s:: SendInput, +{End}
++#q:: SendInput, +{PgUp}
++#a:: SendInput, +{PgDn}
 
 $!f::
     WinGet, p_name, ProcessName, A
