@@ -364,6 +364,8 @@ $!^f:: openOrActivateUrl("Google Calendar", false, "https://calendar.google.com/
 ;$!^t:: ROA_BrowserTab(1, 4)
 $!^[:: openOrActivateUrl("Papago", false, "https://papago.naver.com/")
 
+$!^1:: openOrActivateUrl(" - Colaboratory", false, "https://colab.research.google.com")
+
 $!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
 
