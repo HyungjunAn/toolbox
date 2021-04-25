@@ -521,15 +521,27 @@ $^p::
 	}
 	return
 
+$!,:: 
+	if (!IfSend_LeftRight("!{Left}")) {
+		SendInput, !,
+	}
+	return
+
+$!.:: 
+	if (!IfSend_LeftRight("!{Right}")) {
+		SendInput, !.
+	}
+	return
+	
 $!^,:: 
-	if (!IfSend_LeftRight(DIRECTION_LEFT)) {
+	if (!IfSend_LeftRight("^+{Tab}")) {
 		SendInput, !^,
 	}
 	return
 
 $!^.:: 
-	if (!IfSend_LeftRight(DIRECTION_RIGHT)) {
-		SendInput, !^,
+	if (!IfSend_LeftRight("^{Tab}")) {
+		SendInput, !^.
 	}
 	return
 
@@ -862,19 +874,15 @@ IfSend_UpDown(mode) {
 	return True
 }
 
-IfSend_LeftRight(mode) {
-	local direction := (mode == DIRECTION_LEFT)? "Left": "Right"
-
+IfSend_LeftRight(keystr) {
     WinGet, p_name, ProcessName, A
 
     if (p_name == "chrome.exe" || p_name == "firefox.exe") {
-		;
+		SendInput, %keystr%
+		return True
 	} else {
 		return False
 	}
-
-	SendInput, !{%direction%}
-	return True
 }
 
 reloadTypeAndRun() {
