@@ -411,13 +411,7 @@ $!^i:: runWinFindTool()
 ;------------------------------------
 Capslock::Ctrl
 
-$F1::
-	if (GetKeyState("CapsLock", "T")) {
-		SetCapsLockState, off
-	} else {
-		SetCapsLockState, on
-	}
-	return
+$F1:: SetCapsLockState % !GetKeyState("CapsLock", "T")
 
 $!^F1::SendInput, {F1}
 
@@ -440,17 +434,27 @@ $!`:: SendInput, ``
 ^#s:: SendInput, {F2}
 !^w:: SendInput, !{F4}
 
+;=============================================================
 ; For Right Hand
+;-------------------------------------------------------------
 RShift & Left:: 	SendInput, ^c
+RShift & Right:: 	SendInput, ^v
 RShift & Down:: 	SendInput, ^z
 RShift & Up::	 	SendInput, ^+z
-RShift & Right:: 	SendInput, ^v
-
 RShift & Delete:: 	SendInput, ^x
+RShift & Enter::
+    WinGetTitle, Title, A
+	if (Title == "작업 보기") {
+		SendInput, {Esc}
+	} else {
+		SendInput, #{Tab}
+	}
+	return 
 
-+PrintScreen:: 	SendInput, {PrintScreen}
-+ScrollLock:: 	SendInput, {ScrollLock}
-+Pause:: 		SendInput, {Pause}
+RShift & PgUp:: SendInput, ^{Tab}
+RShift & PgDn:: SendInput, ^+{Tab}
+RShift & SC11d:: SendInput, !{Tab}
+;=============================================================
 
 ; Virtual Desktop 
 $^#w:: SendInput, ^#{F4}
@@ -582,6 +586,7 @@ $!^F12::
 	return 
 
 $!^-:: SendInput, -------------------------------------------------------------
+$!^=:: SendInput, =============================================================
 
 ;------------------------------------
 ; Display Resolution
