@@ -37,14 +37,14 @@ VPC_Notify(backC) {
 	Gui, VPC:-Caption +alwaysontop +ToolWindow
 	H := 40
 	Y := A_ScreenHeight - H
-	Gui, VPC:Show, w400 y%Y% h%H% NoActivate, GUI_VPC_NOTIFIY
+	Gui, VPC:Show, w200 y%Y% h%H% NoActivate, GUI_VPC_NOTIFIY
 }
 
 VPC_FocusOut() {
 	if (VPC_IsCurWinVpc()) {
 		MsgBox, , , , 0.001
 		WinMinimize, %_gsVpcWinTitle%
-		VPC_Notify("Green")
+		VPC_Notify("39E114")
 	}
 }
 
