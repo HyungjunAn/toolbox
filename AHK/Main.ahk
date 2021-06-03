@@ -40,7 +40,8 @@
 ;$!^+v::
 ;$!^+n:: 
 ;!^+p::
-;!^+c::
+;!^t::
+;!^s::
 
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
@@ -50,9 +51,10 @@
 #include Lib_VPC.ahk
 
 SetWorkingDir, %A_ScriptDir%
+CoordMode, Screen
+
 global path_setting := getParentPath(A_ScriptDir)
 
-global isGuiOn			:= True
 global guiShowFlag		:= False
 
 global library				:= USERPROFILE . "\Google 드라이브\Library"
@@ -105,6 +107,9 @@ global google_homeID_num := 0
 
 myMotto()
 
+; Make temp file
+FileCreateDir, tmp
+
 ;-------------------------------------------
 ; 	Process about Office Environment
 ;-------------------------------------------
@@ -146,7 +151,6 @@ Loop % maxSelectPidNum
 SetCapsLockState, off
 SetScrollLockState, off
 
-;alarm()
 gbIsInitDone := True
 Gui, Destroy
 Run, %VimMode%, , , PID_AHK_VIMMODE
@@ -155,7 +159,7 @@ Run, %VimMode%, , , PID_AHK_VIMMODE
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
-$!+r:: 
+$!^r:: 
 	Process, Close, %PID_AHK_VIMMODE%
 	gbIsInitDone = False
 	Reload
@@ -163,7 +167,6 @@ $!+r::
 
 ; Control Script Suspending
 $^Delete::
-	isGuiOn := True
 	myMotto(200, "White")
 	Process, Close, %PID_AHK_VIMMODE%
 	ExitApp
@@ -171,7 +174,6 @@ $^Delete::
 
 $!+a:: 
 	Suspend, Toggle
-	isGuiOn := True
 	if (!A_IsSuspended) {
 		Run, %typeandrun%
 		SetCapsLockState, off
@@ -180,19 +182,8 @@ $!+a::
 	} else {
 		closeProcess("TypeAndRun.exe")
 		myMotto(200, "Green")
-		isGuiOn := False
 		Process, Close, %PID_AHK_VIMMODE%
 	}
-	Return
-
-; GUI Off
-$!^a::
-	myMotto(200, "F39C12")
-	isGuiOn := !isGuiOn
-	if (!isGuiOn) {
-		Gui, Destroy
-	}
-	myMotto(200)
 	Return
 
 ;------------------------------------
@@ -203,22 +194,9 @@ $!^a::
 $#d:: 	Run, %USERPROFILE%\Desktop
 
 ;------------------------------------
-; Memo
-;------------------------------------
-; Google Keep - home
-;!^o:: ROA_BrowserTab(1, 1)
-!^o:: openOrActivateUrl("Google Keep", false, "https://keep.google.com")
-
-; Google Keep - archive
-;!^[::
-;!^]:: ROA_BrowserTab(1, 3)
-
-
-;------------------------------------
 ; Program
 ;------------------------------------
 $!^u:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
-;		Run, onenote:
 
 $^.::
 	focusOnMain()
@@ -302,9 +280,6 @@ $!^n::
 ; MobaXterm
 $!^m:: runOrActivateProc("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 
-; Internet Explorer
-;$!^i::runOrActivateWin("- Internet Explorer", false, "iexplore.exe")
-
 ; KakaoTalk
 $!^`;::
 	IfExist, C:\Program Files (x86)\Kakao
@@ -315,22 +290,29 @@ $!^`;::
 	runOrActivateWin("카카오톡", false, cmd)
 	return
 
-; SystemSettings.exe
-$!^s:: Run, ms-settings:bluetooth
+; Notepad++
+$!^8:: runOrActivateWin("- notepad++", false, "notepad++")
 
-;------------------------------------
+;=============================================================
 ; Web Page
-;------------------------------------
-!^q:: openOrActivateUrl("네이버 영어사전", false, "https://en.dict.naver.com/#/main")
-;!^q:: 
-	;ROA_BrowserTab(1, 2)
-    ;subName = 다음 영어사전
-    ;url = http://small.dic.daum.net/index.do?dic=eng
-    ;Title := openOrActivateUrl(subName, false, url, true)
-    ;W = 389
-    ;H = 420
-    ;WinMove, %Title%, , A_screenWidth - W, A_screenHeight - H, W, H
-    return
+;-------------------------------------------------------------
+; Dictionary
+!^q:: openOrActivateUrl("네이버 영어사전", false, "https://en.dict.naver.com/#/mini/main")
+
+; Google 캘린더
+$!^f:: openOrActivateUrl("Google Calendar", false, "https://calendar.google.com/")
+
+; Google Keep
+$!^o:: openOrActivateUrl("Google Keep", false, "https://keep.google.com")
+
+; Papago
+$!^[:: openOrActivateUrl("Papago", false, "https://papago.naver.com/")
+
+; Colab
+$!^1:: openOrActivateUrl(" - Colaboratory", false, "https://colab.research.google.com")
+
+; YouTube
+$!^y:: openOrActivateUrl("YouTube", false, "https://www.youtube.com/")
 
 ; Mail
 $!^d::
@@ -344,29 +326,15 @@ $!^d::
 	}
 	return 
 
+!^0:: openOrActivateUrl(BR0_uriTitles[1], false, BR0_uriAddresses[1])
+;BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
+
 $MButton::
 	if (!isOffice || !VPC_OpenUrlOnLocal()) {
 		SendInput, {MButton}
 	}
 	return 
-
-RShift & Space::
-	if (!isOffice || !VPC_OpenUrlOnLocal()) {
-		SendInput, +{Space}
-	}
-	return 
-
-; Google 캘린더
-;$!^f:: ROA_BrowserTab(1, 5)
-$!^f:: openOrActivateUrl("Google Calendar", false, "https://calendar.google.com/")
-
-; Papago
-;$!^t:: ROA_BrowserTab(1, 4)
-$!^[:: openOrActivateUrl("Papago", false, "https://papago.naver.com/")
-
-$!^1:: openOrActivateUrl(" - Colaboratory", false, "https://colab.research.google.com")
-
-$!^8:: runOrActivateWin("- notepad++", false, "notepad++")
+;=============================================================
 
 
 ; Virtual Desktop Toggle
@@ -384,11 +352,6 @@ $!^p::
 	SendInput, !^p
 	return
 
-$!^+p::
-	reloadTypeAndRun()
-	myMotto(300)
-	return
-
 $!^i:: runWinFindTool()
 
 !^9::
@@ -398,13 +361,7 @@ $!^i:: runWinFindTool()
 	;ROA_BrowserTab(1, BR1_curTabNum)
 	return
 
-!^0:: openOrActivateUrl(BR0_uriTitles[1], false, BR0_uriAddresses[1])
-;BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
 
-;------------------------------------
-; YouTube
-;------------------------------------
-!^y:: openOrActivateUrl("YouTube", false, "https://www.youtube.com/")
 
 ;------------------------------------
 ; Key & System
@@ -659,28 +616,15 @@ myMotto(Time := 0, backC := "Red") {
 	h := 40
 	y := A_ScreenHeight - h
 
-	if (isGuiOn) {
-		Gui, Color, %backC%
-		Gui, -Caption +alwaysontop +ToolWindow
-    	Gui, Font, s12 c%fontC%, Consolas
-    	Gui, Add, Text, , %TEXT%
-		Gui, Show, y%y% h%h% NoActivate,
+	Gui, Color, %backC%
+	Gui, -Caption +alwaysontop +ToolWindow
+	Gui, Font, s12 c%fontC%, Consolas
+	Gui, Add, Text, , %TEXT%
+	Gui, Show, y%y% h%h% NoActivate,
 
-		if(Time) {
-			Sleep % Time
-			Gui, Destroy
-		}
-	}
-}
-
-alarm() {
-	m_interval 		:= 15
-	ms_interval		:= m_interval * 60 * 1000
-	ms_alarm_time 	:= 20000
-
-	while True {
-		Sleep % ms_interval
-		myMotto(ms_alarm_time)
+	if(Time) {
+		Sleep % Time
+		Gui, Destroy
 	}
 }
 

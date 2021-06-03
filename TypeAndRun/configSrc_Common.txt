@@ -58,5 +58,6 @@ en_grammar		%AHJ_TB_LIB%\en_grammar.md
 coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_runOrActivateGvim.ahk
+	%AHJ_TB_AHK%\util_ms-settings.ahk
 //-----------------------------------------------------------------
+ms-bluetooth	bluetooth
