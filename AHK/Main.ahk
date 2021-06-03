@@ -759,6 +759,8 @@ activateSelectPid(index)
 	if (!ErrorLevel)
 		return
 
+	focusOnMain()
+
 	WinActivate, ahk_pid %pid%
 
     WinGetPos, X, Y, W, H, A
