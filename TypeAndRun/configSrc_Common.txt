@@ -61,3 +61,4 @@ coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
 	%AHJ_TB_AHK%\util_ms-settings.ahk
 //-----------------------------------------------------------------
 ms-bluetooth	bluetooth
+ms-display		display
