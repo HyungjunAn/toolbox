@@ -388,9 +388,7 @@ $^#.::	SendInput, ^{Delete}
 +#a:: SendInput, +{PgDn}
 
 $!f::
-    WinGet, p_name, ProcessName, A
-
-	if (p_name == "Code.exe") {
+	if (COMMON_GetActiveWinProcName() == "Code.exe") {
 		SendInput, ^d^+f
 	} else {
 		SendInput, !f
@@ -408,12 +406,6 @@ $!^.::	sendIfBrowser("^{Tab}", "!^.")
 #`:: SendInput, {Volume_Down}
 #1:: SendInput, {Volume_Up}
 #2:: SendInput, {Volume_Mute}
-
-; Click Window
-;#!^,:: 
-;	mouseMoveOnRightMid()
-;	SendInput, {LButton}
-;	return
 
 ; Windows Always on Top Toggle
 #'::
@@ -440,26 +432,8 @@ $!^F12::
 $!^-:: SendInput, -------------------------------------------------------------
 $!^=:: SendInput, =============================================================
 
-;------------------------------------
-; Display Resolution
-;------------------------------------
-!^+=::ChangeResolution(32,1920,1080,60)
-!^+-::ChangeResolution(32,1360,768, 60)
-
-ChangeResolution( cD, sW, sH, rR ) {
-  VarSetCapacity(dM,156,0), NumPut(156,2,&dM,36)
-  DllCall("EnumDisplaySettingsA", UInt,0, UInt,-1, UInt,&dM ), 
-  NumPut(0x5c0000,dM,40)
-  NumPut(cD,dM,104), NumPut(sW,dM,108), NumPut(sH,dM,112), NumPut(rR,dM,120)
-  Return DllCall("ChangeDisplaySettingsA", UInt,&dM, UInt,0 )
-}
-; color_depth: The number of bits per pixel for color (leave at 32 for most purposes)
-; width: width of the screen in pixels
-; height: height of the screen in pixels
-; refresh rate: the screen frequency (typically 60Hz, 4k: 30Hz
-
 ; Test
-!^+o:: 
+!^+o:: ListHotKeys
 !^+u::
 	WinGetTitle, Title, A
 	WinGet, PName, ProcessName, A
@@ -686,7 +660,7 @@ IfSend_UpDown(mode, elseStr) {
 }
 
 sendIfBrowser(str, elseStr) {
-    WinGet, p_name, ProcessName, A
+	p_name = COMMON_GetActiveWinProcName()
 
     if (p_name == "chrome.exe" || p_name == "firefox.exe") {
 		SendInput, %str%
