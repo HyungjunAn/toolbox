@@ -213,7 +213,7 @@ $^.::
 $!^e::	runOrActivateGitBash(AHJ_TB)
 $!^n::	explorerUtil()
 
-#c::
+$#c::
 	runOrActivateWin("Ä¸Ã³ µµ±¸", false, "SnippingTool")
 	if (getOsVer() == 10) {
 		SendInput, ^n
@@ -312,24 +312,14 @@ $!^i:: runWinFindTool()
 ; Key & System
 ;------------------------------------
 Capslock::Ctrl
-
-$F1:: SetCapsLockState % !GetKeyState("CapsLock", "T")
-
-$!^F1::SendInput, {F1}
-
+$!^s::	SetCapsLockState % !GetKeyState("CapsLock", "T")
+$`::	SendInput, {ESC}
+$^`::	SendInput, ^``
+$!`::	SendInput, ``
+^#m::	SendInput, {AppsKey}
+!^w::	SendInput, !{F4}
 ; korean english trans
 ;+SPACE:: SendInput, {vk15SC138}
-
-$+ESC:: SendInput, ~
-$`:: SendInput, {ESC}
-
-$^`:: SendInput, ^``
-
-$!Esc::
-$!`:: SendInput, ``
-
-^#m:: SendInput, {AppsKey}
-!^w:: SendInput, !{F4}
 
 ;=============================================================
 ; For Right Hand
@@ -361,14 +351,11 @@ $^#p:: SendInput, ^#{right}
 ;-------------------------------------------------------------
 ; Move & Edit
 ;-------------------------------------------------------------
-!^Space:: SendInput, {Home}+{End}
-#,::SendInput, {backspace}
-#.::SendInput, {delete}
-
-; Undo
-^#,::SendInput, ^z
-; Redo
-^#.::SendInput, ^y
+$!^Space:: SendInput, {Home}+{End}
+$#,::	SendInput, {backspace}
+$^#,::	SendInput, ^{Backspace}
+$#.::	SendInput, {delete}
+$^#.::	SendInput, ^{Delete}
 
 #h:: SendInput, {Left}
 #j:: SendInput, {Down}
@@ -445,9 +432,6 @@ $!^.::
 		SendInput, !^.
 	}
 	return
-
-$^BS:: SendInput, ^+{Left}{Backspace}
-!^BS:: SendInput, ^+{Right}{Backspace}
 
 ; Sound Control
 #`:: SendInput, {Volume_Down}
