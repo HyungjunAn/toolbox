@@ -301,3 +301,8 @@ COMMON_GetActiveExplorerPath()
 	return ""
 }
 
+COMMON_GetActiveWinProcName()
+{
+    WinGet, p_name, ProcessName, A
+	return p_name
+}

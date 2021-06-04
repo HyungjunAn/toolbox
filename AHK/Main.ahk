@@ -397,41 +397,12 @@ $!f::
 	}
 	return
 
-$^n:: 
-	if(!IfSend_UpDown(DIRECTION_DOWN)) {
-		SendInput, ^n
-	}
-	return
-
-$^p::
-	if(!IfSend_UpDown(DIRECTION_UP)) {
-		SendInput, ^p
-	}
-	return
-
-$!,:: 
-	if (!IfSend_LeftRight("!{Left}")) {
-		SendInput, !,
-	}
-	return
-
-$!.:: 
-	if (!IfSend_LeftRight("!{Right}")) {
-		SendInput, !.
-	}
-	return
-	
-$!^,:: 
-	if (!IfSend_LeftRight("^+{Tab}")) {
-		SendInput, !^,
-	}
-	return
-
-$!^.:: 
-	if (!IfSend_LeftRight("^{Tab}")) {
-		SendInput, !^.
-	}
-	return
+$^n:: IfSend_UpDown(DIRECTION_DOWN, "^n")
+$^p:: IfSend_UpDown(DIRECTION_UP, "^p")
+$!,::	sendIfBrowser("!{Left}", "!,")
+$!.::	sendIfBrowser("!{Right}", "!.")
+$!^,::	sendIfBrowser("^+{Tab}", "!^,")
+$!^.::	sendIfBrowser("^{Tab}", "!^.")
 
 ; Sound Control
 #`:: SendInput, {Volume_Down}
@@ -700,38 +671,27 @@ setSelectPid(index)
 	myMotto(300)
 }
 
-IfSend_UpDown(mode) {
-	local isWheel := False
+IfSend_UpDown(mode, elseStr) {
 	local direction := (mode == DIRECTION_UP)? "Up": "Down"
 
-    WinGet, p_name, ProcessName, A
-
-    if (p_name == "KakaoTalk.exe" || p_name == "firefox.exe") {
-		isWheel := True
-    } else if (p_name == "PowerShell.exe") {
-		;
-	} else {
-		return False
-	}
-
-	if (isWheel) {
+	switch (COMMON_GetActiveWinProcName()) {
+	case "KakaoTalk.exe", "firefox.exe":
         mouseMoveOnRightMid()
     	SendInput, {Wheel%direction%}
-	} else {
+	case "PowerShell.exe":
 		SendInput, {%direction%}
+	default:
+		SendInput, %elseStr%
 	}
-
-	return True
 }
 
-IfSend_LeftRight(keystr) {
+sendIfBrowser(str, elseStr) {
     WinGet, p_name, ProcessName, A
 
     if (p_name == "chrome.exe" || p_name == "firefox.exe") {
-		SendInput, %keystr%
-		return True
+		SendInput, %str%
 	} else {
-		return False
+		SendInput, %elseStr%
 	}
 }
 
