@@ -14,36 +14,6 @@
 ;	F39C12: Orange
 
 ;///////////////////////////////////////////////////////////////
-; 	Not Using
-;///////////////////////////////////////////////////////////////
-;!^+z::
-;$!^.::
-;$^NumpadAdd:: 
-;!^b::
-;!^+e::
-;#z::
-;#x::
-;^#h::
-;^#j::
-;^#k::
-;^#l::
-;+#h::
-;+#j::
-;+#k::
-;+#l::
-;+#w::
-;+#s::
-;!^x::
-;!^+y::
-;!^1::
-;!^,:: 	
-;$!^+v::
-;$!^+n:: 
-;!^+p::
-;!^t::
-;!^s::
-
-;///////////////////////////////////////////////////////////////
 ;		Serial Code
 ;///////////////////////////////////////////////////////////////
 #include %A_ScriptDir%
@@ -54,8 +24,6 @@ SetWorkingDir, %A_ScriptDir%
 CoordMode, Screen
 
 global path_setting := getParentPath(A_ScriptDir)
-
-global guiShowFlag		:= False
 
 global library				:= USERPROFILE . "\Google 드라이브\Library"
 global gvimFavorite			:= USERPROFILE . "\Desktop"
@@ -89,14 +57,10 @@ global maxSelectPidNum		:= 4
 global garSelectPid_pid		:= []
 global garSelectPid_file	:= []
 
-global PID_AHK_VIMMODE 			:= 0
-
 global DIRECTION_LEFT	:= 0
 global DIRECTION_RIGHT	:= 1
 global DIRECTION_UP		:= 2
 global DIRECTION_DOWN	:= 3
-
-global VimMode := "VimMode.ahk"
 
 global isOffice := False
 
@@ -153,14 +117,12 @@ SetScrollLockState, off
 
 gbIsInitDone := True
 Gui, Destroy
-Run, %VimMode%, , , PID_AHK_VIMMODE
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!^r:: 
-	Process, Close, %PID_AHK_VIMMODE%
 	gbIsInitDone = False
 	Reload
 	Return
@@ -168,35 +130,32 @@ $!^r::
 ; Control Script Suspending
 $^Delete::
 	myMotto(200, "White")
-	Process, Close, %PID_AHK_VIMMODE%
 	ExitApp
 	return
 
-$!+a:: 
+$!^a:: 
 	Suspend, Toggle
 	if (!A_IsSuspended) {
 		Run, %typeandrun%
 		SetCapsLockState, off
 		myMotto(200)
-		Run, %VimMode%, , , PID_AHK_VIMMODE
 	} else {
 		closeProcess("TypeAndRun.exe")
-		myMotto(200, "Green")
-		Process, Close, %PID_AHK_VIMMODE%
+		myMotto(1000, "Green")
 	}
 	Return
 
 ;------------------------------------
 ; Folder
 ;------------------------------------
-!^z::	runOrActivateWin("Q-Dir", false, path_setting . "\Q-Dir\Q-Dir_x64.exe")
-!^g::	Run, %AHJ_TB%
+$!^g::	Run, %AHJ_TB%
 $#d:: 	Run, %USERPROFILE%\Desktop
 
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^u:: runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+$!^z::	runOrActivateProc(path_setting . "\Q-Dir\Q-Dir_x64.exe")
+$!^u::	runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 
 $^.::
 	focusOnMain()
@@ -291,7 +250,7 @@ $!^`;::
 	return
 
 ; Notepad++
-$!^8:: runOrActivateWin("- notepad++", false, "notepad++")
+$!^8::	runOrActivateProc("notepad++.exe")
 
 ;=============================================================
 ; Web Page
