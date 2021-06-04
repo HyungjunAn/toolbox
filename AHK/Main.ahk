@@ -211,21 +211,7 @@ $^.::
 !^+l::	setSelectPid(4)	
 
 $!^e::	runOrActivateGitBash(AHJ_TB)
-
-$#n::
-	cur_path := Explorer_GetCurrentPath()
-	if (cur_path) {
-		FormatTime, cur_time ,, yyMMddHHmm
-		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
-	}
-	return
-
-$!^n:: 
-	cur_path := Explorer_GetCurrentPath()
-	if (cur_path) {
-		runOrActivateGitBash(cur_path)
-	}
-	return
+$!^n::	explorerUtil()
 
 #c::
 	runOrActivateWin("Ä¸Ã³ µµ±¸", false, "SnippingTool")
@@ -524,17 +510,6 @@ ChangeResolution( cD, sW, sH, rR ) {
 
 ; Test
 !^+o:: 
-	cur_path := Explorer_GetCurrentPath()
-	if (cur_path) {
-		MsgBox % cur_path
-		FormatTime, cur_time ,, yyMMddHHmm
-		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
-	}
-	return
-
-	;testFunc(USERPROFILE . " " . A_ScriptName)
-	;return 
-
 !^+u::
 	WinGetTitle, Title, A
 	WinGet, PName, ProcessName, A
@@ -746,20 +721,6 @@ setSelectPid(index)
 	myMotto(300)
 }
 
-Explorer_GetCurrentPath(hwnd="") {
-    WinGet, process, processName, % "ahk_id" hwnd := hwnd? hwnd:WinExist("A")
-    WinGetClass class, ahk_id %hwnd%
-    if  (process = "explorer.exe") 
-        if (class ~= "(Cabinet|Explore)WClass") {
-            for window in ComObjCreate("Shell.Application").Windows
-                if  (window.hwnd==hwnd)
-                    path := window.Document.FocusedItem.path
-
-            SplitPath, path,,dir
-        }
-        return dir
-}
-
 IfSend_UpDown(mode) {
 	local isWheel := False
 	local direction := (mode == DIRECTION_UP)? "Up": "Down"
@@ -856,4 +817,43 @@ runWinFindTool() {
 			WinActivate, %Title%
 		}
     }
+}
+
+explorerUtil() {
+	Local LineNum := 1
+	Local Lines := ""
+	Local ErrorMsg := ""
+
+	cur_path := COMMON_GetActiveExplorerPath()
+
+	if (!cur_path) {
+		ErrorMsg := "Wrong Usage"
+		goto, ERROR
+	}
+
+	Lines := Lines . "[" . (LineNum++) . "] " . "Make New File" . "`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Git Bash" . "`n"
+	
+	InputBox, UserInput, Type Util #, %Lines%, , , , , , , 10
+	
+	if (ErrorLevel || !UserInput) {
+		return
+	}
+
+	switch (UserInput)
+	{
+	case 1:
+		FormatTime, cur_time ,, yyMMddHHmm
+		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
+	case 2:
+		runOrActivateGitBash(cur_path)
+	default: 
+		ErrorMsg := "Invalid Command!!"
+		goto, ERROR
+	}
+	return
+
+ERROR:
+	MsgBox, %ErrorMsg%
+	return 
 }

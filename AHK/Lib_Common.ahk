@@ -277,3 +277,27 @@ COMMON_WinWait(title, text, timeout_ms) {
 
 	return (cnt < threshold)
 }
+
+COMMON_IsEmpty(Dir) {
+   Loop %Dir%\*.*, 0, 1
+      return FALSE
+   return TRUE
+}
+
+COMMON_GetActiveExplorerPath()
+{
+	explorerHwnd := WinActive("ahk_class CabinetWClass")
+	if (explorerHwnd)
+	{
+		for window in ComObjCreate("Shell.Application").Windows
+		{
+			if (window.hwnd==explorerHwnd)
+			{
+				return window.Document.Folder.Self.Path
+			}
+		}
+	}
+
+	return ""
+}
+
