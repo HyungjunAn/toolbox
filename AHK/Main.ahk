@@ -317,10 +317,6 @@ $F1:: SetCapsLockState % !GetKeyState("CapsLock", "T")
 
 $!^F1::SendInput, {F1}
 
-$SC11d:: RControl
-; special character translator(Shift & Right Alt)
-Shift & SC138:: SendInput, {sc1f1}
-
 ; korean english trans
 ;+SPACE:: SendInput, {vk15SC138}
 
@@ -333,7 +329,6 @@ $!Esc::
 $!`:: SendInput, ``
 
 ^#m:: SendInput, {AppsKey}
-^#s:: SendInput, {F2}
 !^w:: SendInput, !{F4}
 
 ;=============================================================
