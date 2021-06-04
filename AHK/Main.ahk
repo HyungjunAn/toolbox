@@ -660,7 +660,7 @@ IfSend_UpDown(mode, elseStr) {
 }
 
 sendIfBrowser(str, elseStr) {
-	p_name = COMMON_GetActiveWinProcName()
+	p_name := COMMON_GetActiveWinProcName()
 
     if (p_name == "chrome.exe" || p_name == "firefox.exe") {
 		SendInput, %str%
