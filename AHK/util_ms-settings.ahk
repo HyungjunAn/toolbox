@@ -5,7 +5,6 @@ if (A_Args.Length() < 1) {
     ExitApp
 }
 
-settingName := A_Args[1]
-
-Run, ms-settings:%settingsName%
+cmd := "ms-settings:" . A_Args[1]
+Run, %cmd%
 ExitApp

@@ -62,3 +62,5 @@ coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
 //-----------------------------------------------------------------
 ms-bluetooth	bluetooth
 ms-display		display
+ms-powersleep	powersleep
+
