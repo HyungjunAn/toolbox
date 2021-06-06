@@ -25,6 +25,7 @@ CoordMode, Screen
 
 global path_setting := getParentPath(A_ScriptDir)
 
+global tmpFolder			:= A_ScriptDir . "\tmp"
 global library				:= USERPROFILE . "\Google 드라이브\Library"
 global gvimFavorite			:= USERPROFILE . "\Desktop"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
@@ -72,7 +73,7 @@ global google_homeID_num := 0
 myMotto()
 
 ; Make temp file
-FileCreateDir, tmp
+FileCreateDir, %tmpFolder%
 
 ;-------------------------------------------
 ; 	Process about Office Environment
@@ -106,7 +107,7 @@ reloadTypeAndRun()
 Loop % maxSelectPidNum
 {
 	garSelectPid_pid[A_Index] := 0
-	garSelectPid_file[A_Index] := "tmp/pidSelect_" . A_Index . ".txt"
+	garSelectPid_file[A_Index] := tmpFolder . "/pidSelect_" . A_Index . ".txt"
 	path := garSelectPid_file[A_Index]
 	FileReadLine, PID, %path%, 1
 	garSelectPid_pid[A_Index] := PID
@@ -114,6 +115,8 @@ Loop % maxSelectPidNum
 
 SetCapsLockState, off
 SetScrollLockState, off
+
+healthNotification()
 
 gbIsInitDone := True
 Gui, Destroy
@@ -705,15 +708,7 @@ runWinFindTool() {
 
 	;MsgBox, %Line% %A_DetectHiddenWindows%
 
-	if (Line > 20) {
-		Height := 800
-	} else if (Line > 15) {
-		Height := 500
-	} else if (Line > 10) {
-		Height := 300
-	} else {
-		Height := 200
-	}
+	Height := 30 * Line
 
 	InputBox, UserInput, Type Window Name to Find, %Titles%, , 800, %Height%, , , , 10
 
@@ -769,4 +764,31 @@ explorerUtil() {
 ERROR:
 	MsgBox, %ErrorMsg%
 	return 
+}
+
+healthNotification() {
+	Local text := ""
+	Local f := tmpFolder . "\today.txt"
+	Local curTime := ""
+	Local oldTime := ""
+
+	IfNotExist, %f%
+
+	FileAppend, 0, %f%
+
+	FormatTime, curTime,, yyMMdd
+	FileReadLine, oldTime, %f%, 1
+
+	if (curTime == oldTime) {
+		return
+	}
+
+	FileAppend, %curTime%, %f%
+
+	text := text . "운동: 6/1W`n"
+	text := text . "음주: 1/1W`n"
+	text := text . "정식: 1/1D`n"
+	text := text . "금지: 과자, 탄산, 과식`n"
+
+	MsgBox, %text%
 }
