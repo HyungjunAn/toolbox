@@ -786,6 +786,7 @@ healthNotification() {
 	FileAppend, %curTime%, %f%
 
 	text := text . "운동: 6/1W`n"
+	text := text . "양치: 2/1D`n"
 	text := text . "음주: 1/1W`n"
 	text := text . "정식: 1/1D`n"
 	text := text . "금지: 과자, 탄산, 과식`n"
