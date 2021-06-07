@@ -284,8 +284,7 @@ COMMON_IsEmpty(Dir) {
    return TRUE
 }
 
-COMMON_GetActiveExplorerPath()
-{
+COMMON_GetActiveExplorerPath() {
 	explorerHwnd := WinActive("ahk_class CabinetWClass")
 	if (explorerHwnd)
 	{
@@ -301,8 +300,18 @@ COMMON_GetActiveExplorerPath()
 	return ""
 }
 
-COMMON_GetActiveWinProcName()
-{
+COMMON_GetSelectedItemPath() {
+	hwnd := WinExist("A")
+	for Window in ComObjCreate("Shell.Application").Windows  
+	    if (window.hwnd == hwnd) {
+	        Selection := Window.Document.SelectedItems
+	        for Items in Selection
+	            return Items.path
+	    }
+	return ""	
+}
+
+COMMON_GetActiveWinProcName() {
     WinGet, p_name, ProcessName, A
 	return p_name
 }

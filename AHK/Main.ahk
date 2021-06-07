@@ -742,7 +742,9 @@ explorerUtil() {
 
 	Lines := Lines . "[" . (LineNum++) . "] " . "Make New File" . "`n"
 	Lines := Lines . "[" . (LineNum++) . "] " . "Git Bash" . "`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Copy custom_macro.ahk"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Copy custom_macro.ahk`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Open with GVIM`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Open with Notepad++"
 	
 	InputBox, UserInput, Type Util #, %Lines%, , , , , , , 10
 	
@@ -765,6 +767,16 @@ explorerUtil() {
 		}
 		srcF := A_ScriptDir . "\CustomMacro.ahk"
 		FileCopy, %srcF%, %f%
+	case 4:
+		f := COMMON_GetSelectedItemPath()
+		if (f) {
+			Run, %AHJ_TB_AHK%\util_runOrActivateGvim.ahk "%f%"
+		}
+	case 5:
+		f := COMMON_GetSelectedItemPath()
+		if (f) {
+			Run, notepad++.exe "%f%"
+		}
 	default: 
 		ErrorMsg := "Invalid Command!!"
 		goto, ERROR
@@ -782,9 +794,9 @@ healthNotification() {
 	Local curTime := ""
 	Local oldTime := ""
 
-	IfNotExist, %f%
-
-	FileAppend, 0, %f%
+	IfNotExist, %f%, {
+		FileAppend, 0, %f%
+	}
 
 	FormatTime, curTime,, yyMMdd
 	FileReadLine, oldTime, %f%, 1
@@ -793,6 +805,7 @@ healthNotification() {
 		return
 	}
 
+	FileDelete, %f%
 	FileAppend, %curTime%, %f%
 
 	text := text . "¿îµ¿: 6/1W`n"
