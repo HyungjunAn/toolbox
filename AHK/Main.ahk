@@ -731,6 +731,7 @@ explorerUtil() {
 	Local LineNum := 1
 	Local Lines := ""
 	Local ErrorMsg := ""
+	Local f := ""
 
 	cur_path := COMMON_GetActiveExplorerPath()
 
@@ -741,6 +742,7 @@ explorerUtil() {
 
 	Lines := Lines . "[" . (LineNum++) . "] " . "Make New File" . "`n"
 	Lines := Lines . "[" . (LineNum++) . "] " . "Git Bash" . "`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Copy custom_macro.ahk"
 	
 	InputBox, UserInput, Type Util #, %Lines%, , , , , , , 10
 	
@@ -755,6 +757,14 @@ explorerUtil() {
 		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
 	case 2:
 		runOrActivateGitBash(cur_path)
+	case 3:
+		f := cur_path . "\custom_macro.ahk"
+		IfExist, %f%, {
+			ErrorMsg := "Exist Already!!"
+			goto, ERROR
+		}
+		srcF := A_ScriptDir . "\CustomMacro.ahk"
+		FileCopy, %srcF%, %f%
 	default: 
 		ErrorMsg := "Invalid Command!!"
 		goto, ERROR
@@ -789,7 +799,8 @@ healthNotification() {
 	text := text . "양치: 2/1D`n"
 	text := text . "음주: 1/1W`n"
 	text := text . "정식: 1/1D`n"
-	text := text . "금지: 과자, 탄산, 과식`n"
+	text := text . "`n"
+	text := text . "(X: 과자, 탄산, 과식, 과음, 단당)"
 
 	MsgBox, %text%
 }

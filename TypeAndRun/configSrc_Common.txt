@@ -49,6 +49,7 @@ tarCfg_home		%AHJ_TB_TAR%\configSrc_home.txt
 tarCfg_common	%AHJ_TB_TAR%\configSrc_common.txt
 ahkMain			%AHJ_TB_AHK%\Main.ahk
 ahkVimMode		%AHJ_TB_AHK%\VimMode.ahk
+ahkCustomMacro	%AHJ_TB_AHK%\CustomMacro.ahk
 
 git				%AHJ_TB_LIB%\git.md
 linux_cmd		%AHJ_TB_LIB%\linux_cmd.md
