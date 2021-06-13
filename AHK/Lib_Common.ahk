@@ -209,12 +209,17 @@ removeEndNewline(str) {
 	return SubStr(str, 1, StrLen(str) - n)
 }
 
-openUrl(url) {
+openUrl(url, appMode := False) {
 	local tmp := ""
 
 	focusOnMain()
 
-	Run, %PATH_CHROME% %url%
+	if (appMode) {
+		Run, %PATH_CHROME% --app=%url%
+	} else {
+		Run, %PATH_CHROME% %url%
+	}
+
 	return
 
 ;	flag := False

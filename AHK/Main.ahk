@@ -5,6 +5,7 @@
 ;///////////////////////////////////////////////////////////////
 ;		TODO
 ;///////////////////////////////////////////////////////////////
+; openOr ~~ 이 계열 좀 깔끔하고 통일성 있게
 ;!^+i 단축키 유용성 판단해서 삭제
 ;메일 uri 파일에서 읽어오는 부분 필요없으면 삭제
 
@@ -282,6 +283,22 @@ $MButton::
 		SendInput, {MButton}
 	}
 	return 
+
+$+MButton::
+	SendInput, {RButton}
+	tmp := Clipboard
+	Clipboard := ""
+	sleep, 50
+	SendInput, e
+	sleep, 50
+	uri := Clipboard
+	Clipboard := tmp
+
+	if (InStr(uri, "http") == 1) {
+		openUrl(uri, True)
+	}
+	return
+	
 ;=============================================================
 
 
