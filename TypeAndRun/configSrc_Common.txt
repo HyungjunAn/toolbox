@@ -30,6 +30,8 @@ npay					https://order.pay.naver.com/home
 nshopping				https://shopping.naver.com/
 googledrive_online		https://drive.google.com/
 
+lec_ml_code				https://github.com/hunkim/DeepLearningZeroToAll
+
 cctv					https://alfred.camera/webapp/
 
 papago					https://papago.naver.com/
