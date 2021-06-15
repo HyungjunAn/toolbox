@@ -47,6 +47,10 @@ ahj = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgree
 ### n개 Commit 전으로
 	$ git reset HEAD^n
 	$ git reset HEAD~n
+
+### 특정 파일을 특정 시점으로
+	$ git reset -q <tree-ish> <FILE>
+	$ git reset -q HEAD^ <FILE>
 	
 ### 원격 branch reset
 	$ git reset --hard <RESET_POINT>
