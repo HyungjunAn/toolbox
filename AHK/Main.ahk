@@ -338,6 +338,9 @@ $^`::	SendInput, ^``
 $!`::	SendInput, ``
 ^#m::	SendInput, {AppsKey}
 !^w::	SendInput, !{F4}
+$SC11d:: RControl
+;special character translator(Shift & Right Alt)
+Shift & SC138:: SendInput, {sc1f1}
 ; korean english trans
 ;+SPACE:: SendInput, {vk15SC138}
 
