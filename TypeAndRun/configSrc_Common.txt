@@ -30,7 +30,8 @@ npay					https://order.pay.naver.com/home
 nshopping				https://shopping.naver.com/
 googledrive_online		https://drive.google.com/
 
-lec_ml_code				https://github.com/hunkim/DeepLearningZeroToAll
+lec_ml_code01			https://github.com/deeplearningzerotoall/TensorFlow
+lec_ml_code02			https://github.com/hunkim/DeepLearningZeroToAll
 
 cctv					https://alfred.camera/webapp/
 
