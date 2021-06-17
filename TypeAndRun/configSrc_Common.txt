@@ -59,6 +59,12 @@ hotkeys			%AHJ_TB_LIB%\hotkeys.md
 en_note			%AHJ_TB_LIB%\en_note.md
 en_grammar		%AHJ_TB_LIB%\en_grammar.md
 coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
+custom_macro	%USERPROFILE%/Desktop/custom_macro.ahk
+
+//-----------------------------------------------------------------
+	%USERPROFILE%/Desktop/custom_macro.ahk
+//-----------------------------------------------------------------
+macro_desktop	""
 
 //-----------------------------------------------------------------
 	%AHJ_TB_AHK%\util_ms-settings.ahk

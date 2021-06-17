@@ -52,7 +52,7 @@ noti() {
 		backC := "Red"
 	}
 
-	text := "Macro: " . onOff . "`n(F10: Suspend / F11: Reload / F12: Exit)"
+	text := "Path: " . A_ScriptDir . "`nMacro: " . onOff . "`n(F10: On, Off / F11: Reload / F12: Exit)"
 
 	Gui, Destroy
 	Gui, Color, %backC%
