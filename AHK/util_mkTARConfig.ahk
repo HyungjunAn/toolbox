@@ -29,6 +29,7 @@ global TARCmd := ""
 global TARExe := ""
 global TAROpt := ""
 global line := ""
+global prefix := ""
 
 Loop
 {
@@ -37,18 +38,24 @@ Loop
         break
 
 	arrStr := COMMON_StrSplit(line, A_Tab)
-	n := arrStr.Length()
 
-	if (n == 1) {
+	switch (arrStr.Length()) {
+	case 0:
+	case 1:
 		TARExe := arrStr[1]
-		continue
-	} else if (n == 2) {
-		TARCmd := arrStr[1]
-		TAROpt := arrStr[2]
-
-		cmd := TARCmd . "|" . TARExe . "|" . TAROpt
-		buffer.Push(cmd)
-	} else if (n != 0) {
+		prefix := ""
+	case 2:
+		if (arrStr[1] == "[PREFIX_SET]") {
+			prefix := arrStr[2]
+		} else if (arrStr[1] == "[PREFIX_CLEAR]") {
+			prefix := ""
+		} else {
+			TARCmd := arrStr[1]
+			TAROpt := arrStr[2]
+			cmd := prefix . TARCmd . "|" . TARExe . "|" . TAROpt
+			buffer.Push(cmd)
+		}
+	default:
 		MsgBox, Grammar Error: Line %A_Index%
 		break
 	}
