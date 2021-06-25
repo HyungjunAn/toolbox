@@ -591,19 +591,16 @@ FINISH:
 
 getUriArrayFromFile(path, arTitle, arAddress)
 {
-	local bIsTitleReadTurn := True
 	local cnt := 0
-	local title := ""
-	local uri := ""
 
 	Loop, Read, %path%
 	{
-		local n := getTwoString(A_LoopReadLine, title, uri)
+		local arrStr := COMMON_StrSplit(A_LoopReadLine, A_Tab)
 
-		if (n == 2) {
-			arTitle.Push(title)
-			arAddress.Push(uri)
-			cnt += 1
+		if (arrStr.Length() == 2) {
+			arTitle.Push(arrStr[1])
+			arAddress.Push(arrStr[2])
+			cnt++
 		}
 	}
 

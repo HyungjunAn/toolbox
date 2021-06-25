@@ -1,8 +1,0 @@
-exe1
-my1	my1.txt
-my1			my1.txt
-
-exe2
-my2			"my2. txt"
-my3			my3.txt
-my4			my4.txt

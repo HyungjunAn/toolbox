@@ -22,6 +22,7 @@ if A_Args.Length() < 2
 global gsSrcFile 	:= A_Args[1]
 global gsTargetFile	:= A_Args[2]
 
+global arrStr := []
 global buffer := []
 
 global TARCmd := ""
@@ -35,13 +36,15 @@ Loop
     if ErrorLevel
         break
 
-	n := getTwoString(line, s1, s2)
+	arrStr := COMMON_StrSplit(line, A_Tab)
+	n := arrStr.Length()
 
 	if (n == 1) {
-		TARExe := s1
+		TARExe := arrStr[1]
+		continue
 	} else if (n == 2) {
-		TARCmd := s1
-		TAROpt := s2
+		TARCmd := arrStr[1]
+		TAROpt := arrStr[2]
 
 		cmd := TARCmd . "|" . TARExe . "|" . TAROpt
 		buffer.Push(cmd)

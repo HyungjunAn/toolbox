@@ -129,35 +129,28 @@ runOrActivateGvim(filePath) {
 	Run, gvim "%filePath%"
 }
 
-getTwoString(string, ByRef str1, ByRef str2) {
-	local bIsFirstStr := True
+COMMON_StrSplit(string, delimiters, commentPrefix := "//") {
 	local tmpStr := ""
-	local ret := 0
-	local arrString := StrSplit(string, A_Tab)
+	local arrString := StrSplit(string, delimiters)
+	local retString := []
 
 	Loop % arrString.Length()
 	{
 		tmpStr := arrString[A_Index]
 	
 		; comment
-		if (InStr(tmpStr, "//") == 1) {
-			return ret
+		if (InStr(tmpStr, commentPrefix) == 1) {
+			break
 		}
 
-		; multiple tab
+		; multiple
 		if (!tmpStr) {
 			continue
 		}
 
-		if (bIsFirstStr) {
-			str1 := tmpStr
-			bIsFirstStr := False
-		} else {
-			str2 := tmpStr
-		}
-		ret++
+		retString.Push(tmpStr)
 	}
-	return ret
+	return retString
 }
 
 VDesktop_toggle() {
