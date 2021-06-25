@@ -830,7 +830,7 @@ healthNotification() {
 	text := text . "음주: 1/1W`n"
 	text := text . "정식: 1/1D`n"
 	text := text . "`n"
-	text := text . "(X: 과자, 탄산, 과식, 과음, 단당)"
+	text := text . "(X: 과자, 탄산, 과식, 과음, 단당, HP)"
 
 	MsgBox, %text%
 }
