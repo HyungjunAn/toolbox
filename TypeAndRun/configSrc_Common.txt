@@ -30,7 +30,7 @@ npay					https://order.pay.naver.com/home
 nshopping				https://shopping.naver.com/
 googledrive_online		https://drive.google.com/
 
-[PREFIX_SET] lec
+[PREFIX_SET]	lec
 	ml_code01			https://github.com/deeplearningzerotoall/TensorFlow
 	ml_code02			https://github.com/hunkim/DeepLearningZeroToAll
 [PREFIX_CLEAR]

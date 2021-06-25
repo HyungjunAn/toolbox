@@ -34,30 +34,29 @@ global prefix := ""
 Loop
 {
     FileReadLine, line, %gsSrcFile%, %A_Index%
-    if ErrorLevel
+    if (ErrorLevel) {
         break
+	}
 
 	arrStr := COMMON_StrSplit(line, A_Tab)
+	n := arrStr.Length()
 
-	switch (arrStr.Length()) {
-	case 0:
-	case 1:
-		TARExe := arrStr[1]
-		prefix := ""
-	case 2:
-		if (arrStr[1] == "[PREFIX_SET]") {
-			prefix := arrStr[2]
-		} else if (arrStr[1] == "[PREFIX_CLEAR]") {
-			prefix := ""
-		} else {
-			TARCmd := arrStr[1]
-			TAROpt := arrStr[2]
-			cmd := prefix . TARCmd . "|" . TARExe . "|" . TAROpt
-			buffer.Push(cmd)
-		}
-	default:
+	if (n > 2) {
 		MsgBox, Grammar Error: Line %A_Index%
 		break
+	}
+
+	if (InStr(arrStr[1], "[PREFIX_SET]") == 1) {
+		prefix := arrStr[2]
+	} else if (InStr(arrStr[1], "[PREFIX_CLEAR]") == 1) {
+		prefix := ""
+	} else if (n == 1) {
+		TARExe := arrStr[1]
+	} else if (n == 2) {
+		TARCmd := arrStr[1]
+		TAROpt := arrStr[2]
+		cmd := prefix . TARCmd . "|" . TARExe . "|" . TAROpt
+		buffer.Push(cmd)
 	}
 }
 
