@@ -246,7 +246,7 @@ $!^8::	runOrActivateProc("notepad++.exe")
 ; Web Page
 ;-------------------------------------------------------------
 ; Dictionary
-!^q:: openOrActivateUrl("네이버 영어사전", false, "https://en.dict.naver.com/#/mini/main")
+!^q:: openOrActivateUrl("Naver English-Korean Dictionary", false, "https://en.dict.naver.com/#/mini/main")
 
 ; Google 캘린더
 $!^f:: openOrActivateUrl("Google Calendar", false, "https://calendar.google.com/")
