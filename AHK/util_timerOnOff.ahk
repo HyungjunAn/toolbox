@@ -12,14 +12,24 @@ VPC_FocusOut()
 ; XNote Timer
 
 global xnote_timer	:= USERPROFILE . "\pc_setting\XNote_Timer\xntimer.exe"
+global winTitle := "XNote Timer"
+global pName := "xntimer.exe"
 
-Process, Exist, xntimer.exe
+Process, Exist, %pName%
 if !ErrorLevel {
     Run, %xnote_timer%
-    WinWaitActive, XNote Timer, , 2
+    WinWaitActive, %winTitle%, , 2
     SendInput, {F11}
-} else {
-	Process, Close, xntimer.exe
+
+	w := 200
+	x := (A_ScreenWidth - w) / 2
+	y := 0
+	h := 50
+
+	WinMove, %winTitle%, , x, y, w, h
 }
 
-ExitApp
+F10::
+	Process, Close, %pName%
+	ExitApp
+	return

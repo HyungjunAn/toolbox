@@ -461,7 +461,8 @@ $!^=:: SendInput, =============================================================
 	WinGetTitle, Title, A
 	WinGet, PName, ProcessName, A
     WinGet, PID, PID, A
-	MsgBox, PID: %PID%`nProcessName: %PName%`nWinTitle: %Title%
+    WinGetPos, x, y, w, h, %Title%
+	MsgBox, PID: %PID%`nProcessName: %PName%`nWinTitle: %Title%`nx%x% y%y% w%w% h%h%
 	;ListHotKeys
 	return
     WinGet windows, List
