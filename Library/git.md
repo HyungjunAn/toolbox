@@ -71,7 +71,8 @@ ahj = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgree
 ```bash
 [alias]
 	custom = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	ahj = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit 
+    pl = log --color --pretty=format:'%Cred%h%Creset - %s' --abbrev-commit
+    pl-tag = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit
 ```
 
 -------------------------------------------------------------
