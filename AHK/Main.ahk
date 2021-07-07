@@ -2,11 +2,7 @@
 ; AD's HotKey
 ;###############################################################
 
-;///////////////////////////////////////////////////////////////
-;		TODO
-;///////////////////////////////////////////////////////////////
-; openOr ~~ 이 계열 좀 깔끔하고 통일성 있게
-;!^+i 단축키 유용성 판단해서 삭제
+;	TODO
 ;메일 uri 파일에서 읽어오는 부분 필요없으면 삭제
 
 ;///////////////////////////////////////////////////////////////
@@ -158,8 +154,8 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^z::	runOrActivateProc(path_setting . "\Q-Dir\Q-Dir_x64.exe")
-$!^u::	runOrActivateProc(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+$!^z::	COMMON_ROA_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
+$!^u::	COMMON_ROA_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 
 $^.::
 	focusOnMain()
@@ -218,16 +214,18 @@ $!^e::	runOrActivateGitBash(AHJ_TB)
 $!^n::	explorerUtil()
 
 $#c::
-	runOrActivateWin("캡처 도구", false, "SnippingTool")
+	COMMON_ROA_Cmd_SubName("캡처 도구", "SnippingTool")
 	if (getOsVer() == 10) {
 		SendInput, ^n
 	}
     Return
     
-!^c:: runOrActivateWin("- chrome", false, "chrome")
+!^c:: 
+	ROA_Chrome()
+	return
 
 ; MobaXterm
-$!^m:: runOrActivateProc("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
+$!^m:: COMMON_ROA_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 
 ; KakaoTalk
 $!^`;::
@@ -236,46 +234,46 @@ $!^`;::
 	else
 		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
 
-	runOrActivateWin("카카오톡", false, cmd)
+	COMMON_ROA_Cmd_SubName("카카오톡", cmd)
 	return
 
 ; Notepad++
-$!^8::	runOrActivateProc("notepad++.exe")
+$!^8::	COMMON_ROA_EXE("notepad++.exe")
 
 ;=============================================================
 ; Web Page
 ;-------------------------------------------------------------
 ; Dictionary
-!^q:: openOrActivateUrl("Naver English-Korean Dictionary", false, "https://en.dict.naver.com/#/mini/main")
+!^q:: COMMON_ROA_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main")
 
 ; Google 캘린더
-$!^f:: openOrActivateUrl("Google Calendar", false, "https://calendar.google.com/")
+$!^f:: COMMON_ROA_URL("Google Calendar", "https://calendar.google.com/")
 
 ; Google Keep
-$!^o:: openOrActivateUrl("Google Keep", false, "https://keep.google.com")
+$!^o:: COMMON_ROA_URL("Google Keep", "https://keep.google.com")
 
 ; Papago
-$!^[:: openOrActivateUrl("Papago", false, "https://papago.naver.com/")
+$!^[:: COMMON_ROA_URL("Papago", "https://papago.naver.com/")
 
 ; Colab
-$!^1:: openOrActivateUrl(" - Colaboratory", false, "https://colab.research.google.com")
+$!^1:: COMMON_ROA_URL(" - Colaboratory", "https://colab.research.google.com")
 
 ; YouTube
-$!^y:: openOrActivateUrl("YouTube", false, "https://www.youtube.com/")
+$!^y:: COMMON_ROA_URL("YouTube", "https://www.youtube.com/")
 
 ; Mail
 $!^d::
 	if (VPC_ActivateVpcIfExist()) {
 		SendInput, !^d
 	} else if (isOffice) {
-		runOrActivateWin("- chrome", false, "chrome")
+		ROA_Chrome()
 	} else {
 		;ROA_BrowserTab(1, 6)
-		openOrActivateUrl(gsMailUriTitle, false, gsMailUriAddress)
+		COMMON_ROA_URL(gsMailUriTitle, gsMailUriAddress)
 	}
 	return 
 
-!^0:: openOrActivateUrl(BR0_uriTitles[1], false, BR0_uriAddresses[1])
+!^0:: COMMON_ROA_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
 ;BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
 
 $MButton::
@@ -564,7 +562,7 @@ ROA_BrowserTab(browser, tabNum) {
 		uriAddresses	:= BR1_uriAddresses
 	}
 
-	if (!runOrActivateProc(exePath)) {
+	if (!COMMON_ROA_EXE(exePath)) {
 		Goto, FINISH
 	}
 
@@ -834,4 +832,13 @@ healthNotification() {
 	text := text . "(X: 과자, 탄산, 과식, 과음, 단당, HP)"
 
 	MsgBox, %text%
+}
+
+ROA_Chrome() {
+	Local winNameArr := []
+
+	winNameArr[1] := "- Chrome"
+	winNameArr[2] := "- Google Chrome"
+
+	COMMON_ROA_CMD_SubNameArr(winNameArr, "chrome")
 }

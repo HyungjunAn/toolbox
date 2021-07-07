@@ -6,41 +6,55 @@ global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
 global isVirtualDesktopLeft := True
 
-openOrActivateUrl(subName, isFullMatching, url, isCancelingFullScreen=false) {
+COMMON_ROA_URL(subName, url) {
 	local cmd := PATH_CHROME . " --app=" . url
-	Title := runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen)
-	return Title
+	return COMMON_ROA_Cmd_SubName(subName, cmd)
 }
 
-runOrActivateWin(subName, isFullMatching, cmd, isCancelingFullScreen=false) {
-	Local interval := 50
-	Local check := 0
+COMMON_ROA_CMD_SubNameArr(subNameArr, cmd) {
+	Local ret := True
+	local Title := ""
 
-	focusOnMain()
-	Title := findWindow(subName, isFullMatching)
+	Loop % subNameArr.Length()
+	{
+		Title := findWindow(subNameArr[A_Index], False)
 
-	if (!Title) {
-		Run, %cmd%
-		while (!Title && check < 1000) {
-			Title := findWindow(subName, isFullMatching)
-			sleep, %interval%
-			check := check + interval
-		}
-		if !Title {
-			return ""
-		}
-		if isCancelingFullScreen {
-			WinActivate, %Title%
-			SendInput, #{Down}
-			sleep, 200
+		if (Title) {
+			break
 		}
 	}
-	
-	WinActivate, %Title%
-	return Title
+
+	if (!Title) {
+		RunWait, %cmd%
+		if (ErrorLevel) {
+			ret := False
+		}
+	} else {
+		WinActivate, %Title%
+	}
+
+	return ret
 }
 
-runOrActivateProc(exePath) {
+COMMON_ROA_CMD_SubName(subName, cmd) {
+	Local ret := True
+	Local Title := findWindow(subName, False)
+
+	focusOnMain()
+
+	if (!Title) {
+		RunWait, %cmd%
+		if (ErrorLevel) {
+			ret := False
+		}
+	} else {
+		WinActivate, %Title%
+	}
+
+	return ret
+}
+
+COMMON_ROA_EXE(exePath) {
 	focusOnMain()
 	flag := False
 	SplitPath, exePath, procName
@@ -65,7 +79,7 @@ runOrActivateProc(exePath) {
 	return flag
 }
 
-findWindow(subName, isFullMatching=True) {
+findWindow(subName, isFullMatching := True) {
     WinGet windows, List
     Loop %windows% {
     	id := windows%A_Index%

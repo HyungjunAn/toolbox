@@ -7,6 +7,6 @@ if (A_Args.Length() < 1) {
     ExitApp
 }
 
-runOrActivateProc(A_Args[1])
+COMMON_ROA_EXE(A_Args[1])
 
 ExitApp
