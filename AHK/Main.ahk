@@ -220,9 +220,7 @@ $#c::
 	}
     Return
     
-!^c:: 
-	ROA_Chrome()
-	return
+!^c:: ROA_Chrome()
 
 ; MobaXterm
 $!^m:: COMMON_ROA_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
@@ -274,7 +272,6 @@ $!^d::
 	return 
 
 !^0:: COMMON_ROA_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
-;BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
 
 $MButton::
 	if (!isOffice || !VPC_OpenUrlOnLocal()) {
@@ -286,7 +283,6 @@ $+MButton::
 	SendInput, {RButton}
 	tmp := Clipboard
 	Clipboard := ""
-	sleep, 50
 	SendInput, e
 	sleep, 50
 	uri := Clipboard
@@ -302,11 +298,9 @@ $+MButton::
 
 ; Virtual Desktop Toggle
 $^,::
-	if (VPC_SwitchWinIfExist()) {
-		return
+	if (!VPC_Switch()) {
+		VDesktop_toggle()
 	}
-
-	VDesktop_toggle()
 	Return
 
 ; TypeAndRun
@@ -323,8 +317,6 @@ $!^i:: runWinFindTool()
 	;BR1_curTabNum := Mod(BR1_curTabNum, BR1_maxTabNum) + 1
 	;ROA_BrowserTab(1, BR1_curTabNum)
 	return
-
-
 
 ;------------------------------------
 ; Key & System

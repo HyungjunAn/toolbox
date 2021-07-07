@@ -48,7 +48,7 @@ VPC_FocusOut() {
 	}
 }
 
-VPC_SwitchWinIfExist() {
+VPC_Switch() {
 	if (VPC_IsExistVpc()) {
 		if (VPC_IsCurWinVpc()) {
 			VPC_FocusOut()
