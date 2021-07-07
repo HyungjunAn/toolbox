@@ -15,6 +15,8 @@ COMMON_ROA_CMD_SubNameArr(subNameArr, cmd) {
 	Local ret := True
 	local Title := ""
 
+	focusOnMain()
+
 	Loop % subNameArr.Length()
 	{
 		Title := findWindow(subNameArr[A_Index], False)
