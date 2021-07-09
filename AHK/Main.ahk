@@ -14,8 +14,8 @@
 ;		Serial Code
 ;///////////////////////////////////////////////////////////////
 #include %A_ScriptDir%
-#include Lib_Common.ahk
-#include Lib_VPC.ahk
+#include lib_common.ahk
+#include lib_vpc.ahk
 
 SetWorkingDir, %A_ScriptDir%
 CoordMode, Screen
@@ -154,8 +154,8 @@ $#d:: 	Run, %USERPROFILE%\Desktop
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^z::	COMMON_ROA_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
-$!^u::	COMMON_ROA_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+$!^z::	COMMON_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
+$!^u::	COMMON_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 
 $^.::
 	focusOnMain()
@@ -171,7 +171,7 @@ $^.::
 
 		Loop, Parse, FileList, `n
 		{
-			title := findWindow(A_LoopField, False)
+			title := COMMON_FindWinTitle(A_LoopField, False)
 
 			if (title) {
 				WinActivate, %title%
@@ -210,12 +210,16 @@ $^.::
 !^+k::	setSelectPid(3)	
 !^+l::	setSelectPid(4)	
 
-$!^e::	runOrActivateGitBash(AHJ_TB)
+$!^e::	COMMON_AOR_GitBash(AHJ_TB)
 $!^n::	explorerUtil()
 
 $#c::
-	COMMON_ROA_EXE("SnippingTool.exe")
-	COMMON_WinActivate("Ä¸Ã³ µµ±¸", True)
+	subTitleArr := []
+	subTitleArr[1] := "Ä¸Ã³ µµ±¸"
+	subTitleArr[2] := "Snipping Tool"
+
+	COMMON_AOR_EXE("SnippingTool.exe")
+	COMMON_Activate_SubWinTitleArr(subTitleArr, True)
 
 	if (getOsVer() == 10) {
 		SendInput, ^n
@@ -223,10 +227,10 @@ $#c::
 
     Return
     
-!^c:: ROA_Chrome()
+!^c:: AOR_Chrome()
 
 ; MobaXterm
-$!^m:: COMMON_ROA_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
+$!^m:: COMMON_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 
 ; KakaoTalk
 $!^`;::
@@ -235,46 +239,46 @@ $!^`;::
 	else
 		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
 
-	COMMON_ROA_Cmd_SubName("Ä«Ä«¿ÀÅå", cmd)
+	COMMON_AOR_SubWinTitle("Ä«Ä«¿ÀÅå", cmd)
 	return
 
 ; Notepad++
-$!^8::	COMMON_ROA_EXE("notepad++.exe")
+$!^8::	COMMON_AOR_EXE("notepad++.exe")
 
 ;=============================================================
 ; Web Page
 ;-------------------------------------------------------------
 ; Dictionary
-!^q:: COMMON_ROA_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main")
+!^q:: COMMON_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main")
 
 ; Google Ä¶¸°´õ
-$!^f:: COMMON_ROA_URL("Google Calendar", "https://calendar.google.com/")
+$!^f:: COMMON_AOR_URL("Google Calendar", "https://calendar.google.com/")
 
 ; Google Keep
-$!^o:: COMMON_ROA_URL("Google Keep", "https://keep.google.com")
+$!^o:: COMMON_AOR_URL("Google Keep", "https://keep.google.com")
 
 ; Papago
-$!^[:: COMMON_ROA_URL("Papago", "https://papago.naver.com/")
+$!^[:: COMMON_AOR_URL("Papago", "https://papago.naver.com/")
 
 ; Colab
-$!^1:: COMMON_ROA_URL(" - Colaboratory", "https://colab.research.google.com")
+$!^1:: COMMON_AOR_URL(" - Colaboratory", "https://colab.research.google.com")
 
 ; YouTube
-$!^y:: COMMON_ROA_URL("YouTube", "https://www.youtube.com/")
+$!^y:: COMMON_AOR_URL("YouTube", "https://www.youtube.com/")
 
 ; Mail
 $!^d::
 	if (VPC_ActivateVpcIfExist()) {
 		SendInput, !^d
 	} else if (isOffice) {
-		ROA_Chrome()
+		AOR_Chrome()
 	} else {
-		;ROA_BrowserTab(1, 6)
-		COMMON_ROA_URL(gsMailUriTitle, gsMailUriAddress)
+		;AOR_BrowserTab(1, 6)
+		COMMON_AOR_URL(gsMailUriTitle, gsMailUriAddress)
 	}
 	return 
 
-!^0:: COMMON_ROA_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
+!^0:: COMMON_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
 
 $MButton::
 	if (!isOffice || !VPC_OpenUrlOnLocal()) {
@@ -292,7 +296,7 @@ $+MButton::
 	Clipboard := tmp
 
 	if (InStr(uri, "http") == 1) {
-		openUrl(uri, True)
+		COMMON_OpenUrl(uri, True)
 	}
 	return
 	
@@ -316,9 +320,9 @@ $!^i:: runWinFindTool()
 
 !^9::
 	BR0_curTabNum := Mod(BR0_curTabNum, BR0_maxTabNum) + 1
-	ROA_BrowserTab(0, BR0_curTabNum)
+	AOR_BrowserTab(0, BR0_curTabNum)
 	;BR1_curTabNum := Mod(BR1_curTabNum, BR1_maxTabNum) + 1
-	;ROA_BrowserTab(1, BR1_curTabNum)
+	;AOR_BrowserTab(1, BR1_curTabNum)
 	return
 
 ;------------------------------------
@@ -526,7 +530,7 @@ getOsVer() {
 	return ver
 }
 
-ROA_BrowserTab(browser, tabNum) {
+AOR_BrowserTab(browser, tabNum) {
 	static readyChk := True
 
 	local maxNum
@@ -557,7 +561,7 @@ ROA_BrowserTab(browser, tabNum) {
 		uriAddresses	:= BR1_uriAddresses
 	}
 
-	if (!COMMON_ROA_EXE(exePath)) {
+	if (!COMMON_AOR_EXE(exePath)) {
 		Goto, FINISH
 	}
 
@@ -690,10 +694,10 @@ reloadTypeAndRun() {
 			FileDelete, %dir_typeandrun%\~Config.ini
 			FileDelete, %dir_typeandrun%\Config.ini
 	
-			cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
+			cmd = util_make_tar_config.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
 			RunWait, %cmd%
 	
-			cmd = util_mkTARConfig.ahk "%typeandrun_cfgSrc_Common%" "%dir_typeandrun%\Config.ini"
+			cmd = util_make_tar_config.ahk "%typeandrun_cfgSrc_Common%" "%dir_typeandrun%\Config.ini"
 			RunWait, %cmd%
 		}
 		Run, %typeandrun%
@@ -753,7 +757,7 @@ explorerUtil() {
 
 	Lines := Lines . "[" . (LineNum++) . "] " . "Make New File" . "`n"
 	Lines := Lines . "[" . (LineNum++) . "] " . "Git Bash" . "`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Copy custom_macro.ahk`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Copy sample_macro.ahk`n"
 	Lines := Lines . "[" . (LineNum++) . "] " . "Open with GVIM`n"
 	Lines := Lines . "[" . (LineNum++) . "] " . "Open with Notepad++"
 	
@@ -769,19 +773,19 @@ explorerUtil() {
 		FormatTime, cur_time ,, yyMMddHHmm
 		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
 	case 2:
-		runOrActivateGitBash(cur_path)
+		COMMON_AOR_GitBash(cur_path)
 	case 3:
-		f := cur_path . "\custom_macro.ahk"
+		f := cur_path . "\sample_macro.ahk"
 		IfExist, %f%, {
 			ErrorMsg := "Exist Already!!"
 			goto, ERROR
 		}
-		srcF := A_ScriptDir . "\CustomMacro.ahk"
+		srcF := A_ScriptDir . "\sample_macro.ahk"
 		FileCopy, %srcF%, %f%
 	case 4:
 		f := COMMON_GetSelectedItemPath()
 		if (f) {
-			Run, %AHJ_TB_AHK%\util_runOrActivateGvim.ahk "%f%"
+			Run, %AHJ_TB_AHK%\util_aor_gvim.ahk "%f%"
 		}
 	case 5:
 		f := COMMON_GetSelectedItemPath()
@@ -829,11 +833,11 @@ healthNotification() {
 	MsgBox, %text%
 }
 
-ROA_Chrome() {
+AOR_Chrome() {
 	Local winNameArr := []
 
 	winNameArr[1] := "- Chrome"
 	winNameArr[2] := "- Google Chrome"
 
-	COMMON_ROA_CMD_SubNameArr(winNameArr, "chrome")
+	COMMON_AOR_SubWinTitleArr(winNameArr, "chrome")
 }

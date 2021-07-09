@@ -6,41 +6,22 @@ global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
 global isVirtualDesktopLeft := True
 
-COMMON_ROA_URL(subName, url) {
+COMMON_AOR_URL(subTitle, url) {
 	local cmd := PATH_CHROME . " --app=" . url
-	return COMMON_ROA_Cmd_SubName(subName, cmd)
+	return COMMON_AOR_SubWinTitle(subTitle, cmd)
 }
 
-COMMON_ROA_CMD_SubNameArr(subNameArr, cmd) {
-	Local ret := True
-	local Title := ""
+COMMON_AOR_SubWinTitle(subTitle, cmd) {
+	Local subTitleArr := []
 
-	focusOnMain()
-
-	Loop % subNameArr.Length()
-	{
-		Title := findWindow(subNameArr[A_Index], False)
-
-		if (Title) {
-			break
-		}
-	}
-
-	if (!Title) {
-		RunWait, %cmd%
-		if (ErrorLevel) {
-			ret := False
-		}
-	} else {
-		WinActivate, %Title%
-	}
-
-	return ret
+	subTitleArr[1] := subTitle
+	
+	return COMMON_AOR_SubWinTitleArr(subTitleArr, cmd)
 }
 
-COMMON_ROA_CMD_SubName(subName, cmd) {
+COMMON_AOR_SubWinTitleArr(subTitleArr, cmd) {
 	Local ret := True
-	Local Title := findWindow(subName, False)
+	Local Title := COMMON_FindWinTitle_Arr(subTitleArr, False)
 
 	focusOnMain()
 
@@ -56,7 +37,7 @@ COMMON_ROA_CMD_SubName(subName, cmd) {
 	return ret
 }
 
-COMMON_ROA_EXE(exePath) {
+COMMON_AOR_EXE(exePath) {
 	focusOnMain()
 	SplitPath, exePath, procName
 	WinGet windows, List
@@ -81,13 +62,23 @@ COMMON_ROA_EXE(exePath) {
 	return True
 }
 
-COMMON_WinActivate(subName, wait := False) {
-	local Title := findWindow(subName)
+COMMON_Activate_SubWinTitle(subTitle, wait := False) {
+	local subTitleArr := []
+
+	subTitleArr[1] := subTitle
+
+	return COMMON_Activate_SubWinTitleArr(subTitleArr, wait)
+}
+
+COMMON_Activate_SubWinTitleArr(subTitleArr, wait := False) {
+	local Title := ""
 	local cnt := 0
+
+	Title := COMMON_FindWinTitle_Arr(subTitleArr, False)
 
 	if (wait) {
 		while (!Title && cnt < 100) {
-			Title := findWindow(subName)
+			Title := COMMON_FindWinTitle_Arr(subTitleArr)
 			cnt++
 			sleep, 20
 		}
@@ -101,26 +92,45 @@ COMMON_WinActivate(subName, wait := False) {
 	}
 }
 
-findWindow(subName, isFullMatching := True) {
+COMMON_FindWinTitle(subTitle, isFullMatching := True) {
+	local subTitleArr := []
+
+	subTitleArr[1] := subTitle
+
+	return COMMON_FindWinTitle_Arr(subTitleArr, isFullMatching)
+}
+
+COMMON_FindWinTitle_Arr(subTitleArr, isFullMatching := True) {
+	local subTitle := ""
+
     WinGet windows, List
+
     Loop %windows% {
     	id := windows%A_Index%
     	WinGetTitle Title, ahk_id %id%
-		if (isFullMatching) {
-        	if (Title == subName) {
-            	return %Title%
-        	}
-		}
-		else {
-        	IfInString, Title, %subName%, {
-            	return %Title%
-        	}
+
+		Loop % subTitleArr.Length()
+		{
+			subTitle := subTitleArr[A_Index]
+			
+			if (isFullMatching) {
+    	    	if (Title == subTitle) {
+    	        	return %Title%
+    	    	}
+			}
+			else {
+    	    	IfInString, Title, %subTitle%, {
+    	        	return %Title%
+    	    	}
+			}
+
 		}
     }
+
     return ""
 }
 
-runOrActivateGitBash(folderPath) {
+COMMON_AOR_GitBash(folderPath) {
 	focusOnMain()
 
 	SplitPath, folderPath, folderName
@@ -143,7 +153,7 @@ runOrActivateGitBash(folderPath) {
 	Run, C:\Program Files\Git\git-bash.exe --cd="%folderPath%"
 }
 
-runOrActivateGvim(filePath) {
+COMMON_AOR_Gvim(filePath) {
 	focusOnMain()
 
 	SplitPath, filePath, fileName
@@ -238,7 +248,7 @@ removeEndNewline(str) {
 	return SubStr(str, 1, StrLen(str) - n)
 }
 
-openUrl(url, appMode := False) {
+COMMON_OpenUrl(url, appMode := False) {
 	local tmp := ""
 
 	focusOnMain()
@@ -250,37 +260,6 @@ openUrl(url, appMode := False) {
 	}
 
 	return
-
-;	flag := False
-;	SplitPath, PATH_CHROME, procName
-;	WinGet windows, List
-;	
-;	Loop %windows% {
-;		id := windows%A_Index%
-;		WinGet, name, ProcessName, ahk_id %id%
-;	
-;		if (name == procName) {
-;			WinGetTitle, title, ahk_id %id%
-;			WinActivate, %title%
-;			flag := True
-;			break
-;		}
-;	}
-;
-;	if (flag) {
-;		SendInput, ^t
-;		sleep, 50
-;		tmp := Clipboard
-;		Clipboard := url
-;		SendInput, ^v
-;		sleep, 200
-;		SendInput, {Enter}
-;		Clipboard := tmp
-;	} else {
-;		Run, %PATH_CHROME% %url%
-;	}
-;
-;	return
 }
 
 COMMON_WinWait(title, text, timeout_ms) {

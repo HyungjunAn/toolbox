@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_timerOnOff.ahk
+	%AHJ_TB_AHK%\util_timer.ahk
 //-----------------------------------------------------------------
 timer			""
 
@@ -21,8 +21,7 @@ recycle			shell:RecycleBinFolder
 home			"%USERPROFILE%"
 
 //-----------------------------------------------------------------
-	//C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe
-	%AHJ_TB_AHK%\util_openUrl.ahk
+	%AHJ_TB_AHK%\util_open_url.ahk
 //-----------------------------------------------------------------
 naver					http://www.senaver.com
 nmap					https://map.naver.com/
@@ -42,7 +41,7 @@ vpc						https://vpc.lge.com/
 json_pretty_print		https://jsonformatter.org/json-pretty-print
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_runOrActivateGvim.ahk
+	%AHJ_TB_AHK%\util_aor_gvim.ahk
 //-----------------------------------------------------------------
 vimrc			%AHJ_TB%\vim\vimrc_AD.vim
 vimrc_dummy		%USERPROFILE%\_vimrc

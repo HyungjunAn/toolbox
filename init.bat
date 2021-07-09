@@ -28,7 +28,7 @@ setx AHJ_TB_LIB "%AHJ_TB%\Library"
 setx AHJ_TB_VIM "%AHJ_TB%\vim"
 
 del "%USERPROFILE%\Desktop\ahk"
-mklink "%USERPROFILE%\Desktop\ahk" "%AHJ_TB_AHK%\Main.ahk"
+mklink "%USERPROFILE%\Desktop\ahk" "%AHJ_TB_AHK%\main.ahk"
 echo.
 echo ------------------------------------------------------
 echo 	Gvim 테마, vimrc, vim 파일 이동

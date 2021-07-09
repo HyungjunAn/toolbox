@@ -1,9 +1,9 @@
-#include Lib_Common.ahk
+#include lib_common.ahk
 
 global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
 
 VPC_IsExistVpc() {
-	if (findWindow(_gsVpcWinTitle, False)) {
+	if (COMMON_FindWinTitle(_gsVpcWinTitle, False)) {
 		return True
 	}
 	return False
@@ -77,7 +77,7 @@ VPC_OpenUrlOnLocal() {
 
 		if (InStr(uri, "http") == 1) {
 			VPC_FocusOut()
-			openUrl(uri)
+			COMMON_OpenUrl(uri)
 		}
 
 		return True
