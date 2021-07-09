@@ -1,4 +1,4 @@
-#include Lib_VPC.ahk
+#include lib_vpc.ahk
 		
 global PATH_CHROME	:= "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
@@ -26,7 +26,7 @@ COMMON_AOR_SubWinTitleArr(subTitleArr, cmd) {
 	focusOnMain()
 
 	if (!Title) {
-		RunWait, %cmd%
+		Run, %cmd%
 		if (ErrorLevel) {
 			ret := False
 		}
