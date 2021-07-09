@@ -214,10 +214,13 @@ $!^e::	runOrActivateGitBash(AHJ_TB)
 $!^n::	explorerUtil()
 
 $#c::
-	COMMON_ROA_Cmd_SubName("母贸 档备", "SnippingTool")
+	COMMON_ROA_EXE("SnippingTool.exe")
+	COMMON_WinActivate("母贸 档备", True)
+
 	if (getOsVer() == 10) {
 		SendInput, ^n
 	}
+
     Return
     
 !^c:: ROA_Chrome()

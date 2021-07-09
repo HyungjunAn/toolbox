@@ -58,7 +58,6 @@ COMMON_ROA_CMD_SubName(subName, cmd) {
 
 COMMON_ROA_EXE(exePath) {
 	focusOnMain()
-	flag := False
 	SplitPath, exePath, procName
 	WinGet windows, List
 	
@@ -69,16 +68,37 @@ COMMON_ROA_EXE(exePath) {
 		if (name == procName) {
 			WinGetTitle, title, ahk_id %id%
 			WinActivate, %title%
-			flag := True
-			break
+			return True
 		}
 	}
 
-	if (!flag) {
-		Run, %exePath%
+	Run, %exePath%
+
+	if (ErrorLevel) {
+		return False
 	}
 
-	return flag
+	return True
+}
+
+COMMON_WinActivate(subName, wait := False) {
+	local Title := findWindow(subName)
+	local cnt := 0
+
+	if (wait) {
+		while (!Title && cnt < 100) {
+			Title := findWindow(subName)
+			cnt++
+			sleep, 20
+		}
+	}
+
+	if (Title) {
+		WinActivate, %Title%
+		return True
+	} else {
+		return False
+	}
 }
 
 findWindow(subName, isFullMatching := True) {
