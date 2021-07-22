@@ -20,14 +20,14 @@ ghlql			"%USERPROFILE%\Google 드라이브\DocTemplates\회비 계산"
 guitar			"%USERPROFILE%\Google 드라이브\Music\Guitar"
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_open_url.ahk
+	%TOOLBOX_ROOT_AHK%\util_open_url.ahk
 //-----------------------------------------------------------------
 guitar_lecture			https://spmusic.tistory.com/category/%ED%86%B5%EA%B8%B0%ED%83%80%20%EB%B0%B0%EC%9A%B0%EA%B8%B0-%EA%B8%B0%EC%B4%88%ED%8E%B8?page=2
 
 netflex					https://www.netflix.com/browse
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_aor_gvim.ahk
+	%TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk
 //-----------------------------------------------------------------
 tmp				"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
 sykim			"%USERPROFILE%\Google 드라이브\수영\김수영 어록.txt"

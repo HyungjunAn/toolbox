@@ -148,7 +148,7 @@ $!^a::
 ;------------------------------------
 ; Folder
 ;------------------------------------
-$!^g::	Run, %AHJ_TB%
+$!^g::	Run, %TOOLBOX_ROOT%
 $#d:: 	Run, %USERPROFILE%\Desktop
 
 ;------------------------------------
@@ -210,7 +210,7 @@ $^.::
 !^+k::	setSelectPid(3)	
 !^+l::	setSelectPid(4)	
 
-$!^e::	COMMON_AOR_GitBash(AHJ_TB)
+$!^e::	COMMON_AOR_GitBash(TOOLBOX_ROOT)
 $!^n::	explorerUtil()
 
 $#c::
@@ -785,7 +785,7 @@ explorerUtil() {
 	case 4:
 		f := COMMON_GetSelectedItemPath()
 		if (f) {
-			Run, %AHJ_TB_AHK%\util_aor_gvim.ahk "%f%"
+			Run, %TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk "%f%"
 		}
 	case 5:
 		f := COMMON_GetSelectedItemPath()

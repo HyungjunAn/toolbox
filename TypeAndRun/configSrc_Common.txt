@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_timer.ahk
+	%TOOLBOX_ROOT_AHK%\util_timer.ahk
 //-----------------------------------------------------------------
 timer			""
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_suspend.ahk
+	%TOOLBOX_ROOT_AHK%\util_suspend.ahk
 //-----------------------------------------------------------------
 _kill_suspend			""
 
@@ -16,12 +16,12 @@ memo			%USERPROFILE%\Desktop\memo.txt
 //-----------------------------------------------------------------
 	C:\Windows\explorer.exe
 //-----------------------------------------------------------------
-lib				%AHJ_TB_LIB%
+lib				%TOOLBOX_ROOT_LIB%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_open_url.ahk
+	%TOOLBOX_ROOT_AHK%\util_open_url.ahk
 //-----------------------------------------------------------------
 naver					http://www.senaver.com
 nmap					https://map.naver.com/
@@ -41,26 +41,26 @@ vpc						https://vpc.lge.com/
 json_pretty_print		https://jsonformatter.org/json-pretty-print
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_aor_gvim.ahk
+	%TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk
 //-----------------------------------------------------------------
-vimrc			%AHJ_TB%\vim\vimrc_AD.vim
+vimrc			%TOOLBOX_ROOT%\vim\vimrc_AD.vim
 vimrc_dummy		%USERPROFILE%\_vimrc
-batInit			%AHJ_TB%\init.bat
+batInit			%TOOLBOX_ROOT%\init.bat
 
 apache			"C:\Apache24\conf\httpd.conf"
 
-tarCfg_home		%AHJ_TB_TAR%\configSrc_home.txt
-tarCfg_common	%AHJ_TB_TAR%\configSrc_common.txt
-ahkMain			%AHJ_TB_AHK%\Main.ahk
-ahkVimMode		%AHJ_TB_AHK%\VimMode.ahk
-ahkSampleMacro	%AHJ_TB_AHK%\sample_macro.ahk
+tarCfg_home		%TOOLBOX_ROOT_TAR%\configSrc_home.txt
+tarCfg_common	%TOOLBOX_ROOT_TAR%\configSrc_common.txt
+ahkMain			%TOOLBOX_ROOT_AHK%\Main.ahk
+ahkVimMode		%TOOLBOX_ROOT_AHK%\VimMode.ahk
+ahkSampleMacro	%TOOLBOX_ROOT_AHK%\sample_macro.ahk
 
-git				%AHJ_TB_LIB%\git.md
-linux_cmd		%AHJ_TB_LIB%\linux_cmd.md
-hotkeys			%AHJ_TB_LIB%\hotkeys.md
-en_note			%AHJ_TB_LIB%\en_note.md
-en_grammar		%AHJ_TB_LIB%\en_grammar.md
-coding_test		%AHJ_TB_LIB%\CS\coding_test_tips.md
+git				%TOOLBOX_ROOT_LIB%\git.md
+linux_cmd		%TOOLBOX_ROOT_LIB%\linux_cmd.md
+hotkeys			%TOOLBOX_ROOT_LIB%\hotkeys.md
+en_note			%TOOLBOX_ROOT_LIB%\en_note.md
+en_grammar		%TOOLBOX_ROOT_LIB%\en_grammar.md
+coding_test		%TOOLBOX_ROOT_LIB%\CS\coding_test_tips.md
 sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 
 //-----------------------------------------------------------------
@@ -69,7 +69,7 @@ sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 macro_desktop	""
 
 //-----------------------------------------------------------------
-	%AHJ_TB_AHK%\util_ms-settings.ahk
+	%TOOLBOX_ROOT_AHK%\util_ms-settings.ahk
 //-----------------------------------------------------------------
 ms-bluetooth	bluetooth
 ms-display		display
