@@ -47,6 +47,8 @@ set VIMPATH=
 set "VIMPATH32=C:\Program Files (x86)\Vim\%VIM_VERSION%"
 set "VIMPATH64=C:\Program Files\Vim\%VIM_VERSION%"
 
+echo source %ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
+
 IF exist "%VIMPATH32%\" (
 	set "VIMPATH=%VIMPATH32%"
 ) else IF exist "%VIMPATH64%\" (
@@ -59,8 +61,6 @@ IF exist "%VIMPATH32%\" (
 copy "%ROOT_VIM%\colors"	"%VIMPATH%\colors"
 copy "%ROOT_VIM%\syntax"	"%VIMPATH%\syntax\"
 copy "%ROOT_VIM%\ctags58.exe"	"%VIMPATH%\ctags.exe"
-
-echo source %ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
 
 :ERR_VIM
 echo.
