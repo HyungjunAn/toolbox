@@ -23,14 +23,18 @@ echo ------------------------------------------------------
 echo Current Path: %cd%
 
 @echo on
-setx TOOLBOX_ROOT "%cd%"
-setx TOOLBOX_ROOT_AHK "%TOOLBOX_ROOT%\AHK"
-setx TOOLBOX_ROOT_TAR "%TOOLBOX_ROOT%\TypeAndRun"
-setx TOOLBOX_ROOT_LIB "%TOOLBOX_ROOT%\Library"
-setx TOOLBOX_ROOT_VIM "%TOOLBOX_ROOT%\vim"
+set "ROOT=%cd%"
+setx TOOLBOX_ROOT "%ROOT%"
+setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
+setx TOOLBOX_ROOT_LIB "%ROOT%\Library"
+
+set "ROOT_AHK=%ROOT%\AHK"
+set "ROOT_VIM=%ROOt%\vim"
+
+setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
 
 del "%USERPROFILE%\Desktop\ahk"
-mklink "%USERPROFILE%\Desktop\ahk" "%TOOLBOX_ROOT_AHK%\main.ahk"
+mklink "%USERPROFILE%\Desktop\ahk" "%ROOT_AHK%\main.ahk"
 @echo off
 
 echo.
@@ -52,11 +56,11 @@ IF exist "%VIMPATH32%\" (
 	goto ERR_VIM
 )
 
-copy "%TOOLBOX_ROOT_VIM%\colors"	"%VIMPATH%\colors"
-copy "%TOOLBOX_ROOT_VIM%\syntax"	"%VIMPATH%\syntax\"
-copy "%TOOLBOX_ROOT_VIM%\ctags58.exe"	"%VIMPATH%\ctags.exe"
+copy "%ROOT_VIM%\colors"	"%VIMPATH%\colors"
+copy "%ROOT_VIM%\syntax"	"%VIMPATH%\syntax\"
+copy "%ROOT_VIM%\ctags58.exe"	"%VIMPATH%\ctags.exe"
 
-echo source %TOOLBOX_ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
+echo source %ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
 
 :ERR_VIM
 echo.
