@@ -11,7 +11,7 @@ VPC_FocusOut()
 
 ; XNote Timer
 
-global xnote_timer	:= USERPROFILE . "\pc_setting\XNote_Timer\xntimer.exe"
+global xnote_timer	:= TOOLBOX_ROOT . "\XNote_Timer\xntimer.exe"
 global winTitle := "XNote Timer"
 global pName := "xntimer.exe"
 
