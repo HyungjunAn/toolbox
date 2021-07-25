@@ -112,18 +112,14 @@ COMMON_FindWinTitle_Arr(subTitleArr, isFullMatching := True) {
 		Loop % subTitleArr.Length()
 		{
 			subTitle := subTitleArr[A_Index]
-			
-			if (isFullMatching) {
-    	    	if (Title == subTitle) {
-    	        	return %Title%
-    	    	}
-			}
-			else {
-    	    	IfInString, Title, %subTitle%, {
-    	        	return %Title%
-    	    	}
-			}
 
+			if (subTitle == "") {
+				continue
+			} else if (isFullMatching && Title == subTitle) {
+				return %Title%
+			} else if (!isFullMatching && InStr(Title, subTitle)) {
+				return %Title%
+			}
 		}
     }
 
