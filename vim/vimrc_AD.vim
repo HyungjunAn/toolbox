@@ -249,6 +249,10 @@ set printfont=Consolas:h10:b
 "--------------------------------------------------------------------
 noremap		<A-r>		:source $MYVIMRC<CR>
 
+" Workaround of gx bug
+let g:loaded_netrwPlugin = 1
+nnoremap gx :call netrw#BrowseX(expand((exists("g:netrw_gx")? g:netrw_gx : '<cfile>')),netrw#CheckIfRemote())<cr>
+
 "<ETC>
 map		 <F8>    :NERDTreeToggle<CR>
 map		 <F9> 	 :TlistToggle<CR>
