@@ -42,7 +42,8 @@ set nocompatible      			" 오리지날 VI와 호환하지 않음
 syntax on 			  			  	" 구문강조 사용
 set autoindent							" 자동 들여쓰기
 filetype plugin indent on 	"파일 타입에 따른 들여쓰기
-set wrap
+"set wrap
+set nowrap				" 가로 창 축소 시 줄바꿈 하지 않음
 set nowrapscan 		    " 검색할 때 문서의 끝에서 처음으로 안돌아감
 set noundofile        " undo 파일 안 만듦
 set nobackup 		      " 백업 파일을 안 만듬
@@ -129,12 +130,30 @@ hi TabLineFill ctermfg=black ctermbg=NONE
 hi TabLINE ctermfg=NONE ctermbg=NONE
 hi TabLineSel ctermfg=White ctermbg=red
 
-function! SetGuiTabLineColor()
+function! SetGuiColorscheme(mode)
+	if !has('gui')
+		return
+	endif 
+
+	if a:mode=~#'light'
+		set background=light
+	elseif a:mode=~'dark'
+		set background=dark
+	elseif a:mode=~#'toggle'
+		if &background=~#'light'
+			set background=dark
+		else
+			set background=light
+		endif
+	endif
+
     if &background=~#'light'
+		colorscheme default_AD
         hi TabLINE guifg=Black guibg=darkGrey
         hi TabLineFill guifg=darkGrey guibg=NONE
         hi TabLineSel guifg=White guibg=Black
     else
+		colorscheme wombat_AD
         hi TabLINE guifg=NONE guibg=NONE
         hi TabLineFill guifg=black guibg=NONE
         hi TabLineSel guifg=Black guibg=grey
@@ -168,18 +187,13 @@ endfunction
 "set encoding=utf-8    "needed when there is no encoding setting
 let guifontsize=12
 let guifontwidesize=13
-let &guifont="Consolas:h" . guifontsize . ":cANSI"
+"let &guifont="Consolas:h" . guifontsize . ":cANSI"
+let &guifont="D2Coding:h" . guifontsize . ":cANSI"
 let &guifontwide="D2Coding:h" . guifontwidesize . ":cDEFAULT"
 
 "[Colorscheme & Background]
-if has('gui')
-  colorscheme wombat_AD
-  "colorscheme default_AD
-  "set background=light
-else
-  "set background=dark
-endif
-call SetGuiTabLineColor()
+call SetGuiColorscheme('dark')
+autocmd BufRead,BufNewFile *.txt  call SetGuiColorscheme('light')
 
 "[Hide Toolbar, Menu Bar, Scroll Bar]
 set guioptions-=m  "remove menu bar
@@ -254,8 +268,7 @@ if has("gui")
   nnoremap <F11> :if &go=~#'m'<Bar>set go-=m go-=r<Bar>else<Bar>set go+=m go+=r<Bar>endif<CR><CR>
 
 "<Color Scheme & BackGround>
-noremap	<F12> :if &background=~#'light'<Bar>colorscheme wombat_AD<Bar>else<Bar>colorscheme default_AD<Bar>set background=light<Bar>endif<Bar>call SetGuiTabLineColor()<CR><CR>
-noremap <C-F12> :
+  noremap	<F12> :call SetGuiColorscheme('toggle')<CR><CR>
 
 "<Font Size>
   let cgf=guifontsize     " Default En  Font Size
