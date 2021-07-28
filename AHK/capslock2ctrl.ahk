@@ -1,0 +1,3 @@
+SetCapsLockState, off
+
+Capslock::Ctrl

@@ -49,7 +49,8 @@ global gsMailUriAddress	:= "https://mail.google.com/mail"
 
 global gbIsInitDone 	:= False
 
-global PID_GVIM_FAVORITE 		:= 0
+global PID_GVIM_FAVORITE 	:= 0
+global PID_CAPSLOCK2CTRL	:= 0
 
 global maxSelectPidNum		:= 4
 global garSelectPid_pid		:= []
@@ -129,6 +130,8 @@ $!^r::
 
 ; Control Script Suspending
 $^Delete::
+	closeProcess("TypeAndRun.exe")
+	closeProcess(PID_CAPSLOCK2CTRL)
 	myMotto(200, "White")
 	ExitApp
 	return
@@ -137,10 +140,13 @@ $!^a::
 	Suspend, Toggle
 	if (!A_IsSuspended) {
 		Run, %typeandrun%
+		closeProcess(PID_CAPSLOCK2CTRL)
+		PID_CAPSLOCK2CTRL := 0
 		SetCapsLockState, off
 		myMotto(200)
 	} else {
 		closeProcess("TypeAndRun.exe")
+		Run, capslock2ctrl.ahk,,, PID_CAPSLOCK2CTRL
 		myMotto(1000, "Green")
 	}
 	Return
