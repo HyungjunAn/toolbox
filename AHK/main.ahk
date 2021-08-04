@@ -191,7 +191,7 @@ $^.::
 			}
 		}
 
-		Run, gvim "%gvimFavorite%\*.txt" "%USERPROFILE%\Desktop\_memo.txt",,, PID_GVIM_FAVORITE
+		Run, gvim "%gvimFavorite%\*.txt" "%USERPROFILE%\Desktop\stable\_memo.txt",,, PID_GVIM_FAVORITE
 
 		return
 	}
@@ -829,12 +829,17 @@ healthNotification() {
 	FileDelete, %f%
 	FileAppend, %curTime%, %f%
 
-	text := text . "운동: 6/1W`n"
-	text := text . "양치: 2/1D`n"
-	text := text . "음주: 1/1W`n"
-	text := text . "정식: 1/1D`n"
+	;text := text . "운동: 6/1W`n"
+	;text := text . "양치: 2/1D`n"
+	;text := text . "음주: 1/1W`n"
+	;text := text . "정식: 1/1D`n"
+	;text := text . "`n"
+	;text := text . "(X: 과자, 탄산, 과식, 과음, 단당, HP)"
+
+	text := text . "[운동] 종아리, 신전, 계단, 풀업, 스쿼트, 푸쉬업`n"
+	text := text . "[위생] 양치, 건조`n"
 	text := text . "`n"
-	text := text . "(X: 과자, 탄산, 과식, 과음, 단당, HP)"
+	text := text . "[금지] 과음, 과식, 당류, 폰질`n"
 
 	MsgBox, %text%
 }
