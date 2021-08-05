@@ -4,7 +4,7 @@
 toeicspeaking	"%USERPROFILE%\Google 드라이브\English\필기_토스.txt"
 
 //-----------------------------------------------------------------
-	C:\Windows\explorer.exe
+	%TOOLBOX_ROOT_AHK%\util_run.ahk
 //-----------------------------------------------------------------
 googledrive		"%USERPROFILE%\Google 드라이브"
 finance			"%USERPROFILE%\Google 드라이브\finance"
@@ -21,7 +21,6 @@ project			"%USERPROFILE%\desktop\project"
 
 stable			"%USERPROFILE%\desktop\stable"
 fm				"%USERPROFILE%\desktop\stable\fm"
-
 
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_open_url.ahk

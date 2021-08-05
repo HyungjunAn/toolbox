@@ -11,10 +11,9 @@ _kill_suspend			""
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Notepad++\notepad++.exe
 //-----------------------------------------------------------------
-memo			%USERPROFILE%\Desktop\memo.txt
 
 //-----------------------------------------------------------------
-	C:\Windows\explorer.exe
+	%TOOLBOX_ROOT_AHK%\util_run.ahk
 //-----------------------------------------------------------------
 lib				%TOOLBOX_ROOT_LIB%
 recycle			shell:RecycleBinFolder 

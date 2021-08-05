@@ -156,6 +156,7 @@ $!^a::
 ;------------------------------------
 $!^g::	Run, %TOOLBOX_ROOT%
 $#d:: 	Run, %USERPROFILE%\Desktop
+$#e::	Run, shell:mycomputerfolder
 
 ;------------------------------------
 ; Program
