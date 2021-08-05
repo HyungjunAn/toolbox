@@ -1,3 +1,0 @@
-SetCapsLockState, off
-
-Capslock::Ctrl
