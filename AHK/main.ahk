@@ -266,7 +266,7 @@ $!^1:: COMMON_AOR_URL(" - Colaboratory", "https://colab.research.google.com")
 $!^y:: COMMON_AOR_URL("YouTube", "https://www.youtube.com/")
 
 ; Mail
-$!^d::
+$#z::
 	if (VPC_ActivateVpcIfExist()) {
 		SendInput, !^d
 	} else if (isOffice) {
@@ -328,7 +328,18 @@ $!^i:: runWinFindTool()
 ; Key & System
 ;------------------------------------
 Capslock::Ctrl
-$!^s::	SetCapsLockState % !GetKeyState("CapsLock", "T")
+$!^s::
+	newCapLockState := !GetKeyState("CapsLock", "T")
+
+	if (newCapLockState) {
+		myMotto(0, "F39C12")
+	} else {
+		myMotto(10)
+	}
+
+	SetCapsLockState % newCapLockState
+	return
+
 $`::	SendInput, {ESC}
 $^`::	SendInput, ^``
 $!`::	SendInput, ``
