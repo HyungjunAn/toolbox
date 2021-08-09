@@ -19,6 +19,9 @@ lib				%TOOLBOX_ROOT_LIB%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 
+stable			"%USERPROFILE%\desktop\stable"
+project			"%USERPROFILE%\desktop\project"
+
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_open_url.ahk
 //-----------------------------------------------------------------

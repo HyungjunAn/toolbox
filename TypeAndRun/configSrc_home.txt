@@ -17,9 +17,6 @@ board_games		"%USERPROFILE%\Google 드라이브\Library\board games"
 ghlql			"%USERPROFILE%\Google 드라이브\DocTemplates\회비 계산"
 guitar			"%USERPROFILE%\Google 드라이브\Music\Guitar"
 
-project			"%USERPROFILE%\desktop\project"
-
-stable			"%USERPROFILE%\desktop\stable"
 fm				"%USERPROFILE%\desktop\stable\fm"
 
 //-----------------------------------------------------------------
