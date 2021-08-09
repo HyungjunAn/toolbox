@@ -256,6 +256,9 @@ $!^f:: COMMON_AOR_URL("Google Calendar", "https://calendar.google.com/")
 ; Google Keep
 $!^o:: COMMON_AOR_URL("Google Keep", "https://keep.google.com")
 
+; Todoist
+$!^i:: COMMON_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384")
+
 ; Papago
 $!^[:: COMMON_AOR_URL("Papago", "https://papago.naver.com/")
 
@@ -315,7 +318,7 @@ $!^p::
 	SendInput, !^p
 	return
 
-$!^i:: runWinFindTool()
+;$!^i:: runWinFindTool()
 
 !^9::
 	BR0_curTabNum := Mod(BR0_curTabNum, BR0_maxTabNum) + 1
