@@ -118,29 +118,33 @@ healthNotification()
 gbIsInitDone := True
 Gui, Destroy
 
+DetectHiddenWindows,on
+WinGet, AHKList, List, ahk_class AutoHotkey
+Loop, %AHKList%
+{
+    ID := AHKList%A_Index%
+    If (ID <> A_ScriptHwnd)
+        WinClose, ahk_id %ID%
+}
+DetectHiddenWindows,off
+
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!+r:: Reload
 
-$!+Delete::
+$^Delete::
 	closeProcess("TypeAndRun.exe")
 	myMotto(200, "White")
 	ExitApp
 
 ; Control Script Suspending
 $!+a:: 
-	Suspend, Toggle
-	SetCapsLockState, off
-
-	if (!A_IsSuspended) {
-		Run, %typeandrun%
-		myMotto(200)
-	} else {
-		closeProcess("TypeAndRun.exe")
-		myMotto(1000, "Green")
-	}
+	Run, %TOOLBOX_ROOT_AHK%\capslock2ctrl.ahk
+	closeProcess("TypeAndRun.exe")
+	myMotto(500, "Green")
+	ExitApp
 	Return
 
 ;------------------------------------
@@ -528,8 +532,9 @@ mouseMoveOnRightMid() {
 }
 
 closeProcess(pidOrName) {
-	Process, Exist, %pidOrName%,
-	Process, Close, %ErrorLevel%
+;	Process, Exist, %pidOrName%,
+;	Process, Close, %ErrorLevel%
+	Process, Close, %pidOrName%,
 	return
 }
 
