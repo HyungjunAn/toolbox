@@ -1,6 +1,6 @@
-#include lib_vpc.ahk
+#include lib_focus.ahk
 
-VPC_FocusOut()
+focusOnMain()
 
 ;if (A_Args.Length() < 1) {
 ;	msg := "This script requires at least 1 parameters but it doesn't received`n"

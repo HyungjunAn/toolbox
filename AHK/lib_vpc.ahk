@@ -62,7 +62,7 @@ VPC_Switch() {
 	}
 }
 
-VPC_OpenUrlOnLocal() {
+VPC_GetMouseOverUri() {
 	local uri := ""
 
 	if (VPC_IsCurWinVpc()) {
@@ -72,17 +72,14 @@ VPC_OpenUrlOnLocal() {
 		sleep, 50
 		SendInput, e
 		sleep, 50
-		uri := Clipboard
-		Clipboard := tmp
 
-		if (InStr(uri, "http") == 1) {
-			VPC_FocusOut()
-			COMMON_OpenUrl(uri)
+		if (InStr(Clipboard, "http") == 1) {
+			uri := Clipboard
 		}
 
-		return True
-	} else {
-		return False
+		Clipboard := tmp
 	}
+
+	return uri
 }
 

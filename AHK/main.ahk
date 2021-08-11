@@ -15,6 +15,8 @@
 ;///////////////////////////////////////////////////////////////
 #include %A_ScriptDir%
 #include lib_common.ahk
+#include lib_focus.ahk
+#include lib_run.ahk
 #include lib_vpc.ahk
 
 SetWorkingDir, %A_ScriptDir%
@@ -222,7 +224,7 @@ $#c::
 	subTitleArr[2] := "Snipping Tool"
 
 	COMMON_AOR_EXE("SnippingTool.exe")
-	COMMON_Activate_SubWinTitleArr(subTitleArr, True)
+	COMMON_Activate_SubWinTitleArr(subTitleArr, COMMON_OPT_WAIT)
 
 	if (getOsVer() == 10) {
 		SendInput, ^n
@@ -291,7 +293,10 @@ $#z::
 !^0:: COMMON_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
 
 $MButton::
-	if (!isOffice || !VPC_OpenUrlOnLocal()) {
+	uri := VPC_GetMouseOverUri()
+	if (isOffice && uri) {
+		COMMON_OpenUrl(uri)
+	} else {
 		SendInput, {MButton}
 	}
 	return 
