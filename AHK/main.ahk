@@ -159,8 +159,8 @@ $#e::	Run, shell:mycomputerfolder
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^z::	COMMON_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
-$!^u::	COMMON_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+$!^z::	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
+$!^u::	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 
 $^.::
 	FOCUS_MainDesktop()
@@ -215,7 +215,7 @@ $^.::
 !^+k::	setSelectPid(3)	
 !^+l::	setSelectPid(4)	
 
-$!^e::	COMMON_AOR_GitBash(TOOLBOX_ROOT)
+$!^e::	RUN_AOR_GitBash(TOOLBOX_ROOT)
 $!^n::	explorerUtil()
 
 $#c::
@@ -223,7 +223,7 @@ $#c::
 	subTitleArr[1] := "Ä¸Ã³ µµ±¸"
 	subTitleArr[2] := "Snipping Tool"
 
-	COMMON_AOR_EXE("SnippingTool.exe")
+	RUN_AOR_EXE("SnippingTool.exe")
 	COMMON_Activate_SubWinTitleArr(subTitleArr, COMMON_OPT_WAIT)
 
 	if (getOsVer() == 10) {
@@ -232,14 +232,14 @@ $#c::
 
     Return
     
-!^c:: COMMON_AOR_Chrome(COMMON_OPT_MAINMONITOR)
+!^c:: RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
 !^a:: 
-	COMMON_AOR_Chrome(COMMON_OPT_SUBMONITOR)
+	RUN_AOR_Chrome(COMMON_OPT_SUBMONITOR)
 	COMMON_GUI_BlinkActiveWin("black", 80)
 	return
 
 ; MobaXterm
-$!^m:: COMMON_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
+$!^m:: RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 
 ; KakaoTalk
 $!^`;::
@@ -248,54 +248,54 @@ $!^`;::
 	else
 		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
 
-	COMMON_AOR_SubWinTitle("Ä«Ä«¿ÀÅå", cmd)
+	RUN_AOR_SubWinTitle("Ä«Ä«¿ÀÅå", cmd)
 	return
 
 ; Notepad++
-$!^8::	COMMON_AOR_EXE("notepad++.exe")
+$!^8::	RUN_AOR_EXE("notepad++.exe")
 
 ;=============================================================
 ; Web Page
 ;-------------------------------------------------------------
 ; Dictionary
-!^q:: COMMON_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
+!^q:: RUN_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
 
 ; Google Ä¶¸°´õ
-$!^f:: COMMON_AOR_URL("Google Calendar", "https://calendar.google.com/", COMMON_OPT_APPMODE)
+$!^f:: RUN_AOR_URL("Google Calendar", "https://calendar.google.com/", COMMON_OPT_APPMODE)
 
 ; Google Keep
-$!^o:: COMMON_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
+$!^o:: RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 
 ; Todoist
-$!^i:: COMMON_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
+$!^i:: RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
 
 ; Papago
-$!^[:: COMMON_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
+$!^[:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 
 ; Colab
-$!^1:: COMMON_AOR_URL(" - Colaboratory", "https://colab.research.google.com", COMMON_OPT_APPMODE)
+$!^1:: RUN_AOR_URL(" - Colaboratory", "https://colab.research.google.com", COMMON_OPT_APPMODE)
 
 ; YouTube
-$!^y:: COMMON_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
+$!^y:: RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 
 ; Mail
 $#z::
 	if (VPC_ActivateVpc()) {
 		SendInput, #z
 	} else if (isOffice) {
-		COMMON_AOR_Chrome(COMMON_OPT_MAINMONITOR)
+		RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
 	} else {
 		;AOR_BrowserTab(1, 6)
-		COMMON_AOR_URL(gsMailUriTitle, gsMailUriAddress)
+		RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress)
 	}
 	return 
 
-!^0:: COMMON_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
+!^0:: RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
 
 $MButton::
 	uri := VPC_GetMouseOverUri()
 	if (isOffice && uri) {
-		COMMON_OpenUrl(uri)
+		RUN_OpenUrl(uri)
 	} else {
 		SendInput, {MButton}
 	}
@@ -311,7 +311,7 @@ $+MButton::
 	Clipboard := tmp
 
 	if (InStr(uri, "http") == 1) {
-		COMMON_OpenUrl(uri, COMMON_OPT_APPMODE)
+		RUN_OpenUrl(uri, COMMON_OPT_APPMODE)
 	}
 	return
 	
@@ -588,7 +588,7 @@ AOR_BrowserTab(browser, tabNum) {
 		uriAddresses	:= BR1_uriAddresses
 	}
 
-	if (!COMMON_AOR_EXE(exePath)) {
+	if (!RUN_AOR_EXE(exePath)) {
 		Goto, FINISH
 	}
 
@@ -793,7 +793,7 @@ explorerUtil() {
 		FormatTime, cur_time ,, yyMMddHHmm
 		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
 	case 2:
-		COMMON_AOR_GitBash(cur_path)
+		RUN_AOR_GitBash(cur_path)
 	case 3:
 		f := cur_path . "\sample_macro.ahk"
 		IfExist, %f%, {

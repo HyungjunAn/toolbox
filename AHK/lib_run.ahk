@@ -10,11 +10,11 @@ global PATH_CHROME	:= "C:\Program Files (x86)\Google\Chrome\Application\chrome.e
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
-COMMON_AOR_Chrome(opt := 0) {
-	COMMON_AOR_SubWinTitleArr(chromeSubWinNameArr, "chrome", opt)
+RUN_AOR_Chrome(opt := 0) {
+	RUN_AOR_SubWinTitleArr(chromeSubWinNameArr, "chrome", opt)
 }
 
-COMMON_AOR_URL(subTitle, url, opt := 0) {
+RUN_AOR_URL(subTitle, url, opt := 0) {
 	local cmd := ""
 
 	if (opt & COMMON_OPT_APPMODE) {
@@ -23,18 +23,18 @@ COMMON_AOR_URL(subTitle, url, opt := 0) {
 		cmd := PATH_CHROME . " " . url
 	}
 
-	return COMMON_AOR_SubWinTitle(subTitle, cmd, opt)
+	return RUN_AOR_SubWinTitle(subTitle, cmd, opt)
 }
 
-COMMON_AOR_SubWinTitle(subTitle, cmd, opt := 0) {
+RUN_AOR_SubWinTitle(subTitle, cmd, opt := 0) {
 	Local subTitleArr := []
 
 	subTitleArr[1] := subTitle
 	
-	return COMMON_AOR_SubWinTitleArr(subTitleArr, cmd, opt)
+	return RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt)
 }
 
-COMMON_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
+RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 	Local ret := True
 	Local Title := COMMON_FindWinTitle_Arr(subTitleArr, opt)
 
@@ -52,7 +52,7 @@ COMMON_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 	return ret
 }
 
-COMMON_AOR_EXE(exePath) {
+RUN_AOR_EXE(exePath) {
 	FOCUS_MainDesktop()
 	SplitPath, exePath, procName
 	WinGet windows, List
@@ -77,7 +77,7 @@ COMMON_AOR_EXE(exePath) {
 	return True
 }
 
-COMMON_AOR_GitBash(folderPath) {
+RUN_AOR_GitBash(folderPath) {
 	FOCUS_MainDesktop()
 
 	SplitPath, folderPath, folderName
@@ -100,7 +100,7 @@ COMMON_AOR_GitBash(folderPath) {
 	Run, C:\Program Files\Git\git-bash.exe --cd="%folderPath%"
 }
 
-COMMON_AOR_Gvim(filePath) {
+RUN_AOR_Gvim(filePath) {
 	FOCUS_MainDesktop()
 
 	SplitPath, filePath, fileName
@@ -122,7 +122,7 @@ COMMON_AOR_Gvim(filePath) {
 	Run, gvim "%filePath%"
 }
 
-COMMON_OpenUrl(url, opt := 0) {
+RUN_OpenUrl(url, opt := 0) {
 	local tmp := ""
 	Local Title := COMMON_FindWinTitle_Arr(chromeSubWinNameArr, COMMON_OPT_MAINMONITOR)
 

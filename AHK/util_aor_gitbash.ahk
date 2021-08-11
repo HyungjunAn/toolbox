@@ -7,6 +7,6 @@ if (A_Args.Length() < 1) {
     ExitApp
 }
 
-COMMON_AOR_GitBash(A_Args[1])
+RUN_AOR_GitBash(A_Args[1])
 
 ExitApp

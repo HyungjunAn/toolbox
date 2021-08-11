@@ -7,6 +7,6 @@ if (A_Args.Length() < 1) {
     ExitApp
 }
 
-COMMON_OpenUrl(A_Args[1])
+RUN_OpenUrl(A_Args[1])
 
 ExitApp

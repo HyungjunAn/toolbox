@@ -7,6 +7,6 @@ if (A_Args.Length() < 1) {
     ExitApp
 }
 
-COMMON_AOR_Gvim(A_Args[1])
+RUN_AOR_Gvim(A_Args[1])
 
 ExitApp
