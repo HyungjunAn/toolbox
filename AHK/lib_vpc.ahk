@@ -3,7 +3,7 @@
 global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
 
 VPC_IsExistVpc() {
-	if (COMMON_FindWinTitle(_gsVpcWinTitle, False)) {
+	if (COMMON_FindWinTitle(_gsVpcWinTitle)) {
 		return True
 	}
 	return False
