@@ -38,7 +38,7 @@ COMMON_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 	Local ret := True
 	Local Title := COMMON_FindWinTitle_Arr(subTitleArr, opt)
 
-	focusOnMain()
+	FOCUS_MainDesktop()
 
 	if (!Title) {
 		Run, %cmd%
@@ -53,7 +53,7 @@ COMMON_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 }
 
 COMMON_AOR_EXE(exePath) {
-	focusOnMain()
+	FOCUS_MainDesktop()
 	SplitPath, exePath, procName
 	WinGet windows, List
 	
@@ -78,7 +78,7 @@ COMMON_AOR_EXE(exePath) {
 }
 
 COMMON_AOR_GitBash(folderPath) {
-	focusOnMain()
+	FOCUS_MainDesktop()
 
 	SplitPath, folderPath, folderName
 	WinGet windows, List
@@ -101,7 +101,7 @@ COMMON_AOR_GitBash(folderPath) {
 }
 
 COMMON_AOR_Gvim(filePath) {
-	focusOnMain()
+	FOCUS_MainDesktop()
 
 	SplitPath, filePath, fileName
 
@@ -126,7 +126,7 @@ COMMON_OpenUrl(url, opt := 0) {
 	local tmp := ""
 	Local Title := COMMON_FindWinTitle_Arr(chromeSubWinNameArr, COMMON_OPT_MAINMONITOR)
 
-	focusOnMain()
+	FOCUS_MainDesktop()
 
 	if (opt & COMMON_OPT_APPMODE) {
 		Run, %PATH_CHROME% --app=%url%

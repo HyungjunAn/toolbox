@@ -19,14 +19,10 @@ VPC_IsCurWinVpc() {
 }
 
 VPC_ActivateVpc() {
-	Gui, VPC:Destroy
-	WinActivate, %_gsVpcWinTitle%
-	VPC_Notify("Red")
-}
-
-VPC_ActivateVpcIfExist() {
 	if (VPC_IsExistVPC()) {
-		VPC_ActivateVpc()
+		Gui, VPC:Destroy
+		WinActivate, %_gsVpcWinTitle%
+		VPC_Notify("Red")
 		return True
 	}
 	return False

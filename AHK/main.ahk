@@ -163,7 +163,7 @@ $!^z::	COMMON_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
 $!^u::	COMMON_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 
 $^.::
-	focusOnMain()
+	FOCUS_MainDesktop()
     WinGet, p_name, ProcessName, ahk_pid %PID_GVIM_FAVORITE%
 
 	if (p_name != "gvim.exe") {
@@ -280,7 +280,7 @@ $!^y:: COMMON_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 
 ; Mail
 $#z::
-	if (VPC_ActivateVpcIfExist()) {
+	if (VPC_ActivateVpc()) {
 		SendInput, #z
 	} else if (isOffice) {
 		COMMON_AOR_Chrome(COMMON_OPT_MAINMONITOR)
@@ -321,13 +321,13 @@ $+MButton::
 ; Virtual Desktop Toggle
 $^,::
 	if (!VPC_Switch()) {
-		VDesktop_toggle()
+		FOCUS_VDesktop_toggle()
 	}
 	Return
 
 ; TypeAndRun
 $!^p::
-	focusOnMain()
+	FOCUS_MainDesktop()
 	SendInput, !^p
 	return
 
@@ -572,7 +572,7 @@ AOR_BrowserTab(browser, tabNum) {
 		readyChk := False
 	}
 
-	focusOnMain()
+	FOCUS_MainDesktop()
 
 	if (browser == 0) {
 		exePath := PATH_CHROME
@@ -662,7 +662,7 @@ activateSelectPid(index)
 	if (!ErrorLevel)
 		return
 
-	focusOnMain()
+	FOCUS_MainDesktop()
 
 	WinActivate, ahk_pid %pid%
 

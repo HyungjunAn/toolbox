@@ -2,7 +2,7 @@
 
 global bVirtualDesktopLeft := True
 
-VDesktop_toggle() {
+FOCUS_VDesktop_toggle() {
 	if (bVirtualDesktopLeft) {
 		SendInput, ^#{right}
 	} else {
@@ -11,15 +11,14 @@ VDesktop_toggle() {
 	bVirtualDesktopLeft := !bVirtualDesktopLeft
 }
 
-VDesktop_left() {
+FOCUS_VDesktop_left() {
 	if (bVirtualDesktopLeft == False) {
 		SendInput, ^#{left}
 		bVirtualDesktopLeft := True
 	}
 }
 
-focusOnMain() {
+FOCUS_MainDesktop() {
 	VPC_FocusOut()
-	VDesktop_left()
+	FOCUS_VDesktop_left()
 }
-
