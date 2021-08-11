@@ -1,27 +1,61 @@
 #include lib_vpc.ahk
 		
+global chromeSubWinNameArr := []
+
+chromeSubWinNameArr[1] := "- Chrome"
+chromeSubWinNameArr[2] := "- Google Chrome"
+
 global PATH_CHROME	:= "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
-global isVirtualDesktopLeft := True
+global bVirtualDesktopLeft := True
 
-COMMON_AOR_URL(subTitle, url) {
-	local cmd := PATH_CHROME . " --app=" . url
-	return COMMON_AOR_SubWinTitle(subTitle, cmd)
+global COMMON_OPT_NONE := 0
+global COMMON_OPT_WAIT := 1
+global COMMON_OPT_FULLMATCHING := 2
+global COMMON_OPT_MAINMONITOR := 4
+global COMMON_OPT_SUBMONITOR := 8
+global COMMON_OPT_APPMODE := 16
+
+COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 40) {
+    WinGetPos, X, Y, W, H, A
+	
+	Gui, Color, %color%
+	Gui, -Caption +alwaysontop +ToolWindow
+	Gui, Show, x%X% y%Y% w%W% h%H% NoActivate,
+
+	Sleep, %interval%
+	Gui, Destroy
 }
 
-COMMON_AOR_SubWinTitle(subTitle, cmd) {
+COMMON_AOR_Chrome(opt := 0) {
+	COMMON_AOR_SubWinTitleArr(chromeSubWinNameArr, "chrome", opt)
+}
+
+COMMON_AOR_URL(subTitle, url, opt := 0) {
+	local cmd := ""
+
+	if (opt & COMMON_OPT_APPMODE) {
+		cmd := PATH_CHROME . " --app=" . url
+	} else {
+		cmd := PATH_CHROME . " " . url
+	}
+
+	return COMMON_AOR_SubWinTitle(subTitle, cmd, opt)
+}
+
+COMMON_AOR_SubWinTitle(subTitle, cmd, opt := 0) {
 	Local subTitleArr := []
 
 	subTitleArr[1] := subTitle
 	
-	return COMMON_AOR_SubWinTitleArr(subTitleArr, cmd)
+	return COMMON_AOR_SubWinTitleArr(subTitleArr, cmd, opt)
 }
 
-COMMON_AOR_SubWinTitleArr(subTitleArr, cmd) {
+COMMON_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 	Local ret := True
-	Local Title := COMMON_FindWinTitle_Arr(subTitleArr, False)
+	Local Title := COMMON_FindWinTitle_Arr(subTitleArr, opt)
 
 	focusOnMain()
 
@@ -62,21 +96,21 @@ COMMON_AOR_EXE(exePath) {
 	return True
 }
 
-COMMON_Activate_SubWinTitle(subTitle, wait := False) {
+COMMON_Activate_SubWinTitle(subTitle, opt := 0) {
 	local subTitleArr := []
 
 	subTitleArr[1] := subTitle
 
-	return COMMON_Activate_SubWinTitleArr(subTitleArr, wait)
+	return COMMON_Activate_SubWinTitleArr(subTitleArr, opt)
 }
 
-COMMON_Activate_SubWinTitleArr(subTitleArr, wait := False) {
+COMMON_Activate_SubWinTitleArr(subTitleArr, opt := 0) {
 	local Title := ""
 	local cnt := 0
 
 	Title := COMMON_FindWinTitle_Arr(subTitleArr, False)
 
-	if (wait) {
+	if (opt & COMMON_OPT_WAIT) {
 		while (!Title && cnt < 100) {
 			Title := COMMON_FindWinTitle_Arr(subTitleArr)
 			cnt++
@@ -92,16 +126,17 @@ COMMON_Activate_SubWinTitleArr(subTitleArr, wait := False) {
 	}
 }
 
-COMMON_FindWinTitle(subTitle, isFullMatching := True) {
+COMMON_FindWinTitle(subTitle, opt := 0) {
 	local subTitleArr := []
 
 	subTitleArr[1] := subTitle
 
-	return COMMON_FindWinTitle_Arr(subTitleArr, isFullMatching)
+	return COMMON_FindWinTitle_Arr(subTitleArr, opt)
 }
 
-COMMON_FindWinTitle_Arr(subTitleArr, isFullMatching := True) {
+COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 	local subTitle := ""
+	local border := 20
 
     WinGet windows, List
 
@@ -109,15 +144,23 @@ COMMON_FindWinTitle_Arr(subTitleArr, isFullMatching := True) {
     	id := windows%A_Index%
     	WinGetTitle Title, ahk_id %id%
 
+    	WinGetPos, X, , , , %Title%
+
+		if ((opt & COMMON_OPT_MAINMONITOR) && (X < -border || X > A_ScreenWidth - border)) {
+			continue
+		} else if ((opt & COMMON_OPT_SUBMONITOR) && (-border < X && X < A_ScreenWidth - border)) {
+			continue
+		}
+
 		Loop % subTitleArr.Length()
 		{
 			subTitle := subTitleArr[A_Index]
 
 			if (subTitle == "") {
 				continue
-			} else if (isFullMatching && Title == subTitle) {
+			} else if ((opt & COMMON_OPT_FULLMATCHING) && Title == subTitle) {
 				return %Title%
-			} else if (!isFullMatching && InStr(Title, subTitle)) {
+			} else if (!(opt & COMMON_OPT_FULLMATCHING) && InStr(Title, subTitle)) {
 				return %Title%
 			}
 		}
@@ -196,18 +239,18 @@ COMMON_StrSplit(string, delimiters, commentPrefix := "//") {
 }
 
 VDesktop_toggle() {
-	if (isVirtualDesktopLeft) {
+	if (bVirtualDesktopLeft) {
 		SendInput, ^#{right}
 	} else {
 		SendInput, ^#{left}
 	}
-	isVirtualDesktopLeft := !isVirtualDesktopLeft
+	bVirtualDesktopLeft := !bVirtualDesktopLeft
 }
 
 VDesktop_left() {
-	if (isVirtualDesktopLeft == False) {
+	if (bVirtualDesktopLeft == False) {
 		SendInput, ^#{left}
-		isVirtualDesktopLeft := True
+		bVirtualDesktopLeft := True
 	}
 }
 
@@ -244,15 +287,19 @@ removeEndNewline(str) {
 	return SubStr(str, 1, StrLen(str) - n)
 }
 
-COMMON_OpenUrl(url, appMode := False) {
+COMMON_OpenUrl(url, opt := 0) {
 	local tmp := ""
+	Local Title := COMMON_FindWinTitle_Arr(chromeSubWinNameArr, COMMON_OPT_MAINMONITOR)
 
 	focusOnMain()
 
-	if (appMode) {
+	if (opt & COMMON_OPT_APPMODE) {
 		Run, %PATH_CHROME% --app=%url%
-	} else {
+	} else if (Title) {
+		WinActivate, %Title%
 		Run, %PATH_CHROME% %url%
+	} else {
+		Run, %PATH_CHROME% --new-window %url%
 	}
 
 	return

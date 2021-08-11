@@ -230,7 +230,11 @@ $#c::
 
     Return
     
-!^c:: AOR_Chrome()
+!^c:: COMMON_AOR_Chrome(COMMON_OPT_MAINMONITOR)
+!^a:: 
+	COMMON_AOR_Chrome(COMMON_OPT_SUBMONITOR)
+	COMMON_GUI_BlinkActiveWin("black", 80)
+	return
 
 ; MobaXterm
 $!^m:: COMMON_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
@@ -252,32 +256,32 @@ $!^8::	COMMON_AOR_EXE("notepad++.exe")
 ; Web Page
 ;-------------------------------------------------------------
 ; Dictionary
-!^q:: COMMON_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main")
+!^q:: COMMON_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
 
 ; Google 캘린더
-$!^f:: COMMON_AOR_URL("Google Calendar", "https://calendar.google.com/")
+$!^f:: COMMON_AOR_URL("Google Calendar", "https://calendar.google.com/", COMMON_OPT_APPMODE)
 
 ; Google Keep
-$!^o:: COMMON_AOR_URL("Google Keep", "https://keep.google.com")
+$!^o:: COMMON_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 
 ; Todoist
-$!^i:: COMMON_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384")
+$!^i:: COMMON_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
 
 ; Papago
-$!^[:: COMMON_AOR_URL("Papago", "https://papago.naver.com/")
+$!^[:: COMMON_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 
 ; Colab
-$!^1:: COMMON_AOR_URL(" - Colaboratory", "https://colab.research.google.com")
+$!^1:: COMMON_AOR_URL(" - Colaboratory", "https://colab.research.google.com", COMMON_OPT_APPMODE)
 
 ; YouTube
-$!^y:: COMMON_AOR_URL("YouTube", "https://www.youtube.com/")
+$!^y:: COMMON_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 
 ; Mail
 $#z::
 	if (VPC_ActivateVpcIfExist()) {
-		SendInput, !^d
+		SendInput, #z
 	} else if (isOffice) {
-		AOR_Chrome()
+		COMMON_AOR_Chrome(COMMON_OPT_MAINMONITOR)
 	} else {
 		;AOR_BrowserTab(1, 6)
 		COMMON_AOR_URL(gsMailUriTitle, gsMailUriAddress)
@@ -302,7 +306,7 @@ $+MButton::
 	Clipboard := tmp
 
 	if (InStr(uri, "http") == 1) {
-		COMMON_OpenUrl(uri, True)
+		COMMON_OpenUrl(uri, COMMON_OPT_APPMODE)
 	}
 	return
 	
@@ -476,7 +480,7 @@ $!^=:: SendInput, =============================================================
 	WinGet, PName, ProcessName, A
     WinGet, PID, PID, A
     WinGetPos, x, y, w, h, %Title%
-	MsgBox, PID: %PID%`nProcessName: %PName%`nWinTitle: %Title%`nx%x% y%y% w%w% h%h%
+	MsgBox, PID: %PID%`nProcessName: %PName%`nWinTitle: %Title%`nx%x% y%y% w%w% h%h%`nscreen W[%A_ScreenWidth%] H[%A_ScreenHeight%]
 	;ListHotKeys
 	return
     WinGet windows, List
@@ -657,14 +661,7 @@ activateSelectPid(index)
 
 	WinActivate, ahk_pid %pid%
 
-    WinGetPos, X, Y, W, H, A
-	
-	Gui, Color, F39C12
-	Gui, -Caption +alwaysontop +ToolWindow
-	Gui, Show, x%X% y%Y% w%W% h%H% NoActivate,
-
-	Sleep, 40
-	Gui, Destroy
+	COMMON_GUI_BlinkActiveWin()
 }
 
 setSelectPid(index)
@@ -854,13 +851,4 @@ healthNotification() {
 	text := text . "[금지] 과음, 과식, 당류, 폰질`n"
 
 	MsgBox, %text%
-}
-
-AOR_Chrome() {
-	Local winNameArr := []
-
-	winNameArr[1] := "- Chrome"
-	winNameArr[2] := "- Google Chrome"
-
-	COMMON_AOR_SubWinTitleArr(winNameArr, "chrome")
 }
