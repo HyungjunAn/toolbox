@@ -602,11 +602,9 @@ AOR_BrowserTab(browser, tabNum) {
 	if (!COMMON_WinWait("", uriTitles[tabNum], 1000)) {
 		SendInput, ^l
 		sleep, 50
-		tmp := Clipboard
-		Clipboard := uriAddresses[tabNum]
-		SendInput, ^v{Enter}
-		COMMON_WinWait("", uriTitles[tabNum], 3000)
-		Clipboard := tmp
+		uri := uriAddresses[tabNum]
+		SendInput, {blind}{text}%uri%
+		SendInput, {Enter}
 	}
 
 FINISH:
