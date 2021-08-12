@@ -286,11 +286,11 @@ $#z::
 		RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
 	} else {
 		;AOR_BrowserTab(1, 6)
-		RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress)
+		RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress, COMMON_OPT_APPMODE)
 	}
 	return 
 
-!^0:: RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1])
+!^0:: RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
 
 $MButton::
 	uri := VPC_GetMouseOverUri()
