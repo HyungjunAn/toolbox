@@ -132,7 +132,9 @@ RUN_OpenUrl(url, opt := 0) {
 		Run, %PATH_CHROME% --app=%url%
 	} else if (Title) {
 		WinActivate, %Title%
-		SendInput, ^t%url%{Enter}
+		SendInput, ^t
+		SendInput, {blind}{text}%url%
+		SendInput, {Enter}
 		;Run, %PATH_CHROME% %url%
 	} else {
 		Run, %PATH_CHROME% --new-window %url%
