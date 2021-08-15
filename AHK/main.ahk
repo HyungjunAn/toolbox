@@ -53,9 +53,9 @@ global gbIsInitDone 	:= False
 
 global PID_GVIM_FAVORITE 	:= 0
 
-global maxSelectPidNum		:= 4
-global garSelectPid_pid		:= []
-global garSelectPid_file	:= []
+global maxHotWinNum		:= 4
+global garHotWin_info	:= []
+global garHotWin_file	:= []
 
 global DIRECTION_LEFT	:= 0
 global DIRECTION_RIGHT	:= 1
@@ -103,13 +103,13 @@ reloadTypeAndRun()
 ;-------------------------------------------
 ; 	Process about PID
 ;-------------------------------------------
-Loop % maxSelectPidNum
+Loop % maxHotWinNum
 {
-	garSelectPid_pid[A_Index] := 0
-	garSelectPid_file[A_Index] := tmpFolder . "/pidSelect_" . A_Index . ".txt"
-	path := garSelectPid_file[A_Index]
-	FileReadLine, PID, %path%, 1
-	garSelectPid_pid[A_Index] := PID
+	garHotWin_info[A_Index] := 0
+	garHotWin_file[A_Index] := tmpFolder . "/hotWin_" . A_Index . ".txt"
+	path := garHotWin_file[A_Index]
+	FileReadLine, info, %path%, 1
+	garHotWin_info[A_Index] := info
 }
 
 SetCapsLockState, off
@@ -205,15 +205,15 @@ $^.::
 
 	return
 
-!^h::	activateSelectPid(1)
-!^j::	activateSelectPid(2)
-!^k::	activateSelectPid(3)
-!^l::	activateSelectPid(4)
+!^h::	activateHotWin(1)
+!^j::	activateHotWin(2)
+!^k::	activateHotWin(3)
+!^l::	activateHotWin(4)
 
-!^+h::	setSelectPid(1)	
-!^+j::	setSelectPid(2)	
-!^+k::	setSelectPid(3)	
-!^+l::	setSelectPid(4)	
+!^+h::	setHotWin(1)	
+!^+j::	setHotWin(2)	
+!^+k::	setHotWin(3)	
+!^+l::	setHotWin(4)	
 
 $!^e::	RUN_AOR_GitBash(TOOLBOX_ROOT)
 $!^n::	explorerUtil()
@@ -648,36 +648,44 @@ getUriFromFile(path, ByRef title, ByRef address)
 	}
 }
 
-activateSelectPid(index)
+activateHotWin(index)
 {
 	if (!gbIsInitDone)
 		return
 
-	pid := garSelectPid_pid[index]
+	info := garHotWin_info[index]
 
-	Process, Exist, %pid%,
+	Process, Exist, %info%,
 
-	if (!ErrorLevel)
+	if (ErrorLevel) {
+		actCmd := "ahk_pid " . info
+	} else if (WinExist(info)) {
+		actCmd := info
+	} else {
 		return
+	}
 
 	FOCUS_MainDesktop()
-
-	WinActivate, ahk_pid %pid%
-
+	WinActivate, %actCmd%
 	COMMON_GUI_BlinkActiveWin()
 }
 
-setSelectPid(index)
+setHotWin(index)
 {
 	if (!gbIsInitDone)
 		return
 
-	WinGet, PID, PID, A
-	garSelectPid_pid[index] := PID
+	if (COMMON_GetActiveWinProcName() == "chrome.exe") {
+		WinGetTitle, winInfo, A
+	} else {
+		WinGet, winInfo, PID, A
+	}
 
-	path := garSelectPid_file[index]
+	garHotWin_info[index] := winInfo
+
+	path := garHotWin_file[index]
 	FileDelete, %path%
-	FileAppend, %PID%, %path%
+	FileAppend, %winInfo%, %path%
 	myMotto(300)
 }
 
