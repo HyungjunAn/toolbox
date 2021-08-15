@@ -76,4 +76,5 @@ macro_desktop	""
 ms-bluetooth	bluetooth
 ms-display		display
 ms-powersleep	powersleep
+ms-sound		sound
 
