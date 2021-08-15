@@ -5,12 +5,19 @@ global COMMON_OPT_MAINMONITOR := 4
 global COMMON_OPT_SUBMONITOR := 8
 global COMMON_OPT_APPMODE := 16
 
-COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 40) {
-    WinGetPos, X, Y, W, H, A
+COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 60) {
+    WinGetPos, x1, y1, w1, h1, A
+
+	w2 := w1 * 2 // 3
+	h2 := h1 // 32
+
+	x2 := x1 + (w1 - w2) // 2
+	y2 := y1 + (h1 - h2) // 2
+
 	
 	Gui, Color, %color%
 	Gui, -Caption +alwaysontop +ToolWindow
-	Gui, Show, x%X% y%Y% w%W% h%H% NoActivate,
+	Gui, Show, x%x2% y%y2% w%w2% h%h2% NoActivate,
 
 	Sleep, %interval%
 	Gui, Destroy
@@ -79,9 +86,9 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 			if (subTitle == "") {
 				continue
 			} else if ((opt & COMMON_OPT_FULLMATCHING) && Title == subTitle) {
-				return %Title%
+				return Title
 			} else if (!(opt & COMMON_OPT_FULLMATCHING) && InStr(Title, subTitle)) {
-				return %Title%
+				return Title
 			}
 		}
     }
