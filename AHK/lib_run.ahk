@@ -134,6 +134,7 @@ RUN_OpenUrl(url, opt := 0) {
 		WinActivate, %Title%
 		SendInput, ^t
 		sleep, 50
+		SendInput, ^l
 		SendInput, {blind}{text}%url%
 		SendInput, {Enter}
 		;Run, %PATH_CHROME% %url%
