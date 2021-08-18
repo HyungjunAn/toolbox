@@ -84,9 +84,6 @@ If (A_UserName == "hyungjun.an") {
 	gvimFavorite		:= office_worklib
 	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc_Office.txt"
 	BR0_uriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
-
-	path := office_worklib_setting . "\AHK\url_mail.txt"
-	getUriFromFile(path, gsMailUriTitle, gsMailUriAddress)
 }
 
 ;-------------------------------------------
@@ -257,11 +254,10 @@ $!^8::	RUN_AOR_EXE("notepad++.exe")
 ;=============================================================
 ; Web Page
 ;-------------------------------------------------------------
-; Dictionary
-!^q:: RUN_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
-
-; Google Ä¶¸°´õ
-$!^f:: RUN_AOR_URL("Google Calendar", "https://calendar.google.com/", COMMON_OPT_APPMODE)
+; Papago - dictionary
+$!^q:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
+;!^q:: RUN_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
+;$!^[:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 
 ; Google Keep
 $!^o:: RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
@@ -269,28 +265,17 @@ $!^o:: RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 ; Todoist
 $!^i:: RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
 
-; Papago
-$!^[:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
-
-; Colab
-$!^1:: RUN_AOR_URL(" - Colaboratory", "https://colab.research.google.com", COMMON_OPT_APPMODE)
-
 ; YouTube
 $!^y:: RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 
 ; Mail
-$#z::
-	if (VPC_ActivateVpc()) {
-		SendInput, #z
-	} else if (isOffice) {
-		RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
+$!^0::
+	if (isOffice) {
+		RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
 	} else {
-		;AOR_BrowserTab(1, 6)
 		RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress, COMMON_OPT_APPMODE)
 	}
 	return 
-
-!^0:: RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
 
 $MButton::
 	uri := VPC_GetMouseOverUri()
@@ -332,13 +317,6 @@ $!^p::
 	return
 
 ;$!^i:: runWinFindTool()
-
-!^9::
-	BR0_curTabNum := Mod(BR0_curTabNum, BR0_maxTabNum) + 1
-	AOR_BrowserTab(0, BR0_curTabNum)
-	;BR1_curTabNum := Mod(BR1_curTabNum, BR1_maxTabNum) + 1
-	;AOR_BrowserTab(1, BR1_curTabNum)
-	return
 
 ;------------------------------------
 ; Key & System
@@ -458,22 +436,6 @@ $!^.::	sendIfBrowser("^{Tab}", "!^.")
     WinGetTitle, Title, A
     WinSet, Alwaysontop, Toggle, %Title%
     return
-
-$!^F12::
-	existFlag := False
-	subName := " - GVIM"
-    WinGet windows, List
-    Loop %windows% {
-    	id := windows%A_Index%
-    	WinGetTitle Title, ahk_id %id%
-        IfInString, Title, %subName%, {
-			existFlag := True
-			WinActivate, %Title%	
-		}
-    }
-	if (!existFlag) 
-		MsgBox, There is no GVIM window.
-	return 
 
 $!^-:: SendInput, -------------------------------------------------------------
 $!^=:: SendInput, =============================================================
