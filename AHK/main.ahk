@@ -334,6 +334,8 @@ $!^s::
 	SetCapsLockState % newCapLockState
 	return
 
+$!^d::	SendInput, #k
+
 $`::	SendInput, {ESC}
 $^`::	SendInput, ^``
 $!`::	SendInput, ``
@@ -381,35 +383,35 @@ $^#,::	SendInput, ^{Backspace}
 $#.::	SendInput, {delete}
 $^#.::	SendInput, ^{Delete}
 
-#h:: SendInput, {Left}
-#j:: SendInput, {Down}
-#k:: SendInput, {Up}
-#l:: SendInput, {Right}
+$#h:: SendInput, {Left}
+$#j:: SendInput, {Down}
+$#k:: SendInput, {Up}
+$#l:: SendInput, {Right}
 
-+#h:: SendInput, +{Left}
-+#j:: SendInput, +{Down}
-+#k:: SendInput, +{Up}
-+#l:: SendInput, +{Right}
+$+#h:: SendInput, +{Left}
+$+#j:: SendInput, +{Down}
+$+#k:: SendInput, +{Up}
+$+#l:: SendInput, +{Right}
 
-^#h:: SendInput, ^{Left}
-^#j:: SendInput, ^{Down}
-^#k:: SendInput, ^{Up}
-^#l:: SendInput, ^{Right}
+$^#h:: SendInput, ^{Left}
+$^#j:: SendInput, ^{Down}
+$^#k:: SendInput, ^{Up}
+$^#l:: SendInput, ^{Right}
 
-+^#h:: SendInput, +^{Left}
-+^#j:: SendInput, +^{Down}
-+^#k:: SendInput, +^{Up}
-+^#l:: SendInput, +^{Right}
+$+^#h:: SendInput, +^{Left}
+$+^#j:: SendInput, +^{Down}
+$+^#k:: SendInput, +^{Up}
+$+^#l:: SendInput, +^{Right}
 
-#w:: SendInput, {Home}
-#s:: SendInput, {End}
-#q:: SendInput, {PgUp}
-#a:: SendInput, {PgDn}
+$#w:: SendInput, {Home}
+$#s:: SendInput, {End}
+$#q:: SendInput, {PgUp}
+$#a:: SendInput, {PgDn}
 
-+#w:: SendInput, +{Home}
-+#s:: SendInput, +{End}
-+#q:: SendInput, +{PgUp}
-+#a:: SendInput, +{PgDn}
+$+#w:: SendInput, +{Home}
+$+#s:: SendInput, +{End}
+$+#q:: SendInput, +{PgUp}
+$+#a:: SendInput, +{PgDn}
 
 $!f::
 	if (COMMON_GetActiveWinProcName() == "Code.exe") {
