@@ -1,5 +1,5 @@
 ExitApp
-#include Lib_Common.ahk
+#include lib_common.ahk
 
 Global isCopying := False
 Global isLineCopy := False

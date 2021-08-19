@@ -254,6 +254,8 @@ $!^8::	RUN_AOR_EXE("notepad++.exe")
 ;=============================================================
 ; Web Page
 ;-------------------------------------------------------------
+!^[::select_favoriteApp()
+
 ; Papago - dictionary
 $!^q:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 ;!^q:: RUN_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
@@ -521,61 +523,6 @@ getOsVer() {
 	return ver
 }
 
-AOR_BrowserTab(browser, tabNum) {
-	static readyChk := True
-
-	local maxNum
-	local uriTitles
-	local uriAddresses
-	local exePath := ""
-	local tmp := ""
-
-	if (!readyChk) {
-		return
-	} else {
-		readyChk := False
-	}
-
-	FOCUS_MainDesktop()
-
-	if (browser == 0) {
-		exePath := PATH_CHROME
-		BR0_curTabNum	:= tabNum
-		maxNum			:= BR0_maxTabNum
-		uriTitles		:= BR0_uriTitles
-		uriAddresses	:= BR0_uriAddresses
-	} else {
-		exePath := PATH_FIREFOX
-		BR1_curTabNum	:= tabNum
-		maxNum			:= BR1_maxTabNum
-		uriTitles		:= BR1_uriTitles
-		uriAddresses	:= BR1_uriAddresses
-	}
-
-	if (!RUN_AOR_EXE(exePath)) {
-		Goto, FINISH
-	}
-
-	if (maxNum < tabNum) {
-		MsgBox, Error: tabNum is bigger then MaxTabNum
-		Goto, FINISH
-	}
-
-	SendInput, ^{%tabNum%}
-
-	if (!COMMON_WinWait("", uriTitles[tabNum], 1000)) {
-		SendInput, ^l
-		sleep, 50
-		uri := uriAddresses[tabNum]
-		SendInput, {blind}{text}%uri%
-		SendInput, {Enter}
-	}
-
-FINISH:
-	readyChk := True
-	return
-}
-
 getUriArrayFromFile(path, arTitle, arAddress)
 {
 	local cnt := 0
@@ -826,4 +773,46 @@ healthNotification() {
 	text := text . "[금지] 과음, 과식, 당류, 폰질`n"
 
 	MsgBox, %text%
+}
+
+select_favoriteApp() {
+	Local LineNum := 1
+	Local Lines := ""
+	Local ErrorMsg := ""
+
+	Lines := Lines . "[" . (LineNum++) . "] " . "Notepad++" . "`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Papago" . "`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Keep`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Todoist`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "YouTube`n"
+	Lines := Lines . "[" . (LineNum++) . "] " . "Mail"
+	
+	InputBox, UserInput, Type Util #, %Lines%, , , 400, , , , 10
+	
+	if (ErrorLevel || !UserInput) {
+		return
+	}
+
+	switch (UserInput)
+	{
+	case 1:
+		RUN_AOR_EXE("notepad++.exe")
+	case 2:
+		RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
+	case 3:
+		RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
+	case 4:
+		RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
+	case 5:
+		RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
+	case 6:
+		if (isOffice) {
+			RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
+		} else {
+			RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress, COMMON_OPT_APPMODE)
+		}
+	default: 
+		MsgBox, %ErrorMsg%
+	}
+	return
 }
