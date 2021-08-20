@@ -13,7 +13,7 @@ if (isOffice) {
 Loop, Read, %A_ScriptName%
 {
 	if (InStr(A_LoopReadLine, "::")) {
-		guiText := A_LoopReadLine . "`n"
+		guiText := guiText . A_LoopReadLine . "`n"
 	}
 }
 
@@ -33,57 +33,68 @@ $ESC::
 	suspendOn()
 	return
 
+;Chrome
 $c::
 	RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
 	suspendOn()
 	return
 
+;Chrome - Sub
 $s::
 	RUN_AOR_Chrome(COMMON_OPT_SUBMONITOR)
 	COMMON_GUI_BlinkActiveWin("black", 80)
 	suspendOn()
 	return
 
+;MobaXterm
 $m::
 	RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 	suspendOn()
 	return
 
+;Q-Dir
 $d::
 	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
 	suspendOn()
 	return
 
+;Notepad++
 $n::
 	RUN_AOR_EXE("notepad++.exe")
 	suspendOn()
 	return
 
+;Papago
 $p::
 	RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 	suspendOn()
 	return
 
+;Google Keep
 $k::
 	RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 	suspendOn()
 	return
 
+;Todoist
 $t::
 	RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
 	suspendOn()
 	return
 
+;YouTube
 $y::
 	RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 	suspendOn()
 	return
 
+;vsscode
 $v::
 	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 	suspendOn()
 	return
 
+;Gmail or DashBoard
 $0::
 	if (isOffice) {
 		RUN_AOR_URL(office_TitleAndUri[1], office_TitleAndUri[2], COMMON_OPT_APPMODE)
@@ -91,6 +102,16 @@ $0::
 		RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
 	}
 	suspendOn()
+	return
+
+;KakaoTalk
+$`;::
+	IfExist, C:\Program Files (x86)\Kakao
+		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
+	else
+		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
+
+	RUN_AOR_SubWinTitle("카카오톡", cmd)
 	return
 
 suspendOn() {
@@ -104,9 +125,9 @@ suspendOff() {
 	Gui, Color, Red
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Font, s12 cWhite, Consolas
-	Gui, Add, Text, , Insert Hot Key
-	;Gui, Add, Text, , %guiText%
+	;Gui, Add, Text, , Insert Hot Key
+	Gui, Add, Text, , %guiText%
 	Gui, Show, NoActivate,
-	Sleep, 1000
+	Sleep, 5000
 	suspendOn()
 }
