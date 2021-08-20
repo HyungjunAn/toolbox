@@ -64,19 +64,23 @@ COMMON_FindWinTitle(subTitle, opt := 0) {
 COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 	local subTitle := ""
 	local border := 20
+	local x := 0
 
     WinGet windows, List
 
+	DetectHiddenWindows, On
+
     Loop %windows% {
     	id := windows%A_Index%
+    	WinGetPos, x, , , , ahk_id %id%
     	WinGetTitle Title, ahk_id %id%
 
-    	WinGetPos, X, , , , %Title%
-
-		if ((opt & COMMON_OPT_MAINMONITOR) && (X < -border || X > A_ScreenWidth - border)) {
-			continue
-		} else if ((opt & COMMON_OPT_SUBMONITOR) && (-border < X && X < A_ScreenWidth - border)) {
-			continue
+		if (x != -32000) {
+			if ((opt & COMMON_OPT_MAINMONITOR) && (x < -border || x > A_ScreenWidth - border)) {
+				continue
+			} else if ((opt & COMMON_OPT_SUBMONITOR) && (-border < x && x < A_ScreenWidth - border)) {
+				continue
+			}
 		}
 
 		Loop % subTitleArr.Length()
@@ -92,6 +96,8 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 			}
 		}
     }
+
+	DetectHiddenWindows, Off
 
     return ""
 }

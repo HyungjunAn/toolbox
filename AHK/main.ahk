@@ -33,25 +33,28 @@ global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.
 global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
 
 ; For Chrome
-global BR0_curTabNum	:= 0
-global BR0_maxTabNum	:= 0
-global BR0_uriListPath	:= "data/uri_list_browser0.txt"
-global BR0_uriTitles		:= []
-global BR0_uriAddresses 	:= []
+;global BR0_curTabNum	:= 0
+;global BR0_maxTabNum	:= 0
+;global BR0_uriListPath	:= "data/uri_list_browser0.txt"
+;global BR0_uriTitles		:= []
+;global BR0_uriAddresses 	:= []
+;
+;; For Second Browser(ex. firefox, edge...)
+;global BR1_curTabNum	:= 0
+;global BR1_maxTabNum	:= 0
+;global BR1_uriListPath	:= "data/uri_list_browser1.txt"
+;global BR1_uriTitles		:= []
+;global BR1_uriAddresses 	:= []
 
-; For Second Browser(ex. firefox, edge...)
-global BR1_curTabNum	:= 0
-global BR1_maxTabNum	:= 0
-global BR1_uriListPath	:= "data/uri_list_browser1.txt"
-global BR1_uriTitles		:= []
-global BR1_uriAddresses 	:= []
-
-global gsMailUriTitle	:= "Gmail"
-global gsMailUriAddress	:= "https://mail.google.com/mail"
+;global gsMailUriTitle	:= "Gmail"
+;global gsMailUriAddress	:= "https://mail.google.com/mail"
 
 global gbIsInitDone 	:= False
 
 global PID_GVIM_FAVORITE 	:= 0
+global PID_VIMMODE 	:= 0
+global PID_SELECT 	:= 0
+global PID_EXPLORER	:= 0
 
 global maxHotWinNum		:= 4
 global garHotWin_info	:= []
@@ -83,19 +86,18 @@ If (A_UserName == "hyungjun.an") {
 	library				:= office_worklib
 	gvimFavorite		:= office_worklib
 	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc_Office.txt"
-	BR0_uriListPath		:= office_worklib_setting . "\AHK\url_office.txt"
+
+	path := "%USERPROFILE%\office.cfg"
+	uri	:= office_worklib_setting . "\AHK\url_office.txt"
+	FileDelete, %path%
+	FileAppend, %uri%, %path%
 }
 
 ;-------------------------------------------
 ; 	Get URI's Title and Address
 ;-------------------------------------------
-BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
-BR1_maxTabNum := getUriArrayFromFile(BR1_uriListPath, BR1_uriTitles, BR1_uriAddresses)
-
-;-------------------------------------------
-; 	Process about TypeAndRun
-;-------------------------------------------
-reloadTypeAndRun()
+;BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
+;BR1_maxTabNum := getUriArrayFromFile(BR1_uriListPath, BR1_uriTitles, BR1_uriAddresses)
 
 ;-------------------------------------------
 ; 	Process about PID
@@ -112,11 +114,6 @@ Loop % maxHotWinNum
 SetCapsLockState, off
 SetScrollLockState, off
 
-healthNotification()
-
-gbIsInitDone := True
-Gui, Destroy
-
 DetectHiddenWindows,on
 WinGet, AHKList, List, ahk_class AutoHotkey
 Loop, %AHKList%
@@ -127,13 +124,30 @@ Loop, %AHKList%
 }
 DetectHiddenWindows,off
 
+reloadTypeAndRun()
+Run, mode_vim_v2.ahk,,, PID_VIMMODE
+Run, select.ahk %isOffice%,,, PID_SELECT
+Run, explorer.ahk,,, PID_EXPLORER
+
+gbIsInitDone := True
+healthNotification()
+Gui, Destroy
+
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
-$!+r:: Reload
+$!+r:: 
+	Process, Close, %PID_VIMMODE%,
+	Process, Close, %PID_SELECT%,
+	Process, Close, %PID_EXPLORER%,
+	closeProcess("TypeAndRun.exe")
+	Reload
 
 $^Delete::
+	Process, Close, %PID_VIMMODE%,
+	Process, Close, %PID_SELECT%,
+	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
 	myMotto(200, "White")
 	ExitApp
@@ -141,10 +155,12 @@ $^Delete::
 ; Control Script Suspending
 $!+a:: 
 	Run, %TOOLBOX_ROOT_AHK%\capslock2ctrl.ahk
+	Process, Close, %PID_VIMMODE%,
+	Process, Close, %PID_SELECT%,
+	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
 	myMotto(500, "Green")
 	ExitApp
-	Return
 
 ;------------------------------------
 ; Folder
@@ -156,8 +172,8 @@ $#e::	Run, shell:mycomputerfolder
 ;------------------------------------
 ; Program
 ;------------------------------------
-$!^z::	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
-$!^u::	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+;$!^z::	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
+;$!^u::	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 
 $^.::
 	FOCUS_MainDesktop()
@@ -213,7 +229,7 @@ $^.::
 !^+l::	setHotWin(4)	
 
 $!^e::	RUN_AOR_GitBash(TOOLBOX_ROOT)
-$!^n::	explorerUtil()
+;$!^n::	explorerUtil()
 
 $#c::
 	subTitleArr := []
@@ -229,55 +245,54 @@ $#c::
 
     Return
     
-!^c:: RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
-!^a:: 
-	RUN_AOR_Chrome(COMMON_OPT_SUBMONITOR)
-	COMMON_GUI_BlinkActiveWin("black", 80)
-	return
-
-; MobaXterm
-$!^m:: RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
-
-; KakaoTalk
-$!^`;::
-	IfExist, C:\Program Files (x86)\Kakao
-		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
-	else
-		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
-
-	RUN_AOR_SubWinTitle("카카오톡", cmd)
-	return
+;!^c:: RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
+;!^a:: 
+;	RUN_AOR_Chrome(COMMON_OPT_SUBMONITOR)
+;	COMMON_GUI_BlinkActiveWin("black", 80)
+;	return
+;
+;; MobaXterm
+;$!^m:: RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
+;
+;; KakaoTalk
+;$!^`;::
+;	IfExist, C:\Program Files (x86)\Kakao
+;		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
+;	else
+;		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
+;
+;	RUN_AOR_SubWinTitle("카카오톡", cmd)
+;	return
 
 ; Notepad++
-$!^8::	RUN_AOR_EXE("notepad++.exe")
+;$!^8::	RUN_AOR_EXE("notepad++.exe")
 
 ;=============================================================
 ; Web Page
 ;-------------------------------------------------------------
-!^[::select_favoriteApp()
 
-; Papago - dictionary
-$!^q:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
-;!^q:: RUN_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
-;$!^[:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
-
-; Google Keep
-$!^o:: RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
-
-; Todoist
-$!^i:: RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
-
-; YouTube
-$!^y:: RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
-
-; Mail
-$!^0::
-	if (isOffice) {
-		RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
-	} else {
-		RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress, COMMON_OPT_APPMODE)
-	}
-	return 
+;; Papago - dictionary
+;$!^q:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
+;;!^q:: RUN_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
+;;$!^[:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
+;
+;; Google Keep
+;$!^o:: RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
+;
+;; Todoist
+;$!^i:: RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
+;
+;; YouTube
+;$!^y:: RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
+;
+;; Mail
+;$!^0::
+;	if (isOffice) {
+;		RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
+;	} else {
+;		RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress, COMMON_OPT_APPMODE)
+;	}
+;	return 
 
 $MButton::
 	uri := VPC_GetMouseOverUri()
@@ -336,8 +351,6 @@ $!^s::
 	SetCapsLockState % newCapLockState
 	return
 
-$!^d::	SendInput, #k
-
 $`::	SendInput, {ESC}
 $^`::	SendInput, ^``
 $!`::	SendInput, ``
@@ -371,49 +384,49 @@ RShift & PgDn:: SendInput, ^+{Tab}
 RShift & SC11d:: SendInput, !{Tab}
 ;=============================================================
 
-; Virtual Desktop 
-$^#w:: SendInput, ^#{F4}
-$^#n:: SendInput, ^#{left}
-$^#p:: SendInput, ^#{right}
+;; Virtual Desktop 
+;$^#w:: SendInput, ^#{F4}
+;$^#n:: SendInput, ^#{left}
+;$^#p:: SendInput, ^#{right}
 
 ;-------------------------------------------------------------
 ; Move & Edit
 ;-------------------------------------------------------------
-$!^Space:: SendInput, {Home}+{End}
-$#,::	SendInput, {backspace}
-$^#,::	SendInput, ^{Backspace}
-$#.::	SendInput, {delete}
-$^#.::	SendInput, ^{Delete}
-
-$#h:: SendInput, {Left}
-$#j:: SendInput, {Down}
-$#k:: SendInput, {Up}
-$#l:: SendInput, {Right}
-
-$+#h:: SendInput, +{Left}
-$+#j:: SendInput, +{Down}
-$+#k:: SendInput, +{Up}
-$+#l:: SendInput, +{Right}
-
-$^#h:: SendInput, ^{Left}
-$^#j:: SendInput, ^{Down}
-$^#k:: SendInput, ^{Up}
-$^#l:: SendInput, ^{Right}
-
-$+^#h:: SendInput, +^{Left}
-$+^#j:: SendInput, +^{Down}
-$+^#k:: SendInput, +^{Up}
-$+^#l:: SendInput, +^{Right}
-
-$#w:: SendInput, {Home}
-$#s:: SendInput, {End}
-$#q:: SendInput, {PgUp}
-$#a:: SendInput, {PgDn}
-
-$+#w:: SendInput, +{Home}
-$+#s:: SendInput, +{End}
-$+#q:: SendInput, +{PgUp}
-$+#a:: SendInput, +{PgDn}
+;$!^Space:: SendInput, {Home}+{End}
+;$#,::	SendInput, {backspace}
+;$^#,::	SendInput, ^{Backspace}
+;$#.::	SendInput, {delete}
+;$^#.::	SendInput, ^{Delete}
+;
+;$#h:: SendInput, {Left}
+;$#j:: SendInput, {Down}
+;$#k:: SendInput, {Up}
+;$#l:: SendInput, {Right}
+;
+;$+#h:: SendInput, +{Left}
+;$+#j:: SendInput, +{Down}
+;$+#k:: SendInput, +{Up}
+;$+#l:: SendInput, +{Right}
+;
+;$^#h:: SendInput, ^{Left}
+;$^#j:: SendInput, ^{Down}
+;$^#k:: SendInput, ^{Up}
+;$^#l:: SendInput, ^{Right}
+;
+;$+^#h:: SendInput, +^{Left}
+;$+^#j:: SendInput, +^{Down}
+;$+^#k:: SendInput, +^{Up}
+;$+^#l:: SendInput, +^{Right}
+;
+;$#w:: SendInput, {Home}
+;$#s:: SendInput, {End}
+;$#q:: SendInput, {PgUp}
+;$#a:: SendInput, {PgDn}
+;
+;$+#w:: SendInput, +{Home}
+;$+#s:: SendInput, +{End}
+;$+#q:: SendInput, +{PgUp}
+;$+#a:: SendInput, +{PgDn}
 
 $!f::
 	if (COMMON_GetActiveWinProcName() == "Code.exe") {
@@ -423,12 +436,12 @@ $!f::
 	}
 	return
 
-$^n:: IfSend_UpDown(DIRECTION_DOWN, "^n")
-$^p:: IfSend_UpDown(DIRECTION_UP, "^p")
-$!,::	sendIfBrowser("!{Left}", "!,")
-$!.::	sendIfBrowser("!{Right}", "!.")
-$!^,::	sendIfBrowser("^+{Tab}", "!^,")
-$!^.::	sendIfBrowser("^{Tab}", "!^.")
+;$^n:: IfSend_UpDown(DIRECTION_DOWN, "^n")
+;$^p:: IfSend_UpDown(DIRECTION_UP, "^p")
+;$!,::	sendIfBrowser("!{Left}", "!,")
+;$!.::	sendIfBrowser("!{Right}", "!.")
+;$!^,::	sendIfBrowser("^+{Tab}", "!^,")
+;$!^.::	sendIfBrowser("^{Tab}", "!^.")
 
 ; Sound Control
 #`:: SendInput, {Volume_Down}
@@ -773,46 +786,4 @@ healthNotification() {
 	text := text . "[금지] 과음, 과식, 당류, 폰질`n"
 
 	MsgBox, %text%
-}
-
-select_favoriteApp() {
-	Local LineNum := 1
-	Local Lines := ""
-	Local ErrorMsg := ""
-
-	Lines := Lines . "[" . (LineNum++) . "] " . "Notepad++" . "`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Papago" . "`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Keep`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Todoist`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "YouTube`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Mail"
-	
-	InputBox, UserInput, Type Util #, %Lines%, , , 400, , , , 10
-	
-	if (ErrorLevel || !UserInput) {
-		return
-	}
-
-	switch (UserInput)
-	{
-	case 1:
-		RUN_AOR_EXE("notepad++.exe")
-	case 2:
-		RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
-	case 3:
-		RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
-	case 4:
-		RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
-	case 5:
-		RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
-	case 6:
-		if (isOffice) {
-			RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
-		} else {
-			RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress, COMMON_OPT_APPMODE)
-		}
-	default: 
-		MsgBox, %ErrorMsg%
-	}
-	return
 }

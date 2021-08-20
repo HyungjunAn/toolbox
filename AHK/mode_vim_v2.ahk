@@ -21,21 +21,21 @@ Global CLIP_CUT		:= 1
 
 Global curMode := M_NORMAL
 
-VimMode_SetMode(M_NORMAL)
+VimMode_SetMode(M_EDIT)
+
+$!^d::
+	Suspend, Toggle
+	if (A_IsSuspended) {
+		VimMode_SetMode(M_EDIT)
+	} else {
+		VimMode_SetMode(M_NORMAL)
+	}
+	return
 
 $ESC::
 $`::
-	Suspend, Permit
-
-	if (!isSupport) {
-		SendInput, {Esc}
-	} else if (curMode == M_COMMAND) {
-		SendInput, {Esc}
-	} else if (curMode == M_EDIT) {
+	if (curMode == M_LINE || curMode == M_VISUAL) {
 		VimMode_SetMode(M_NORMAL)
-	} else {
-		VimMode_SetMode(M_NORMAL)
-		SendInput, {Esc}
 	}
 	return
 
@@ -62,7 +62,6 @@ $+`;::
 	}
 	VimMode_SetMode(M_NORMAL)
 	return
-
 
 $h::VimMode_Send("{Left}")
 $j::VimMode_Send("{Down}")
@@ -244,21 +243,22 @@ VimMode_SetMode(mode) {
 	curLine := 0
 
 	if (curMode == M_EDIT) {
-		ExitApp
+		Suspend, on
+		VimMode_NotifyOff()
 	} else if (curMode == M_COMMAND) {
 		Suspend, on
-		VimMode_Notify("Green")
+		VimMode_NotifyOn("Green")
 	} else if (curMode == M_VISUAL) {
 		Suspend, off
-		VimMode_Notify("F39C12")
+		VimMode_NotifyOn("F39C12")
 	} else if (curMode == M_LINE) {
 		Suspend, off
-		VimMode_Notify("F39C12")
+		VimMode_NotifyOn("F39C12")
 		SendInput, {End}+{Home}+{Home}
-	} else {
+	} else if (curMode == M_NORMAL) {
 		isCutReady := False
 		Suspend, off
-		VimMode_Notify("Red")
+		VimMode_NotifyOn("Red")
 	}
 }
 
@@ -367,7 +367,7 @@ VimMode_Suspend() {
 	Gui, VimMode:Destroy
 }
 
-VimMode_Notify(backC) {
+VimMode_NotifyOn(backC) {
 	;Gui, VimMode:Destroy
 	Gui, VimMode:Color, %backC%
 	Gui, VimMode:-Caption +alwaysontop +ToolWindow
@@ -391,4 +391,8 @@ VimMode_Notify(backC) {
 
 	Gui, VimMode:Show, w%W% y%Y% x%X% h%H% NoActivate, VimMode
 
+}
+
+VimMode_NotifyOff() {
+	Gui, VimMode:Destroy
 }
