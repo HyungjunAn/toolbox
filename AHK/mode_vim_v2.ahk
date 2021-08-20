@@ -23,7 +23,9 @@ Global curMode := M_NORMAL
 
 VimMode_SetMode(M_EDIT)
 
-$!^d::
+CapsLock::Ctrl
+
+$!^m::
 	Suspend, Toggle
 	if (A_IsSuspended) {
 		VimMode_SetMode(M_EDIT)

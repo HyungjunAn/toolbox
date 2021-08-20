@@ -221,6 +221,40 @@ COMMON_GetActiveWinProcName() {
 	return p_name
 }
 
+COMMON_ParseKeyAndDescription(path) {
+	Local description := ""
+	Local key := ""
+	Local text := ""
+
+	Loop, Read, %path%
+	{
+		if (SubStr(A_LoopReadLine, 1, 1) == ";") {
+			description := SubStr(A_LoopReadLine, 2)
+		} else if (InStr(A_LoopReadLine, "::")) {
+			key := RegExReplace(A_LoopReadLine, "^\$``?(.*)::", "$1")
+		} else {
+			description := ""
+			key := ""
+		}
+	
+		if (key && description) {
+			text := text . "[" . key . "] " . description . "`n"
+		}
+	}
+
+	return text
+}
+
+COMMON_Sleep(ms) {
+	local ms_interval := 10
+	local i := 0
+	local n := ms // ms_interval
+	while (!A_IsSuspended && i != n) {
+		i++
+		Sleep, %ms_interval%
+	}
+}
+
 ;COMMON_ChangeResolution(32,1920,1080,60)
 ;COMMON_ChangeResolution(32,1360,768, 60)
 

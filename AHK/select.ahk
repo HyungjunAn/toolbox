@@ -1,20 +1,13 @@
 #include lib_run.ahk
 
+Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName)
 Global isOffice := A_Args[1]
 Global office_TitleAndUri := []
-Global guiText := ""
 
 if (isOffice) {
 	path := "%USERPROFILE%\office.cfg"
 	FileReadLine, line, %path%, 1
 	office_TitleAndUri := COMMON_StrSplit(line, A_Tab)
-}
-
-Loop, Read, %A_ScriptName%
-{
-	if (InStr(A_LoopReadLine, "::")) {
-		guiText := guiText . A_LoopReadLine . "`n"
-	}
 }
 
 suspendOn()
@@ -35,83 +28,84 @@ $ESC::
 
 ;Chrome
 $c::
-	RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
 	suspendOn()
+	RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
 	return
 
 ;Chrome - Sub
 $s::
+	suspendOn()
 	RUN_AOR_Chrome(COMMON_OPT_SUBMONITOR)
 	COMMON_GUI_BlinkActiveWin("black", 80)
-	suspendOn()
 	return
 
 ;MobaXterm
 $m::
-	RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 	suspendOn()
+	RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 	return
 
 ;Q-Dir
 $d::
-	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
 	suspendOn()
+	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
 	return
 
 ;Notepad++
 $n::
-	RUN_AOR_EXE("notepad++.exe")
 	suspendOn()
+	RUN_AOR_EXE("notepad++.exe")
 	return
 
 ;Papago
 $p::
-	RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 	suspendOn()
+	RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 	return
 
 ;Google Keep
 $k::
-	RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 	suspendOn()
+	RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 	return
 
 ;Todoist
 $t::
-	RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
 	suspendOn()
+	RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
 	return
 
 ;YouTube
 $y::
-	RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 	suspendOn()
+	RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 	return
 
-;vsscode
+;visual studio code
 $v::
-	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 	suspendOn()
+	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
 	return
 
 ;Gmail or DashBoard
 $0::
+	suspendOn()
 	if (isOffice) {
 		RUN_AOR_URL(office_TitleAndUri[1], office_TitleAndUri[2], COMMON_OPT_APPMODE)
 	} else {
 		RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
 	}
-	suspendOn()
 	return
 
 ;KakaoTalk
 $`;::
+	suspendOn()
 	IfExist, C:\Program Files (x86)\Kakao
 		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
 	else
 		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
 
-	RUN_AOR_SubWinTitle("ì¹´ì¹´ì˜¤í†¡", cmd)
+	RUN_AOR_SubWinTitle("Ä«Ä«¿ÀÅå", cmd)
 	return
 
 suspendOn() {
@@ -125,9 +119,9 @@ suspendOff() {
 	Gui, Color, Red
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Font, s12 cWhite, Consolas
-	;Gui, Add, Text, , Insert Hot Key
 	Gui, Add, Text, , %guiText%
 	Gui, Show, NoActivate,
-	Sleep, 5000
+
+	COMMON_Sleep(10000) 
 	suspendOn()
 }
