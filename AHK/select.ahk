@@ -1,13 +1,14 @@
 #include lib_run.ahk
+#include lib_office.ahk
 
 Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName)
 Global isOffice := A_Args[1]
-Global office_TitleAndUri := []
+Global officeUrl_title := ""
+Global officeUrl_url := ""
 
 if (isOffice) {
-	path := "%USERPROFILE%\office.cfg"
-	FileReadLine, line, %path%, 1
-	office_TitleAndUri := COMMON_StrSplit(line, A_Tab)
+	FileReadLine, officeUrl_title, %OFFICE_SETTING_URL%, 1
+	FileReadLine, officeUrl_url, %OFFICE_SETTING_URL%, 2
 }
 
 suspendOn()
@@ -91,7 +92,7 @@ $v::
 $0::
 	suspendOn()
 	if (isOffice) {
-		RUN_AOR_URL(office_TitleAndUri[1], office_TitleAndUri[2], COMMON_OPT_APPMODE)
+		RUN_AOR_URL(officeUrl_title, officeUrl_url, COMMON_OPT_APPMODE)
 	} else {
 		RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
 	}

@@ -18,6 +18,7 @@
 #include lib_focus.ahk
 #include lib_run.ahk
 #include lib_vpc.ahk
+#include lib_office.ahk
 
 SetWorkingDir, %A_ScriptDir%
 CoordMode, Screen
@@ -67,9 +68,6 @@ global DIRECTION_DOWN	:= 3
 
 global isOffice := False
 
-global office_worklib 			:= "D:\library_office"
-global office_worklib_setting 	:= office_worklib . "\setting"
-
 global google_homeID_num := 0
 
 myMotto()
@@ -83,14 +81,9 @@ FileCreateDir, %tmpFolder%
 If (A_UserName == "hyungjun.an") {
     isOffice := True
     google_homeID_num := 1
-	library				:= office_worklib
-	gvimFavorite		:= office_worklib
-	typeandrun_cfgSrc	:= office_worklib_setting . "\TypeAndRun\configSrc_Office.txt"
-
-	path := "%USERPROFILE%\office.cfg"
-	uri	:= office_worklib_setting . "\AHK\url_office.txt"
-	FileDelete, %path%
-	FileAppend, %uri%, %path%
+	library				:= OFFICE_LIB
+	gvimFavorite		:= OFFICE_LIB
+	typeandrun_cfgSrc	:= OFFICE_SETTING_TAR
 }
 
 ;-------------------------------------------
