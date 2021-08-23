@@ -237,7 +237,7 @@ COMMON_ParseKeyAndDescription(path) {
 			key := ""
 		}
 	
-		if (key && description) {
+		if (key != "" && description != "") {
 			text := text . "[" . key . "] " . description . "`n"
 		}
 	}
