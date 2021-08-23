@@ -49,7 +49,7 @@ $m::
 ;Q-Dir
 $d::
 	suspendOn()
-	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
+	RUN_AOR_EXE(TOOLBOX_ROOT . "\Q-Dir\Q-Dir_x64.exe")
 	return
 
 ;Notepad++
