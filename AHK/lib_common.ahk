@@ -242,6 +242,8 @@ COMMON_ParseKeyAndDescription(path) {
 		}
 	}
 
+	text := SubStr(text, 1, StrLen(text) - 1)
+
 	return text
 }
 
