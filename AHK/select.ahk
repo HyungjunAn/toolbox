@@ -110,13 +110,14 @@ $`;::
 	return
 
 suspendOn() {
-	Gui, Destroy
 	Suspend, On
+	Gui, Destroy
 }
 
 suspendOff() {
-	FOCUS_MainDesktop()
 	Suspend, Off
+	FOCUS_MainDesktop()
+
 	Gui, Color, Red
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Font, s12 cWhite, Consolas

@@ -61,8 +61,8 @@ $5::
 	return
 
 suspendOn() {
-	Gui, Destroy
 	Suspend, On
+	Gui, Destroy
 }
 
 suspendOff() {
