@@ -21,19 +21,29 @@ echo 	환경 변수 설정
 echo ------------------------------------------------------
 echo Current Path: %cd%
 
-@echo on
 set "ROOT=%cd%"
+set "ROOT_AHK=%ROOT%\AHK"
+set "ROOT_VIM=%ROOt%\vim"
+del "%USERPROFILE%\Desktop\ahk"
+
+set "CHROME32=C:\Program Files (x86)\Google\Chrome\Application"
+set "CHROME64=C:\Program Files\Google\Chrome\Application"
+
+IF exist "%CHROME32%\" (
+	set "CHROME_EXE=%CHROME32%\chrome.exe"
+) else IF exist "%CHROME64%\" (
+	set "CHROME_EXE=%CHROME64%\chrome.exe"
+) else (
+	echo ERROR: There is no Chrome.exe
+)
+
+@echo on
 setx TOOLBOX_ROOT "%ROOT%"
 setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
 setx TOOLBOX_ROOT_LIB "%ROOT%\Library"
-
-set "ROOT_AHK=%ROOT%\AHK"
-set "ROOT_VIM=%ROOt%\vim"
-
 setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
-
-del "%USERPROFILE%\Desktop\ahk"
 mklink "%USERPROFILE%\Desktop\ahk" "%ROOT_AHK%\main.ahk"
+setx TOOLBOX_CHROME_EXE "%CHROME_EXE%"
 @echo off
 
 echo.

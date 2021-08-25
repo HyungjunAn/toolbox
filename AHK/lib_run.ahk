@@ -6,7 +6,6 @@ global chromeSubWinNameArr := []
 chromeSubWinNameArr[1] := "- Chrome"
 chromeSubWinNameArr[2] := "- Google Chrome"
 
-global PATH_CHROME	:= "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
@@ -18,9 +17,9 @@ RUN_AOR_URL(subTitle, url, opt := 0) {
 	local cmd := ""
 
 	if (opt & COMMON_OPT_APPMODE) {
-		cmd := PATH_CHROME . " --app=" . url
+		cmd := TOOLBOX_CHROME_EXE . " --app=" . url
 	} else {
-		cmd := PATH_CHROME . " " . url
+		cmd := TOOLBOX_CHROME_EXE . " " . url
 	}
 
 	return RUN_AOR_SubWinTitle(subTitle, cmd, opt)
@@ -129,7 +128,7 @@ RUN_OpenUrl(url, opt := 0) {
 	FOCUS_MainDesktop()
 
 	if (opt & COMMON_OPT_APPMODE) {
-		Run, %PATH_CHROME% --app=%url%
+		Run, %TOOLBOX_CHROME_EXE% --app=%url%
 	} else if (Title) {
 		WinActivate, %Title%
 		SendInput, ^t
@@ -137,9 +136,9 @@ RUN_OpenUrl(url, opt := 0) {
 		SendInput, ^l
 		SendInput, {blind}{text}%url%
 		SendInput, {Enter}
-		;Run, %PATH_CHROME% %url%
+		;Run, %TOOLBOX_CHROME_EXE% %url%
 	} else {
-		Run, %PATH_CHROME% --new-window %url%
+		Run, %TOOLBOX_CHROME_EXE% --new-window %url%
 	}
 
 	return
