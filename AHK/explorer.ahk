@@ -78,9 +78,8 @@ suspendOff() {
 	Gui, Color, Red
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Font, s12 cWhite, Consolas
-	;Gui, Add, Text, , %Lines%
 	Gui, Add, Text, , %guiText%
-	Gui, Show, NoActivate,
+	Gui, Show
 
 	COMMON_Sleep(10000) 
 	suspendOn()

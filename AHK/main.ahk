@@ -685,66 +685,66 @@ runWinFindTool() {
     }
 }
 
-explorerUtil() {
-	Local LineNum := 1
-	Local Lines := ""
-	Local ErrorMsg := ""
-	Local f := ""
-
-	cur_path := COMMON_GetActiveExplorerPath()
-
-	if (!cur_path) {
-		ErrorMsg := "Wrong Usage"
-		goto, ERROR
-	}
-
-	Lines := Lines . "[" . (LineNum++) . "] " . "Make New File" . "`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Git Bash" . "`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Copy sample_macro.ahk`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Open with GVIM`n"
-	Lines := Lines . "[" . (LineNum++) . "] " . "Open with Notepad++"
-	
-	InputBox, UserInput, Type Util #, %Lines%, , , , , , , 10
-	
-	if (ErrorLevel || !UserInput) {
-		return
-	}
-
-	switch (UserInput)
-	{
-	case 1:
-		FormatTime, cur_time ,, yyMMddHHmm
-		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
-	case 2:
-		RUN_AOR_GitBash(cur_path)
-	case 3:
-		f := cur_path . "\sample_macro.ahk"
-		IfExist, %f%, {
-			ErrorMsg := "Exist Already!!"
-			goto, ERROR
-		}
-		srcF := A_ScriptDir . "\sample_macro.ahk"
-		FileCopy, %srcF%, %f%
-	case 4:
-		f := COMMON_GetSelectedItemPath()
-		if (f) {
-			Run, %TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk "%f%"
-		}
-	case 5:
-		f := COMMON_GetSelectedItemPath()
-		if (f) {
-			Run, notepad++.exe "%f%"
-		}
-	default: 
-		ErrorMsg := "Invalid Command!!"
-		goto, ERROR
-	}
-	return
-
-ERROR:
-	MsgBox, %ErrorMsg%
-	return 
-}
+;explorerUtil() {
+;	Local LineNum := 1
+;	Local Lines := ""
+;	Local ErrorMsg := ""
+;	Local f := ""
+;
+;	cur_path := COMMON_GetActiveExplorerPath()
+;
+;	if (!cur_path) {
+;		ErrorMsg := "Wrong Usage"
+;		goto, ERROR
+;	}
+;
+;	Lines := Lines . "[" . (LineNum++) . "] " . "Make New File" . "`n"
+;	Lines := Lines . "[" . (LineNum++) . "] " . "Git Bash" . "`n"
+;	Lines := Lines . "[" . (LineNum++) . "] " . "Copy sample_macro.ahk`n"
+;	Lines := Lines . "[" . (LineNum++) . "] " . "Open with GVIM`n"
+;	Lines := Lines . "[" . (LineNum++) . "] " . "Open with Notepad++"
+;	
+;	InputBox, UserInput, Type Util #, %Lines%, , , , , , , 10
+;	
+;	if (ErrorLevel || !UserInput) {
+;		return
+;	}
+;
+;	switch (UserInput)
+;	{
+;	case 1:
+;		FormatTime, cur_time ,, yyMMddHHmm
+;		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
+;	case 2:
+;		RUN_AOR_GitBash(cur_path)
+;	case 3:
+;		f := cur_path . "\sample_macro.ahk"
+;		IfExist, %f%, {
+;			ErrorMsg := "Exist Already!!"
+;			goto, ERROR
+;		}
+;		srcF := A_ScriptDir . "\sample_macro.ahk"
+;		FileCopy, %srcF%, %f%
+;	case 4:
+;		f := COMMON_GetSelectedItemPath()
+;		if (f) {
+;			Run, %TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk "%f%"
+;		}
+;	case 5:
+;		f := COMMON_GetSelectedItemPath()
+;		if (f) {
+;			Run, notepad++.exe "%f%"
+;		}
+;	default: 
+;		ErrorMsg := "Invalid Command!!"
+;		goto, ERROR
+;	}
+;	return
+;
+;ERROR:
+;	MsgBox, %ErrorMsg%
+;	return 
+;}
 
 healthNotification() {
 	Local text := ""
