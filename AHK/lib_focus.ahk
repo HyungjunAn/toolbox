@@ -1,24 +1,30 @@
 #include lib_vpc.ahk
 
-global bVirtualDesktopLeft := True
+global bVirtualDesktopMain := True
 
 FOCUS_VDesktop_toggle() {
-	if (bVirtualDesktopLeft) {
-		SendInput, ^#{right}
+	if (bVirtualDesktopMain) {
+		FOCUS_VDesktop_Sub()
 	} else {
-		SendInput, ^#{left}
+		FOCUS_VDesktop_Main()
 	}
-	bVirtualDesktopLeft := !bVirtualDesktopLeft
+	bVirtualDesktopMain := !bVirtualDesktopMain
 }
 
-FOCUS_VDesktop_left() {
-	if (bVirtualDesktopLeft == False) {
-		SendInput, ^#{left}
-		bVirtualDesktopLeft := True
-	}
+FOCUS_VDesktop_Main() {
+	SendInput, ^#{left}
+	bVirtualDesktopMain := True
+}
+
+FOCUS_VDesktop_Sub() {
+	;to prevent confused key input
+	Sleep, 100
+
+	SendInput, ^#{right}
+	bVirtualDesktopMain := False
 }
 
 FOCUS_MainDesktop() {
 	VPC_FocusOut()
-	FOCUS_VDesktop_left()
+	FOCUS_VDesktop_Main()
 }

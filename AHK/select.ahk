@@ -109,6 +109,12 @@ $`;::
 	RUN_AOR_SubWinTitle("Ä«Ä«¿ÀÅå", cmd)
 	return
 
+;Virtual Desktop(Sub)
+$1::
+	suspendOn()
+	FOCUS_VDesktop_Sub()
+	return
+
 suspendOn() {
 	Suspend, On
 	Gui, Destroy
@@ -124,6 +130,6 @@ suspendOff() {
 	Gui, Add, Text, , %guiText%
 	Gui, Show
 
-	COMMON_Sleep(10000) 
+	COMMON_Sleep(10000)
 	suspendOn()
 }
