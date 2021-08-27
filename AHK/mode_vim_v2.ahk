@@ -25,6 +25,7 @@ VimMode_SetMode(M_EDIT)
 
 CapsLock::Ctrl
 
+$!^o::
 $!^m::
 	Suspend, Toggle
 	if (A_IsSuspended) {
