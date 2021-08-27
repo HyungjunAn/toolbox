@@ -27,12 +27,12 @@ CapsLock::Ctrl
 
 $!^o::
 $!^m::
-	Suspend, Toggle
+	Suspend, Permit
+
 	if (A_IsSuspended) {
-		VimMode_SetMode(M_EDIT)
-	} else {
 		VimMode_SetMode(M_NORMAL)
 	}
+
 	return
 
 $ESC::
