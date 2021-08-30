@@ -99,6 +99,37 @@ RUN_AOR_GitBash(folderPath) {
 	Run, C:\Program Files\Git\git-bash.exe --cd="%folderPath%"
 }
 
+RUN_AOR_PowerShell(folderPath) {
+	Local exe := ""
+
+	FOCUS_MainDesktop()
+
+	SplitPath, folderPath, folderName
+	WinGet windows, List
+
+	ifExist, C:\Program Files\PowerShell, {
+		exe := "pwsh.exe"
+	} else {
+		exe := "powershell.exe"
+	}
+	
+	Loop %windows% {
+		id := windows%A_Index%
+		WinGet, name, ProcessName, ahk_id %id%
+	
+		if (name == exe) {
+			WinGetTitle, title, ahk_id %id%
+			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
+	        IfInString, title, powershell, {
+				WinActivate, %title%
+				return
+			}
+		}
+	}
+	
+	Run, %exe% -noexit -command "cd %folderPath%"
+}
+
 RUN_AOR_Gvim(filePath) {
 	FOCUS_MainDesktop()
 

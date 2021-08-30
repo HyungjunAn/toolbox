@@ -20,10 +20,16 @@ $ESC::
 	return
 	
 ;Make New File
-$1::
+$n::
 	suspendOn()
 	FormatTime, cur_time ,, yyMMddHHmm
 	FileAppend, This is a new file.`n, %PATH_DIR%\NewFile_%cur_time%.txt
+	return
+
+;Powershell
+$1::
+	suspendOn()
+	RUN_AOR_PowerShell(PATH_DIR)
 	return
 
 ;Git Bash
