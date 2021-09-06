@@ -37,6 +37,12 @@ IF exist "%CHROME32%\" (
 	echo ERROR: There is no Chrome.exe
 )
 
+IF exist "%USERPROFILE%\내 드라이브" (
+	set "GOOGLE_DRIVE=%USERPROFILE%\내 드라이브"
+) else (
+	echo ERROR: There is no Google Drive
+)
+
 @echo on
 setx TOOLBOX_ROOT "%ROOT%"
 setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
@@ -44,6 +50,7 @@ setx TOOLBOX_ROOT_LIB "%ROOT%\Library"
 setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
 mklink "%USERPROFILE%\Desktop\ahk" "%ROOT_AHK%\main.ahk"
 setx TOOLBOX_CHROME_EXE "%CHROME_EXE%"
+setx TOOLBOX_GOOGLE_DRIVE "%GOOGLE_DRIVE%"
 @echo off
 
 echo.

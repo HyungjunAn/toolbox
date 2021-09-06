@@ -26,7 +26,7 @@ CoordMode, Screen
 global path_setting := getParentPath(A_ScriptDir)
 
 global tmpFolder			:= A_ScriptDir . "\tmp"
-global library				:= USERPROFILE . "\Google 드라이브\Library"
+global library				:= TOOLBOX_GOOGLE_DRIVE . "\Library"
 global gvimFavorite			:= USERPROFILE . "\Desktop"
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
