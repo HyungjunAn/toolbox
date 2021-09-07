@@ -33,23 +33,6 @@ global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
 global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
 
-; For Chrome
-;global BR0_curTabNum	:= 0
-;global BR0_maxTabNum	:= 0
-;global BR0_uriListPath	:= "data/uri_list_browser0.txt"
-;global BR0_uriTitles		:= []
-;global BR0_uriAddresses 	:= []
-;
-;; For Second Browser(ex. firefox, edge...)
-;global BR1_curTabNum	:= 0
-;global BR1_maxTabNum	:= 0
-;global BR1_uriListPath	:= "data/uri_list_browser1.txt"
-;global BR1_uriTitles		:= []
-;global BR1_uriAddresses 	:= []
-
-;global gsMailUriTitle	:= "Gmail"
-;global gsMailUriAddress	:= "https://mail.google.com/mail"
-
 global gbIsInitDone 	:= False
 
 global PID_GVIM_FAVORITE 	:= 0
@@ -68,8 +51,6 @@ global DIRECTION_DOWN	:= 3
 
 global isOffice := False
 
-global google_homeID_num := 0
-
 myMotto()
 
 ; Make temp file
@@ -80,17 +61,10 @@ FileCreateDir, %tmpFolder%
 ;-------------------------------------------
 If (A_UserName == "hyungjun.an") {
     isOffice := True
-    google_homeID_num := 1
 	library				:= OFFICE_LIB
 	gvimFavorite		:= OFFICE_LIB
 	typeandrun_cfgSrc	:= OFFICE_SETTING_TAR
 }
-
-;-------------------------------------------
-; 	Get URI's Title and Address
-;-------------------------------------------
-;BR0_maxTabNum := getUriArrayFromFile(BR0_uriListPath, BR0_uriTitles, BR0_uriAddresses)
-;BR1_maxTabNum := getUriArrayFromFile(BR1_uriListPath, BR1_uriTitles, BR1_uriAddresses)
 
 ;-------------------------------------------
 ; 	Process about PID
@@ -165,9 +139,6 @@ $#e::	Run, shell:mycomputerfolder
 ;------------------------------------
 ; Program
 ;------------------------------------
-;$!^z::	RUN_AOR_EXE(path_setting . "\Q-Dir\Q-Dir_x64.exe")
-;$!^u::	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
-
 $^.::
 	FOCUS_MainDesktop()
     WinGet, p_name, ProcessName, ahk_pid %PID_GVIM_FAVORITE%
@@ -222,7 +193,6 @@ $^.::
 !^+l::	setHotWin(4)	
 
 $!^e::	RUN_AOR_GitBash(TOOLBOX_ROOT)
-;$!^n::	explorerUtil()
 
 $#c::
 	subTitleArr := []
@@ -237,55 +207,6 @@ $#c::
 	}
 
     Return
-    
-;!^c:: RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
-;!^a:: 
-;	RUN_AOR_Chrome(COMMON_OPT_SUBMONITOR)
-;	COMMON_GUI_BlinkActiveWin("black", 80)
-;	return
-;
-;; MobaXterm
-;$!^m:: RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
-;
-;; KakaoTalk
-;$!^`;::
-;	IfExist, C:\Program Files (x86)\Kakao
-;		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
-;	else
-;		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
-;
-;	RUN_AOR_SubWinTitle("Ä«Ä«¿ÀÅå", cmd)
-;	return
-
-; Notepad++
-;$!^8::	RUN_AOR_EXE("notepad++.exe")
-
-;=============================================================
-; Web Page
-;-------------------------------------------------------------
-
-;; Papago - dictionary
-;$!^q:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
-;;!^q:: RUN_AOR_URL("Naver English-Korean Dictionary", "https://en.dict.naver.com/#/mini/main", COMMON_OPT_APPMODE)
-;;$!^[:: RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
-;
-;; Google Keep
-;$!^o:: RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
-;
-;; Todoist
-;$!^i:: RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
-;
-;; YouTube
-;$!^y:: RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
-;
-;; Mail
-;$!^0::
-;	if (isOffice) {
-;		RUN_AOR_URL(BR0_uriTitles[1], BR0_uriAddresses[1], COMMON_OPT_APPMODE)
-;	} else {
-;		RUN_AOR_URL(gsMailUriTitle, gsMailUriAddress, COMMON_OPT_APPMODE)
-;	}
-;	return 
 
 $MButton::
 	uri := VPC_GetMouseOverUri()
@@ -312,7 +233,6 @@ $+MButton::
 	
 ;=============================================================
 
-
 ; Virtual Desktop Toggle
 $^,::
 	if (!VPC_Switch()) {
@@ -325,8 +245,6 @@ $!^p::
 	FOCUS_MainDesktop()
 	SendInput, !^p
 	return
-
-;$!^i:: runWinFindTool()
 
 ;------------------------------------
 ; Key & System
@@ -350,10 +268,9 @@ $!`::	SendInput, ``
 ^#m::	SendInput, {AppsKey}
 !^w::	SendInput, !{F4}
 $SC11d:: RControl
+
 ;special character translator(Shift & Right Alt)
 Shift & SC138:: SendInput, {sc1f1}
-; korean english trans
-;+SPACE:: SendInput, {vk15SC138}
 
 ;=============================================================
 ; For Right Hand
@@ -377,50 +294,6 @@ RShift & PgDn:: SendInput, ^+{Tab}
 RShift & SC11d:: SendInput, !{Tab}
 ;=============================================================
 
-;; Virtual Desktop 
-;$^#w:: SendInput, ^#{F4}
-;$^#n:: SendInput, ^#{left}
-;$^#p:: SendInput, ^#{right}
-
-;-------------------------------------------------------------
-; Move & Edit
-;-------------------------------------------------------------
-;$!^Space:: SendInput, {Home}+{End}
-;$#,::	SendInput, {backspace}
-;$^#,::	SendInput, ^{Backspace}
-;$#.::	SendInput, {delete}
-;$^#.::	SendInput, ^{Delete}
-;
-;$#h:: SendInput, {Left}
-;$#j:: SendInput, {Down}
-;$#k:: SendInput, {Up}
-;$#l:: SendInput, {Right}
-;
-;$+#h:: SendInput, +{Left}
-;$+#j:: SendInput, +{Down}
-;$+#k:: SendInput, +{Up}
-;$+#l:: SendInput, +{Right}
-;
-;$^#h:: SendInput, ^{Left}
-;$^#j:: SendInput, ^{Down}
-;$^#k:: SendInput, ^{Up}
-;$^#l:: SendInput, ^{Right}
-;
-;$+^#h:: SendInput, +^{Left}
-;$+^#j:: SendInput, +^{Down}
-;$+^#k:: SendInput, +^{Up}
-;$+^#l:: SendInput, +^{Right}
-;
-;$#w:: SendInput, {Home}
-;$#s:: SendInput, {End}
-;$#q:: SendInput, {PgUp}
-;$#a:: SendInput, {PgDn}
-;
-;$+#w:: SendInput, +{Home}
-;$+#s:: SendInput, +{End}
-;$+#q:: SendInput, +{PgUp}
-;$+#a:: SendInput, +{PgDn}
-
 $!f::
 	if (COMMON_GetActiveWinProcName() == "Code.exe") {
 		SendInput, ^d^+f
@@ -428,13 +301,6 @@ $!f::
 		SendInput, !f
 	}
 	return
-
-;$^n:: IfSend_UpDown(DIRECTION_DOWN, "^n")
-;$^p:: IfSend_UpDown(DIRECTION_UP, "^p")
-;$!,::	sendIfBrowser("!{Left}", "!,")
-;$!.::	sendIfBrowser("!{Right}", "!.")
-;$!^,::	sendIfBrowser("^+{Tab}", "!^,")
-;$!^.::	sendIfBrowser("^{Tab}", "!^.")
 
 ; Sound Control
 #`:: SendInput, {Volume_Down}
@@ -513,8 +379,6 @@ mouseMoveOnRightMid() {
 }
 
 closeProcess(pidOrName) {
-;	Process, Exist, %pidOrName%,
-;	Process, Close, %ErrorLevel%
 	Process, Close, %pidOrName%,
 	return
 }
@@ -684,67 +548,6 @@ runWinFindTool() {
 		}
     }
 }
-
-;explorerUtil() {
-;	Local LineNum := 1
-;	Local Lines := ""
-;	Local ErrorMsg := ""
-;	Local f := ""
-;
-;	cur_path := COMMON_GetActiveExplorerPath()
-;
-;	if (!cur_path) {
-;		ErrorMsg := "Wrong Usage"
-;		goto, ERROR
-;	}
-;
-;	Lines := Lines . "[" . (LineNum++) . "] " . "Make New File" . "`n"
-;	Lines := Lines . "[" . (LineNum++) . "] " . "Git Bash" . "`n"
-;	Lines := Lines . "[" . (LineNum++) . "] " . "Copy sample_macro.ahk`n"
-;	Lines := Lines . "[" . (LineNum++) . "] " . "Open with GVIM`n"
-;	Lines := Lines . "[" . (LineNum++) . "] " . "Open with Notepad++"
-;	
-;	InputBox, UserInput, Type Util #, %Lines%, , , , , , , 10
-;	
-;	if (ErrorLevel || !UserInput) {
-;		return
-;	}
-;
-;	switch (UserInput)
-;	{
-;	case 1:
-;		FormatTime, cur_time ,, yyMMddHHmm
-;		FileAppend, This is a new file.`n, %cur_path%\NewFile_%cur_time%.txt
-;	case 2:
-;		RUN_AOR_GitBash(cur_path)
-;	case 3:
-;		f := cur_path . "\sample_macro.ahk"
-;		IfExist, %f%, {
-;			ErrorMsg := "Exist Already!!"
-;			goto, ERROR
-;		}
-;		srcF := A_ScriptDir . "\sample_macro.ahk"
-;		FileCopy, %srcF%, %f%
-;	case 4:
-;		f := COMMON_GetSelectedItemPath()
-;		if (f) {
-;			Run, %TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk "%f%"
-;		}
-;	case 5:
-;		f := COMMON_GetSelectedItemPath()
-;		if (f) {
-;			Run, notepad++.exe "%f%"
-;		}
-;	default: 
-;		ErrorMsg := "Invalid Command!!"
-;		goto, ERROR
-;	}
-;	return
-;
-;ERROR:
-;	MsgBox, %ErrorMsg%
-;	return 
-;}
 
 healthNotification() {
 	Local text := ""
