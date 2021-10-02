@@ -27,7 +27,7 @@ global path_setting := getParentPath(A_ScriptDir)
 
 global tmpFolder			:= A_ScriptDir . "\tmp"
 global library				:= TOOLBOX_GOOGLE_DRIVE . "\Library"
-global gvimFavorite			:= USERPROFILE . "\Desktop"
+global gvimFavorite			:= ""
 global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
