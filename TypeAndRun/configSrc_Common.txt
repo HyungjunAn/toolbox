@@ -33,6 +33,7 @@ googledrive_online		https://drive.google.com/
 calendar				https://calendar.google.com/
 colab					https://colab.research.google.com
 gmail					https://mail.google.com/mail
+notion					https://www.notion.so/
 
 [PREFIX_SET]	lec
 	ml_code01			https://github.com/deeplearningzerotoall/TensorFlow
