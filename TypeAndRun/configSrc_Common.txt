@@ -20,6 +20,7 @@ recycle			shell:RecycleBinFolder
 home			"%USERPROFILE%"
 
 stable			"%USERPROFILE%\desktop\stable"
+init			"%USERPROFILE%\desktop\stable\init.ahk"
 project			"%USERPROFILE%\desktop\project"
 
 //-----------------------------------------------------------------
@@ -68,6 +69,13 @@ en_note			%TOOLBOX_ROOT_LIB%\en_note.md
 en_grammar		%TOOLBOX_ROOT_LIB%\en_grammar.md
 coding_test		%TOOLBOX_ROOT_LIB%\CS\coding_test_tips.md
 sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
+
+//-----------------------------------------------------------------
+	%TOOLBOX_ROOT_AHK%\util_aor_gitbash.ahk
+//-----------------------------------------------------------------
+[PREFIX_SET]	git
+	blog			%USERPROFILE%\desktop\project\HyungjunAn.github.io"
+[PREFIX_CLEAR]
 
 //-----------------------------------------------------------------
 	%USERPROFILE%/Desktop/sample_macro.ahk
