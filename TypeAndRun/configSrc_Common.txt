@@ -18,6 +18,7 @@ _kill_suspend			""
 lib				%TOOLBOX_ROOT_LIB%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
+blog			"%USERPROFILE%\desktop\project\HyungjunAn.github.io"
 
 stable			"%USERPROFILE%\desktop\stable"
 init			"%USERPROFILE%\desktop\stable\init.ahk"
@@ -74,7 +75,7 @@ sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 	%TOOLBOX_ROOT_AHK%\util_aor_gitbash.ahk
 //-----------------------------------------------------------------
 [PREFIX_SET]	git
-	blog			%USERPROFILE%\desktop\project\HyungjunAn.github.io"
+	blog			"%USERPROFILE%\desktop\project\HyungjunAn.github.io"
 [PREFIX_CLEAR]
 
 //-----------------------------------------------------------------
