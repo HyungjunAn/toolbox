@@ -5,10 +5,12 @@ Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName)
 Global isOffice := A_Args[1]
 Global officeUrl_title := ""
 Global officeUrl_url := ""
+Global start_script := USERPROFILE . "\Desktop\stable\start.ahk"
 
 if (isOffice) {
 	FileReadLine, officeUrl_title, %OFFICE_SETTING_URL%, 1
 	FileReadLine, officeUrl_url, %OFFICE_SETTING_URL%, 2
+	start_script := OFFICE_SETTING . "\AHK\start.ahk"
 }
 
 suspendOn()
@@ -86,6 +88,12 @@ $y::
 $v::
 	suspendOn()
 	RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+	return
+
+;start script
+$i::
+	suspendOn()
+	run, %start_script%
 	return
 
 ;Gmail or DashBoard
