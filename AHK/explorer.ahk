@@ -27,19 +27,19 @@ $n::
 	return
 
 ;Powershell
-$1::
+$p::
 	suspendOn()
 	RUN_AOR_PowerShell(PATH_DIR)
 	return
 
 ;Git Bash
-$2::
+$g::
 	suspendOn()
 	RUN_AOR_GitBash(PATH_DIR)
 	return
 
 ;Copy sample_macro.ahk
-$3::
+$m::
 	suspendOn()
 	f := PATH_DIR . "\sample_macro.ahk"
 
@@ -49,7 +49,7 @@ $3::
 	return
 
 ;Open with GVIM
-$4::
+$v::
 	suspendOn()
 	f := COMMON_GetSelectedItemPath()
 	if (f) {
@@ -58,7 +58,7 @@ $4::
 	return
 
 ;Open with Notepad++
-$5::
+$t::
 	suspendOn()
 	f := COMMON_GetSelectedItemPath()
 	if (f) {
