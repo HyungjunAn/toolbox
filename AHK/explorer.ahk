@@ -1,6 +1,6 @@
 #include lib_run.ahk
 
-Global PATH_DIR := ""
+Global PATH_DIR := "init"
 Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName)
 
 suspendOn()
@@ -16,7 +16,25 @@ $!^n::
 
 $`::
 $ESC::
-	suspendOn()
+$Enter::
+	suspendOn(False)
+	return
+
+$h::
+	Send, {Left}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
+	return
+$j::
+	Send, {Down}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
+	return
+$k::
+	Send, {Up}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
+	return
+$l::
+	Send, {Right}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
 	return
 	
 ;Make New File
@@ -66,27 +84,23 @@ $t::
 	}
 	return
 
-suspendOn() {
+suspendOn(warning := True) {
 	Suspend, On
+
 	Gui, Destroy
+
+	if (warning && !PATH_DIR) {
+		MsgBox, Wrong Usage
+	}
 }
 
 suspendOff() {
 	PATH_DIR := COMMON_GetActiveExplorerPath()
-
-	if (!PATH_DIR) {
-		MsgBox, Wrong Usage
-		suspendOn()
-		return
-	}
 
 	Suspend, Off
 	Gui, Color, Red
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Font, s12 cWhite, Consolas
 	Gui, Add, Text, , %guiText%
-	Gui, Show
-
-	COMMON_Sleep(10000) 
-	suspendOn()
+	Gui, Show, NoActivate
 }
