@@ -16,7 +16,6 @@ $!^n::
 
 $`::
 $ESC::
-$Enter::
 	suspendOn(False)
 	return
 
