@@ -25,6 +25,7 @@ CoordMode, Screen
 
 global path_setting := getParentPath(A_ScriptDir)
 
+global motto_text			:= "True Nobility is being Superior to Your Former Self."
 global tmpFolder			:= A_ScriptDir . "\tmp"
 global library				:= TOOLBOX_GOOGLE_DRIVE . "\Library"
 global gvimFavorite			:= ""
@@ -355,7 +356,7 @@ testFunc(ByRef str) {
 
 myMotto(Time := 0, backC := "Red") {
 	fontC := "White"
-	TEXT := "    True Nobility is being Superior to Your Former Self.    "
+	TEXT := "    " . motto_text . "    "
 	h := 40
 	y := A_ScreenHeight - h
 
@@ -576,10 +577,11 @@ healthNotification() {
 	;text := text . "`n"
 	;text := text . "(X: 과자, 탄산, 과식, 과음, 단당, HP)"
 
-	text := text . "[운동] 종아리, 신전, 계단, 풀업, 스쿼트, 푸쉬업`n"
-	text := text . "[위생] 양치, 건조`n"
-	text := text . "`n"
-	text := text . "[금지] 과음, 과식, 당류, 폰질`n"
+	;text := text . "[운동] 종아리, 신전, 계단, 풀업, 스쿼트, 푸쉬업`n"
+	;text := text . "[위생] 양치, 건조`n"
+	;text := text . "`n"
+	;text := text . "[금지] 과음, 과식, 당류, 폰질`n"
+	text := motto_text
 
 	MsgBox, %text%
 }
