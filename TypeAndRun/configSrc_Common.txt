@@ -16,6 +16,7 @@ _kill_suspend			""
 	%TOOLBOX_ROOT_AHK%\util_run.ahk
 //-----------------------------------------------------------------
 blog			%TOOLBOX_ROOT_BLOG%
+posts			%TOOLBOX_ROOT_BLOG_POSTS%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 
