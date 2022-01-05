@@ -46,7 +46,8 @@ IF exist "%USERPROFILE%\내 드라이브" (
 @echo on
 setx TOOLBOX_ROOT "%ROOT%"
 setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
-setx TOOLBOX_ROOT_LIB "%ROOT%\Library"
+setx TOOLBOX_ROOT_BLOG "%ROOT%\blog"
+setx TOOLBOX_ROOT_BLOG_POSTS "%ROOT%\blog\_posts"
 setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
 mklink "%USERPROFILE%\Desktop\ahk" "%ROOT_AHK%\main.ahk"
 setx TOOLBOX_CHROME_EXE "%CHROME_EXE%"

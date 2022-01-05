@@ -15,10 +15,9 @@ _kill_suspend			""
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_run.ahk
 //-----------------------------------------------------------------
-lib				%TOOLBOX_ROOT_LIB%
+blog			%TOOLBOX_ROOT_BLOG%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
-blog			"%USERPROFILE%\desktop\project\HyungjunAn.github.io"
 
 stable			"%USERPROFILE%\desktop\stable"
 init			"%USERPROFILE%\desktop\stable\init.ahk"
@@ -63,24 +62,26 @@ ahkMain			%TOOLBOX_ROOT_AHK%\Main.ahk
 ahkVimMode		%TOOLBOX_ROOT_AHK%\VimMode.ahk
 ahkSampleMacro	%TOOLBOX_ROOT_AHK%\sample_macro.ahk
 
-git				%TOOLBOX_ROOT_LIB%\git.md
-linux_cmd		%TOOLBOX_ROOT_LIB%\linux_cmd.md
-hotkeys			%TOOLBOX_ROOT_LIB%\hotkeys.md
-
-[PREFIX_SET]	en
-note			%TOOLBOX_ROOT_LIB%\en\note.md
-grammar			%TOOLBOX_ROOT_LIB%\en\grammar.md
-office			%TOOLBOX_ROOT_LIB%\en\office.md
+[PREFIX_SET]	cs
+git				%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-git_summary.md
+linux_cmd		%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-linux_cmd.md
+hotkeys			%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-hotkeys.md
+coding_test		%TOOLBOX_ROOT_BLOG_POSTS%\CS\2021-10-19-coding_test_tips.md
 [PREFIX_CLEAR]
 
-coding_test		%TOOLBOX_ROOT_LIB%\CS\coding_test_tips.md
+[PREFIX_SET]	en
+note			%TOOLBOX_ROOT_BLOG_POSTS%\en\note.md
+grammar			%TOOLBOX_ROOT_BLOG_POSTS%\en\2022-01-05-grammar.md
+office			%TOOLBOX_ROOT_BLOG_POSTS%\en\2022-01-05-office.md
+[PREFIX_CLEAR]
+
 sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_aor_gitbash.ahk
 //-----------------------------------------------------------------
 [PREFIX_SET]	git
-	blog			"%USERPROFILE%\desktop\project\HyungjunAn.github.io"
+	blog			"%TOOLBOX_ROOT_BLOG%"
 [PREFIX_CLEAR]
 
 //-----------------------------------------------------------------
