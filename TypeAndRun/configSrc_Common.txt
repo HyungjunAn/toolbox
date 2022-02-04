@@ -61,7 +61,8 @@ apache			"C:\Apache24\conf\httpd.conf"
 
 tarCfg_home		%TOOLBOX_ROOT_TAR%\configSrc_home.txt
 tarCfg_common	%TOOLBOX_ROOT_TAR%\configSrc_common.txt
-ahkMain			%TOOLBOX_ROOT_AHK%\Main.ahk
+ahkMain			%TOOLBOX_ROOT_AHK%\main.ahk
+ahkSelect		%TOOLBOX_ROOT_AHK%\select.ahk
 ahkVimMode		%TOOLBOX_ROOT_AHK%\VimMode.ahk
 ahkSampleMacro	%TOOLBOX_ROOT_AHK%\sample_macro.ahk
 

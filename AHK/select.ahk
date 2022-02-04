@@ -106,15 +106,19 @@ $0::
 	}
 	return
 
-;KakaoTalk
+;Messenger
 $`;::
 	suspendOn()
-	IfExist, C:\Program Files (x86)\Kakao
-		cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
-	else
-		cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
+	if (isOffice) {
+		RUN_AOR_EXE("Teams.exe")
+	} else {
+		IfExist, C:\Program Files (x86)\Kakao
+			cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
+		else
+			cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
 
-	RUN_AOR_SubWinTitle("朝朝神套", cmd)
+		RUN_AOR_SubWinTitle("朝朝神套", cmd)
+	}
 	return
 
 ;Virtual Desktop(Sub)
