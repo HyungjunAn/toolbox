@@ -19,6 +19,7 @@ blog			%TOOLBOX_ROOT_BLOG%
 posts			%TOOLBOX_ROOT_BLOG_POSTS%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
+apacheMonitor	"C:\Apache24\bin\ApacheMonitor.exe"
 
 stable			"%USERPROFILE%\desktop\stable"
 init			"%USERPROFILE%\desktop\stable\init.ahk"
