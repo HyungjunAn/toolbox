@@ -66,6 +66,7 @@ set "VIMPATH64=C:\Program Files\Vim\%VIM_VERSION%"
 
 echo source %ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
 
+
 IF exist "%VIMPATH32%\" (
 	set "VIMPATH=%VIMPATH32%"
 ) else IF exist "%VIMPATH64%\" (
@@ -86,7 +87,22 @@ echo 	Vundle 다운로드
 echo ------------------------------------------------------
 git clone https://github.com/VundleVim/Vundle.vim.git %USERPROFILE%/vimfiles/
 echo.
+echo.
+echo ------------------------------------------------------
+echo	PATH 확인
+echo ------------------------------------------------------
+call :findPath "%VIMPATH%"
+call :findPath "C:\Apache24\bin"
+
 echo ------------------------------------------------------
 :EXIT
 echo (종료를 원하시면 아무 키나 누르세요...)
 pause > nul
+
+:findPath
+set "TARGET_PATH=%~1"
+echo %PATH% | find "%TARGET_PATH%" > nul
+if errorlevel 1 (
+	echo Update PATH is Needed!! : "%TARGET_PATH%"
+)
+
