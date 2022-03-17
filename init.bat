@@ -49,23 +49,26 @@ setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
 setx TOOLBOX_ROOT_BLOG "%ROOT%\blog"
 setx TOOLBOX_ROOT_BLOG_POSTS "%ROOT%\blog\_posts"
 setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
-mklink "%USERPROFILE%\Desktop\ahk" "%ROOT_AHK%\main.ahk"
 setx TOOLBOX_CHROME_EXE "%CHROME_EXE%"
 setx TOOLBOX_GOOGLE_DRIVE "%GOOGLE_DRIVE%"
+mklink "%USERPROFILE%\Desktop\ahk" "%ROOT_AHK%\main.ahk"
 @echo off
-
 echo.
 echo ------------------------------------------------------
-echo 	Gvim 테마, vimrc, vim 파일 이동
+echo 	AHK
 echo ------------------------------------------------------
-
+set "AHKPATH=C:\Program Files\AutoHotkey"
+IF not exist "%AHKPATH%" (
+	echo ERROR: There is no AHK!!
+)
+echo.
+echo ------------------------------------------------------
+echo 	Gvim
+echo ------------------------------------------------------
 set VIM_VERSION=vim82
 set VIMPATH=
 set "VIMPATH32=C:\Program Files (x86)\Vim\%VIM_VERSION%"
 set "VIMPATH64=C:\Program Files\Vim\%VIM_VERSION%"
-
-echo source %ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
-
 
 IF exist "%VIMPATH32%\" (
 	set "VIMPATH=%VIMPATH32%"
@@ -76,17 +79,18 @@ IF exist "%VIMPATH32%\" (
 	goto ERR_VIM
 )
 
+echo [vimrc 생성]
+echo source %ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
+echo.
+echo [vim 파일 이동]
 copy "%ROOT_VIM%\colors"	"%VIMPATH%\colors"
 copy "%ROOT_VIM%\syntax"	"%VIMPATH%\syntax\"
 copy "%ROOT_VIM%\ctags58.exe"	"%VIMPATH%\ctags.exe"
+echo.
+echo [Vundle 다운로드]
+git clone https://github.com/VundleVim/Vundle.vim.git %USERPROFILE%/vimfiles/
 
 :ERR_VIM
-echo.
-echo ------------------------------------------------------
-echo 	Vundle 다운로드
-echo ------------------------------------------------------
-git clone https://github.com/VundleVim/Vundle.vim.git %USERPROFILE%/vimfiles/
-echo.
 echo.
 echo ------------------------------------------------------
 echo	PATH 확인

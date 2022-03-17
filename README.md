@@ -1,37 +1,34 @@
 # Hyungjun's PC setting
 
 # How to Use
-- Run init.bat
+- Run init.bat as admin
 
-# TODO
+# Needed Program
+- Git
+- AutoHotKey
+- D2Coding Font
+- gvim
+- notepad++
 
 # My Program List
 Chrome
 google drive
 Git
 AutoHotkey
-Install Font		// hold
-
-Vim			// hold
+D2Coding Font		// hold
+gvim
 VScode
-Sublime Text 3
 notepad++
 
-AD_Setting		// important
+toolbox		// important
 Windows RDP
 
 Win 10 Bash
-
-7zip
-Kakao talk
 Adobe reader
 MS Office Pro 2016	// hold
-맞춤법 문법 검사기	// hold
 Hwp 2014		// hold
 AcrobatPro 10		// hold
-iRotate			// hold
 꿀뷰
-F.lux
 
 Latex
 TeXstudio
@@ -47,12 +44,9 @@ Anaconda
 codeblocks
 Haskell Platform
 Visual Studio Community 2015
-Understand Analyst	// hold
 
 VirtualBox
-Conemu (Settings->Integration-> ConEmu Here)
-Xming			// hold
-Putty
+MobaXterm
 
 FileZilla
 Options(Logitech)
@@ -66,7 +60,6 @@ Rufus			// portable
 MediaCreationTool	// portable
 
 -------------------------------------------
-PROSetWindows(Intel)
 Potplayer
 MuseScore
 NWC			// hold
