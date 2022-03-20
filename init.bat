@@ -97,6 +97,7 @@ echo	PATH »Æ¿Œ
 echo ------------------------------------------------------
 call :findPath "%VIMPATH%"
 call :findPath "C:\Apache24\bin"
+call :findPath "C:\MinGW\bin"
 
 echo ------------------------------------------------------
 :EXIT
