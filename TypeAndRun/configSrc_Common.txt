@@ -73,6 +73,7 @@ linux_cmd		%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-linux_cmd.md
 hotkeys			%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-hotkeys.md
 coding_test		%TOOLBOX_ROOT_BLOG_POSTS%\CS\2021-10-19-coding_test_tips.md
 shellscript		%TOOLBOX_ROOT_BLOG_POSTS%\CS\2021-10-19-shell_script.md
+python			%TOOLBOX_ROOT_BLOG_POSTS%\CS\2022-03-22-lang-python.md
 [PREFIX_CLEAR]
 
 [PREFIX_SET]	en
