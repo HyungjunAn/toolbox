@@ -30,12 +30,7 @@ Loop, Files, %gsRootPath%\*, R
 	TARCmd := A_LoopFileName
 	TAROpt := A_LoopFileLongPath
 
-	pos := InStr(A_LoopFileLongPath, TOOLBOX_ROOT_BLOG_POSTS)
-
-	if (pos == 1) {
-		TARCmd := SubStr(TARCmd, 12)
-	}
-
+	TARCmd := RegExReplace(TARCmd, "^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-", "")
 	midPath := SubStr(A_LoopFileDir, StrLen(gsRootPath) + 2)
 
 	Loop
