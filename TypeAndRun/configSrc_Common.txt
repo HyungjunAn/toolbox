@@ -56,31 +56,11 @@ json_pretty_print		https://jsonformatter.org/json-pretty-print
 //-----------------------------------------------------------------
 vimrc			%TOOLBOX_ROOT%\vim\vimrc_AD.vim
 vimrc_dummy		%USERPROFILE%\_vimrc
-batInit			%TOOLBOX_ROOT%\init.bat
 
 apache			"C:\Apache24\conf\httpd.conf"
 
 tarCfg_home		%TOOLBOX_ROOT_TAR%\configSrc_home.txt
 tarCfg_common	%TOOLBOX_ROOT_TAR%\configSrc_common.txt
-ahkMain			%TOOLBOX_ROOT_AHK%\main.ahk
-ahkSelect		%TOOLBOX_ROOT_AHK%\select.ahk
-ahkVimMode		%TOOLBOX_ROOT_AHK%\VimMode.ahk
-ahkSampleMacro	%TOOLBOX_ROOT_AHK%\sample_macro.ahk
-
-[PREFIX_SET]	cs
-git				%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-git_summary.md
-linux_cmd		%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-linux_cmd.md
-hotkeys			%TOOLBOX_ROOT_BLOG_POSTS%\cs\2021-10-19-hotkeys.md
-coding_test		%TOOLBOX_ROOT_BLOG_POSTS%\CS\2021-10-19-coding_test_tips.md
-shellscript		%TOOLBOX_ROOT_BLOG_POSTS%\CS\2021-10-19-shell_script.md
-python			%TOOLBOX_ROOT_BLOG_POSTS%\CS\2022-03-22-lang-python.md
-[PREFIX_CLEAR]
-
-[PREFIX_SET]	en
-note			%TOOLBOX_ROOT_BLOG_POSTS%\en\note.md
-grammar			%TOOLBOX_ROOT_BLOG_POSTS%\en\2022-01-05-grammar.md
-office			%TOOLBOX_ROOT_BLOG_POSTS%\en\2022-01-05-office.md
-[PREFIX_CLEAR]
 
 sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 
