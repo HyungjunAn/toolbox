@@ -527,6 +527,9 @@ reloadTypeAndRun() {
 
 			cmd = util_make_tar_config_for_folder.ahk "kor" "%TOOLBOX_ROOT_BLOG_POSTS%\ko" "%dir_typeandrun%\Config.ini"
 			RunWait, %cmd%
+
+			cmd = util_make_tar_config_for_folder.ahk "o" "%OFFICE_LIB_ROOT%\docs" "%dir_typeandrun%\Config.ini"
+			RunWait, %cmd%
 		}
 		Run, %typeandrun%
 	}
