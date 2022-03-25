@@ -503,7 +503,7 @@ reloadTypeAndRun() {
 		if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common)) {
 			FileDelete, %dir_typeandrun%\~Config.ini
 			FileDelete, %dir_typeandrun%\Config.ini
-	
+
 			cmd = util_make_tar_config.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
 			RunWait, %cmd%
 	
@@ -511,9 +511,6 @@ reloadTypeAndRun() {
 			RunWait, %cmd%
 
 			cmd = util_make_tar_config_for_hotstring.ahk "hs" "%hotstring%" "%dir_typeandrun%\Config.ini"
-			RunWait, %cmd%
-
-			cmd = util_make_tar_config_for_folder.ahk "root" "%TOOLBOX_ROOT%" "%dir_typeandrun%\Config.ini"
 			RunWait, %cmd%
 
 			cmd = util_make_tar_config_for_folder.ahk "ahk" "%TOOLBOX_ROOT_AHK%" "%dir_typeandrun%\Config.ini"

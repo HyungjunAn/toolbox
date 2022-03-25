@@ -12,51 +12,14 @@ if A_Args.Length() < 3
 global gsPrefix 	:= A_Args[1]
 global gsRootPath 	:= A_Args[2]
 global gsTargetFile	:= A_Args[3]
-
-global buffer := []
-
-global TARExe := "%TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk"
-global TARCmd := ""
-global TAROpt := ""
-
-global pos := 0
-global midPath := ""
+global lines := ""
 
 ;global separator := "/"
 global separator := ""
 
-Loop, Files, %gsRootPath%\*, R
-{
-	TARCmd := A_LoopFileName
-	TAROpt := A_LoopFileLongPath
+makeCmdLines(gsRootPath)
 
-	TARCmd := RegExReplace(TARCmd, "^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-", "")
-	midPath := SubStr(A_LoopFileDir, StrLen(gsRootPath) + 2)
-
-	Loop
-	{
-		midPath := StrReplace(midPath, "\", separator, cnt)
-
-	    if (cnt = 0) {
-	        break
-		}
-	}
-
-	if (midPath) {
-		midPath := midPath . separator
-	}
-
-	if (!isIgnoreExt(A_LoopFileExt)) {
-		cmd := gsPrefix . separator . midPath . TARCmd . "|" . TARExe . "|" . TAROpt
-		buffer.Push(cmd)
-	}
-}
-
-Loop % buffer.Length()
-{
-	line := buffer[A_Index]
-	FileAppend, %line%`n, %gsTargetFile%
-}
+FileAppend, %lines%, %gsTargetFile%
 
 ExitApp
 
@@ -67,4 +30,63 @@ isIgnoreExt(ext) {
 	default:
 		return false
 	}
+}
+
+isTextExt(ext) {
+	switch (ext) {
+	case "txt", "md", "log", "ahk", "cpp", "hs", "py", "js", "java":
+		return true
+	default:
+		return false
+	}
+}
+
+makeCmdLines(path) {
+	Local TARExe := "%TOOLBOX_ROOT_AHK%\util_run.ahk"
+	
+	lines := lines . makeCmd(TARExe, path) . "`n"
+
+	Loop, Files, %path%\*, FD
+	{
+		fileAttr := FileExist(A_LoopFileLongPath)
+		TARExe := "%TOOLBOX_ROOT_AHK%\util_run.ahk"
+	
+		if (isIgnoreExt(A_LoopFileExt)) {
+			continue
+		}
+	
+		if (InStr(fileAttr, "D")) {
+			if (InStr(fileAttr, "H")) {
+				continue
+			}
+
+			makeCmdLines(A_LoopFileLongPath)
+		} else {
+			if (isTextExt(A_LoopFileExt)) {
+				TARExe := "%TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk"
+			}
+			
+			lines := lines . makeCmd(TARExe, A_LoopFileLongPath) . "`n"
+		}
+	}
+}
+
+makeCmd(exe, path) {
+	Local TARCmd := SubStr(path, StrLen(gsRootPath) + 1)
+	Local cmd := ""
+			
+	TARCmd := RegExReplace(TARCmd, "\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-", "")
+	
+	Loop
+	{
+		TARCmd := StrReplace(TARCmd, "\", separator, cnt)
+	
+	    if (cnt = 0) {
+	        break
+		}
+	}
+	
+	cmd := gsPrefix . TARCmd . "|" . exe . "|" . path
+
+	return cmd
 }

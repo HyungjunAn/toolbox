@@ -13,26 +13,21 @@ global gsPrefix 	:= A_Args[1]
 global gsSrcPath 	:= A_Args[2]
 global gsTargetFile	:= A_Args[3]
 
-global buffer := []
-
 global TARCmd := ""
 global TARExe := ""
 global TAROpt := ""
+global lines := ""
 
 TARExe := "%TOOLBOX_ROOT_AHK%\util_hotstring.ahk"
 
-Loop, Files, %gsSrcPath%\*,
+Loop, Files, %gsSrcPath%\*, 
 {
 	TARCmd := A_LoopFileName
 	TAROpt := A_LoopFileLongPath
 	cmd := gsPrefix . TARCmd . "|" . TARExe . "|" . TAROpt
-	buffer.Push(cmd)
+	lines := lines . cmd . "`n"
 }
 
-Loop % buffer.Length()
-{
-	line := buffer[A_Index]
-	FileAppend, %line%`n, %gsTargetFile%
-}
+FileAppend, %lines%, %gsTargetFile%
 
 ExitApp

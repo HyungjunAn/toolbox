@@ -23,12 +23,11 @@ global gsSrcFile 	:= A_Args[1]
 global gsTargetFile	:= A_Args[2]
 
 global arrStr := []
-global buffer := []
 
 global TARCmd := ""
 global TARExe := ""
 global TAROpt := ""
-global line := ""
+global lines := ""
 global prefix := ""
 
 Loop
@@ -56,14 +55,10 @@ Loop
 		TARCmd := arrStr[1]
 		TAROpt := arrStr[2]
 		cmd := prefix . TARCmd . "|" . TARExe . "|" . TAROpt
-		buffer.Push(cmd)
+		lines := lines . cmd . "`n"
 	}
 }
 
-Loop % buffer.Length()
-{
-	line := buffer[A_Index]
-	FileAppend, %line%`n, %gsTargetFile%
-}
+FileAppend, %lines%, %gsTargetFile%
 
 ExitApp
