@@ -185,11 +185,13 @@ endfunction
 "--------------------------------------------------------------------
 "[Font]
 "set encoding=utf-8    "needed when there is no encoding setting
+"let userFont="Consolas:h"
+let userFont="D2Coding:h"
+let userFontWide="D2Coding:h"
 let guifontsize=12
 let guifontwidesize=13
-"let &guifont="Consolas:h" . guifontsize . ":cANSI"
-let &guifont="D2Coding:h" . guifontsize . ":cANSI"
-let &guifontwide="D2Coding:h" . guifontwidesize . ":cDEFAULT"
+let &guifont=userFont . guifontsize . ":cANSI"
+let &guifontwide=userFontWide . guifontwidesize . ":cDEFAULT"
 
 "[Colorscheme & Background]
 call SetGuiColorscheme('dark')
@@ -277,10 +279,10 @@ if has("gui")
 "<Font Size>
   let cgf=guifontsize     " Default En  Font Size
   let cwf=guifontwidesize " Default Han Font Size
-  noremap <A-[>  :let cgf-=1<CR>:let cwf-=1<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
-  noremap <A-]>  :let cgf+=1<CR>:let cwf+=1<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
-  noremap <A-{>  :let cgf-=5<CR>:let cwf-=5<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
-  noremap <A-}>  :let cgf+=5<CR>:let cwf+=5<CR>:let &guifont = "Consolas:h" . cgf . ":cANSI"<CR>:let &guifontwide = "D2Coding:h" . cwf . ":cDEFAULT"  <CR><CR>
+  noremap <A-[>  :let cgf-=1<CR>:let cwf-=1<CR>:let &guifont = userFont . cgf . ":cANSI"<CR>:let &guifontwide = userFontWide . cwf . ":cDEFAULT"  <CR><CR>
+  noremap <A-]>  :let cgf+=1<CR>:let cwf+=1<CR>:let &guifont = userFont . cgf . ":cANSI"<CR>:let &guifontwide = userFontWide . cwf . ":cDEFAULT"  <CR><CR>
+  noremap <A-{>  :let cgf-=5<CR>:let cwf-=5<CR>:let &guifont = userFont . cgf . ":cANSI"<CR>:let &guifontwide = userFontWide . cwf . ":cDEFAULT"  <CR><CR>
+  noremap <A-}>  :let cgf+=5<CR>:let cwf+=5<CR>:let &guifont = userFont . cgf . ":cANSI"<CR>:let &guifontwide = userFontWide . cwf . ":cDEFAULT"  <CR><CR>
 
 "<Comment(nerdcommenter)>
   map	<A-j>	<leader>cm
