@@ -84,6 +84,12 @@ $y::
 	RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 	return
 
+;밀리의 서재
+$b::
+	suspendOn()
+	RUN_AOR_EXE("C:\Program Files\millie\millie.exe")
+	return
+
 ;visual studio code
 $v::
 	suspendOn()
