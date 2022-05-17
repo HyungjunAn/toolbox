@@ -2,12 +2,12 @@
 #include lib_office.ahk
 
 Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName)
-Global isOffice := A_Args[1]
+Global bOffice := COMMON_IsOffice()
 Global officeUrl_title := ""
 Global officeUrl_url := ""
 Global start_script := USERPROFILE . "\Desktop\stable\start.ahk"
 
-if (isOffice) {
+if (bOffice) {
 	FileReadLine, officeUrl_title, %OFFICE_SETTING_URL%, 1
 	FileReadLine, officeUrl_url, %OFFICE_SETTING_URL%, 2
 	start_script := OFFICE_SETTING . "\AHK\start.ahk"
@@ -105,7 +105,7 @@ $i::
 ;Gmail or DashBoard
 $0::
 	suspendOn()
-	if (isOffice) {
+	if (bOffice) {
 		RUN_AOR_URL(officeUrl_title, officeUrl_url, COMMON_OPT_APPMODE)
 	} else {
 		RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
@@ -115,7 +115,7 @@ $0::
 ;Messenger
 $`;::
 	suspendOn()
-	if (isOffice) {
+	if (bOffice) {
 		RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Microsoft\Teams\current\Teams.exe")
 	} else {
 		IfExist, C:\Program Files (x86)\Kakao

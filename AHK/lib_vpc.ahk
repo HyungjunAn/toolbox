@@ -61,7 +61,7 @@ VPC_Switch() {
 VPC_GetMouseOverUri() {
 	local uri := ""
 
-	if (VPC_IsCurWinVpc()) {
+	if (COMMON_IsOffice() && VPC_IsCurWinVpc()) {
 		tmp := Clipboard
 		Clipboard := ""
 		cnt := 10

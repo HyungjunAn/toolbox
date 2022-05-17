@@ -11,6 +11,10 @@ COMMON_IsBrowser() {
     return (p_name == "chrome.exe" || p_name == "firefox.exe")
 }
 
+COMMON_IsOffice() {
+	return (A_UserName == "hyungjun.an")
+}
+
 COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 60) {
     WinGetPos, x1, y1, w1, h1, A
 

@@ -51,7 +51,7 @@ global DIRECTION_RIGHT	:= 1
 global DIRECTION_UP		:= 2
 global DIRECTION_DOWN	:= 3
 
-global isOffice := False
+global bOffice := False
 
 myMotto()
 
@@ -61,8 +61,7 @@ FileCreateDir, %tmpFolder%
 ;-------------------------------------------
 ; 	Process about Office Environment
 ;-------------------------------------------
-If (A_UserName == "hyungjun.an") {
-    isOffice := True
+If (bOffice) {
 	library				:= OFFICE_LIB
 	gvimFavorite		:= OFFICE_LIB
 	typeandrun_cfgSrc	:= OFFICE_SETTING_TAR
@@ -96,7 +95,7 @@ DetectHiddenWindows,off
 
 reloadTypeAndRun()
 Run, mode_vim_v2.ahk,,, PID_VIMMODE
-Run, select.ahk %isOffice%,,, PID_SELECT
+Run, select.ahk,,, PID_SELECT
 Run, explorer.ahk,,, PID_EXPLORER
 
 gbIsInitDone := True
@@ -213,11 +212,13 @@ $#c::
 
 $MButton::
 	uri := VPC_GetMouseOverUri()
-	if (isOffice && uri) {
+
+	if (uri) {
 		RUN_OpenUrl(uri)
 	} else {
 		SendInput, {MButton}
 	}
+
 	return 
 
 $+MButton::
