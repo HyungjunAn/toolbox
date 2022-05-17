@@ -66,10 +66,11 @@ VPC_GetMouseOverUri() {
 		Clipboard := ""
 		cnt := 10
 
-		while (cnt || !Clipboard) {
+		while (cnt && !Clipboard) {
 			SendInput, {RButton}
 			sleep, 50
 			SendInput, e
+			sleep, 50
 			cnt--
 		}
 
