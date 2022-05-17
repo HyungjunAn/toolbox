@@ -5,6 +5,12 @@ global COMMON_OPT_MAINMONITOR := 4
 global COMMON_OPT_SUBMONITOR := 8
 global COMMON_OPT_APPMODE := 16
 
+COMMON_IsBrowser() {
+	p_name := COMMON_GetActiveWinProcName()
+
+    return (p_name == "chrome.exe" || p_name == "firefox.exe")
+}
+
 COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 60) {
     WinGetPos, x1, y1, w1, h1, A
 

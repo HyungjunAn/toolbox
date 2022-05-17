@@ -62,12 +62,16 @@ VPC_GetMouseOverUri() {
 	local uri := ""
 
 	if (VPC_IsCurWinVpc()) {
-		SendInput, {RButton}
 		tmp := Clipboard
 		Clipboard := ""
-		sleep, 50
-		SendInput, e
-		sleep, 50
+		cnt := 10
+
+		while (cnt || !Clipboard) {
+			SendInput, {RButton}
+			sleep, 50
+			SendInput, e
+			cnt--
+		}
 
 		if (InStr(Clipboard, "http") == 1) {
 			uri := Clipboard

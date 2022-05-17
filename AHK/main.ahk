@@ -487,16 +487,6 @@ IfSend_UpDown(mode, elseStr) {
 	}
 }
 
-sendIfBrowser(str, elseStr) {
-	p_name := COMMON_GetActiveWinProcName()
-
-    if (p_name == "chrome.exe" || p_name == "firefox.exe") {
-		SendInput, %str%
-	} else {
-		SendInput, %elseStr%
-	}
-}
-
 reloadTypeAndRun() {
 	ifExist, %typeandrun%, {
 		closeProcess("TypeAndRun.exe")
