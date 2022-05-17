@@ -40,6 +40,11 @@ notion					https://www.notion.so/
 newneek					https://www.newneek.co/
 moneyletter				https://uppity.co.kr/moneyletter_archive
 
+[PREFIX_SET]	iv
+index					https://www.investing.com/portfolio/?portfolioID=MjViNDJgMGo%2Fb2liZzVkZA%3D%3D
+home					https://www.applyhome.co.kr/ai/aib/selectSubscrptCalenderView.do
+[PREFIX_CLEAR]
+
 [PREFIX_SET]	lec
 	ml_code01			https://github.com/deeplearningzerotoall/TensorFlow
 	ml_code02			https://github.com/hunkim/DeepLearningZeroToAll
