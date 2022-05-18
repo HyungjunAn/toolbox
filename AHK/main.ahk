@@ -51,7 +51,7 @@ global DIRECTION_RIGHT	:= 1
 global DIRECTION_UP		:= 2
 global DIRECTION_DOWN	:= 3
 
-global bOffice := False
+global bOffice := COMMON_IsOffice()
 
 myMotto()
 
