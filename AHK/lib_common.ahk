@@ -165,32 +165,58 @@ removeEndNewline(str) {
 }
 
 COMMON_WinWait(title, text, timeout_ms) {
+	local titleArr := []
+	local textArr := []
+
+	if (title)
+		titleArr[1] := title
+
+	if (title)
+		textArr[1] := text
+
+	return COMMON_WinWait_Arr(titleArr, textArr, timeout_ms)
+}
+
+COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 	static interval := 50
 
 	local T := ""
 	local cnt := 0
 	local threshold := timeout_ms / interval
-	
-	if ((title && text) || (!title && !text) || timeout_ms <= 0) {
+
+	if ((titleArr.Length() && textArr.Length()) || (!titleArr.Length() && !textArr.Length()) || timeout_ms <= 0) {
 		MsgBox, Error: wrong param
 		return False
 	}
 
-	if (title) {
-		while (T != title && cnt < threshold) {
-    		WinGetTitle, T, A
-			cnt++
-			sleep, %interval%
+	while (cnt < threshold) {
+    	WinGetTitle, T, A
+
+		if (titleArr.Length()) {
+			Loop % titleArr.Length()
+			{
+				title := titleArr[A_Index]
+		
+				if (T == title) {
+					return true
+				}
+			}
+		} else {
+			Loop % textArr.Length()
+			{
+				text := textArr[A_Index]
+		
+				if (InStr(T, text)) {
+					return true
+				}
+			}
 		}
-	} else {
-		while (!InStr(T, text) && cnt < threshold) {
-    		WinGetTitle, T, A
-			cnt++
-			sleep, %interval%
-		}
+
+		cnt++
+		sleep, %interval%
 	}
 
-	return (cnt < threshold)
+	return false
 }
 
 COMMON_IsEmpty(Dir) {

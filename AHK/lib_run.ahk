@@ -161,12 +161,18 @@ RUN_OpenUrl(url, opt := 0) {
 	if (opt & COMMON_OPT_APPMODE) {
 		Run, %TOOLBOX_CHROME_EXE% --app=%url%
 	} else if (Title) {
+		newTabTitleArr := []
+		newTabTitleArr[1] := "╩У ег - Chrome"
+
+		BlockInput, On
 		WinActivate, %Title%
 		SendInput, ^t
-		sleep, 50
-		SendInput, ^l
+		if (!COMMON_WinWait_Arr(newTabTitleArr, [], 500)) {
+			return
+		} 
 		SendInput, {blind}{text}%url%
 		SendInput, {Enter}
+		BlockInput, Off
 		;Run, %TOOLBOX_CHROME_EXE% %url%
 	} else {
 		Run, %TOOLBOX_CHROME_EXE% --new-window %url%
