@@ -1,16 +1,16 @@
 #include lib_common.ahk
 #include lib_focus.ahk
 
-global chromeSubWinNameArr := []
+global chromeSubWinNameRegExArr := []
 
-chromeSubWinNameArr[1] := "- Chrome"
-chromeSubWinNameArr[2] := "- Google Chrome"
+chromeSubWinNameRegExArr[1] := "- Chrome$"
+chromeSubWinNameRegExArr[2] := "- Google Chrome$"
 
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
 RUN_AOR_Chrome(opt := 0) {
-	RUN_AOR_SubWinTitleArr(chromeSubWinNameArr, "chrome", opt)
+	RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt)
 }
 
 RUN_AOR_URL(subTitle, url, opt := 0) {
@@ -154,7 +154,7 @@ RUN_AOR_Gvim(filePath) {
 
 RUN_OpenUrl(url, opt := 0) {
 	local tmp := ""
-	Local Title := COMMON_FindWinTitle_Arr(chromeSubWinNameArr, COMMON_OPT_MAINMONITOR)
+	Local Title := COMMON_FindWinTitle_Arr(chromeSubWinNameRegExArr, COMMON_OPT_MAINMONITOR | COMMON_OPT_REGEXMATCHING)
 
 	FOCUS_MainDesktop()
 

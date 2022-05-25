@@ -4,7 +4,6 @@ global COMMON_OPT_FULLMATCHING := 2
 global COMMON_OPT_MAINMONITOR := 4
 global COMMON_OPT_SUBMONITOR := 8
 global COMMON_OPT_APPMODE := 16
-global COMMON_OPT_REGEXMATCHING := 32
 
 COMMON_IsBrowser() {
 	p_name := COMMON_GetActiveWinProcName()
@@ -101,8 +100,6 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 			if (subTitle == "") {
 				continue
 			} else if ((opt & COMMON_OPT_FULLMATCHING) && Title == subTitle) {
-				return Title
-			} else if ((opt & COMMON_OPT_REGEXMATCHING) && RegExMatch(Title, subTitle)) {
 				return Title
 			} else if (!(opt & COMMON_OPT_FULLMATCHING) && InStr(Title, subTitle)) {
 				return Title
@@ -210,6 +207,7 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 				text := textArr[A_Index]
 		
 				if (InStr(T, text)) {
+					MsgBox, %T%
 					return true
 				}
 			}
