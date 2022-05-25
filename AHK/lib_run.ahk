@@ -164,7 +164,6 @@ RUN_OpenUrl(url, opt := 0) {
 		newTabTitleArr := []
 		newTabTitleArr[1] := "╩У ег - Chrome"
 
-		BlockInput, On
 		WinActivate, %Title%
 		SendInput, ^t
 		if (!COMMON_WinWait_Arr(newTabTitleArr, [], 500)) {
@@ -172,7 +171,6 @@ RUN_OpenUrl(url, opt := 0) {
 		} 
 		SendInput, {blind}{text}%url%
 		SendInput, {Enter}
-		BlockInput, Off
 		;Run, %TOOLBOX_CHROME_EXE% %url%
 	} else {
 		Run, %TOOLBOX_CHROME_EXE% --new-window %url%
