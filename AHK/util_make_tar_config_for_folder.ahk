@@ -86,7 +86,7 @@ makeCmd(exe, path) {
 		}
 	}
 	
-	cmd := gsPrefix . TARCmd . "|" . exe . "|" . path
+	cmd := gsPrefix . TARCmd . "|" . exe . "|""" . path . """"
 
 	return cmd
 }
