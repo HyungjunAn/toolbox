@@ -10,7 +10,7 @@ global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
 
 RUN_AOR_Chrome(opt := 0) {
-	RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt)
+	RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt | COMMON_OPT_REGEXMATCHING)
 }
 
 RUN_AOR_URL(subTitle, url, opt := 0) {
