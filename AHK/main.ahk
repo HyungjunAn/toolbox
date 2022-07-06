@@ -276,14 +276,6 @@ $SC11d:: RControl
 ;special character translator(Shift & Right Alt)
 Shift & SC138:: SendInput, {sc1f1}
 
-
-$<!Left:: Send, {Home}
-$<!Right:: Send, {End}
-$<!+Left:: Send, +{Home}
-$<!+Right:: Send, +{End}
-$<!Up:: Send, {PgUp}
-$<!Down:: Send, {PgDn}
-
 ;=============================================================
 ; For Right Hand
 ;-------------------------------------------------------------
