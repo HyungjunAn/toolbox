@@ -210,6 +210,7 @@ $#c::
 
     Return
 
+$PrintScreen::
 $MButton::
 	uri := VPC_GetMouseOverUri()
 
@@ -221,6 +222,7 @@ $MButton::
 
 	return 
 
+$Pause::
 $+MButton::
 	SendInput, {RButton}
 	tmp := Clipboard
@@ -271,10 +273,13 @@ $^`::	SendInput, ^``
 $!`::	SendInput, ``
 ^#m::	SendInput, {AppsKey}
 !^w::	SendInput, !{F4}
-$SC11d:: RControl
 
-;special character translator(Shift & Right Alt)
-Shift & SC138:: SendInput, {sc1f1}
+;special character
+SC11d::
+LShift & Space::
+LShift & SC138::
+	SendInput, {sc1f1}{Tab}
+	return
 
 ;=============================================================
 ; For Right Hand
