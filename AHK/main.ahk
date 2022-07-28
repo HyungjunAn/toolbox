@@ -274,8 +274,9 @@ $!`::	SendInput, ``
 ^#m::	SendInput, {AppsKey}
 !^w::	SendInput, !{F4}
 
+$SC11d:: RControl
+
 ;special character
-SC11d::
 LShift & Space::
 LShift & SC138::
 	SendInput, {sc1f1}{Tab}
