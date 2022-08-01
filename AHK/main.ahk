@@ -210,6 +210,7 @@ $#c::
 
     Return
 
+$ScrollLock::
 $PrintScreen::
 $MButton::
 	uri := VPC_GetMouseOverUri()
