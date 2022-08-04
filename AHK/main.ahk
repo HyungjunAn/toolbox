@@ -278,10 +278,7 @@ $!`::	SendInput, ``
 $SC11d:: RControl
 
 ;special character
-LShift & Space::
-LShift & SC138::
-	SendInput, {sc1f1}{Tab}
-	return
+LShift & SC138:: SendInput, {sc1f1}{Tab}
 
 ;=============================================================
 ; For Right Hand
