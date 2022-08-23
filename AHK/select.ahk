@@ -48,6 +48,12 @@ $m::
 	RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 	return
 
+;English Memo(Notion)
+$e::
+	suspendOn()
+	RUN_AOR_URL("En Memo", "https://www.notion.so/En-Memo-0e6615a06d9e418fb85a79c507195aea", COMMON_OPT_APPMODE)
+	return
+
 ;Q-Dir
 $d::
 	suspendOn()
