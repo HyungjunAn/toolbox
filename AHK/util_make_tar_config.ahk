@@ -57,7 +57,7 @@ Loop
 		continue
 	}
 
-	if (!InStr(line, A_Tab)) {
+	if (InStr(line, A_Tab) > 1) {
 		prefix := ""
 	}
 	
