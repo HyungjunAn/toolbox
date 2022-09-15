@@ -45,18 +45,26 @@ Loop
 		break
 	}
 
-	if (InStr(arrStr[1], "[PREFIX_SET]") == 1) {
-		prefix := arrStr[2]
-	} else if (InStr(arrStr[1], "[PREFIX_CLEAR]") == 1) {
-		prefix := ""
+	if (n == 0) {
+		continue
 	} else if (n == 1) {
-		TARExe := arrStr[1]
-	} else if (n == 2) {
-		TARCmd := arrStr[1]
-		TAROpt := arrStr[2]
-		cmd := prefix . TARCmd . "|" . TARExe . "|" . TAROpt
-		lines := lines . cmd . "`n"
+		if (InStr(arrStr[1], "::") == StrLen(arrStr[1]) - 1) {
+			prefix := SubStr(arrStr[1], 1, StrLen(arrStr[1]) - 2)
+		} else {
+			TARExe := arrStr[1]
+		}
+
+		continue
 	}
+
+	if (!InStr(line, A_Tab)) {
+		prefix := ""
+	}
+	
+	TARCmd := arrStr[1]
+	TAROpt := arrStr[2]
+	cmd := prefix . TARCmd . "|" . TARExe . "|" . TAROpt
+	lines := lines . cmd . "`n"
 }
 
 FileAppend, %lines%, %gsTargetFile%

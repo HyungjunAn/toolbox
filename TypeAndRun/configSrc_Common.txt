@@ -40,15 +40,13 @@ notion					https://www.notion.so/
 newneek					https://www.newneek.co/
 moneyletter				https://uppity.co.kr/moneyletter_archive
 
-[PREFIX_SET]	iv
-index					https://www.investing.com/portfolio/?portfolioID=MjViNDJgMGo%2Fb2liZzVkZA%3D%3D
-home					https://www.applyhome.co.kr/ai/aib/selectSubscrptCalenderView.do
-[PREFIX_CLEAR]
+iv::
+	index					https://www.investing.com/portfolio/?portfolioID=MjViNDJgMGo%2Fb2liZzVkZA%3D%3D
+	home					https://www.applyhome.co.kr/ai/aib/selectSubscrptCalenderView.do
 
-[PREFIX_SET]	lec
+lec::
 	ml_code01			https://github.com/deeplearningzerotoall/TensorFlow
 	ml_code02			https://github.com/hunkim/DeepLearningZeroToAll
-[PREFIX_CLEAR]
 
 papago					https://papago.naver.com/
 translator				https://papago.naver.com/
@@ -72,9 +70,8 @@ sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_aor_gitbash.ahk
 //-----------------------------------------------------------------
-[PREFIX_SET]	git
+git::
 	blog			"%TOOLBOX_ROOT_BLOG%"
-[PREFIX_CLEAR]
 
 //-----------------------------------------------------------------
 	%USERPROFILE%/Desktop/sample_macro.ahk

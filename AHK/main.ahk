@@ -501,7 +501,7 @@ reloadTypeAndRun() {
 
 			cmd = util_make_tar_config.ahk "%typeandrun_cfgSrc%" "%dir_typeandrun%\Config.ini"
 			RunWait, %cmd%
-	
+
 			cmd = util_make_tar_config.ahk "%typeandrun_cfgSrc_Common%" "%dir_typeandrun%\Config.ini"
 			RunWait, %cmd%
 
