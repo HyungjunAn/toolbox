@@ -28,6 +28,7 @@ project			"%USERPROFILE%\desktop\project"
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_open_url.ahk
 //-----------------------------------------------------------------
+dreamhack				https://dreamhack.io/
 naver					http://www.senaver.com
 nmap					https://map.naver.com/
 npay					https://order.pay.naver.com/home
