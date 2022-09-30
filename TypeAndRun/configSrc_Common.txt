@@ -33,6 +33,7 @@ naver					http://www.senaver.com
 nmap					https://map.naver.com/
 npay					https://order.pay.naver.com/home
 nshopping				https://shopping.naver.com/
+nland					https://land.naver.com/
 googledrive_online		https://drive.google.com/
 calendar				https://calendar.google.com/
 colab					https://colab.research.google.com
