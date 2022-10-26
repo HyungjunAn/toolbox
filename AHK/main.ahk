@@ -210,6 +210,7 @@ $#c::
 
     Return
 
+RShift & Up::
 $ScrollLock::
 $PrintScreen::
 $MButton::
@@ -223,6 +224,7 @@ $MButton::
 
 	return 
 
+RShift & Down::
 $Pause::
 $+MButton::
 	SendInput, {RButton}
@@ -285,8 +287,8 @@ LShift & SC138:: SendInput, {sc1f1}{Tab}
 ;-------------------------------------------------------------
 RShift & Left:: 	SendInput, ^c
 RShift & Right:: 	SendInput, ^v
-RShift & Down:: 	SendInput, ^z
-RShift & Up::	 	SendInput, ^+z
+;RShift & Down:: 	SendInput, ^z
+;RShift & Up::	 	SendInput, ^+z
 RShift & Delete:: 	SendInput, ^x
 RShift & Enter::
     WinGetTitle, Title, A
