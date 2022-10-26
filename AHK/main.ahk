@@ -299,8 +299,8 @@ RShift & Enter::
 	}
 	return 
 
-RShift & PgUp:: SendInput, ^{Tab}
-RShift & PgDn:: SendInput, ^+{Tab}
+RShift & PgDn:: SendInput, ^{Tab}
+RShift & PgUp:: SendInput, ^+{Tab}
 RShift & SC11d:: SendInput, !{Tab}
 ;=============================================================
 
