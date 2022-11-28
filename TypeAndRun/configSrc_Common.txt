@@ -54,6 +54,9 @@ papago					https://papago.naver.com/
 translator				https://papago.naver.com/
 vpc						https://vpc.lge.com/
 
+// 사이언스파크 포탈
+lgsp					https://sso.lgsp.co.kr/
+
 json_pretty_print		https://jsonformatter.org/json-pretty-print
 
 //-----------------------------------------------------------------
