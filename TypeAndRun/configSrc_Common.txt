@@ -38,6 +38,7 @@ googledrive_online		https://drive.google.com/
 calendar				https://calendar.google.com/
 colab					https://colab.research.google.com
 gmail					https://mail.google.com/mail
+traffic_info			https://github.com/HyungjunAn/traffic_info
 notion					https://www.notion.so/
 newneek					https://www.newneek.co/
 moneyletter				https://uppity.co.kr/moneyletter_archive
