@@ -48,7 +48,7 @@ $m::
 	RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
 	return
 
-;English Memo(GitHub)
+;English TODO(GitHub)
 $e::
 	suspendOn()
 	RUN_AOR_URL("memo.txt at main", "https://github.com/HyungjunAn/note-english/blob/main/res/todo.txt", COMMON_OPT_APPMODE)
