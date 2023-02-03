@@ -51,7 +51,7 @@ $m::
 ;English Memo(GitHub)
 $e::
 	suspendOn()
-	RUN_AOR_URL("memo.txt at main", "https://github.com/HyungjunAn/note-english/blob/main/res/memo.txt", COMMON_OPT_APPMODE)
+	RUN_AOR_URL("memo.txt at main", "https://github.com/HyungjunAn/note-english/blob/main/res/todo.txt", COMMON_OPT_APPMODE)
 	return
 
 ;Q-Dir
