@@ -284,6 +284,11 @@ if has("gui")
   noremap <A-{>  :let cgf-=5<CR>:let cwf-=5<CR>:let &guifont = userFont . cgf . ":cANSI"<CR>:let &guifontwide = userFontWide . cwf . ":cDEFAULT"  <CR><CR>
   noremap <A-}>  :let cgf+=5<CR>:let cwf+=5<CR>:let &guifont = userFont . cgf . ":cANSI"<CR>:let &guifontwide = userFontWide . cwf . ":cDEFAULT"  <CR><CR>
 
+"<Search Markdown Heading>
+  noremap <A-1>  /^# <CR>
+  noremap <A-2>  /^## <CR>
+  noremap <A-3>  /^### <CR>
+
 "<Comment(nerdcommenter)>
   map	<A-j>	<leader>cm
   map	<A-k>	<leader>cu
