@@ -20,6 +20,7 @@ posts			%TOOLBOX_ROOT_BLOG_POSTS%
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 apacheMonitor	"C:\Apache24\bin\ApacheMonitor.exe"
+english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
 
 stable			"%USERPROFILE%\desktop\stable"
 init			"%USERPROFILE%\desktop\stable\init.ahk"
@@ -78,6 +79,7 @@ sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 //-----------------------------------------------------------------
 git::
 	blog			"%TOOLBOX_ROOT_BLOG%"
+	english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
 
 //-----------------------------------------------------------------
 	%USERPROFILE%/Desktop/sample_macro.ahk
