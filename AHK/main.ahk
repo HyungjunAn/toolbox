@@ -38,7 +38,6 @@ global hotstring			:= ""
 global gbIsInitDone 	:= False
 
 global PID_GVIM_FAVORITE 	:= 0
-global PID_VIMMODE 	:= 0
 global PID_SELECT 	:= 0
 global PID_EXPLORER	:= 0
 
@@ -94,7 +93,6 @@ Loop, %AHKList%
 DetectHiddenWindows,off
 
 reloadTypeAndRun()
-Run, mode_vim_v2.ahk,,, PID_VIMMODE
 Run, select.ahk,,, PID_SELECT
 Run, explorer.ahk,,, PID_EXPLORER
 
@@ -107,14 +105,12 @@ Gui, Destroy
 ;///////////////////////////////////////////////////////////////
 ; Reload Script
 $!+r:: 
-	Process, Close, %PID_VIMMODE%,
 	Process, Close, %PID_SELECT%,
 	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
 	Reload
 
 $^Delete::
-	Process, Close, %PID_VIMMODE%,
 	Process, Close, %PID_SELECT%,
 	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
@@ -124,7 +120,6 @@ $^Delete::
 ; Control Script Suspending
 $!+a:: 
 	Run, %TOOLBOX_ROOT_AHK%\capslock2ctrl.ahk
-	Process, Close, %PID_VIMMODE%,
 	Process, Close, %PID_SELECT%,
 	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
