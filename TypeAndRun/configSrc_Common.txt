@@ -44,6 +44,9 @@ notion					https://www.notion.so/
 newneek					https://www.newneek.co/
 moneyletter				https://uppity.co.kr/moneyletter_archive
 
+yt::
+	la					https://www.youtube.com/playlist?list=PLEzsBdrpZXC8tdzAqQHEQ66TocGI-Kagh
+
 iv::
 	index					https://www.investing.com/portfolio/?portfolioID=MjViNDJgMGo%2Fb2liZzVkZA%3D%3D
 	home					https://www.applyhome.co.kr/ai/aib/selectSubscrptCalenderView.do
