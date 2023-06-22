@@ -1,6 +1,0 @@
-[submodule "blog"]
-	path = blog
-	url = https://github.com/HyungjunAn/HyungjunAn.github.io.git
-[submodule "note-english"]
-	path = note-english
-	url = https://github.com/HyungjunAn/note-english.git
