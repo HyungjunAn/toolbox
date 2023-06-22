@@ -8,3 +8,4 @@ Q-Dir/*.qdr
 Q-Dir/Favoriten/*.qdr
 Q-Dir/Favoriten/Quick-Link/*
 AHK/tmp/*
+library/*

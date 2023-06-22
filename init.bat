@@ -46,9 +46,9 @@ IF exist "%USERPROFILE%\내 드라이브" (
 @echo on
 setx TOOLBOX_ROOT "%ROOT%"
 setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
-setx TOOLBOX_ROOT_BLOG "%ROOT%\blog"
-setx TOOLBOX_ROOT_BLOG_POSTS "%ROOT%\blog\_posts"
-setx TOOLBOX_ROOT_NOTE_ENGLISH "%ROOT%\note-english"
+setx TOOLBOX_ROOT_BLOG "%ROOT%\library\blog"
+setx TOOLBOX_ROOT_BLOG_POSTS "%ROOT%\library\blog\_posts"
+setx TOOLBOX_ROOT_NOTE_ENGLISH "%ROOT%\library\note-english"
 setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
 setx TOOLBOX_CHROME_EXE "%CHROME_EXE%"
 setx TOOLBOX_GOOGLE_DRIVE "%GOOGLE_DRIVE%"
