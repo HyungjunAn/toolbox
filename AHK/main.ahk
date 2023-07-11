@@ -64,7 +64,7 @@ If (bOffice) {
 	library				:= OFFICE_LIB
 	gvimFavorite		:= OFFICE_LIB
 	typeandrun_cfgSrc	:= OFFICE_SETTING_TAR
-	hotstring			:= OFFICE_LIB_HOTSTRING
+	hotstring			:= OFFICE_SETTING_HOTSTRING
 }
 
 ;-------------------------------------------
