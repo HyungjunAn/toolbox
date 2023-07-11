@@ -55,6 +55,13 @@ setx TOOLBOX_GOOGLE_DRIVE "%GOOGLE_DRIVE%"
 mklink "%USERPROFILE%\Desktop\ahk" "%ROOT_AHK%\main.ahk"
 @echo off
 echo.
+
+echo ------------------------------------------------------
+echo 	ini 백업 파일 복사
+echo ------------------------------------------------------
+copy ini_backup\xntimer.ini AHK
+copy ini_backup\TypeAndRun.ini TypeAndRun\exe
+echo.
 echo ------------------------------------------------------
 echo 	AHK
 echo ------------------------------------------------------

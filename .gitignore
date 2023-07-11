@@ -3,9 +3,11 @@
 TypeAndRun/exe/~Config.ini
 TypeAndRun/exe/Config.ini
 TypeAndRun/exe/History.ini
+TypeAndRun/exe/TypeAndRun.ini
 Q-Dir/Q-Dir.ini
 Q-Dir/*.qdr
 Q-Dir/Favoriten/*.qdr
 Q-Dir/Favoriten/Quick-Link/*
 AHK/tmp/*
+AHK/xntimer.ini
 library/*
