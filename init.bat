@@ -16,6 +16,55 @@ if '%errorlevel%' NEQ '0' (
 
 pushd "%~dp0"
 
+@ECHO OFF
+echo ------------------------------------------------------
+echo 	git user name / email 설정
+echo ------------------------------------------------------
+set /p "c=Do you set user.name and user.email? [Y/N]: "
+if /i "%c%" EQU "Y" goto :DO_USER_SET
+if /i "%c%" EQU "N" goto :SKIP_USER_SET
+echo (잘못된 입력입니다.)
+goto :EXIT
+
+:DO_USER_SET
+set /p "userName=insert user name: "
+set /p "userEmail=insert user e-mail address: "
+
+git config user.name "%userName%"
+git config user.email "%userEmail"
+
+echo ------------------------------------------------------
+echo 	library git clone 여부 결정
+echo ------------------------------------------------------
+set /p "c=Do you clone library? [Y/N]: "
+if /i "%c%" EQU "Y" goto :DO_USER_SET
+if /i "%c%" EQU "N" goto :SKIP_USER_SET
+echo (잘못된 입력입니다.)
+goto :EXIT
+
+:DO_USER_SET
+
+mkdir library
+cd library
+
+git clone https://github.com/HyungjunAn/HyungjunAn.github.io.git blog
+cd blog
+IF ERRORLEVEL == 0 (
+	git config user.name "%userName%"
+	git config user.email "%userEmail"
+	cd ..
+)
+
+git clone https://github.com/HyungjunAn/note-english.git
+cd note-english
+IF ERRORLEVEL == 0 (
+	git config user.name "%userName%"
+	git config user.email "%userEmail"
+	cd ..
+)
+
+:SKIP_USER_SET
+
 echo ------------------------------------------------------
 echo 	환경 변수 설정
 echo ------------------------------------------------------
