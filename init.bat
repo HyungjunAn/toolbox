@@ -31,7 +31,7 @@ set /p "userName=insert user name: "
 set /p "userEmail=insert user e-mail address: "
 
 git config user.name "%userName%"
-git config user.email "%userEmail"
+git config user.email "%userEmail%"
 
 echo ------------------------------------------------------
 echo 	library git clone 여부 결정
@@ -51,7 +51,7 @@ git clone https://github.com/HyungjunAn/HyungjunAn.github.io.git blog
 cd blog
 IF ERRORLEVEL == 0 (
 	git config user.name "%userName%"
-	git config user.email "%userEmail"
+	git config user.email "%userEmail%"
 	cd ..
 )
 
@@ -59,7 +59,7 @@ git clone https://github.com/HyungjunAn/note-english.git
 cd note-english
 IF ERRORLEVEL == 0 (
 	git config user.name "%userName%"
-	git config user.email "%userEmail"
+	git config user.email "%userEmail%"
 	cd ..
 )
 
