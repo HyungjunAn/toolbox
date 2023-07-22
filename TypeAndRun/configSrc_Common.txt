@@ -6,7 +6,8 @@ timer			""
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_suspend.ahk
 //-----------------------------------------------------------------
-_kill_suspend			""
+_kill_suspend			suspend
+_kill_hibernates		hibernates
 
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Notepad++\notepad++.exe
