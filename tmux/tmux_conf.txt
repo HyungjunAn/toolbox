@@ -1,0 +1,61 @@
+#-------------------------------------------------------
+# 1. tpm(플러그인 매니저) 설치
+#       $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+#
+# 2. 설정 파일 수정
+#       $ vim ~/.tmux.conf
+#
+# 3. conf 변경사항 적용:
+#       $ tmux source-file ~/.tmux.conf
+#-------------------------------------------------------
+
+
+# Bind-Key
+bind-key k select-pane -U
+bind-key j select-pane -D
+bind-key h select-pane -L
+bind-key l select-pane -R
+bind m last-window
+
+set-window-option -g mode-keys vi
+#set-window-option -g utf8 on   # it is for old version only
+
+setw -g mode-keys vi
+set  -g base-index 1
+setw -g pane-base-index 1
+set  -g history-limit 10000
+
+# Using Mouse
+set -g mouse on                 # >= 2.1
+#setw -g mode-mouse on           # <  2.1
+#set -g mouse-select-pane on     # <  2.1
+#set -g mouse-resize-pane on     # <  2.1
+#set -g mouse-select-window off  # <  2.1
+
+# Set status bar
+set -g status-bg black
+set -g status-fg white
+set -g status-left '#[fg=green]#H'
+
+# panes
+set -g pane-border-style fg=black
+set -g pane-active-border-style fg=brightred
+
+# The panes
+set -g pane-border-style bg=colour0
+set -g pane-border-style fg=colour250
+set -g pane-active-border-style bg=colour236
+set -g pane-active-border-style fg=colour250
+
+# color of active window name
+set-window-option -g window-status-current-style fg=white
+
+# Highlight active window name
+set-window-option -g window-status-current-style bg=black
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
