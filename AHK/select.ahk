@@ -102,6 +102,12 @@ $b::
 	RUN_AOR_EXE("C:\Program Files\millie\millie.exe")
 	return
 
+;Google Timer
+$g::
+	suspendOn()
+	RUN_AOR_EXE("util_google_timer.ahk")
+	return
+
 ;visual studio code
 $v::
 	suspendOn()
