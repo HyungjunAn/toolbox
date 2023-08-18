@@ -284,7 +284,8 @@ RShift & Left:: 	SendInput, ^c
 RShift & Right:: 	SendInput, ^v
 ;RShift & Down:: 	SendInput, ^z
 ;RShift & Up::	 	SendInput, ^+z
-RShift & Delete:: 	SendInput, ^x
+;RShift & Delete:: 	SendInput, ^x
+RShift & PgDn:: 	SendInput, ^x
 RShift & Enter::
     WinGetTitle, Title, A
 	if (Title == "작업 보기") {
@@ -294,8 +295,12 @@ RShift & Enter::
 	}
 	return 
 
-RShift & PgDn:: SendInput, ^{Tab}
-RShift & PgUp:: SendInput, ^+{Tab}
+;RShift & PgDn:: SendInput, ^{Tab}
+RShift & End:: SendInput, ^{Tab}
+
+;RShift & PgUp:: SendInput, ^+{Tab}
+RShift & Delete:: SendInput, ^+{Tab}
+
 RShift & SC11d:: SendInput, !{Tab}
 ;=============================================================
 
