@@ -90,6 +90,12 @@ $t::
 	RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
 	return
 
+;Netflix
+$f::
+	suspendOn()
+	RUN_AOR_URL("Netflix", "https://www.netflix.com/browse", COMMON_OPT_APPMODE)
+	return
+
 ;YouTube
 $y::
 	suspendOn()
