@@ -172,7 +172,7 @@ suspendOff() {
 	Suspend, Off
 	FOCUS_MainDesktop()
 
-	Gui, Color, Red
+	Gui, Color, 303030
 	Gui, -Caption +alwaysontop +ToolWindow
 	Gui, Font, s12 cWhite, Consolas
 	Gui, Add, Text, , %guiText%
