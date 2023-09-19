@@ -51,9 +51,13 @@ RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 	return ret
 }
 
-RUN_AOR_EXE(exePath) {
+RUN_AOR_EXE(exePath, procName := "") {
 	FOCUS_MainDesktop()
-	SplitPath, exePath, procName
+
+	if (!procName) {
+		SplitPath, exePath, procName
+	}
+
 	WinGet windows, List
 	
 	Loop %windows% {

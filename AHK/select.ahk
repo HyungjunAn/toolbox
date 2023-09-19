@@ -42,6 +42,12 @@ $s::
 	COMMON_GUI_BlinkActiveWin("black", 80)
 	return
 
+;Windows Terminal
+$w::
+	suspendOn()
+	RUN_AOR_EXE("wt.exe", "WindowsTerminal.exe")
+	return
+
 ;MobaXterm
 $m::
 	suspendOn()
