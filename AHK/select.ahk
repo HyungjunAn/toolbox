@@ -48,11 +48,17 @@ $w::
 	RUN_AOR_EXE("wt.exe", "WindowsTerminal.exe")
 	return
 
-;MobaXterm
-$m::
+;File Zilla
+$f::
 	suspendOn()
-	RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
+	RUN_AOR_EXE("C:\Program Files\FileZilla FTP Client\filezilla.exe")
 	return
+
+;;MobaXterm
+;$m::
+;	suspendOn()
+;	RUN_AOR_EXE("C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe")
+;	return
 
 ;English TODO(GitHub)
 $e::
@@ -97,7 +103,7 @@ $t::
 	return
 
 ;Netflix
-$f::
+$x::
 	suspendOn()
 	RUN_AOR_URL("Netflix", "https://www.netflix.com/browse", COMMON_OPT_APPMODE)
 	return
