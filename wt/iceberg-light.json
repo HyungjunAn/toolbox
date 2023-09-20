@@ -1,0 +1,23 @@
+        {
+            "background": "#E8E9EC",
+            "black": "#DCDFE7",
+            "blue": "#2D539E",
+            "brightBlack": "#8389A3",
+            "brightBlue": "#22478E",
+            "brightCyan": "#327698",
+            "brightGreen": "#598030",
+            "brightPurple": "#6845AD",
+            "brightRed": "#CC3768",
+            "brightWhite": "#262A3F",
+            "brightYellow": "#B6662D",
+            "cursorColor": "#33374C",
+            "cyan": "#3F83A6",
+            "foreground": "#33374C",
+            "green": "#668E3D",
+            "name": "iceberg-light",
+            "purple": "#7759B4",
+            "red": "#CC517A",
+            "selectionBackground": "#33374C",
+            "white": "#33374C",
+            "yellow": "#C57339"
+        }
