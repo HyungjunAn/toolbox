@@ -49,6 +49,12 @@ $p::
 	RUN_AOR_PowerShell(PATH_DIR)
 	return
 
+;Windows Terminal
+$w::
+	suspendOn()
+	Run, wt -d "%PATH_DIR%"
+	return
+
 ;Git Bash
 $g::
 	suspendOn()
