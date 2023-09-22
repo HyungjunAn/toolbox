@@ -39,7 +39,6 @@ global gbIsInitDone 	:= False
 
 global PID_GVIM_FAVORITE 	:= 0
 global PID_SELECT 	:= 0
-global PID_EXPLORER	:= 0
 
 global maxHotWinNum		:= 4
 global garHotWin_info	:= []
@@ -94,7 +93,6 @@ DetectHiddenWindows,off
 
 reloadTypeAndRun()
 Run, select.ahk,,, PID_SELECT
-Run, explorer.ahk,,, PID_EXPLORER
 
 gbIsInitDone := True
 healthNotification()
@@ -106,13 +104,11 @@ Gui, Destroy
 ; Reload Script
 $!+r:: 
 	Process, Close, %PID_SELECT%,
-	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
 	Reload
 
 $^Delete::
 	Process, Close, %PID_SELECT%,
-	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
 	myMotto(200, "White")
 	ExitApp
@@ -121,7 +117,6 @@ $^Delete::
 $!+a:: 
 	Run, %TOOLBOX_ROOT_AHK%\capslock2ctrl.ahk
 	Process, Close, %PID_SELECT%,
-	Process, Close, %PID_EXPLORER%,
 	closeProcess("TypeAndRun.exe")
 	myMotto(500, "Green")
 	ExitApp

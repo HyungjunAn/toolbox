@@ -7,6 +7,25 @@ Global officeUrl_title := ""
 Global officeUrl_url := ""
 Global start_script := USERPROFILE . "\Desktop\stable\start.ahk"
 
+suspendOn() {
+	Suspend, On
+	Gui, Destroy
+}
+
+suspendOff() {
+	Suspend, Off
+	FOCUS_MainDesktop()
+
+	Gui, Color, 303030
+	Gui, -Caption +alwaysontop +ToolWindow
+	Gui, Font, s12 cWhite, Consolas
+	Gui, Add, Text, , %guiText%
+	Gui, Show, NoActivate
+
+	COMMON_Sleep(10000)
+	suspendOn()
+}
+
 if (bOffice) {
 	FileReadLine, officeUrl_title, %OFFICE_SETTING_URL%, 1
 	FileReadLine, officeUrl_url, %OFFICE_SETTING_URL%, 2
@@ -27,6 +46,30 @@ $!^i::
 $`::
 $ESC::
 	suspendOn()
+	return
+
+;Move Left
+$h::
+	Send, {Left}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
+	return
+
+;Move Down
+$j::
+	Send, {Down}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
+	return
+
+;Move Up
+$k::
+	Send, {Up}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
+	return
+
+;Move Right
+$l::
+	Send, {Right}
+	PATH_DIR := COMMON_GetActiveExplorerPath()
 	return
 
 ;Chrome
@@ -91,7 +134,7 @@ $p::
 	return
 
 ;Google Keep
-$k::
+$m::
 	suspendOn()
 	RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 	return
@@ -169,21 +212,60 @@ $1::
 	FOCUS_VDesktop_Sub()
 	return
 
-suspendOn() {
-	Suspend, On
-	Gui, Destroy
-}
-
-suspendOff() {
-	Suspend, Off
-	FOCUS_MainDesktop()
-
-	Gui, Color, 303030
-	Gui, -Caption +alwaysontop +ToolWindow
-	Gui, Font, s12 cWhite, Consolas
-	Gui, Add, Text, , %guiText%
-	Gui, Show
-
-	COMMON_Sleep(10000)
+;Make New File
+$^f::
 	suspendOn()
-}
+	if (PATH_DIR := COMMON_GetActiveExplorerPath()) {
+		FormatTime, cur_time ,, yyMMddHHmm
+		FileAppend, This is a new file.`n, %PATH_DIR%\NewFile_%cur_time%.txt
+	}
+	return
+
+;Copy sample_macro.ahk
+$^c::
+	suspendOn()
+	if (PATH_DIR := COMMON_GetActiveExplorerPath()) {
+		f := PATH_DIR . "\sample_macro.ahk"
+
+		IfNotExist, %f%, {
+			FileCopy, %TOOLBOX_ROOT_AHK%\sample_macro.ahk, %f%
+		}
+	}
+
+	return
+
+;Open with Notepad++
+$^n::
+	suspendOn()
+	f := COMMON_GetSelectedItemPath()
+	if (f) {
+		Run, notepad++.exe "%f%"
+	}
+	return
+
+;Open with GVIM
+$^v::
+	suspendOn()
+	f := COMMON_GetSelectedItemPath()
+	if (f) {
+		Run, %TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk "%f%"
+	}
+	return
+
+;Git Bash Here
+$^g::
+	suspendOn()
+	if (PATH_DIR := COMMON_GetActiveExplorerPath()) {
+		RUN_AOR_GitBash(PATH_DIR)
+	}
+	return
+
+;Powershell Here
+$^p::
+	suspendOn()
+	if (PATH_DIR := COMMON_GetActiveExplorerPath()) {
+		RUN_AOR_PowerShell(PATH_DIR)
+	}
+	return
+
+
