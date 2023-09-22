@@ -16,7 +16,7 @@ WinGet, pname, ProcessName, A
 
 Switch pname
 {
-Case "cmd.exe", "MobaXterm.exe", "ttermpro.exe":
+Case "cmd.exe", "MobaXterm.exe", "ttermpro.exe", "WindowsTerminal.exe":
 	Send, +{Insert}
 Default:
 	Send, ^v
