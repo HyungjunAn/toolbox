@@ -8,6 +8,8 @@ chromeSubWinNameRegExArr[2] := "- Google Chrome$"
 
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
+global EXE_FOR_GIT_BASH := "WindowsTerminal.exe"
+global CMD_FOR_GIT_BASH := "wt -d "
 
 RUN_AOR_Chrome(opt := 0) {
 	RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt | COMMON_OPT_REGEXMATCHING)
@@ -90,7 +92,7 @@ RUN_AOR_GitBash(folderPath) {
 		id := windows%A_Index%
 		WinGet, name, ProcessName, ahk_id %id%
 	
-		if (name == "mintty.exe") {
+		if (name == EXE_FOR_GIT_BASH) {
 			WinGetTitle, title, ahk_id %id%
 			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
 	        IfInString, title, %folderName%, {
@@ -99,8 +101,15 @@ RUN_AOR_GitBash(folderPath) {
 			}
 		}
 	}
-	
-	Run, C:\Program Files\Git\git-bash.exe --cd="%folderPath%"
+
+	try
+		Run, %CMD_FOR_GIT_BASH%%folderPath%
+	catch e {
+		CMD_FOR_GIT_BASH := "C:\Program Files\Git\git-bash.exe --cd="
+		EXE_FOR_GIT_BASH := "mintty.exe"
+
+		Run, %CMD_FOR_GIT_BASH%%folderPath%
+	}
 }
 
 RUN_AOR_PowerShell(folderPath) {
