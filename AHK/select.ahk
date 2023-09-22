@@ -133,10 +133,14 @@ $p::
 	RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
 	return
 
-;Google Keep
+;Google Keep or Tera Term
 $m::
 	suspendOn()
-	RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
+	if (!bOffice) {
+		RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
+	} else {
+		RUN_AOR_EXE("C:\Program Files (x86)\teraterm\ttermpro.exe")
+	}
 	return
 
 ;Todoist
