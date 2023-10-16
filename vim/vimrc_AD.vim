@@ -194,8 +194,9 @@ let &guifont=userFont . guifontsize . ":cANSI"
 let &guifontwide=userFontWide . guifontwidesize . ":cDEFAULT"
 
 "[Colorscheme & Background]
-"call SetGuiColorscheme('dark')
+call SetGuiColorscheme('dark')
 autocmd BufRead,BufNewFile *.txt  call SetGuiColorscheme('light')
+autocmd BufRead,BufNewFile *.md call SetGuiColorscheme('light')
 
 "[Hide Toolbar, Menu Bar, Scroll Bar]
 set guioptions-=m  "remove menu bar
