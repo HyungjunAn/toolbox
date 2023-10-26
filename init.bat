@@ -63,6 +63,14 @@ IF ERRORLEVEL == 0 (
 	cd ..
 )
 
+git clone https://github.com/HyungjunAn/keep.git
+cd keep
+IF ERRORLEVEL == 0 (
+	git config user.name "%userName%"
+	git config user.email "%userEmail%"
+	cd ..
+)
+
 cd ..
 
 :SKIP_USER_SET
@@ -100,6 +108,7 @@ setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
 setx TOOLBOX_ROOT_BLOG "%ROOT%\library\blog"
 setx TOOLBOX_ROOT_BLOG_POSTS "%ROOT%\library\blog\_posts"
 setx TOOLBOX_ROOT_NOTE_ENGLISH "%ROOT%\library\note-english"
+setx TOOLBOX_ROOT_KEEP "%ROOT%\library\keep"
 setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
 setx TOOLBOX_CHROME_EXE "%CHROME_EXE%"
 setx TOOLBOX_GOOGLE_DRIVE "%GOOGLE_DRIVE%"

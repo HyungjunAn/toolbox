@@ -27,6 +27,7 @@ apache::
 	restart	"C:\Apache24\bin\httpd.exe -k restart
 
 english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
+keep			"%TOOLBOX_ROOT_KEEP%"
 
 stable			"%USERPROFILE%\desktop\stable"
 init			"%USERPROFILE%\desktop\stable\init.ahk"
@@ -49,6 +50,9 @@ traffic_info			https://github.com/HyungjunAn/traffic_info
 notion					https://www.notion.so/
 newneek					https://www.newneek.co/
 moneyletter				https://uppity.co.kr/moneyletter_archive
+
+w::
+	keep				https://hyungjunan.github.io/keep/
 
 yt::
 	la					https://www.youtube.com/playlist?list=PLEzsBdrpZXC8tdzAqQHEQ66TocGI-Kagh
@@ -89,6 +93,7 @@ sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 git::
 	blog			"%TOOLBOX_ROOT_BLOG%"
 	english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
+	keep			"%TOOLBOX_ROOT_KEEP%"
 
 //-----------------------------------------------------------------
 	%USERPROFILE%/Desktop/sample_macro.ahk
