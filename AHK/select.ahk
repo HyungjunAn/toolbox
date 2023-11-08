@@ -75,14 +75,13 @@ $l::
 ;Chrome
 $c::
 	suspendOn()
-	RUN_AOR_Chrome(COMMON_OPT_MAINMONITOR)
+	RUN_AOR_Chrome()
 	return
 
-;Chrome - Sub
+;Firefox
 $s::
 	suspendOn()
-	RUN_AOR_Chrome(COMMON_OPT_SUBMONITOR)
-	COMMON_GUI_BlinkActiveWin("black", 80)
+	RUN_AOR_Firefox()
 	return
 
 ;Windows Terminal

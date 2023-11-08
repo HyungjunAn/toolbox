@@ -2,9 +2,13 @@
 #include lib_focus.ahk
 
 global chromeSubWinNameRegExArr := []
+global firefoxSubWinNameRegExArr := []
 
 chromeSubWinNameRegExArr[1] := "- Chrome$"
 chromeSubWinNameRegExArr[2] := "- Google Chrome$"
+
+firefoxSubWinNameRegExArr[1] := " Firefox$"
+firefoxSubWinNameRegExArr[2] := " Mozila Firefox$"
 
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
@@ -13,6 +17,10 @@ global CMD_FOR_GIT_BASH := "wt -d "
 
 RUN_AOR_Chrome(opt := 0) {
 	RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt | COMMON_OPT_REGEXMATCHING)
+}
+
+RUN_AOR_Firefox(opt := 0) {
+	RUN_AOR_SubWinTitleArr(firefoxSubWinNameRegExArr, "firefox", opt | COMMON_OPT_REGEXMATCHING)
 }
 
 RUN_AOR_URL(subTitle, url, opt := 0) {
