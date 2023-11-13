@@ -20,9 +20,9 @@ VPC_IsCurWinVpc() {
 
 VPC_ActivateVpc() {
 	if (VPC_IsExistVPC()) {
-		Gui, VPC:Destroy
+		;Gui, VPC:Destroy
 		WinActivate, %_gsVpcWinTitle%
-		VPC_Notify("Red")
+		;VPC_Notify("Red")
 		return True
 	}
 	return False
@@ -40,7 +40,7 @@ VPC_FocusOut() {
 	if (VPC_IsCurWinVpc()) {
 		MsgBox, , , , 0.001
 		WinMinimize, %_gsVpcWinTitle%
-		VPC_Notify("39E114")
+		;VPC_Notify("39E114")
 	}
 }
 
