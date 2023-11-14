@@ -6,21 +6,26 @@ Global bOffice := COMMON_IsOffice()
 Global officeUrl_title := ""
 Global officeUrl_url := ""
 Global start_script := USERPROFILE . "\Desktop\stable\start.ahk"
+Global GuiSelect := Gui()
 
 suspendOn() {
+	Global GuiSelect
+	
 	Suspend true
-	;Gui, Destroy
+	GuiSelect.Destroy()
 }
 
 suspendOff() {
+	Global GuiSelect := Gui()
+
 	Suspend false
 	FOCUS_MainDesktop()
 
-	;Gui, Color, 303030
-	;Gui, -Caption +alwaysontop +ToolWindow
-	;Gui, Font, s12 cWhite, Consolas
-	;Gui, Add, Text, , %guiText%
-	;Gui, Show, NoActivate
+	GuiSelect.BackColor := "303030"
+	GuiSelect.Opt("-Caption +alwaysontop +ToolWindow")
+	GuiSelect.SetFont("s12 cWhite", "Consolas")
+	GuiSelect.Add("Text", , guiText)
+	GuiSelect.Show("NoActivate")
 
 	COMMON_Sleep(10000)
 	suspendOn()
@@ -35,7 +40,10 @@ if (bOffice) {
 suspendOn()
 
 #SuspendExempt
-$!^i:: Suspend false
+$!^i::
+{
+	suspendOff()
+}
 
 #SuspendExempt False
 $`::

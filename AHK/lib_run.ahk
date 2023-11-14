@@ -72,10 +72,10 @@ RUN_AOR_EXE(exePath, procName := "") {
 	
 	Loop windows.Length {
 		id := windows[A_Index]
-		name := WinGetProcessName("ahk_id " . id)
+		name := WinGetProcessName("ahk_id " id)
 	
 		if (name == procName) {
-			title := WinGetTitle("ahk_id " . id)
+			title := WinGetTitle("ahk_id " id)
 			WinActivate(title)
 			return True
 		}
