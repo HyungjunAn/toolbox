@@ -8,14 +8,14 @@
 ;C:\Windows\explorer.exe
 ;myFolder			"C:\Users\name\myFolder"
 
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+SetWorkingDir A_ScriptDir  ; Ensures a consistent starting directory.
 #include lib_common.ahk
 
-if A_Args.Length() < 2
+if A_Args.Length < 2
 {
-	msg := "This script requires at least 2 parameters but it only received " . A_Args.Length() . "`n"
+	msg := "This script requires at least 2 parameters but it only received " . A_Args.Length . "`n"
 	msg := msg . "ex) " . A_ScriptName . "<SRC_FILE> <TARGET_FILE>"
-	MsgBox, %msg%
+	MsgBox msg
     ExitApp
 }
 
@@ -30,18 +30,19 @@ global TAROpt := ""
 global lines := ""
 global prefix := ""
 
-Loop
+Loop Read, gsSrcFile
 {
-    FileReadLine, line, %gsSrcFile%, %A_Index%
-    if (ErrorLevel) {
+	line := A_LoopReadLine
+	
+    if (!line) {
         break
 	}
 
 	arrStr := COMMON_StrSplit(line, A_Tab)
-	n := arrStr.Length()
+	n := arrStr.Length
 
 	if (n > 2) {
-		MsgBox, Grammar Error: Line %A_Index%
+		MsgBox("Grammar Error: Line " . A_Index)
 		break
 	}
 
@@ -67,6 +68,6 @@ Loop
 	lines := lines . cmd . "`n"
 }
 
-FileAppend, %lines%, %gsTargetFile%
+FileAppend(lines, gsTargetFile)
 
 ExitApp

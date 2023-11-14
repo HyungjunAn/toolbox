@@ -79,7 +79,7 @@ COMMON_Activate_SubWinTitleArr(subTitleArr, opt := 0) {
 COMMON_FindWinTitle(subTitle, opt := 0) {
 	local subTitleArr := []
 
-	subTitleArr[1] := subTitle
+	subTitleArr.Push(subTitle)
 
 	return COMMON_FindWinTitle_Arr(subTitleArr, opt)
 }
@@ -132,7 +132,7 @@ COMMON_StrSplit(string, delimiters, commentPrefix := "//") {
 	local arrString := StrSplit(string, delimiters)
 	local retString := []
 
-	Loop arrString.Length()
+	Loop arrString.Length
 	{
 		tmpStr := arrString[A_Index]
 	
@@ -199,7 +199,7 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 	local cnt := 0
 	local threshold := timeout_ms / interval
 
-	if ((titleArr.Length() && textArr.Length()) || (!titleArr.Length() && !textArr.Length()) || timeout_ms <= 0) {
+	if ((titleArr.Length && textArr.Length) || (!titleArr.Length && !textArr.Length) || timeout_ms <= 0) {
 		MsgBox "Error: wrong param"
 		return False
 	}
@@ -207,8 +207,8 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 	while (cnt < threshold) {
     	WinGetTitle T, "A"
 
-		if (titleArr.Length()) {
-			Loop titleArr.Length()
+		if (titleArr.Length) {
+			Loop titleArr.Length
 			{
 				title := titleArr[A_Index]
 		
@@ -217,7 +217,7 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 				}
 			}
 		} else {
-			Loop textArr.Length()
+			Loop textArr.Length
 			{
 				text := textArr[A_Index]
 		

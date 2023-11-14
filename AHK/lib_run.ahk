@@ -166,7 +166,7 @@ RUN_AOR_Gvim(filePath) {
 		name := WinGetProcessName("ahk_id " . id)
 
 		if (name == "gvim.exe") {
-			WinGetTitle &title, "ahk_id " . id
+			title := WinGetTitle("ahk_id " . id)
 	        If (InStr(title, fileName)) {
 				WinActivate title
 				return
@@ -187,16 +187,16 @@ RUN_OpenUrl(url, opt := 0) {
 		Run TOOLBOX_CHROME_EXE . " --app=" . url
 	} else if (Title) {
 		newTabTitleArr := []
-		newTabTitleArr[1] := "╩У ег - Chrome"
+		newTabTitleArr.Push("╩У ег - Chrome")
 
 		WinActivate Title
 		SendInput "^t"
 		if (!COMMON_WinWait_Arr(newTabTitleArr, [], 500)) {
-			return
+			;TODO: restore
+			;return
 		} 
 		SendInput "{blind}{text}" . url
 		SendInput "{Enter}"
-		;Run, %TOOLBOX_CHROME_EXE% %url%
 	} else {
 		Run TOOLBOX_CHROME_EXE . " --new-window " . url
 	}

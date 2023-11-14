@@ -235,12 +235,12 @@ $Pause::
 $+MButton::
 {
 	SendInput "{RButton}"
-	tmp := Clipboard
-	Clipboard := ""
+	tmp := A_Clipboard
+	A_Clipboard := ""
 	SendInput "e"
 	sleep 50
-	uri := Clipboard
-	Clipboard := tmp
+	uri := A_Clipboard
+	A_Clipboard := tmp
 
 	if (InStr(uri, "http") == 1) {
 		RUN_OpenUrl(uri, COMMON_OPT_APPMODE)
@@ -340,7 +340,7 @@ $!^=:: SendInput "============================================================="
 !^+o:: ListHotKeys
 !^+u::
 {
-	WinGetTitle &Title, "A"
+	Title := WinGetTitle("A")
 	PName := WinGetProcessName("A")
 	PID := WinGetPID("A")
     WinGetPos &x, &y, &w, &h, Title
@@ -383,7 +383,7 @@ closeProcess(pidOrName) {
 }
 
 getParentPath(path) {
-	return SubStr(path, 1, InStr(SubStr(path,1,-1), "\", 0, 1)-1)
+	return SubStr(path, 1, InStr(SubStr(path,1,-1), "\", 0, -1) -1)
 }
 
 getOsVer() {
@@ -485,8 +485,11 @@ reloadTypeAndRun() {
 	if (FileExist(typeandrun)) {
 		closeProcess("TypeAndRun.exe")
 		if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common)) {
-			FileDelete dir_typeandrun . "\~Config.ini"
-			FileDelete dir_typeandrun . "\Config.ini"
+			try
+			{
+				FileDelete dir_typeandrun . "\~Config.ini"
+				FileDelete dir_typeandrun . "\Config.ini"
+			}
 
 			cmd := "util_make_tar_config.ahk " . typeandrun_cfgSrc . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
@@ -497,22 +500,22 @@ reloadTypeAndRun() {
 			cmd := "util_make_tar_config_for_hotstring.ahk hs " . hotstringPath . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk ahk" . TOOLBOX_ROOT_AHK . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk ahk " . TOOLBOX_ROOT_AHK . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk cs" . TOOLBOX_ROOT_BLOG_POSTS . "\cs" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk cs " . TOOLBOX_ROOT_BLOG_POSTS . "\cs" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk kor" . TOOLBOX_ROOT_BLOG_POSTS . "\ko" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk kor " . TOOLBOX_ROOT_BLOG_POSTS . "\ko" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk en" . TOOLBOX_ROOT_NOTE_ENGLISH . "\res" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk en " . TOOLBOX_ROOT_NOTE_ENGLISH . "\res" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk fn" . TOOLBOX_GOOGLE_DRIVE . "\finance" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk fn " . TOOLBOX_GOOGLE_DRIVE . "\finance" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk o" . OFFICE_LIB_ROOT . "\docs" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk o " . OFFICE_LIB_ROOT . "\docs" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 		}
 		Run typeandrun

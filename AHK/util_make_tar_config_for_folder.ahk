@@ -1,11 +1,11 @@
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+SetWorkingDir A_ScriptDir  ; Ensures a consistent starting directory.
 #include lib_common.ahk
 
-if A_Args.Length() < 3
+if A_Args.Length < 3
 {
-	msg := "This script requires at least 2 parameters but it only received " . A_Args.Length() . "`n"
+	msg := "This script requires at least 3 parameters but it only received " . A_Args.Length . "`n"
 	msg := msg . "ex) " . A_ScriptName . "<PREFIX> <ROOT_PATH> <TARGET_FILE>"
-	MsgBox, %msg%
+	MsgBox msg
     ExitApp
 }
 
@@ -19,7 +19,7 @@ global separator := ""
 
 makeCmdLines(gsRootPath)
 
-FileAppend, %lines%, %gsTargetFile%
+FileAppend(lines, gsTargetFile)
 
 ExitApp
 
@@ -42,13 +42,14 @@ isTextExt(ext) {
 }
 
 makeCmdLines(path) {
+	Global lines
 	Local TARExe := "%TOOLBOX_ROOT_AHK%\util_run.ahk"
 	
 	lines := lines . makeCmd(TARExe, path) . "`n"
 
-	Loop, Files, %path%\*, FD
+	Loop Files, path . "\*", "FD"
 	{
-		fileAttr := FileExist(A_LoopFileLongPath)
+		fileAttr := FileExist(A_LoopFileFullPath)
 		TARExe := "%TOOLBOX_ROOT_AHK%\util_run.ahk"
 	
 		if (isIgnoreExt(A_LoopFileExt)) {
@@ -60,13 +61,13 @@ makeCmdLines(path) {
 				continue
 			}
 
-			makeCmdLines(A_LoopFileLongPath)
+			makeCmdLines(A_LoopFileFullPath)
 		} else {
 			if (isTextExt(A_LoopFileExt)) {
 				TARExe := "%TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk"
 			}
 			
-			lines := lines . makeCmd(TARExe, A_LoopFileLongPath) . "`n"
+			lines := lines . makeCmd(TARExe, A_LoopFileFullPath) . "`n"
 		}
 	}
 }
@@ -79,14 +80,14 @@ makeCmd(exe, path) {
 	
 	Loop
 	{
-		TARCmd := StrReplace(TARCmd, "\", separator, cnt)
+		TARCmd := StrReplace(TARCmd, "\", separator, , &cnt)
 	
 	    if (cnt = 0) {
 	        break
 		}
 	}
 	
-	cmd := gsPrefix . TARCmd . "|" . exe . "|""" . path . """"
+	cmd := gsPrefix . TARCmd . "|" . exe . "|`"" . path . "`""
 
 	return cmd
 }
