@@ -33,7 +33,7 @@ global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
 global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
-global hotstringPath			:= ""
+global hotstringPath			:= "tmp"
 
 global gbIsInitDone 	:= False
 
@@ -50,8 +50,9 @@ global DIRECTION_UP		:= 2
 global DIRECTION_DOWN	:= 3
 
 global bOffice := COMMON_IsOffice()
+global GuiMotto := Gui()
 
-myMotto()
+showMotto()
 
 ; Make temp file
 DirCreate tmpFolder
@@ -106,7 +107,7 @@ Run "select.ahk",,, &PID_SELECT
 
 gbIsInitDone := True
 healthNotification()
-;Gui "Destroy"
+GuiMotto.Destroy()
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
@@ -123,7 +124,7 @@ $^Delete::
 {
 	ProcessClose(PID_SELECT)
 	closeProcess("TypeAndRun.exe")
-	myMotto(200, "White")
+	showMotto(200, "White")
 	ExitApp
 }
 
@@ -133,7 +134,7 @@ $!+a::
 	Run TOOLBOX_ROOT_AHK . "\capslock2ctrl.ahk"
 	ProcessClose(PID_SELECT)
 	closeProcess("TypeAndRun.exe")
-	myMotto(500, "Green")
+	showMotto(500, "Green")
 	ExitApp
 }
 
@@ -279,9 +280,9 @@ $!^s::
 	newCapLockState := !GetKeyState("CapsLock", "T")
 
 	if (newCapLockState) {
-		myMotto(0, "F39C12")
+		showMotto(0, "F39C12")
 	} else {
-		myMotto(10)
+		showMotto(10)
 	}
 
 	SetCapsLockState newCapLockState
@@ -359,22 +360,25 @@ $!^=:: SendInput "============================================================="
 ;		Function Def.
 ;///////////////////////////////////////////////////////////////
 
-myMotto(Time := 0, backC := "Red") {
-	;fontC := "White"
-	;TEXT := "    " . motto_text . "    "
-	;h := 40
-	;y := A_ScreenHeight - h
+showMotto(Time := 0, backC := "Red") {
+	global GuiMotto
+	global motto_text
 
-	;Gui "Color", %backC%
-	;Gui "-Caption +alwaysontop +ToolWindow"
-	;Gui "Font", "s12 c" . %fontC%, "Consolas"
-	;Gui "Add", "Text", , %TEXT%
-	;Gui "Show", "y" . %y% . " h" . %h% . " NoActivate",
+	fontC := "White"
+	TEXT := "    " . motto_text . "    "
+	h := 40
+	y := A_ScreenHeight - h
 
-	;if(Time) {
-	;	Sleep Time
-	;	Gui "Destroy"
-	;}
+	GuiMotto.BackColor := backC
+	GuiMotto.Opt("-Caption +alwaysontop +ToolWindow")
+	GuiMotto.SetFont("s12 c" . fontC, "Consolas")
+	GuiMotto.Add("Text", , TEXT)
+	GuiMotto.Show("y" . y . " h" . h . " NoActivate")
+
+	if(Time) {
+		Sleep Time
+		GuiMotto.Destroy()
+	}
 }
 
 mouseMoveOnRightMid() {
@@ -470,7 +474,7 @@ setHotWin(index)
 	path := garHotWin_file[index]
 	FileDelete path
 	FileAppend winInfo, path
-	myMotto(300)
+	showMotto(300)
 }
 
 IfSend_UpDown(mode, elseStr) {

@@ -3,7 +3,7 @@ SetWorkingDir A_ScriptDir  ; Ensures a consistent starting directory.
 
 if A_Args.Length < 3
 {
-	msg := "This script requires at least 2 parameters but it only received " . A_Args.Length . "`n"
+	msg := "This script requires at least 3 parameters but it only received " . A_Args.Length . "`n"
 	msg := msg . "ex) " . A_ScriptName . "<PREFIX> <SRC_PATH> <TARGET_FILE>"
 	MsgBox msg
     ExitApp

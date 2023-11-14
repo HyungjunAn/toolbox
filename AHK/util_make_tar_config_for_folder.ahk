@@ -19,7 +19,8 @@ global separator := ""
 
 makeCmdLines(gsRootPath)
 
-FileAppend(lines, gsTargetFile)
+try
+	FileAppend(lines, gsTargetFile)
 
 ExitApp
 
