@@ -6,6 +6,18 @@ global COMMON_OPT_SUBMONITOR := 8
 global COMMON_OPT_APPMODE := 16
 global COMMON_OPT_REGEXMATCHING := 32
 
+global USERPROFILE			:= EnvGet("USERPROFILE")
+global TOOLBOX_ROOT			:= EnvGet("TOOLBOX_ROOT")
+global TOOLBOX_ROOT_AHK		:= EnvGet("TOOLBOX_ROOT_AHK")
+global TOOLBOX_CHROME_EXE 	:= EnvGet("TOOLBOX_CHROME_EXE")
+global TOOLBOX_GOOGLE_DRIVE			:= EnvGet("TOOLBOX_GOOGLE_DRIVE")
+global TOOLBOX_ROOT_BLOG_POSTS		:= EnvGet("TOOLBOX_ROOT_BLOG_POSTS")
+global TOOLBOX_ROOT_NOTE_ENGLISH	:= EnvGet("TOOLBOX_ROOT_NOTE_ENGLISH")
+
+
+global OFFICE_LIB_ROOT		:= EnvGet("OFFICE_LIB_ROOT")
+global OFFICE_SETTING_ROOT	:= EnvGet("OFFICE_SETTING_ROOT")
+
 COMMON_IsBrowser() {
 	p_name := COMMON_GetActiveWinProcName()
 
@@ -17,7 +29,7 @@ COMMON_IsOffice() {
 }
 
 COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 60) {
-    WinGetPos, x1, y1, w1, h1, A
+    WinGetPos &x1, &y1, &w1, &h1, "A"
 
 	w2 := w1 * 2 // 3
 	h2 := h1 // 32
@@ -26,12 +38,12 @@ COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 60) {
 	y2 := y1 + (h1 - h2) // 2
 
 	
-	Gui, Color, %color%
-	Gui, -Caption +alwaysontop +ToolWindow
-	Gui, Show, x%x2% y%y2% w%w2% h%h2% NoActivate,
+	Gui Color, %color%
+	Gui "-Caption +alwaysontop +ToolWindow"
+	Gui "Show", "x" . %x2% . " y" . %y2% . " w" . %w2% . " h" . %h2% . " NoActivate"
 
-	Sleep, %interval%
-	Gui, Destroy
+	Sleep %interval%
+	Gui "Destroy"
 }
 
 COMMON_Activate_SubWinTitle(subTitle, opt := 0) {
@@ -52,12 +64,12 @@ COMMON_Activate_SubWinTitleArr(subTitleArr, opt := 0) {
 		while (!Title && cnt < 100) {
 			Title := COMMON_FindWinTitle_Arr(subTitleArr)
 			cnt++
-			sleep, 20
+			sleep 20
 		}
 	}
 
 	if (Title) {
-		WinActivate, %Title%
+		WinActivate %Title%
 		return True
 	} else {
 		return False
@@ -77,14 +89,14 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 	local border := 20
 	local x := 0
 
-    WinGet windows, List
+    windows := WinGetList()
 
-	DetectHiddenWindows, On
+	DetectHiddenWindows true
 
     Loop %windows% {
     	id := windows%A_Index%
-    	WinGetPos, x, , , , ahk_id %id%
-    	WinGetTitle Title, ahk_id %id%
+    	WinGetPos &x, , , , "ahk_id " . %id%
+    	WinGetTitle &Title, "ahk_id " . %id%
 
 		if (x != -32000) {
 			if ((opt & COMMON_OPT_MAINMONITOR) && (x < -border || x > A_ScreenWidth - border)) {
@@ -94,7 +106,7 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 			}
 		}
 
-		Loop % subTitleArr.Length()
+		Loop subTitleArr.Length()
 		{
 			subTitle := subTitleArr[A_Index]
 
@@ -110,7 +122,7 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 		}
     }
 
-	DetectHiddenWindows, Off
+	DetectHiddenWindows false
 
     return ""
 }
@@ -120,7 +132,7 @@ COMMON_StrSplit(string, delimiters, commentPrefix := "//") {
 	local arrString := StrSplit(string, delimiters)
 	local retString := []
 
-	Loop % arrString.Length()
+	Loop arrString.Length()
 	{
 		tmpStr := arrString[A_Index]
 	
@@ -188,15 +200,15 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 	local threshold := timeout_ms / interval
 
 	if ((titleArr.Length() && textArr.Length()) || (!titleArr.Length() && !textArr.Length()) || timeout_ms <= 0) {
-		MsgBox, Error: wrong param
+		MsgBox "Error: wrong param"
 		return False
 	}
 
 	while (cnt < threshold) {
-    	WinGetTitle, T, A
+    	WinGetTitle T, "A"
 
 		if (titleArr.Length()) {
-			Loop % titleArr.Length()
+			Loop titleArr.Length()
 			{
 				title := titleArr[A_Index]
 		
@@ -205,7 +217,7 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 				}
 			}
 		} else {
-			Loop % textArr.Length()
+			Loop textArr.Length()
 			{
 				text := textArr[A_Index]
 		
@@ -216,23 +228,24 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 		}
 
 		cnt++
-		sleep, %interval%
+		sleep %interval%
 	}
 
 	return false
 }
 
 COMMON_IsEmpty(Dir) {
-   Loop %Dir%\*.*, 0, 1
-      return FALSE
-   return TRUE
+	Loop Files, Dir . "\*.*", "FD"
+		return FALSE
+	return TRUE
 }
 
 COMMON_GetActiveExplorerPath() {
 	explorerHwnd := WinActive("ahk_class CabinetWClass")
+
 	if (explorerHwnd)
 	{
-		for window in ComObjCreate("Shell.Application").Windows
+		for window in ComObject("Shell.Application").Windows
 		{
 			if (window.hwnd==explorerHwnd)
 			{
@@ -246,7 +259,7 @@ COMMON_GetActiveExplorerPath() {
 
 COMMON_GetSelectedItemPath() {
 	hwnd := WinExist("A")
-	for Window in ComObjCreate("Shell.Application").Windows  
+	for Window in ComObject("Shell.Application").Windows  
 	    if (window.hwnd == hwnd) {
 	        Selection := Window.Document.SelectedItems
 	        for Items in Selection
@@ -256,8 +269,7 @@ COMMON_GetSelectedItemPath() {
 }
 
 COMMON_GetActiveWinProcName() {
-    WinGet, p_name, ProcessName, A
-	return p_name
+    return  WinGetProcessName("A")
 }
 
 COMMON_ParseKeyAndDescription(path) {
@@ -265,7 +277,7 @@ COMMON_ParseKeyAndDescription(path) {
 	Local key := ""
 	Local text := ""
 
-	Loop, Read, %path%
+	Loop Read, %path%
 	{
 		if (SubStr(A_LoopReadLine, 1, 1) == ";") {
 			description := SubStr(A_LoopReadLine, 2)
@@ -292,17 +304,6 @@ COMMON_Sleep(ms) {
 	local n := ms // ms_interval
 	while (!A_IsSuspended && i != n) {
 		i++
-		Sleep, %ms_interval%
+		Sleep %ms_interval%
 	}
-}
-
-;COMMON_ChangeResolution(32,1920,1080,60)
-;COMMON_ChangeResolution(32,1360,768, 60)
-
-COMMON_ChangeResolution( cD, sW, sH, rR ) {
-  VarSetCapacity(dM,156,0), NumPut(156,2,&dM,36)
-  DllCall("EnumDisplaySettingsA", UInt,0, UInt,-1, UInt,&dM ), 
-  NumPut(0x5c0000,dM,40)
-  NumPut(cD,dM,104), NumPut(sW,dM,108), NumPut(sH,dM,112), NumPut(rR,dM,120)
-  Return DllCall("ChangeDisplaySettingsA", UInt,&dM, UInt,0 )
 }

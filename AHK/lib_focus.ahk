@@ -12,15 +12,15 @@ FOCUS_VDesktop_toggle() {
 }
 
 FOCUS_VDesktop_Main() {
-	SendInput, ^#{left}
+	SendInput "^#{left}"
 	bVirtualDesktopMain := True
 }
 
 FOCUS_VDesktop_Sub() {
 	;to prevent confused key input
-	Sleep, 100
+	Sleep 100
 
-	SendInput, ^#{right}
+	SendInput "^#{right}"
 	bVirtualDesktopMain := False
 }
 

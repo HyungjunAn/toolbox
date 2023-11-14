@@ -4,11 +4,11 @@
 global chromeSubWinNameRegExArr := []
 global firefoxSubWinNameRegExArr := []
 
-chromeSubWinNameRegExArr[1] := "- Chrome$"
-chromeSubWinNameRegExArr[2] := "- Google Chrome$"
+chromeSubWinNameRegExArr.Push "- Chrome$"
+chromeSubWinNameRegExArr.Push "- Google Chrome$"
 
-firefoxSubWinNameRegExArr[1] := " Firefox$"
-firefoxSubWinNameRegExArr[2] := " Mozila Firefox$"
+firefoxSubWinNameRegExArr.Push " Firefox$"
+firefoxSubWinNameRegExArr.Push " Mozila Firefox$"
 
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
@@ -27,9 +27,9 @@ RUN_AOR_URL(subTitle, url, opt := 0) {
 	local cmd := ""
 
 	if (opt & COMMON_OPT_APPMODE) {
-		cmd := TOOLBOX_CHROME_EXE . " --app=" . url
+		cmd := %TOOLBOX_CHROME_EXE% . " --app=" . url
 	} else {
-		cmd := TOOLBOX_CHROME_EXE . " " . url
+		cmd := %TOOLBOX_CHROME_EXE% . " " . url
 	}
 
 	return RUN_AOR_SubWinTitle(subTitle, cmd, opt)
@@ -50,12 +50,12 @@ RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 	FOCUS_MainDesktop()
 
 	if (!Title) {
-		Run, %cmd%
-		if (ErrorLevel) {
+		try 
+			Run %cmd%
+		catch
 			ret := False
-		}
 	} else {
-		WinActivate, %Title%
+		WinActivate %Title%
 	}
 
 	return ret
@@ -65,27 +65,26 @@ RUN_AOR_EXE(exePath, procName := "") {
 	FOCUS_MainDesktop()
 
 	if (!procName) {
-		SplitPath, exePath, procName
+		SplitPath exePath, procName
 	}
 
-	WinGet windows, List
+	windows := WinGetList()
 	
 	Loop %windows% {
 		id := windows%A_Index%
-		WinGet, name, ProcessName, ahk_id %id%
+		name := WinGetProcessName("ahk_id " . %id%)
 	
 		if (name == procName) {
-			WinGetTitle, title, ahk_id %id%
-			WinActivate, %title%
+			WinGetTitle &title, "ahk_id " . %id%
+			WinActivate %title%
 			return True
 		}
 	}
 
-	Run, %exePath%
-
-	if (ErrorLevel) {
+	try
+		Run %exePath%
+	catch
 		return False
-	}
 
 	return True
 }
@@ -93,30 +92,31 @@ RUN_AOR_EXE(exePath, procName := "") {
 RUN_AOR_GitBash(folderPath) {
 	FOCUS_MainDesktop()
 
-	SplitPath, folderPath, folderName
-	WinGet windows, List
+	SplitPath folderPath, &folderName
+	windows := WinGetList()
 	
 	Loop %windows% {
 		id := windows%A_Index%
-		WinGet, name, ProcessName, ahk_id %id%
+		name := WinGetProcessName("ahk_id " . %id%)
 	
 		if (name == EXE_FOR_GIT_BASH) {
-			WinGetTitle, title, ahk_id %id%
+			WinGetTitle &title, "ahk_id " . %id%
 			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
-	        IfInString, title, %folderName%, {
-				WinActivate, %title%
+			if (InStr(title, folderName)) {
+				WinActivate %title%
 				return
 			}
 		}
 	}
 
 	try
-		Run, %CMD_FOR_GIT_BASH%%folderPath%
-	catch e {
+		Run %CMD_FOR_GIT_BASH%%folderPath%
+	catch
+	{
 		CMD_FOR_GIT_BASH := "C:\Program Files\Git\git-bash.exe --cd="
 		EXE_FOR_GIT_BASH := "mintty.exe"
 
-		Run, %CMD_FOR_GIT_BASH%%folderPath%
+		Run %CMD_FOR_GIT_BASH%%folderPath%
 	}
 }
 
@@ -125,10 +125,10 @@ RUN_AOR_PowerShell(folderPath) {
 
 	FOCUS_MainDesktop()
 
-	SplitPath, folderPath, folderName
-	WinGet windows, List
+	SplitPath folderPath, &folderName
+	windows := WinGetList()
 
-	ifExist, C:\Program Files\PowerShell, {
+	if DirExist("C:\Program Files\PowerShell") {
 		exe := "pwsh.exe"
 	} else {
 		exe := "powershell.exe"
@@ -136,41 +136,41 @@ RUN_AOR_PowerShell(folderPath) {
 	
 	Loop %windows% {
 		id := windows%A_Index%
-		WinGet, name, ProcessName, ahk_id %id%
+		name := WinGetProcessName("ahk_id " . %id%)
 	
 		if (name == exe) {
-			WinGetTitle, title, ahk_id %id%
+			WinGetTitle &title, "ahk_id " . %id%
 			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
-	        IfInString, title, powershell, {
-				WinActivate, %title%
+	        If (InStr(title, "powershell")) {
+				WinActivate %title%
 				return
 			}
 		}
 	}
 	
-	Run, %exe% -noexit -command "cd %folderPath%"
+	Run %exe% . " -noexit -command cd " . %folderPath%
 }
 
 RUN_AOR_Gvim(filePath) {
 	FOCUS_MainDesktop()
 
-	SplitPath, filePath, fileName
+	SplitPath filePath, &fileName
 
-	WinGet windows, List
+	windows := WinGetList()
 	Loop %windows% {
 		id := windows%A_Index%
-		WinGet, name, ProcessName, ahk_id %id%
+		name := WinGetProcessName("ahk_id " . %id%)
 
 		if (name == "gvim.exe") {
-			WinGetTitle, title, ahk_id %id%
-	        IfInString, title, %fileName%, {
-				WinActivate, %title%
+			WinGetTitle &title, "ahk_id " . %id%
+	        If (InStr(title, fileName)) {
+				WinActivate %title%
 				return
 			}
 		}
 	}
 	
-	Run, gvim "%filePath%"
+	Run "gvim " . %filePath%
 }
 
 RUN_OpenUrl(url, opt := 0) {
@@ -180,21 +180,21 @@ RUN_OpenUrl(url, opt := 0) {
 	FOCUS_MainDesktop()
 
 	if (opt & COMMON_OPT_APPMODE) {
-		Run, %TOOLBOX_CHROME_EXE% --app=%url%
+		Run %TOOLBOX_CHROME_EXE% . " --app=" . %url%
 	} else if (Title) {
 		newTabTitleArr := []
 		newTabTitleArr[1] := "╩У ег - Chrome"
 
-		WinActivate, %Title%
-		SendInput, ^t
+		WinActivate %Title%
+		SendInput "^t"
 		if (!COMMON_WinWait_Arr(newTabTitleArr, [], 500)) {
 			return
 		} 
-		SendInput, {blind}{text}%url%
-		SendInput, {Enter}
+		SendInput "{blind}{text}" . %url%
+		SendInput "{Enter}"
 		;Run, %TOOLBOX_CHROME_EXE% %url%
 	} else {
-		Run, %TOOLBOX_CHROME_EXE% --new-window %url%
+		Run %TOOLBOX_CHROME_EXE% . " --new-window " . %url%
 	}
 
 	return

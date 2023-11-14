@@ -10,8 +10,8 @@ VPC_IsExistVpc() {
 }
 
 VPC_IsCurWinVpc() {
-	WinGetTitle, Title, A
-	IfInString, Title, %_gsVpcWinTitle%
+	WinGetTitle &Title, "A"
+	If (InStr(Title, _gsVpcWinTitle))
 	{
 		return True
 	}
@@ -19,30 +19,20 @@ VPC_IsCurWinVpc() {
 }
 
 VPC_ActivateVpc() {
-	if (VPC_IsExistVPC()) {
-		;Gui, VPC:Destroy
-		WinActivate, %_gsVpcWinTitle%
-		;VPC_Notify("Red")
-		return True
-	}
-	return False
-}
-
-VPC_Notify(backC) {
-	Gui, VPC:Color, %backC%
-	Gui, VPC:-Caption +alwaysontop +ToolWindow
-	H := 40
-	Y := A_ScreenHeight - H
-	Gui, VPC:Show, w200 y%Y% h%H% NoActivate, GUI_VPC_NOTIFIY
+       if (VPC_IsExistVPC()) {
+               WinActivate %_gsVpcWinTitle%
+               return True
+       }
+       return False
 }
 
 VPC_FocusOut() {
-	if (VPC_IsCurWinVpc()) {
-		MsgBox, , , , 0.001
-		WinMinimize, %_gsVpcWinTitle%
-		;VPC_Notify("39E114")
-	}
+       if (VPC_IsCurWinVpc()) {
+               MsgBox , , "T0.001"
+               WinMinimize %_gsVpcWinTitle%
+       }
 }
+
 
 VPC_Switch() {
 	if (VPC_IsExistVpc()) {
@@ -53,7 +43,6 @@ VPC_Switch() {
 		}
 		return True
 	} else {
-		Gui, VPC:Destroy
 		return False
 	}
 }
@@ -67,10 +56,10 @@ VPC_GetMouseOverUri() {
 		cnt := 10
 
 		while (cnt && !Clipboard) {
-			SendInput, {RButton}
-			sleep, 50
-			SendInput, e
-			sleep, 50
+			SendInput "{RButton}"
+			sleep 50
+			SendInput "e"
+			sleep 50
 			cnt--
 		}
 

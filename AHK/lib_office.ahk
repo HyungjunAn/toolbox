@@ -1,3 +1,5 @@
+#include lib_common.ahk
+
 global OFFICE_LIB				:= OFFICE_LIB_ROOT
 global OFFICE_SETTING			:= OFFICE_SETTING_ROOT
 global OFFICE_SETTING_HOTSTRING	:= OFFICE_SETTING . "\hotstring"
