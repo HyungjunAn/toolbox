@@ -27,9 +27,9 @@ RUN_AOR_URL(subTitle, url, opt := 0) {
 	local cmd := ""
 
 	if (opt & COMMON_OPT_APPMODE) {
-		cmd := %TOOLBOX_CHROME_EXE% . " --app=" . url
+		cmd := TOOLBOX_CHROME_EXE . " --app=" . url
 	} else {
-		cmd := %TOOLBOX_CHROME_EXE% . " " . url
+		cmd := TOOLBOX_CHROME_EXE . " " . url
 	}
 
 	return RUN_AOR_SubWinTitle(subTitle, cmd, opt)
@@ -38,7 +38,7 @@ RUN_AOR_URL(subTitle, url, opt := 0) {
 RUN_AOR_SubWinTitle(subTitle, cmd, opt := 0) {
 	Local subTitleArr := []
 
-	subTitleArr[1] := subTitle
+	subTitleArr.Push(subTitle)
 	
 	return RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt)
 }
@@ -51,11 +51,11 @@ RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 
 	if (!Title) {
 		try 
-			Run %cmd%
+			Run cmd
 		catch
 			ret := False
 	} else {
-		WinActivate %Title%
+		WinActivate Title
 	}
 
 	return ret
@@ -65,24 +65,24 @@ RUN_AOR_EXE(exePath, procName := "") {
 	FOCUS_MainDesktop()
 
 	if (!procName) {
-		SplitPath exePath, procName
+		SplitPath(exePath, &procName)
 	}
 
 	windows := WinGetList()
 	
-	Loop %windows% {
-		id := windows%A_Index%
-		name := WinGetProcessName("ahk_id " . %id%)
+	Loop windows.Length {
+		id := windows[A_Index]
+		name := WinGetProcessName("ahk_id " . id)
 	
 		if (name == procName) {
-			WinGetTitle &title, "ahk_id " . %id%
-			WinActivate %title%
+			title := WinGetTitle("ahk_id " . id)
+			WinActivate(title)
 			return True
 		}
 	}
 
 	try
-		Run %exePath%
+		Run exePath
 	catch
 		return False
 
@@ -90,33 +90,37 @@ RUN_AOR_EXE(exePath, procName := "") {
 }
 
 RUN_AOR_GitBash(folderPath) {
+	global EXE_FOR_GIT_BASH
+	global CMD_FOR_GIT_BASH
+
+
 	FOCUS_MainDesktop()
 
 	SplitPath folderPath, &folderName
 	windows := WinGetList()
 	
-	Loop %windows% {
-		id := windows%A_Index%
-		name := WinGetProcessName("ahk_id " . %id%)
+	Loop windows.Length {
+		id := windows[A_Index]
+		name := WinGetProcessName("ahk_id " . id)
 	
 		if (name == EXE_FOR_GIT_BASH) {
-			WinGetTitle &title, "ahk_id " . %id%
+			title := WinGetTitle("ahk_id " . id)
 			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
 			if (InStr(title, folderName)) {
-				WinActivate %title%
+				WinActivate title
 				return
 			}
 		}
 	}
 
 	try
-		Run %CMD_FOR_GIT_BASH%%folderPath%
+		Run CMD_FOR_GIT_BASH . folderPath
 	catch
 	{
 		CMD_FOR_GIT_BASH := "C:\Program Files\Git\git-bash.exe --cd="
 		EXE_FOR_GIT_BASH := "mintty.exe"
 
-		Run %CMD_FOR_GIT_BASH%%folderPath%
+		Run CMD_FOR_GIT_BASH . folderPath
 	}
 }
 
@@ -134,21 +138,21 @@ RUN_AOR_PowerShell(folderPath) {
 		exe := "powershell.exe"
 	}
 	
-	Loop %windows% {
-		id := windows%A_Index%
-		name := WinGetProcessName("ahk_id " . %id%)
+	Loop windows.Length {
+		id := windows[A_Index]
+		name := WinGetProcessName("ahk_id " . id)
 	
 		if (name == exe) {
-			WinGetTitle &title, "ahk_id " . %id%
+			WinGetTitle &title, "ahk_id " . id
 			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
 	        If (InStr(title, "powershell")) {
-				WinActivate %title%
+				WinActivate title
 				return
 			}
 		}
 	}
 	
-	Run %exe% . " -noexit -command cd " . %folderPath%
+	Run exe . " -noexit -command cd " . folderPath
 }
 
 RUN_AOR_Gvim(filePath) {
@@ -157,20 +161,20 @@ RUN_AOR_Gvim(filePath) {
 	SplitPath filePath, &fileName
 
 	windows := WinGetList()
-	Loop %windows% {
-		id := windows%A_Index%
-		name := WinGetProcessName("ahk_id " . %id%)
+	Loop windows.Length {
+		id := windows[A_Index]
+		name := WinGetProcessName("ahk_id " . id)
 
 		if (name == "gvim.exe") {
-			WinGetTitle &title, "ahk_id " . %id%
+			WinGetTitle &title, "ahk_id " . id
 	        If (InStr(title, fileName)) {
-				WinActivate %title%
+				WinActivate title
 				return
 			}
 		}
 	}
 	
-	Run "gvim " . %filePath%
+	Run "gvim " . filePath
 }
 
 RUN_OpenUrl(url, opt := 0) {
@@ -180,21 +184,21 @@ RUN_OpenUrl(url, opt := 0) {
 	FOCUS_MainDesktop()
 
 	if (opt & COMMON_OPT_APPMODE) {
-		Run %TOOLBOX_CHROME_EXE% . " --app=" . %url%
+		Run TOOLBOX_CHROME_EXE . " --app=" . url
 	} else if (Title) {
 		newTabTitleArr := []
 		newTabTitleArr[1] := "╩У ег - Chrome"
 
-		WinActivate %Title%
+		WinActivate Title
 		SendInput "^t"
 		if (!COMMON_WinWait_Arr(newTabTitleArr, [], 500)) {
 			return
 		} 
-		SendInput "{blind}{text}" . %url%
+		SendInput "{blind}{text}" . url
 		SendInput "{Enter}"
 		;Run, %TOOLBOX_CHROME_EXE% %url%
 	} else {
-		Run %TOOLBOX_CHROME_EXE% . " --new-window " . %url%
+		Run TOOLBOX_CHROME_EXE . " --new-window " . url
 	}
 
 	return

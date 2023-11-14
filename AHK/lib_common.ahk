@@ -38,11 +38,11 @@ COMMON_GUI_BlinkActiveWin(color := "F39C12", interval := 60) {
 	y2 := y1 + (h1 - h2) // 2
 
 	
-	Gui Color, %color%
+	Gui Color, color
 	Gui "-Caption +alwaysontop +ToolWindow"
-	Gui "Show", "x" . %x2% . " y" . %y2% . " w" . %w2% . " h" . %h2% . " NoActivate"
+	Gui "Show", "x" . x2 . " y" . y2 . " w" . w2 . " h" . h2 . " NoActivate"
 
-	Sleep %interval%
+	Sleep interval
 	Gui "Destroy"
 }
 
@@ -69,7 +69,7 @@ COMMON_Activate_SubWinTitleArr(subTitleArr, opt := 0) {
 	}
 
 	if (Title) {
-		WinActivate %Title%
+		WinActivate Title
 		return True
 	} else {
 		return False
@@ -93,10 +93,10 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 
 	DetectHiddenWindows true
 
-    Loop %windows% {
-    	id := windows%A_Index%
-    	WinGetPos &x, , , , "ahk_id " . %id%
-    	WinGetTitle &Title, "ahk_id " . %id%
+    Loop windows.Length {
+    	id := windows[A_Index]
+    	WinGetPos &x, , , , "ahk_id " . id
+    	Title := WinGetTitle("ahk_id " . id)
 
 		if (x != -32000) {
 			if ((opt & COMMON_OPT_MAINMONITOR) && (x < -border || x > A_ScreenWidth - border)) {
@@ -106,7 +106,7 @@ COMMON_FindWinTitle_Arr(subTitleArr, opt := 0) {
 			}
 		}
 
-		Loop subTitleArr.Length()
+		Loop subTitleArr.Length
 		{
 			subTitle := subTitleArr[A_Index]
 
@@ -228,7 +228,7 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 		}
 
 		cnt++
-		sleep %interval%
+		sleep interval
 	}
 
 	return false
@@ -277,7 +277,7 @@ COMMON_ParseKeyAndDescription(path) {
 	Local key := ""
 	Local text := ""
 
-	Loop Read, %path%
+	Loop Read, path
 	{
 		if (SubStr(A_LoopReadLine, 1, 1) == ";") {
 			description := SubStr(A_LoopReadLine, 2)
@@ -304,6 +304,6 @@ COMMON_Sleep(ms) {
 	local n := ms // ms_interval
 	while (!A_IsSuspended && i != n) {
 		i++
-		Sleep %ms_interval%
+		Sleep ms_interval
 	}
 }

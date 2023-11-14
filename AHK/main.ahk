@@ -15,7 +15,6 @@
 ;///////////////////////////////////////////////////////////////
 ;		Serial Code
 ;///////////////////////////////////////////////////////////////
-#include %A_ScriptDir%
 #include lib_common.ahk
 #include lib_focus.ahk
 #include lib_run.ahk
@@ -90,9 +89,13 @@ SetScrollLockState false
 
 DetectHiddenWindows true
 AHKList := WinGetList("ahk_class AutoHotkey")
-Loop %AHKList%
+
+
+
+Loop AHKList.Length
 {
-    ID := "AHKList" . A_Index
+    ID := AHKList[A_Index]
+
     If (ID != A_ScriptHwnd)
         WinClose "ahk_id " . ID
 }
@@ -103,7 +106,7 @@ Run "select.ahk",,, &PID_SELECT
 
 gbIsInitDone := True
 healthNotification()
-Gui "Destroy"
+;Gui "Destroy"
 
 ;///////////////////////////////////////////////////////////////
 ;		Hot Key
@@ -111,14 +114,14 @@ Gui "Destroy"
 ; Reload Script
 $!+r:: 
 {
-	ProcessClose %PID_SELECT%
+	ProcessClose PID_SELECT
 	closeProcess("TypeAndRun.exe")
 	Reload
 }
 
 $^Delete::
 {
-	ProcessClose %PID_SELECT%
+	ProcessClose(PID_SELECT)
 	closeProcess("TypeAndRun.exe")
 	myMotto(200, "White")
 	ExitApp
@@ -127,8 +130,8 @@ $^Delete::
 ; Control Script Suspending
 $!+a:: 
 {
-	Run %TOOLBOX_ROOT_AHK% . "\capslock2ctrl.ahk"
-	ProcessClose %PID_SELECT%
+	Run TOOLBOX_ROOT_AHK . "\capslock2ctrl.ahk"
+	ProcessClose(PID_SELECT)
 	closeProcess("TypeAndRun.exe")
 	myMotto(500, "Green")
 	ExitApp
@@ -137,8 +140,8 @@ $!+a::
 ;------------------------------------
 ; Folder
 ;------------------------------------
-$!^g::	Run %TOOLBOX_ROOT%
-$#d:: 	Run %USERPROFILE% . "\Desktop"
+$!^g::	Run TOOLBOX_ROOT
+$#d:: 	Run USERPROFILE . "\Desktop"
 $#e::	Run "shell:mycomputerfolder"
 
 ;------------------------------------
@@ -147,12 +150,12 @@ $#e::	Run "shell:mycomputerfolder"
 $^.::
 {
 	FOCUS_MainDesktop()
-    p_name := WinGetProcessName("ahk_pid " . %PID_GVIM_FAVORITE%)
+    p_name := WinGetProcessName("ahk_pid " . PID_GVIM_FAVORITE)
 
 	if (p_name != "gvim.exe") {
 		FileList := "_memo.txt`n"
 
-		Loop Files, %gvimFavorite% . "\*.txt"
+		Loop Files, gvimFavorite . "\*.txt"
 		{
 			FileList .= A_LoopFileName "`n"
 		}
@@ -162,9 +165,9 @@ $^.::
 			title := COMMON_FindWinTitle(A_LoopField, False)
 
 			if (title) {
-				WinActivate %title%
+				WinActivate title
 				
-				if (!WinWaitActive(%title%,, 2)) {
+				if (!WinWaitActive(title,, 2)) {
     				PID_GVIM_FAVORITE := WinGetPID("A")
 				}
 
@@ -172,7 +175,7 @@ $^.::
 			}
 		}
 
-		Run "gvim " . %gvimFavorite% . "\*.txt" . " " .  %USERPROFILE% . "\Desktop\stable\_memo.txt",,, PID_GVIM_FAVORITE
+		Run "gvim " . gvimFavorite . "\*.txt" . " " .  USERPROFILE . "\Desktop\stable\_memo.txt",,, PID_GVIM_FAVORITE
 
 		return
 	}
@@ -180,7 +183,7 @@ $^.::
     curPid := WinGetPID("A")
 	
 	if (curPid != PID_GVIM_FAVORITE) {
-		WinActivate "ahk_pid " . %PID_GVIM_FAVORITE%
+		WinActivate "ahk_pid " . PID_GVIM_FAVORITE
 	} else {
 		SendInput "^p"
 	}
@@ -340,8 +343,8 @@ $!^=:: SendInput "============================================================="
 	WinGetTitle &Title, "A"
 	PName := WinGetProcessName("A")
 	PID := WinGetPID("A")
-    WinGetPos &x, &y, &w, &h, %Title%
-	MsgBox "PID: " . %PID% . "`nProcessName: " . %PName% . "`nWinTitle: " . %Title% . "`nx" . %x% . " y" . %y% . " w" . %w% . " h" . %h% . "`nscreen W[" . %A_ScreenWidth% . "] H[" . %A_ScreenHeight% . "]"
+    WinGetPos &x, &y, &w, &h, Title
+	MsgBox "PID: " . PID . "`nProcessName: " . PName . "`nWinTitle: " . Title . "`nx" . x . " y" . y . " w" . w . " h" . h . "`nscreen W[" . A_ScreenWidth . "] H[" . A_ScreenHeight . "]"
 	;ListHotKeys
 	return
 }
@@ -372,11 +375,11 @@ mouseMoveOnRightMid() {
     WinGetPos , , &Width, &Height, "A"
     x_corner := Width - 40
     y_mid    := Height // 2
-    MouseMove %x_corner%, %y_mid%, 0
+    MouseMove x_corner, y_mid, 0
 }
 
 closeProcess(pidOrName) {
-	ProcessClose %pidOrName%
+	ProcessClose(pidOrName)
 }
 
 getParentPath(path) {
@@ -393,7 +396,7 @@ getUriArrayFromFile(path, arTitle, arAddress)
 {
 	local cnt := 0
 
-	Loop Read, %path%
+	Loop Read, path
 	{
 		local arrStr := COMMON_StrSplit(A_LoopReadLine, A_Tab)
 
@@ -411,7 +414,7 @@ getUriFromFile(path, &title, &address)
 {
 	local bIsTitleReadTurn := True
 
-	Loop Read, %path%
+	Loop Read, path
 	{
 		if bIsTitleReadTurn
 		{
@@ -432,7 +435,7 @@ activateHotWin(index)
 
 	info := garHotWin_info[index]
 
-	if (ProcessExist(%info%)) {
+	if (ProcessExist(info)) {
 		actCmd := "ahk_pid " . info
 	} else if (WinExist(info)) {
 		actCmd := info
@@ -441,7 +444,7 @@ activateHotWin(index)
 	}
 
 	FOCUS_MainDesktop()
-	WinActivate %actCmd%
+	WinActivate actCmd
 	COMMON_GUI_BlinkActiveWin()
 }
 
@@ -459,8 +462,8 @@ setHotWin(index)
 	garHotWin_info[index] := winInfo
 
 	path := garHotWin_file[index]
-	FileDelete %path%
-	FileAppend %winInfo%, %path%
+	FileDelete path
+	FileAppend winInfo, path
 	myMotto(300)
 }
 
@@ -470,49 +473,49 @@ IfSend_UpDown(mode, elseStr) {
 	switch (COMMON_GetActiveWinProcName()) {
 	case "KakaoTalk.exe", "firefox.exe":
         mouseMoveOnRightMid()
-    	SendInput "{Wheel" . %direction% . "}"
+    	SendInput "{Wheel" . direction . "}"
 	case "PowerShell.exe":
-		SendInput "{%direction%}"
+		SendInput "{" . direction . "}"
 	default:
-		SendInput %elseStr%
+		SendInput elseStr
 	}
 }
 
 reloadTypeAndRun() {
-	if (FileExist(%typeandrun%)) {
+	if (FileExist(typeandrun)) {
 		closeProcess("TypeAndRun.exe")
 		if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common)) {
-			FileDelete %dir_typeandrun% . "\~Config.ini"
-			FileDelete %dir_typeandrun% . "\Config.ini"
+			FileDelete dir_typeandrun . "\~Config.ini"
+			FileDelete dir_typeandrun . "\Config.ini"
 
-			cmd := "util_make_tar_config.ahk " . %typeandrun_cfgSrc% . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config.ahk " . typeandrun_cfgSrc . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config.ahk " . %typeandrun_cfgSrc_Common% . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config.ahk " . typeandrun_cfgSrc_Common . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config_for_hotstring.ahk hs " . %hotstringPath% . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config_for_hotstring.ahk hs " . hotstringPath . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk ahk" . %TOOLBOX_ROOT_AHK% . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config_for_folder.ahk ahk" . TOOLBOX_ROOT_AHK . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk cs" . %TOOLBOX_ROOT_BLOG_POSTS% . "\cs" . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config_for_folder.ahk cs" . TOOLBOX_ROOT_BLOG_POSTS . "\cs" . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk kor" . %TOOLBOX_ROOT_BLOG_POSTS% . "\ko" . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config_for_folder.ahk kor" . TOOLBOX_ROOT_BLOG_POSTS . "\ko" . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk en" . %TOOLBOX_ROOT_NOTE_ENGLISH% . "\res" . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config_for_folder.ahk en" . TOOLBOX_ROOT_NOTE_ENGLISH . "\res" . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk fn" . %TOOLBOX_GOOGLE_DRIVE% . "\finance" . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config_for_folder.ahk fn" . TOOLBOX_GOOGLE_DRIVE . "\finance" . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk o" . %OFFICE_LIB_ROOT% . "\docs" . " " . %dir_typeandrun% . "\Config.ini"
-			RunWait %cmd%
+			cmd := "util_make_tar_config_for_folder.ahk o" . OFFICE_LIB_ROOT . "\docs" . " " . dir_typeandrun . "\Config.ini"
+			RunWait cmd
 		}
-		Run %typeandrun%
+		Run typeandrun
 	}
 }
 
@@ -524,9 +527,9 @@ runWinFindTool() {
 
     windows := WinGetList()
 
-    Loop %windows% {
-    	id := windows%A_Index%
-    	WinGetTitle &Title, "ahk_id " . %id%
+    Loop windows.List {
+    	id := windows[A_Index]
+    	WinGetTitle &Title, "ahk_id " . id
 		if (Title) {
 			Titles := Titles . Title . "`n"
 			Line := Line + 1
@@ -537,7 +540,7 @@ runWinFindTool() {
 
 	Height := 30 * Line
 
-	IB := InputBox("Type Window Name to Find", %Titles%, "h800 T10")
+	IB := InputBox("Type Window Name to Find", Titles, "h800 T10")
 
 	if (IB.Value) {
 		subName := IB.Value
@@ -545,11 +548,11 @@ runWinFindTool() {
 		return
 	}
 	
-    Loop %windows% {
-    	id := windows%A_Index%
-    	WinGetTitle &Title, "ahk_id " . %id%
+    Loop windows.Length {
+    	id := windows[A_Index]
+    	WinGetTitle &Title, "ahk_id " . id
         If (InStr(Title, subName)) {
-			WinActivate %Title%
+			WinActivate Title
 		}
     }
 }
@@ -560,13 +563,13 @@ healthNotification() {
 	Local curTime := ""
 	Local oldTime := ""
 
-	If (FileExist(f)) {
-		FileAppend 0, %f%
+	If (!FileExist(f)) {
+		FileAppend "0", f
 	}
 
 	curTime := FormatTime("R", "yyMMdd")
 
-	Loop Read, %f%
+	Loop Read, f
 	{
 		oldTime := A_LoopReadLine
 	}
@@ -575,8 +578,8 @@ healthNotification() {
 		return
 	}
 
-	FileDelete %f%
-	FileAppend %curTime%, %f%
+	FileDelete f
+	FileAppend curTime, f
 
 	;text := text . "운동: 6/1W`n"
 	;text := text . "양치: 2/1D`n"
@@ -591,5 +594,5 @@ healthNotification() {
 	;text := text . "[금지] 과음, 과식, 당류, 폰질`n"
 	text := motto_text
 
-	MsgBox %text%
+	MsgBox text
 }

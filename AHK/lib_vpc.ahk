@@ -10,7 +10,7 @@ VPC_IsExistVpc() {
 }
 
 VPC_IsCurWinVpc() {
-	WinGetTitle &Title, "A"
+	Title := WinGetTitle("A")
 	If (InStr(Title, _gsVpcWinTitle))
 	{
 		return True
@@ -20,7 +20,7 @@ VPC_IsCurWinVpc() {
 
 VPC_ActivateVpc() {
        if (VPC_IsExistVPC()) {
-               WinActivate %_gsVpcWinTitle%
+               WinActivate _gsVpcWinTitle
                return True
        }
        return False
@@ -29,7 +29,7 @@ VPC_ActivateVpc() {
 VPC_FocusOut() {
        if (VPC_IsCurWinVpc()) {
                MsgBox , , "T0.001"
-               WinMinimize %_gsVpcWinTitle%
+               WinMinimize _gsVpcWinTitle
        }
 }
 
