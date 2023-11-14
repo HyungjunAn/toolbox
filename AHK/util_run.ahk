@@ -7,6 +7,6 @@ if (A_Args.Length < 1) {
 
 cmd := A_Args[1]
 
-Run, %cmd%
+Run cmd
 
 ExitApp

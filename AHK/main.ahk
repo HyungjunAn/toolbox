@@ -149,8 +149,14 @@ $#e::	Run "shell:mycomputerfolder"
 ;------------------------------------
 $^.::
 {
+	Global PID_GVIM_FAVORITE
+
 	FOCUS_MainDesktop()
-    p_name := WinGetProcessName("ahk_pid " . PID_GVIM_FAVORITE)
+
+	try
+    	p_name := WinGetProcessName("ahk_pid " . PID_GVIM_FAVORITE)
+	catch
+		p_name := ""
 
 	if (p_name != "gvim.exe") {
 		FileList := "_memo.txt`n"
@@ -175,7 +181,7 @@ $^.::
 			}
 		}
 
-		Run "gvim " . gvimFavorite . "\*.txt" . " " .  USERPROFILE . "\Desktop\stable\_memo.txt",,, PID_GVIM_FAVORITE
+		Run "gvim " . gvimFavorite . "\*.txt" . " " .  USERPROFILE . "\Desktop\stable\_memo.txt",,, &PID_GVIM_FAVORITE
 
 		return
 	}

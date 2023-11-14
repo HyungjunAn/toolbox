@@ -33,10 +33,6 @@ global prefix := ""
 Loop Read, gsSrcFile
 {
 	line := A_LoopReadLine
-	
-    if (!line) {
-        break
-	}
 
 	arrStr := COMMON_StrSplit(line, A_Tab)
 	n := arrStr.Length
