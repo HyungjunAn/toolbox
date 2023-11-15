@@ -32,8 +32,16 @@ suspendOff() {
 }
 
 if (bOffice) {
-	;FileReadLine officeUrl_title, %OFFICE_SETTING_URL%, 1
-	;FileReadLine officeUrl_url, %OFFICE_SETTING_URL%, 2
+	Loop Read, OFFICE_SETTING_URL {
+		if (A_Index == 1) {
+			officeUrl_title := A_LoopReadLine
+		} else if (A_Index == 2) {
+			officeUrl_url := A_LoopReadLine
+		} else {
+			break
+		}
+	}
+
 	start_script := OFFICE_SETTING . "\AHK\start.ahk"
 }
 
@@ -210,11 +218,11 @@ $i::
 $0::
 {
 	suspendOn()
-	;if (bOffice) {
-	;	RUN_AOR_URL(officeUrl_title, officeUrl_url, COMMON_OPT_APPMODE)
-	;} else {
-	;	RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
-	;}
+	if (bOffice) {
+		RUN_AOR_URL(officeUrl_title, officeUrl_url, COMMON_OPT_APPMODE)
+	} else {
+		RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
+	}
 }
 
 ;Messenger
