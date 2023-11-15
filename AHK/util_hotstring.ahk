@@ -1,26 +1,25 @@
-FileEncoding UTF-8
+FileEncoding "UTF-8"
 
-if (A_Args.Length() < 1) {
+if (A_Args.Length < 1) {
 	msg := "This script requires at least 1 parameters but it doesn't received`n"
 	msg := msg . "ex) " . A_ScriptName . "<FILE_NAME>"
-	MsgBox, %msg%
+	MsgBox msg
     ExitApp
 }
 
-file := A_Args[1]
+f := A_Args[1]
+tmp := A_Clipboard 
+A_Clipboard := FileRead(f)
 
-tmp := Clipboard 
-FileRead, Clipboard, %file%
-
-WinGet, pname, ProcessName, A
+pname := WinGetProcessName("A")
 
 Switch pname
 {
 Case "cmd.exe", "MobaXterm.exe", "ttermpro.exe", "WindowsTerminal.exe":
-	Send, +{Insert}
+	Send "+{Insert}"
 Default:
-	Send, ^v
+	Send "^v"
 }
 
-Clipboard := tmp
+A_Clipboard := tmp
 ExitApp
