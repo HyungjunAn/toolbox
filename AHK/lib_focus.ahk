@@ -3,6 +3,8 @@
 global bVirtualDesktopMain := True
 
 FOCUS_VDesktop_toggle() {
+global bVirtualDesktopMain
+
 	if (bVirtualDesktopMain) {
 		FOCUS_VDesktop_Sub()
 	} else {
