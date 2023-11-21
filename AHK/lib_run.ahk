@@ -187,13 +187,12 @@ RUN_OpenUrl(url, opt := 0) {
 		Run TOOLBOX_CHROME_EXE . " --app=" . url
 	} else if (Title) {
 		newTabTitleArr := []
-		newTabTitleArr.Push("»õ ÅÇ - Chrome")
+		newTabTitleArr.Push("ìƒˆ íƒ­ - Chrome")
 
 		WinActivate Title
 		SendInput "^t"
 		if (!COMMON_WinWait_Arr(newTabTitleArr, [], 500)) {
-			;TODO: restore
-			;return
+			return
 		} 
 		SendInput "{blind}{text}" . url
 		SendInput "{Enter}"

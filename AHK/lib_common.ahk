@@ -205,7 +205,7 @@ COMMON_WinWait_Arr(titleArr, textArr, timeout_ms) {
 	}
 
 	while (cnt < threshold) {
-    	WinGetTitle T, "A"
+    	T := WinGetTitle("A")
 
 		if (titleArr.Length) {
 			Loop titleArr.Length

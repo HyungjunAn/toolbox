@@ -186,7 +186,7 @@ $y::
 	RUN_AOR_URL("YouTube", "https://www.youtube.com/", COMMON_OPT_APPMODE)
 }
 
-;¹Ğ¸®ÀÇ ¼­Àç
+;ë°€ë¦¬ì˜ ì„œì¬
 $b::
 {
 	suspendOn()
@@ -237,7 +237,7 @@ $`;::
 		else
 			cmd := "C:\Program Files\Kakao\KakaoTalk\KakaoTalk.exe"
 
-		;RUN_AOR_SubWinTitle("Ä«Ä«¿ÀÅå", cmd)
+		RUN_AOR_SubWinTitle("ì¹´ì¹´ì˜¤í†¡", cmd)
 	}
 }
 
