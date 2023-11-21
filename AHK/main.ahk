@@ -212,8 +212,8 @@ $!^e::	RUN_AOR_GitBash(TOOLBOX_ROOT)
 $#c::
 {
 	subTitleArr := []
-	subTitleArr[1] := "母贸 档备"
-	subTitleArr[2] := "Snipping Tool"
+	subTitleArr.Push("母贸 档备")
+	subTitleArr.Push("Snipping Tool")
 
 	RUN_AOR_EXE("SnippingTool.exe")
 	COMMON_Activate_SubWinTitleArr(subTitleArr, COMMON_OPT_WAIT)
