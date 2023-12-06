@@ -23,14 +23,16 @@ suspendOff() {
 	Suspend false
 	FOCUS_MainDesktop()
 
-	GuiSelect.BackColor := "303030"
-	GuiSelect.Opt("-Caption +alwaysontop +ToolWindow")
-	GuiSelect.SetFont("s12 cWhite", "Consolas")
-	GuiSelect.Add("Text", , guiText)
-	GuiSelect.Show("NoActivate")
+	try {
+		GuiSelect.BackColor := "303030"
+		GuiSelect.Opt("-Caption +alwaysontop +ToolWindow")
+		GuiSelect.SetFont("s12 cWhite", "Consolas")
+		GuiSelect.Add("Text", , guiText)
+		GuiSelect.Show("NoActivate")
 
-	COMMON_Sleep(10000)
-	suspendOn()
+		COMMON_Sleep(10000)
+		suspendOn()
+	}
 }
 
 if (bOffice) {
