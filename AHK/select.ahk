@@ -1,3 +1,5 @@
+FileEncoding "UTF-8"
+
 #include lib_run.ahk
 #include lib_office.ahk
 

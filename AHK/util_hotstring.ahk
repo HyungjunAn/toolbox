@@ -7,10 +7,8 @@ if (A_Args.Length < 1) {
     ExitApp
 }
 
-f := A_Args[1]
 tmp := A_Clipboard 
-A_Clipboard := FileRead(f)
-
+A_Clipboard := FileRead(A_Args[1])
 pname := WinGetProcessName("A")
 
 Switch pname
@@ -21,5 +19,7 @@ Default:
 	Send "^v"
 }
 
+; sleep to prevent overwriting by assign
+Sleep 100
 A_Clipboard := tmp
 ExitApp
