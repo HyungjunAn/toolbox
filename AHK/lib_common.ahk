@@ -1,3 +1,5 @@
+FileEncoding "UTF-8"
+
 global COMMON_OPT_NONE := 0
 global COMMON_OPT_WAIT := 1
 global COMMON_OPT_FULLMATCHING := 2

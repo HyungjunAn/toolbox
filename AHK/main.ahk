@@ -1,3 +1,5 @@
+FileEncoding "UTF-8"
+
 #Requires AutoHotkey v2.0-a
 
 ;###############################################################
@@ -5,7 +7,7 @@
 ;###############################################################
 
 ;	TODO
-;¸ŞÀÏ uri ÆÄÀÏ¿¡¼­ ÀĞ¾î¿À´Â ºÎºĞ ÇÊ¿ä¾øÀ¸¸é »èÁ¦
+;ë©”ì¼ uri íŒŒì¼ì—ì„œ ì½ì–´ì˜¤ëŠ” ë¶€ë¶„ í•„ìš”ì—†ìœ¼ë©´ ì‚­ì œ
 
 ;///////////////////////////////////////////////////////////////
 ; 	Color Table
@@ -212,7 +214,7 @@ $!^e::	RUN_AOR_GitBash(TOOLBOX_ROOT)
 $#c::
 {
 	subTitleArr := []
-	subTitleArr.Push("Ä¸Ã³ µµ±¸")
+	subTitleArr.Push("ìº¡ì²˜ ë„êµ¬")
 	subTitleArr.Push("Snipping Tool")
 
 	RUN_AOR_EXE("SnippingTool.exe")
@@ -594,17 +596,17 @@ healthNotification() {
 	FileDelete f
 	FileAppend curTime, f
 
-	;text := text . "¿îµ¿: 6/1W`n"
-	;text := text . "¾çÄ¡: 2/1D`n"
-	;text := text . "À½ÁÖ: 1/1W`n"
-	;text := text . "Á¤½Ä: 1/1D`n"
+	;text := text . "ìš´ë™: 6/1W`n"
+	;text := text . "ì–‘ì¹˜: 2/1D`n"
+	;text := text . "ìŒì£¼: 1/1W`n"
+	;text := text . "ì •ì‹: 1/1D`n"
 	;text := text . "`n"
-	;text := text . "(X: °úÀÚ, Åº»ê, °ú½Ä, °úÀ½, ´Ü´ç, HP)"
+	;text := text . "(X: ê³¼ì, íƒ„ì‚°, ê³¼ì‹, ê³¼ìŒ, ë‹¨ë‹¹, HP)"
 
-	;text := text . "[¿îµ¿] Á¾¾Æ¸®, ½ÅÀü, °è´Ü, Ç®¾÷, ½ºÄõÆ®, Çª½¬¾÷`n"
-	;text := text . "[À§»ı] ¾çÄ¡, °ÇÁ¶`n"
+	;text := text . "[ìš´ë™] ì¢…ì•„ë¦¬, ì‹ ì „, ê³„ë‹¨, í’€ì—…, ìŠ¤ì¿¼íŠ¸, í‘¸ì‰¬ì—…`n"
+	;text := text . "[ìœ„ìƒ] ì–‘ì¹˜, ê±´ì¡°`n"
 	;text := text . "`n"
-	;text := text . "[±İÁö] °úÀ½, °ú½Ä, ´ç·ù, ÆùÁú`n"
+	;text := text . "[ê¸ˆì§€] ê³¼ìŒ, ê³¼ì‹, ë‹¹ë¥˜, í°ì§ˆ`n"
 	text := motto_text
 
 	MsgBox text
