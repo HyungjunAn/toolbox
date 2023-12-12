@@ -16,7 +16,7 @@ Switch pname
 Case "ttermpro.exe":
 	Send "!v"
 Case "cmd.exe", "MobaXterm.exe", "WindowsTerminal.exe":
-	;Send "+{Ins}"
+	Send "+{Ins}"
 Default:
 	Send "^v"
 }
