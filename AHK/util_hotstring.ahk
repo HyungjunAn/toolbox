@@ -13,8 +13,10 @@ pname := WinGetProcessName("A")
 
 Switch pname
 {
-Case "cmd.exe", "MobaXterm.exe", "ttermpro.exe", "WindowsTerminal.exe":
-	Send "+{Insert}"
+Case "ttermpro.exe":
+	Send "!v"
+Case "cmd.exe", "MobaXterm.exe", "WindowsTerminal.exe":
+	;Send "+{Ins}"
 Default:
 	Send "^v"
 }
