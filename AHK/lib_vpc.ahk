@@ -10,10 +10,13 @@ VPC_IsExistVpc() {
 }
 
 VPC_IsCurWinVpc() {
-	Title := WinGetTitle("A")
-	If (InStr(Title, _gsVpcWinTitle))
-	{
-		return True
+	try	{
+		Title := WinGetTitle("A")
+
+		If (InStr(Title, _gsVpcWinTitle))
+		{
+			return True
+		}
 	}
 	return False
 }
