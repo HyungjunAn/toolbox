@@ -151,8 +151,15 @@ $o::
 	RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
 }
 
+;DeepL
+$p::	
+{
+	suspendOn()
+	RUN_AOR_URL("DeepL", "https://www.deepl.com/translator", COMMON_OPT_APPMODE)
+}
+
 ;Papago
-$p::
+$+p::
 {
 	suspendOn()
 	RUN_AOR_URL("Papago", "https://papago.naver.com/", COMMON_OPT_APPMODE)
