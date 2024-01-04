@@ -274,7 +274,7 @@ COMMON_GetActiveWinProcName() {
     return  WinGetProcessName("A")
 }
 
-COMMON_ParseKeyAndDescription(path) {
+COMMON_ParseKeyAndDescription(path, space := 0) {
 	Local description := ""
 	Local key := ""
 	Local text := ""
@@ -291,7 +291,15 @@ COMMON_ParseKeyAndDescription(path) {
 		}
 	
 		if (key != "" && description != "") {
-			text := text . "[" . key . "] " . description . "`n"
+			blank := ""
+			
+			if (space) {
+				Loop (space - StrLen(key)) {
+					blank := blank . " "
+				}
+			}
+			
+			text := text . "[" . blank . key . "] " . description . "`n"
 		}
 	}
 

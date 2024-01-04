@@ -3,7 +3,7 @@ FileEncoding "UTF-8"
 #include lib_run.ahk
 #include lib_office.ahk
 
-Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName)
+Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName, 2)
 Global bOffice := COMMON_IsOffice()
 Global officeUrl_title := ""
 Global officeUrl_url := ""
