@@ -152,7 +152,7 @@ $o::
 }
 
 ;DeepL
-$p::	
+$p::
 {
 	suspendOn()
 	RUN_AOR_URL("DeepL", "https://www.deepl.com/translator", COMMON_OPT_APPMODE)
