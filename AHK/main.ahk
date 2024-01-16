@@ -52,7 +52,7 @@ global DIRECTION_UP		:= 2
 global DIRECTION_DOWN	:= 3
 
 global bOffice := COMMON_IsOffice()
-global GuiMotto := Gui()
+global GuiMotto
 
 showMotto()
 
@@ -371,15 +371,22 @@ showMotto(Time := 0, backC := "Red") {
 	h := 40
 	y := A_ScreenHeight - h
 
-	GuiMotto.BackColor := backC
-	GuiMotto.Opt("-Caption +alwaysontop +ToolWindow")
-	GuiMotto.SetFont("s12 c" . fontC, "Consolas")
-	GuiMotto.Add("Text", , TEXT)
-	GuiMotto.Show("y" . y . " h" . h . " NoActivate")
-
-	if(Time) {
-		Sleep Time
+	try {
 		GuiMotto.Destroy()
+	}
+
+	try {
+		GuiMotto := Gui()
+		GuiMotto.BackColor := backC
+		GuiMotto.Opt("-Caption +alwaysontop +ToolWindow")
+		GuiMotto.SetFont("s12 c" . fontC, "Consolas")
+		GuiMotto.Add("Text", , TEXT)
+		GuiMotto.Show("y" . y . " h" . h . " NoActivate")
+
+		if(Time) {
+			Sleep Time
+			GuiMotto.Destroy()
+		}
 	}
 }
 
