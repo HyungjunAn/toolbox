@@ -310,7 +310,11 @@ RShift & Right:: 	SendInput "^v"
 ;RShift & Up::	 	SendInput ^+z
 ;RShift & Delete:: 	SendInput ^x
 RShift & PgDn:: 	SendInput "^x"
-RShift & Enter::	SendInput "#{Tab}"
+RShift & Enter::
+{
+	FOCUS_MainDesktop()
+	SendInput "#{Tab}"
+}
 
 ;RShift & PgDn:: SendInput ^{Tab}
 RShift & End:: SendInput "^{Tab}"
