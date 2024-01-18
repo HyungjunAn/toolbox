@@ -96,6 +96,13 @@ $c::
 	RUN_AOR_Chrome()
 }
 
+;MS Paint
+$q::
+{
+	suspendOn()
+	RUN_AOR_EXE("mspaint", "mspaint.exe")
+}
+
 ;Firefox
 $s::
 {
