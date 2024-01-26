@@ -12,8 +12,10 @@ firefoxSubWinNameRegExArr.Push " Mozila Firefox$"
 
 global PATH_MSEDGE	:= "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 global PATH_FIREFOX	:= "C:\Program Files\Mozilla Firefox\firefox.exe"
-global EXE_FOR_GIT_BASH := "WindowsTerminal.exe"
-global CMD_FOR_GIT_BASH := "wt -d "
+;global EXE_FOR_GIT_BASH := "WindowsTerminal.exe"
+;global CMD_FOR_GIT_BASH := "wt -d "
+global CMD_FOR_GIT_BASH := "C:\Program Files\Git\git-bash.exe --cd="
+global EXE_FOR_GIT_BASH := "mintty.exe"
 
 RUN_AOR_Chrome(opt := 0) {
 	RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt | COMMON_OPT_REGEXMATCHING)
