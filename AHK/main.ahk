@@ -41,7 +41,7 @@ global gbIsInitDone 	:= False
 
 global PID_GVIM_FAVORITE 	:= 0
 global PID_SELECT 	:= 0
-global PID_VIMTOOL 	:= 0
+global PID_WIN_TAB_PLUS 	:= 0
 
 global maxHotWinNum		:= 4
 global garHotWin_info	:= []
@@ -108,7 +108,7 @@ DetectHiddenWindows false
 
 reloadTypeAndRun()
 Run "select.ahk",,, &PID_SELECT
-Run "vimtool.ahk",,, &PID_VIMTOOL
+Run "win_tab_plus.ahk",,, &PID_WIN_TAB_PLUS
 
 gbIsInitDone := True
 healthNotification()
@@ -121,6 +121,7 @@ GuiMotto.Destroy()
 $!+r:: 
 {
 	ProcessClose PID_SELECT
+	ProcessClose(PID_WIN_TAB_PLUS)
 	closeProcess("TypeAndRun.exe")
 	Reload
 }
@@ -128,6 +129,7 @@ $!+r::
 $^Delete::
 {
 	ProcessClose(PID_SELECT)
+	ProcessClose(PID_WIN_TAB_PLUS)
 	closeProcess("TypeAndRun.exe")
 	showMotto(200, "White")
 	ExitApp
@@ -138,6 +140,7 @@ $!+a::
 {
 	Run TOOLBOX_ROOT_AHK . "\capslock2ctrl.ahk"
 	ProcessClose(PID_SELECT)
+	ProcessClose(PID_WIN_TAB_PLUS)
 	closeProcess("TypeAndRun.exe")
 	showMotto(500, "Green")
 	ExitApp
@@ -351,12 +354,6 @@ $!f::
 
 $!^-:: SendInput "-------------------------------------------------------------"
 $!^=:: SendInput "============================================================="
-
-$#Tab::
-{
-	SendInput "#{Tab}"
-	Run "vimtool.ahk",,, &PID_VIMTOOL
-}
 
 ; Test
 !^+o:: ListHotKeys
