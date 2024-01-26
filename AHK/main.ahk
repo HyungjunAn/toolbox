@@ -41,6 +41,7 @@ global gbIsInitDone 	:= False
 
 global PID_GVIM_FAVORITE 	:= 0
 global PID_SELECT 	:= 0
+global PID_VIMTOOL 	:= 0
 
 global maxHotWinNum		:= 4
 global garHotWin_info	:= []
@@ -95,6 +96,7 @@ AHKList := WinGetList("ahk_class AutoHotkey")
 
 
 
+
 Loop AHKList.Length
 {
     ID := AHKList[A_Index]
@@ -106,6 +108,7 @@ DetectHiddenWindows false
 
 reloadTypeAndRun()
 Run "select.ahk",,, &PID_SELECT
+Run "vimtool.ahk",,, &PID_VIMTOOL
 
 gbIsInitDone := True
 healthNotification()
@@ -348,6 +351,12 @@ $!f::
 
 $!^-:: SendInput "-------------------------------------------------------------"
 $!^=:: SendInput "============================================================="
+
+$#Tab::
+{
+	SendInput "#{Tab}"
+	Run "vimtool.ahk",,, &PID_VIMTOOL
+}
 
 ; Test
 !^+o:: ListHotKeys
