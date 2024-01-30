@@ -78,7 +78,7 @@ RUN_AOR_EXE(exePath, procName := "") {
 	
 		if (name == procName) {
 			title := WinGetTitle("ahk_id " id)
-			WinActivate(title)
+			WinActivateBottom(title)
 			return True
 		}
 	}
