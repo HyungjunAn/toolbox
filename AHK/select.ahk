@@ -183,11 +183,18 @@ $m::
 	}
 }
 
-;Todoist
+;Todoist - Global
 $t::
 {
 	suspendOn()
-	RUN_AOR_URL("Todoist", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE)
+	RUN_AOR_URL("Global.+Todoist$", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+}
+
+;Todoist - Office
+$+t::
+{
+	suspendOn()
+	RUN_AOR_URL("Office.+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 }
 
 ;Netflix
