@@ -51,6 +51,9 @@ notion					https://www.notion.so/
 newneek					https://www.newneek.co/
 moneyletter				https://uppity.co.kr/moneyletter_archive
 
+docs::
+	ahk					https://www.autohotkey.com/docs/v2/
+
 w::
 	keep				https://hyungjunan.github.io/keep/
 
