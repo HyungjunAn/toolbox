@@ -7,7 +7,6 @@
 ;
 ;C:\Windows\explorer.exe
 ;myFolder			"C:\Users\name\myFolder"
-
 SetWorkingDir A_ScriptDir  ; Ensures a consistent starting directory.
 #include lib_common.ahk
 
@@ -61,9 +60,10 @@ Loop Read, gsSrcFile
 	TARCmd := arrStr[1]
 	TAROpt := arrStr[2]
 	cmd := prefix . TARCmd . "|" . TARExe . "|" . TAROpt
+
 	lines := lines . cmd . "`n"
 }
 
-FileAppend(lines, gsTargetFile)
+FileAppend(lines, gsTargetFile, "CP949")
 
 ExitApp
