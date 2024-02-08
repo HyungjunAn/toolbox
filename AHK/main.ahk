@@ -27,6 +27,7 @@ SetWorkingDir A_ScriptDir
 
 global path_setting := getParentPath(A_ScriptDir)
 
+global cmdline				:= DllCall("GetCommandLine", "str")
 global motto_text			:= "True Nobility is being Superior to Your Former Self."
 global tmpFolder			:= A_ScriptDir . "\tmp"
 global library				:= TOOLBOX_GOOGLE_DRIVE . "\Library"
@@ -54,6 +55,19 @@ global DIRECTION_DOWN	:= 3
 
 global bOffice := COMMON_IsOffice()
 global GuiMotto
+
+; Run as Admin
+if not (A_IsAdmin or RegExMatch(cmdline, " /restart(?!\S)"))
+{
+    try
+    {
+        if A_IsCompiled
+            Run '*RunAs "' A_ScriptFullPath '" /restart'
+        else
+            Run '*RunAs "' A_AhkPath '" /restart "' A_ScriptFullPath '"'
+    }
+    ExitApp
+}
 
 showMotto()
 
