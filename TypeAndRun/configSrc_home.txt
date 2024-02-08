@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------
 	C:\Program Files (x86)\Notepad++\notepad++.exe
 //-----------------------------------------------------------------
-toeicspeaking	"%TOOLBOX_GOOGLE_DRIVE%\English\« ±‚_≈‰Ω∫.txt"
+toeicspeaking	"%TOOLBOX_GOOGLE_DRIVE%\English\ÌïÑÍ∏∞_ÌÜ†Ïä§.txt"
 
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_run.ahk
@@ -14,7 +14,7 @@ manual			"%TOOLBOX_GOOGLE_DRIVE%\Library\Living\manual"
 cooking			"%TOOLBOX_GOOGLE_DRIVE%\Library\Living\cooking"
 board_games		"%TOOLBOX_GOOGLE_DRIVE%\Library\board games"
 toy_documents	"%TOOLBOX_GOOGLE_DRIVE%\toy_documents"
-ghlql			"%TOOLBOX_GOOGLE_DRIVE%\toy_documents\»∏∫Ò ∞ËªÍ"
+ghlql			"%TOOLBOX_GOOGLE_DRIVE%\toy_documents\ÌöåÎπÑ Í≥ÑÏÇ∞"
 guitar			"%TOOLBOX_GOOGLE_DRIVE%\Music\Guitar"
 
 fm				"%USERPROFILE%\desktop\stable\fm"
@@ -28,7 +28,7 @@ netflex					https://www.netflix.com/browse
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk
 //-----------------------------------------------------------------
-tmp				"%TOOLBOX_GOOGLE_DRIVE%\English\« ±‚_≈‰Ω∫.txt"
-sykim			"%TOOLBOX_GOOGLE_DRIVE%\ºˆøµ\±Ëºˆøµ æÓ∑œ.txt"
-carrot			"%USERPROFILE%\Desktop\stable\¡ﬂ∞Ì∞≈∑°\∆«∏≈πÆ±∏.txt"
+tmp				"%TOOLBOX_GOOGLE_DRIVE%\English\ÌïÑÍ∏∞_ÌÜ†Ïä§.txt"
+sykim			"%TOOLBOX_GOOGLE_DRIVE%\ÏàòÏòÅ\ÍπÄÏàòÏòÅ Ïñ¥Î°ù.txt"
+carrot			"%USERPROFILE%\Desktop\stable\Ï§ëÍ≥†Í±∞Îûò\ÌåêÎß§Î¨∏Íµ¨.txt"
 exercise		"%TOOLBOX_GOOGLE_DRIVE%\Library\Living\exercise.txt"
