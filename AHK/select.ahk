@@ -273,6 +273,14 @@ $1::
 	FOCUS_VDesktop_Sub()
 }
 
+;Send Custom SIGNAL
+$^c::
+{
+	suspendOn()
+	Send "^z"
+	Send "jobs`nkill -9 %"
+}
+
 ;Make New File
 $^f::
 {
@@ -284,7 +292,7 @@ $^f::
 }
 
 ;Copy sample_macro.ahk
-$^c::
+$^0::
 {
 	suspendOn()
 	if (PATH_DIR := COMMON_GetActiveExplorerPath()) {

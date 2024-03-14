@@ -317,3 +317,24 @@ COMMON_Sleep(ms) {
 		Sleep ms_interval
 	}
 }
+
+COMMON_Paste(str) {
+	local tmp := A_Clipboard 
+	local pname := WinGetProcessName("A")
+
+	A_Clipboard := str
+	
+	Switch pname
+	{
+	Case "ttermpro.exe":
+		Send "!v"
+	Case "cmd.exe", "MobaXterm.exe", "WindowsTerminal.exe":
+		Send "+{Ins}"
+	Default:
+		Send "^v"
+	}
+
+	; sleep to prevent overwriting by assign
+	Sleep 100
+	A_Clipboard := tmp
+}
