@@ -191,7 +191,7 @@ $t::
 }
 
 ;Todoist - Office
-$^t::
+$u::
 {
 	suspendOn()
 	RUN_AOR_URL("Office.+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
