@@ -50,6 +50,7 @@ traffic_info			https://github.com/HyungjunAn/traffic_info
 notion					https://www.notion.so/
 newneek					https://www.newneek.co/
 moneyletter				https://uppity.co.kr/moneyletter_archive
+rpi						https://elinux.org/RPi_Configuration
 
 docs::
 	ahk					https://www.autohotkey.com/docs/v2/
