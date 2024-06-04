@@ -262,7 +262,7 @@ $`;::
 {
 	suspendOn()
 	if (bOffice) {
-		RUN_AOR_EXE(USERPROFILE . "\AppData\Local\Microsoft\Teams\current\Teams.exe")
+		RUN_AOR_EXE("ms-teams.exe")
 	} else {
 		If (DirExist("C:\Program Files (x86)\Kakao"))
 			cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"

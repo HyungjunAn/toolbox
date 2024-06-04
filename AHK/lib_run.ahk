@@ -71,15 +71,17 @@ RUN_AOR_EXE(exePath, procName := "") {
 	}
 
 	windows := WinGetList()
-	
-	Loop windows.Length {
-		id := windows[A_Index]
-		name := WinGetProcessName("ahk_id " id)
-	
-		if (name == procName) {
-			title := WinGetTitle("ahk_id " id)
-			WinActivateBottom(title)
-			return True
+
+	try {
+		Loop windows.Length {
+			id := windows[A_Index]
+			name := WinGetProcessName("ahk_id " id)
+		
+			if (name == procName) {
+				title := WinGetTitle("ahk_id " id)
+				WinActivateBottom(title)
+				return True
+			}
 		}
 	}
 
