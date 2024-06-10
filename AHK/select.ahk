@@ -183,25 +183,11 @@ $m::
 	}
 }
 
-;Todoist - Global
+;Todoist
 $1::
 {
 	suspendOn()
-	RUN_AOR_URL("Global.+Todoist$", "https://todoist.com/app/project/2271101384", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
-}
-
-;Todoist - Office
-$2::
-{
-	suspendOn()
-	RUN_AOR_URL("English.+Todoist$", "https://todoist.com/app/project/2334002231", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
-}
-
-;Todoist - Office
-$3::
-{
-	suspendOn()
-	RUN_AOR_URL("Office.+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+	RUN_AOR_URL(".+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 }
 
 ;Netflix
