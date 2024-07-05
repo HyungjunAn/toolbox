@@ -43,8 +43,9 @@ npay					https://order.pay.naver.com/home
 nshopping				https://shopping.naver.com/
 nland					https://land.naver.com/
 googledrive_online		https://drive.google.com/
-calendar				https://calendar.kakao.com/
+calendar				https://calendar.google.com/
 calendarg				https://calendar.google.com/
+calendark				https://calendar.kakao.com/
 colab					https://colab.research.google.com
 gmail					https://mail.google.com/mail
 traffic_info			https://github.com/HyungjunAn/traffic_info
