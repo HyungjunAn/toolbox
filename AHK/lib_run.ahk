@@ -27,11 +27,16 @@ RUN_AOR_Firefox(opt := 0) {
 
 RUN_AOR_URL(subTitle, url, opt := 0) {
 	local cmd := ""
+	local browser_exe := TOOLBOX_CHROME_EXE
+
+	if (opt & COMMON_OPT_BROWSER_EDGE) {
+		browser_exe := PATH_MSEDGE
+	}
 
 	if (opt & COMMON_OPT_APPMODE) {
-		cmd := TOOLBOX_CHROME_EXE . " --app=" . url
+		cmd := browser_exe . " --app=" . url
 	} else {
-		cmd := TOOLBOX_CHROME_EXE . " " . url
+		cmd := browser_exe . " " . url
 	}
 
 	return RUN_AOR_SubWinTitle(subTitle, cmd, opt)
