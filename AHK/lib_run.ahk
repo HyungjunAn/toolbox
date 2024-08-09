@@ -203,8 +203,16 @@ RUN_OpenUrl(url, opt := 0) {
 		if (!COMMON_WinWait_Arr(newTabTitleArr, [], 500)) {
 			return
 		} 
-		SendInput "{blind}{text}" . url
-		SendInput "{Enter}"
+; if 0
+		;SendInput "{blind}{text}" . url
+		;SendInput "{Enter}"
+; else
+		tmp_clip := A_Clipboard
+		A_Clipboard := url
+		SendInput "^v{Enter}"
+		sleep 50
+		A_Clipboard := tmp_clip
+; endif
 	} else {
 		Run TOOLBOX_CHROME_EXE . " --new-window " . url
 	}
