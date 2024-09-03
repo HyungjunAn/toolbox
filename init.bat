@@ -47,21 +47,21 @@ goto :EXIT
 mkdir library
 cd library
 
-git clone https://github.com/HyungjunAn/HyungjunAn.github.io.git blog
-cd blog
-IF ERRORLEVEL == 0 (
-	git config user.name "%userName%"
-	git config user.email "%userEmail%"
-	cd ..
-)
+REM git clone https://github.com/HyungjunAn/HyungjunAn.github.io.git blog
+REM cd blog
+REM IF ERRORLEVEL == 0 (
+REM 	git config user.name "%userName%"
+REM 	git config user.email "%userEmail%"
+REM 	cd ..
+REM )
 
-git clone https://github.com/HyungjunAn/note-english.git
-cd note-english
-IF ERRORLEVEL == 0 (
-	git config user.name "%userName%"
-	git config user.email "%userEmail%"
-	cd ..
-)
+REM git clone https://github.com/HyungjunAn/note-english.git
+REM cd note-english
+REM IF ERRORLEVEL == 0 (
+REM 	git config user.name "%userName%"
+REM 	git config user.email "%userEmail%"
+REM 	cd ..
+REM )
 
 git clone https://github.com/HyungjunAn/keep.git
 cd keep
