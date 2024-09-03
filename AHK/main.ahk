@@ -552,7 +552,7 @@ reloadTypeAndRun() {
 			cmd := "util_make_tar_config_for_folder.ahk kor " . TOOLBOX_ROOT_KEEP . "\res\ko" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk en " . TOOLBOX_ROOT_NOTE_ENGLISH . "\res" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk en " . TOOLBOX_ROOT_KEEP . "\res\en" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
 			cmd := "util_make_tar_config_for_folder.ahk fn " . TOOLBOX_GOOGLE_DRIVE . "\finance" . " " . dir_typeandrun . "\Config.ini"

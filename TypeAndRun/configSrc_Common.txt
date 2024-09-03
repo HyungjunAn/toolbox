@@ -16,8 +16,9 @@ _kill_suspend			suspend
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_run.ahk
 //-----------------------------------------------------------------
-blog			%TOOLBOX_ROOT_BLOG%
-posts			%TOOLBOX_ROOT_BLOG_POSTS%
+//blog			%TOOLBOX_ROOT_BLOG%
+//posts			%TOOLBOX_ROOT_BLOG_POSTS%
+
 recycle			shell:RecycleBinFolder 
 home			"%USERPROFILE%"
 
@@ -26,7 +27,7 @@ apache::
 	stop	"C:\Apache24\bin\httpd.exe -k stop
 	restart	"C:\Apache24\bin\httpd.exe -k restart
 
-english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
+//english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
 keep			"%TOOLBOX_ROOT_KEEP%"
 
 stable			"%USERPROFILE%\desktop\stable"
@@ -98,8 +99,8 @@ sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 	%TOOLBOX_ROOT_AHK%\util_aor_gitbash.ahk
 //-----------------------------------------------------------------
 git::
-	blog			"%TOOLBOX_ROOT_BLOG%"
-	english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
+	//blog			"%TOOLBOX_ROOT_BLOG%"
+	//english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
 	keep			"%TOOLBOX_ROOT_KEEP%"
 
 //-----------------------------------------------------------------
