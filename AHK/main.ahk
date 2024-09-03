@@ -546,10 +546,10 @@ reloadTypeAndRun() {
 			cmd := "util_make_tar_config_for_folder.ahk ahk " . TOOLBOX_ROOT_AHK . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk cs " . TOOLBOX_ROOT_BLOG_POSTS . "\cs" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk cs " . TOOLBOX_ROOT_KEEP . "\res\cs" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk kor " . TOOLBOX_ROOT_BLOG_POSTS . "\ko" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk kor " . TOOLBOX_ROOT_KEEP . "\res\ko" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
 			cmd := "util_make_tar_config_for_folder.ahk en " . TOOLBOX_ROOT_NOTE_ENGLISH . "\res" . " " . dir_typeandrun . "\Config.ini"
