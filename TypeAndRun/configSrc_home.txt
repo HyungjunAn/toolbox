@@ -18,6 +18,9 @@ ghlql			"%TOOLBOX_GOOGLE_DRIVE%\toy_documents\회비 계산"
 guitar			"%TOOLBOX_GOOGLE_DRIVE%\Music\Guitar"
 
 fm				"%USERPROFILE%\desktop\stable\fm"
+stable			"%USERPROFILE%\desktop\stable"
+init			"%USERPROFILE%\desktop\stable\init.ahk"
+project			"%USERPROFILE%\desktop\project"
 
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_open_url.ahk

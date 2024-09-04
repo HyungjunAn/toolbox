@@ -78,8 +78,8 @@ DirCreate tmpFolder
 ; 	Process about Office Environment
 ;-------------------------------------------
 If (bOffice) {
-	library				:= OFFICE_LIB
-	gvimFavorite		:= OFFICE_LIB
+	library				:= OFFICE_LIB_ROOT
+	gvimFavorite		:= OFFICE_LIB_ROOT
 	typeandrun_cfgSrc	:= OFFICE_SETTING_TAR
 	hotstringPath		:= OFFICE_SETTING_HOTSTRING
 }
@@ -204,7 +204,15 @@ $^.::
 			}
 		}
 
-		Run "gvim " . gvimFavorite . "\*.txt" . " " .  USERPROFILE . "\Desktop\stable\_memo.txt",,, &PID_GVIM_FAVORITE
+		
+
+		If (bOffice) {
+			memo_path := OFFICE_WORK_ROOT . "\[memo]\_memo.txt"
+		} else {
+			memo_path := USERPROFILE . "\Desktop\stable\_memo.txt"
+		}
+
+		Run "gvim " . gvimFavorite . "\*.txt" . " " .  memo_path,,, &PID_GVIM_FAVORITE
 
 		return
 	}

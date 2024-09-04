@@ -30,10 +30,6 @@ apache::
 //english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
 keep			"%TOOLBOX_ROOT_KEEP%"
 
-stable			"%USERPROFILE%\desktop\stable"
-init			"%USERPROFILE%\desktop\stable\init.ahk"
-project			"%USERPROFILE%\desktop\project"
-
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_open_url.ahk
 //-----------------------------------------------------------------
