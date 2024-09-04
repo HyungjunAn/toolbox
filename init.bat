@@ -149,6 +149,7 @@ IF exist "%VIMPATH32%\" (
 
 echo [vimrc 생성]
 echo source %ROOT_VIM%\vimrc_AD.vim > "%USERPROFILE%\_vimrc"
+echo "" > "%USERPROFILE%\.vimrc"
 echo.
 echo [vim 파일 이동]
 copy "%ROOT_VIM%\colors"	"%VIMPATH%\colors"
