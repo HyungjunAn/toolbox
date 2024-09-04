@@ -207,7 +207,7 @@ $^.::
 		
 
 		If (bOffice) {
-			memo_path := OFFICE_WORK_ROOT . "\[memo]\_memo.txt"
+			memo_path := OFFICE_WORK_ROOT . "\_memo\_memo.txt"
 		} else {
 			memo_path := USERPROFILE . "\Desktop\stable\_memo.txt"
 		}
