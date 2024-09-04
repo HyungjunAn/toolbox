@@ -1,0 +1,6 @@
+alias gc='git commit'
+alias gp='git pull'
+alias rp='git reset --hard HEAD^^^; git pull'
+alias gs='git status'
+alias gb='git branch'
+alias ga='git add'
