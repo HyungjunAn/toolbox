@@ -7,6 +7,7 @@ toeicspeaking	"%TOOLBOX_GOOGLE_DRIVE%\English\필기_토스.txt"
 	%TOOLBOX_ROOT_AHK%\util_run.ahk
 //-----------------------------------------------------------------
 googledrive		"%TOOLBOX_GOOGLE_DRIVE%"
+finance			"%TOOLBOX_GOOGLE_DRIVE%\finance"
 library			"%TOOLBOX_GOOGLE_DRIVE%\Library"
 billiards		"%TOOLBOX_GOOGLE_DRIVE%\Library\Billiards"
 living			"%TOOLBOX_GOOGLE_DRIVE%\Library\Living"
