@@ -98,6 +98,7 @@ git::
 	//blog			"%TOOLBOX_ROOT_BLOG%"
 	//english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
 	keep			"%TOOLBOX_ROOT_KEEP%"
+	toolbox			"%TOOLBOX_ROOT%"
 
 //-----------------------------------------------------------------
 	%USERPROFILE%/Desktop/sample_macro.ahk
