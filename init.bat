@@ -133,7 +133,7 @@ echo.
 echo ------------------------------------------------------
 echo 	Gvim
 echo ------------------------------------------------------
-set VIM_VERSION=vim82
+set VIM_VERSION=vim91
 set VIMPATH=
 set "VIMPATH32=C:\Program Files (x86)\Vim\%VIM_VERSION%"
 set "VIMPATH64=C:\Program Files\Vim\%VIM_VERSION%"
