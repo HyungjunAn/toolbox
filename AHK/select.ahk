@@ -1,5 +1,7 @@
 FileEncoding "UTF-8"
 
+#Requires AutoHotkey v2.0-a
+
 #include lib_run.ahk
 #include lib_office.ahk
 
