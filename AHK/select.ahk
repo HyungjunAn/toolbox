@@ -181,7 +181,7 @@ $m::
 	if (!bOffice) {
 		RUN_AOR_URL("Google Keep", "https://keep.google.com", COMMON_OPT_APPMODE)
 	} else {
-		RUN_AOR_EXE("C:\Program Files (x86)\teraterm\ttermpro.exe")
+		RUN_AOR_EXE("C:\Program Files (x86)\teraterm5\ttermpro.exe")
 	}
 }
 
