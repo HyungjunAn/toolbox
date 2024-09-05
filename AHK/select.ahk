@@ -326,6 +326,7 @@ $^g::
 {
 	suspendOn()
 	if (PATH_DIR := COMMON_GetActiveExplorerPath()) {
+		PATH_DIR := "`"" . PATH_DIR . "`""
 		RUN_AOR_GitBash(PATH_DIR)
 	}
 }
