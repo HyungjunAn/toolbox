@@ -237,7 +237,17 @@ $^.::
 !^+k::	setHotWin(3)	
 !^+l::	setHotWin(4)	
 
-$!^e::	RUN_AOR_GitBash(TOOLBOX_ROOT)
+$!^e::
+{
+	RUN_AOR_URL("Microsoft Teams", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
+    T := WinGetTitle("A")
+
+	if (InStr(T, "Microsoft Teams")) {
+		SendInput "!^e"
+	} else {
+		RUN_AOR_GitBash(TOOLBOX_ROOT)
+	}
+}
 
 $#c::
 {

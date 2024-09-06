@@ -252,7 +252,8 @@ $`;::
 {
 	suspendOn()
 	if (bOffice) {
-		RUN_AOR_EXE("ms-teams.exe")
+		;RUN_AOR_EXE("ms-teams.exe")
+		RUN_AOR_URL("Microsoft Teams", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
 	} else {
 		If (DirExist("C:\Program Files (x86)\Kakao"))
 			cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
