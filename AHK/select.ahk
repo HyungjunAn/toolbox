@@ -340,3 +340,12 @@ $^p::
 		RUN_AOR_PowerShell(PATH_DIR)
 	}
 }
+
+;WSL
+$^w::
+{
+	suspendOn()
+	if (PATH_DIR := COMMON_GetActiveExplorerPath()) {
+		Run "wsl.exe --cd `"" . PATH_DIR . "`""
+	}
+}
