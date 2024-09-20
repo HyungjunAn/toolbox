@@ -36,7 +36,7 @@ global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
 global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
-global hotstringPath			:= "tmp"
+global hotstringPath			:= "hotstring"
 
 global gbIsInitDone 	:= False
 
@@ -81,7 +81,6 @@ If (bOffice) {
 	library				:= OFFICE_LIB_ROOT
 	gvimFavorite		:= OFFICE_LIB_ROOT
 	typeandrun_cfgSrc	:= OFFICE_SETTING_TAR
-	hotstringPath		:= OFFICE_SETTING_HOTSTRING
 }
 
 ;-------------------------------------------
@@ -561,6 +560,10 @@ reloadTypeAndRun() {
 
 			cmd := "util_make_tar_config_for_hotstring.ahk hs " . hotstringPath . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
+
+			if (bOffice) {
+				cmd := "util_make_tar_config_for_hotstring.ahk hs " . OFFICE_SETTING_HOTSTRING . " " . dir_typeandrun . "\Config.ini"
+			}
 
 			cmd := "util_make_tar_config_for_folder.ahk ahk " . TOOLBOX_ROOT_AHK . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
