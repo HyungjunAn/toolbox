@@ -563,6 +563,7 @@ reloadTypeAndRun() {
 
 			if (bOffice) {
 				cmd := "util_make_tar_config_for_hotstring.ahk hs " . OFFICE_SETTING_HOTSTRING . " " . dir_typeandrun . "\Config.ini"
+				RunWait cmd
 			}
 
 			cmd := "util_make_tar_config_for_folder.ahk ahk " . TOOLBOX_ROOT_AHK . " " . dir_typeandrun . "\Config.ini"
