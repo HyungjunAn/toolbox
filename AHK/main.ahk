@@ -238,15 +238,14 @@ $^.::
 
 $!^e::
 {
-	RUN_AOR_GitBash(TOOLBOX_ROOT)
-;	RUN_AOR_URL("Microsoft Teams", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
-;    T := WinGetTitle("A")
-;
-;	if (InStr(T, "Microsoft Teams")) {
-;		SendInput "!^e"
-;	} else {
-;		RUN_AOR_GitBash(TOOLBOX_ROOT)
-;	}
+	;RUN_AOR_GitBash(TOOLBOX_ROOT)
+    T := WinGetTitle("A")
+
+	if (InStr(T, "Microsoft Teams")) {
+		SendInput "!^e"
+	} else {
+		RUN_AOR_GitBash(TOOLBOX_ROOT)
+	}
 }
 
 $#c::
