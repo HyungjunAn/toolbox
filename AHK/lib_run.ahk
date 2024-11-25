@@ -69,7 +69,7 @@ RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 }
 
 RUN_AOR_EXE(exePath, procName := "") {
-	FOCUS_MainDesktop()
+	;FOCUS_MainDesktop()
 
 	if (!procName) {
 		SplitPath(exePath, &procName)

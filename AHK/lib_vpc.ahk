@@ -1,6 +1,6 @@
 #include lib_common.ahk
 
-global _gsVpcWinTitle := "LGE_VPC - Desktop Viewer"
+global _gsVpcWinTitle := "CloudPC 클라이언트"
 
 VPC_IsExistVpc() {
 	if (COMMON_FindWinTitle(_gsVpcWinTitle)) {
