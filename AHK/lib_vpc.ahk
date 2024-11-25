@@ -31,8 +31,8 @@ VPC_ActivateVpc() {
 
 VPC_FocusOut() {
        if (VPC_IsCurWinVpc()) {
-               MsgBox , , "T0.001"
-               WinMinimize _gsVpcWinTitle
+               ;MsgBox , , "T0.001"
+               ;WinMinimize _gsVpcWinTitle
        }
 }
 
