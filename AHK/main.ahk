@@ -394,7 +394,8 @@ $!^=:: SendInput "============================================================="
 	PName := WinGetProcessName("A")
 	PID := WinGetPID("A")
     WinGetPos &x, &y, &w, &h, Title
-	MsgBox "PID: " . PID . "`nProcessName: " . PName . "`nWinTitle: " . Title . "`nx" . x . " y" . y . " w" . w . " h" . h . "`nscreen W[" . A_ScreenWidth . "] H[" . A_ScreenHeight . "]"
+	MouseGetPos &mx, &my
+	MsgBox "PID: " . PID . "`nProcessName: " . PName . "`nWinTitle: " . Title . "`nx" . x . " y" . y . " w" . w . " h" . h . "`nscreen W[" . A_ScreenWidth . "] H[" . A_ScreenHeight . "]`nmouse x[" . mx . "] y[" . my . "]"
 	;ListHotKeys
 	return
 }
