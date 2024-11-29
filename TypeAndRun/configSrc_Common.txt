@@ -78,6 +78,10 @@ lgsp					https://sso.lgsp.co.kr/
 
 json_pretty_print		https://jsonformatter.org/json-pretty-print
 
+sc::
+	vscode				https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf
+	vim					https://devhints.io/vim
+
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_aor_gvim.ahk
 //-----------------------------------------------------------------
