@@ -309,7 +309,7 @@ $^n::
 	suspendOn()
 	f := COMMON_GetSelectedItemPath()
 	if (f) {
-		Run "notepad++.exe " . f
+		Run "notepad++.exe `"" . f . "`""
 	}
 }
 
@@ -319,7 +319,7 @@ $^v::
 	suspendOn()
 	f := COMMON_GetSelectedItemPath()
 	if (f) {
-		Run TOOLBOX_ROOT_AHK . "\util_aor_gvim.ahk " . f
+		Run TOOLBOX_ROOT_AHK . "\util_aor_gvim.ahk `"" . f . "`""
 	}
 }
 

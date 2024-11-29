@@ -152,7 +152,7 @@ RUN_AOR_PowerShell(folderPath) {
 		name := WinGetProcessName("ahk_id " . id)
 	
 		if (name == exe) {
-			WinGetTitle &title, "ahk_id " . id
+			title := WinGetTitle("ahk_id " . id)
 			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
 	        If (InStr(title, "powershell")) {
 				WinActivate title
@@ -161,7 +161,9 @@ RUN_AOR_PowerShell(folderPath) {
 		}
 	}
 	
-	Run exe . " -noexit -command cd " . folderPath
+	cmd := exe . " -noexit -command `"cd '" . folderPath . "'`""
+
+	run cmd
 }
 
 RUN_AOR_Gvim(filePath) {
@@ -183,7 +185,9 @@ RUN_AOR_Gvim(filePath) {
 		}
 	}
 	
-	Run "gvim " . filePath
+	cmd := "gvim `"" . filePath . "`""
+
+	Run cmd
 }
 
 RUN_OpenUrl(url, opt := 0) {
