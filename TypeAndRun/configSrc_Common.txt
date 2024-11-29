@@ -108,8 +108,9 @@ macro_desktop	""
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_ms-settings.ahk
 //-----------------------------------------------------------------
-ms-bluetooth	bluetooth
-ms-display		display
-ms-powersleep	powersleep
-ms-sound		sound
+ms::
+	bluetooth	bluetooth
+	display		display
+	powersleep	powersleep
+	sound		sound
 
