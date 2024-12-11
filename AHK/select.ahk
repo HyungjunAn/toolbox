@@ -194,6 +194,18 @@ $1::
 	;RUN_AOR_EXE("C:\Users\heuser\AppData\Local\Programs\todoist\Todoist.exe")
 }
 
+;Shopping List
+$2::
+{
+	suspendOn()
+	RUN_AOR_URL(".+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+	;RUN_AOR_URL(".+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING | COMMON_OPT_BROWSER_EDGE)
+	;RUN_AOR_EXE("C:\Users\heuser\AppData\Local\Programs\todoist\Todoist.exe")
+}
+
+https://app.todoist.com/app/project/2340527008
+
+
 ;Netflix
 $x::
 {
