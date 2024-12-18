@@ -39,6 +39,7 @@ nmap					https://map.naver.com/
 npay					https://order.pay.naver.com/home
 nshopping				https://shopping.naver.com/
 nland					https://land.naver.com/
+coupang					https://www.coupang.com/
 googledrive_online		https://drive.google.com/
 calendar				https://calendar.google.com/
 calendarg				https://calendar.google.com/
