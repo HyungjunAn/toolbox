@@ -36,6 +36,7 @@ global dir_typeandrun		:= path_setting . "\TypeAndRun\exe"
 global typeandrun			:= dir_typeandrun . "\TypeAndRun.exe"
 global typeandrun_cfgSrc_Common	:= path_setting . "\TypeAndRun\configSrc_Common.txt"
 global typeandrun_cfgSrc		:= path_setting . "\TypeAndRun\configSrc_Home.txt"
+global typeandrun_ini			:= path_setting . "\TypeAndRun\TypeAndRun.ini"
 global hotstringPath			:= "hotstring"
 
 global gbIsInitDone 	:= False
@@ -546,7 +547,9 @@ IfSend_UpDown(mode, elseStr) {
 reloadTypeAndRun() {
 	if (FileExist(typeandrun)) {
 		closeProcess("TypeAndRun.exe")
-		if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common)) {
+		if ("X" != FileExist(typeandrun_cfgSrc) && "X" != FileExist(typeandrun_cfgSrc_Common) && "X" != FileExist(typeandrun_ini)) {
+			FileCopy typeandrun_ini, dir_typeandrun, 1
+
 			try
 			{
 				FileDelete dir_typeandrun . "\~Config.ini"
