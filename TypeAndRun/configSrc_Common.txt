@@ -42,6 +42,7 @@ nland					https://land.naver.com/
 coupang					https://www.coupang.com/
 googledrive_online		https://drive.google.com/
 calendar				https://calendar.google.com/
+calendarOffice			https://calendar.google.com/calendar/u/1/r
 calendarg				https://calendar.google.com/
 calendark				https://calendar.kakao.com/
 colab					https://colab.research.google.com
