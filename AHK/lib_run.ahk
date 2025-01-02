@@ -214,7 +214,7 @@ RUN_OpenUrl(url, opt := 0) {
 		tmp_clip := A_Clipboard
 		A_Clipboard := url
 		SendInput "^v{Enter}"
-		sleep 100
+		sleep 500
 		A_Clipboard := tmp_clip
 ; endif
 	} else {

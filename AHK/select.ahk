@@ -249,6 +249,15 @@ $i::
 	run start_script
 }
 
+;Work Log
+$9::
+{
+	suspendOn()
+	if (bOffice) {
+		RUN_AOR_URL("Work Log 입력 도우미", "http://collab.lge.com/main/pages/viewpage.action?pageId=1353926410", COMMON_OPT_APPMODE)
+	}
+}
+
 ;Gmail or DashBoard
 $0::
 {
