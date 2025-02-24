@@ -7,8 +7,8 @@ FileEncoding "UTF-8"
 
 Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName, 2)
 Global bOffice := COMMON_IsOffice()
-Global officeUrl_title := ""
-Global officeUrl_url := ""
+Global officeUrl_title := Array()
+Global officeUrl_url := Array()
 Global start_script := USERPROFILE . "\Desktop\stable\start.ahk"
 Global GuiSelect := Gui()
 
@@ -39,10 +39,10 @@ suspendOff() {
 
 if (bOffice) {
 	Loop Read, OFFICE_SETTING_URL {
-		if (A_Index == 1) {
-			officeUrl_title := A_LoopReadLine
-		} else if (A_Index == 2) {
-			officeUrl_url := A_LoopReadLine
+		if (Mod(A_Index, 2) == 1) {
+			officeUrl_title.Push(A_LoopReadLine)
+		} else if (Mod(A_Index, 2) == 0) {
+			officeUrl_url.Push(A_LoopReadLine)
 		} else {
 			break
 		}
@@ -270,12 +270,23 @@ $9::
 	}
 }
 
-;Gmail or DashBoard
+;Gmail or DashBoard #1
 $0::
 {
 	suspendOn()
 	if (bOffice) {
-		RUN_AOR_URL(officeUrl_title, officeUrl_url, COMMON_OPT_APPMODE)
+		RUN_AOR_URL(officeUrl_title[1], officeUrl_url[1], COMMON_OPT_APPMODE)
+	} else {
+		RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
+	}
+}
+
+; DashBoard #2
+$a::
+{
+	suspendOn()
+	if (bOffice) {
+		RUN_AOR_URL(officeUrl_title[2], officeUrl_url[2], COMMON_OPT_APPMODE)
 	} else {
 		RUN_AOR_URL("Gmail", "https://mail.google.com/mail", COMMON_OPT_APPMODE)
 	}
