@@ -261,6 +261,13 @@ $i::
 	run start_script
 }
 
+;Outlook
+$8::
+{
+	suspendOn()
+	RUN_AOR_URL("Outlook", "https://outlook.office.com/mail/", COMMON_OPT_APPMODE)
+}
+
 ;Work Log
 $9::
 {
