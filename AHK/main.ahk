@@ -296,12 +296,13 @@ $+MButton::
 	
 ;=============================================================
 
-; Virtual Desktop Toggle
+; Outlook (old: Virtual Desktop Toggle)
 $^,::
 {
-	if (!VPC_Switch()) {
-		FOCUS_VDesktop_toggle()
-	}
+;	if (!VPC_Switch()) {
+;		FOCUS_VDesktop_toggle()
+;	}
+	RUN_AOR_URL("Outlook", "https://outlook.office.com/mail/", COMMON_OPT_APPMODE)
 }
 
 ; TypeAndRun
