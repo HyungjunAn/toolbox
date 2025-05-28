@@ -329,7 +329,7 @@ $^c::
 {
 	suspendOn()
 	Send "^z"
-	Send "jobs`nkill -9 %"
+	Send "jobs; kill -9 %"
 }
 
 ;Make New File
