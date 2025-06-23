@@ -237,6 +237,17 @@ $^.::
 !^+k::	setHotWin(3)	
 !^+l::	setHotWin(4)	
 
+$^e::
+{
+    T := WinGetTitle("A")
+
+	if (InStr(T, "Microsoft Teams")) {
+		SendInput "!^e"
+	} else {
+		SendInput "^e"
+	}
+}
+
 $!^e::
 {
 	;RUN_AOR_GitBash(TOOLBOX_ROOT)

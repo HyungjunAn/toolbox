@@ -167,7 +167,7 @@ $p::
 	if (!bOffice) {
 		RUN_AOR_URL("DeepL", "https://www.deepl.com/translator", COMMON_OPT_APPMODE)
 	} else {
-		RUN_AOR_URL("ChatEXAONE", "https://lge.exaone.ai/", COMMON_OPT_APPMODE)
+		RUN_AOR_URL("ChatEXAONE", "https://lge.exaone.ai/threads/681222", COMMON_OPT_APPMODE)
 	}
 }
 
@@ -304,9 +304,9 @@ $`;::
 {
 	suspendOn()
 	if (bOffice) {
-		if (!RUN_AOR_EXE("ms-teams.exe")) {
+		;if (!RUN_AOR_EXE("ms-teams.exe")) {
 			RUN_AOR_URL("Microsoft Teams", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
-		}
+		;}
 	} else {
 		If (DirExist("C:\Program Files (x86)\Kakao"))
 			cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
