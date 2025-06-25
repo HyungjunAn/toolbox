@@ -153,6 +153,13 @@ $n::
 	RUN_AOR_EXE("notepad++.exe")
 }
 
+;Calendar
+$z::
+{
+	suspendOn()
+	RUN_AOR_URL("Google Calendar", "https://calendar.google.com", COMMON_OPT_APPMODE)
+}
+
 ;ChatGPT
 $o::
 {
