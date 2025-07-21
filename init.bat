@@ -33,19 +33,19 @@ set /p "userEmail=insert user e-mail address: "
 git config user.name "%userName%"
 git config user.email "%userEmail%"
 
-echo ------------------------------------------------------
-echo 	library git clone 여부 결정
-echo ------------------------------------------------------
-set /p "c=Do you clone library? [Y/N]: "
-if /i "%c%" EQU "Y" goto :DO_USER_SET
-if /i "%c%" EQU "N" goto :SKIP_USER_SET
-echo (잘못된 입력입니다.)
-goto :EXIT
+REM echo ------------------------------------------------------
+REM echo 	library git clone 여부 결정
+REM echo ------------------------------------------------------
+REM set /p "c=Do you clone library? [Y/N]: "
+REM if /i "%c%" EQU "Y" goto :DO_USER_SET
+REM if /i "%c%" EQU "N" goto :SKIP_USER_SET
+REM echo (잘못된 입력입니다.)
+REM goto :EXIT
 
-:DO_USER_SET
+REM :DO_USER_SET
 
-mkdir library
-cd library
+REM mkdir library
+REM cd library
 
 REM git clone https://github.com/HyungjunAn/HyungjunAn.github.io.git blog
 REM cd blog
@@ -63,15 +63,15 @@ REM 	git config user.email "%userEmail%"
 REM 	cd ..
 REM )
 
-git clone https://github.com/HyungjunAn/keep.git
-cd keep
-IF ERRORLEVEL == 0 (
-	git config user.name "%userName%"
-	git config user.email "%userEmail%"
-	cd ..
-)
+REM git clone https://github.com/HyungjunAn/keep.git
+REM cd keep
+REM IF ERRORLEVEL == 0 (
+REM 	git config user.name "%userName%"
+REM 	git config user.email "%userEmail%"
+REM 	cd ..
+REM )
 
-cd ..
+REM cd ..
 
 :SKIP_USER_SET
 
@@ -105,10 +105,7 @@ IF exist "%USERPROFILE%\내 드라이브" (
 @echo on
 setx TOOLBOX_ROOT "%ROOT%"
 setx TOOLBOX_ROOT_TAR "%ROOT%\TypeAndRun"
-setx TOOLBOX_ROOT_BLOG "%ROOT%\library\blog"
-setx TOOLBOX_ROOT_BLOG_POSTS "%ROOT%\library\blog\_posts"
-setx TOOLBOX_ROOT_NOTE_ENGLISH "%ROOT%\library\note-english"
-setx TOOLBOX_ROOT_KEEP "%ROOT%\library\keep"
+setx TOOLBOX_ROOT_KEEP "%ROOT%\keep"
 setx TOOLBOX_ROOT_AHK "%ROOT_AHK%"
 setx TOOLBOX_CHROME_EXE "%CHROME_EXE%"
 setx TOOLBOX_GOOGLE_DRIVE "%GOOGLE_DRIVE%"
