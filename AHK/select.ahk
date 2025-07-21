@@ -38,7 +38,7 @@ suspendOff() {
 }
 
 if (bOffice) {
-	Loop Read, OFFICE_SETTING_URL {
+	Loop Read, OFFICE_TOOLBOX_URL {
 		if (Mod(A_Index, 2) == 1) {
 			officeUrl_title.Push(A_LoopReadLine)
 		} else if (Mod(A_Index, 2) == 0) {
@@ -48,7 +48,7 @@ if (bOffice) {
 		}
 	}
 
-	start_script := OFFICE_SETTING . "\AHK\start.ahk"
+	start_script := OFFICE_TOOLBOX . "\AHK\start.ahk"
 }
 
 suspendOn()

@@ -18,7 +18,7 @@ global TOOLBOX_ROOT_KEEP	:= EnvGet("TOOLBOX_ROOT_KEEP")
 
 global OFFICE_WORK_ROOT		:= EnvGet("OFFICE_WORK_ROOT")
 global OFFICE_LIB_ROOT		:= EnvGet("OFFICE_LIB_ROOT")
-global OFFICE_SETTING_ROOT	:= EnvGet("OFFICE_SETTING_ROOT")
+global OFFICE_TOOLBOX_ROOT	:= EnvGet("OFFICE_TOOLBOX_ROOT")
 
 COMMON_IsBrowser() {
 	p_name := COMMON_GetActiveWinProcName()

@@ -81,7 +81,7 @@ DirCreate tmpFolder
 If (bOffice) {
 	library				:= OFFICE_LIB_ROOT
 	gvimFavorite		:= OFFICE_LIB_ROOT
-	typeandrun_cfgSrc	:= OFFICE_SETTING_TAR
+	typeandrun_cfgSrc	:= OFFICE_TOOLBOX_TAR
 }
 
 ;-------------------------------------------
@@ -578,7 +578,7 @@ reloadTypeAndRun() {
 			RunWait cmd
 
 			if (bOffice) {
-				cmd := "util_make_tar_config_for_hotstring.ahk hs " . OFFICE_SETTING_HOTSTRING . " " . dir_typeandrun . "\Config.ini"
+				cmd := "util_make_tar_config_for_hotstring.ahk hs " . OFFICE_TOOLBOX_HOTSTRING . " " . dir_typeandrun . "\Config.ini"
 				RunWait cmd
 			}
 
