@@ -5,7 +5,7 @@
 - [Korean](link/ko.md)
 
 # ETC
-- [git](https://github.com/HyungjunAn/keep) / [page](https://hyungjunan.github.io/keep/)
+- [git](https://github.com/HyungjunAn/toolbox) / [keep](https://hyungjunan.github.io/toolbox/keep)
 - 우아들([홈], [예약], [서버 시간])
 
 [홈]: http://www.woorisoa.co.kr/main.php
