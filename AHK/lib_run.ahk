@@ -115,7 +115,7 @@ RUN_AOR_GitBash(folderPath) {
 		if (name == EXE_FOR_GIT_BASH) {
 			title := WinGetTitle("ahk_id " . id)
 			;MsgBox, t: %title%`nfn: %folderName%`nfp: %folderPath%
-			if (InStr(title, folderName)) {
+			if (InStr(title, "/" . folderName)) {
 				WinActivate title
 				return
 			}
