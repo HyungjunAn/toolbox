@@ -79,8 +79,7 @@ DirCreate tmpFolder
 ; 	Process about Office Environment
 ;-------------------------------------------
 If (bOffice) {
-	library				:= OFFICE_LIB_ROOT
-	gvimFavorite		:= OFFICE_LIB_ROOT
+	gvimFavorite		:= OFFICE_TOOLBOX
 	typeandrun_cfgSrc	:= OFFICE_TOOLBOX_TAR
 }
 
