@@ -596,7 +596,7 @@ reloadTypeAndRun() {
 			cmd := "util_make_tar_config_for_folder.ahk fn " . TOOLBOX_GOOGLE_DRIVE . "\finance" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 
-			cmd := "util_make_tar_config_for_folder.ahk o " . OFFICE_LIB_ROOT . "\docs" . " " . dir_typeandrun . "\Config.ini"
+			cmd := "util_make_tar_config_for_folder.ahk o " . OFFICE_TOOLBOX . "\docs" . " " . dir_typeandrun . "\Config.ini"
 			RunWait cmd
 		}
 		Run typeandrun
