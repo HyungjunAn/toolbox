@@ -20,13 +20,17 @@ global lines := ""
 
 TARExe := "%TOOLBOX_ROOT_AHK%\util_hotstring.ahk"
 
-Loop Files, gsSrcPath . "\*"
+Loop Files, gsSrcPath . "\*", "R"
 {
-	TARCmd := A_LoopFileName
+	str := SubStr(A_LoopFilePath, InStr(A_LoopFilePath, gsSrcPath) + StrLen(gsSrcPath))
+	TARCmd := RegExReplace(str, "\\", "")
+
 	TAROpt :=  A_LoopFileFullPath
+
 	cmd := gsPrefix . TARCmd . "|" . TARExe . "|" . TAROpt
 	lines := lines . cmd . "`n"
 }
+
 
 FileAppend(lines, gsTargetFile)
 
