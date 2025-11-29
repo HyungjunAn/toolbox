@@ -21,6 +21,7 @@ guitar			"%TOOLBOX_GOOGLE_DRIVE%\Music\Guitar"
 fm				"%USERPROFILE%\desktop\stable\fm"
 stable			"%USERPROFILE%\desktop\stable"
 init			"%USERPROFILE%\desktop\stable\init.ahk"
+insurance		"%USERPROFILE%\desktop\stable\insurance"
 project			"%USERPROFILE%\desktop\project"
 
 //-----------------------------------------------------------------

@@ -5,6 +5,31 @@ author: An Hyungjun
 categories: [EN]
 tags: [Daily]
 ---
+
+The video failed to rotate.
+
+~ is as follows.
+
+It probably isn’t related to ~.
+
+Unforeseen issues may occur.
+
+Black screen on external input after 4K playback.
+
+Have you ever had to reboot when the problem happened?
+
+Your hands are nasty.
+Your hands are way dirtier.
+
+take a lap around the park
+
+You mean that ~, right?
+
+There is still a problem.
+The problem still remains.
+
+The elevator went up.
+
 Let me answer.
 
 Just in case, let's compare it with the previous version.
@@ -71,25 +96,19 @@ We need to finish the report. Also, we have a meeting scheduled for 3 PM.
 
 Is this sentence phrased correctly, or does it sound awkward?
 
-~할 수 밖에 없었다  
--> I had no choice but to ~
+I had no choice but to ~
 
-이 부분에서 확인할 수 있어  
--> you can see it here
+You can see it here
 
-나는 니가 경험을 통해 더 배웠으면 좋겠어  
--> I expect you to learn more through experience.
+I expect you to learn more through experience.
 
-내일은 안 돼 나 휴가야.  
--> I can't tomorrow because I'm on vacation.
+I can't tomorrow because I'm on vacation.
 
 GOAT(Greatest Of All Time)
 
-나도 그러고 싶어
--> I wish I could
+I wish I could
 
-내가 곧 가져갈게
--> I will take it right away
+I will take it right away
 
 He is on the phone
 
@@ -102,16 +121,13 @@ Which of the following sentences is grammatically correct?
 I want to rent a bike  
 I'd like to rent a bike(공손)  
 
-일정을 촉박하게 줘서 미안  
--> I'm sorry I gave you a tight deadline.  
+I'm sorry I gave you a tight deadline.  
 
 I'm sorry for late response.
 
-귀찮게 해서 미안하다. / 방해해서 미안하다.  
--> I'm sorry to bother you.
+I'm sorry to bother you.
 
-쪼아서 미안  
--> I'm sorry to rush you.
+I'm sorry to rush you.
 
 I understand ~~ need to check which complies standard.
 
@@ -119,29 +135,20 @@ Could you give me ~~ that I gave you?
 
 Can I give it back to U?
 
-현재 진행 상황좀 알려줄래?  
--> Can I check the current status of this?  
+Can I check the current status of this?  
 
-업데이트된 내용 있을까?  
--> Is there any update on this?
+Is there any update on this?
 
-답변합니다. 그건~  
--> To answer your question, it’s because ~
+To answer your question, it’s because ~
 
-새로운 내용 있으면 바로바로 알려줄게  
--> I will keep you posted.
+I will keep you posted.
+ 
+Please, keep me posted
 
-새로운 내용 있으면 바로바로 알려줘  
--> Please, keep me posted
+Do I have to fill out this form?
 
-내가 이 서류를 작성해야 하나요?  
--> Do I have to fill out this form?
+Why do I have to fill out this form?
 
-왜 내가 이 서류를 작성해야 하나요?  
--> Why do I have to fill out this form?
+I will hang it on the front door
 
-현관에 걸어둘게요  
--> I will hang it on the front door
-
-그는 분위기 맞추는 정도만 마셔  
--> He is a social drinker
+He is a social drinker
