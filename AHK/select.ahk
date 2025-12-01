@@ -204,7 +204,7 @@ $m::
 $1::
 {
 	suspendOn()
-	RUN_AOR_URL("TODO.+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+	RUN_AOR_URL("TODO.+Todoist$", "https://app.todoist.com/app/project/todo-6RVh2h6rrPp46jGp", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 	;RUN_AOR_URL(".+Todoist$", "https://todoist.com/app/project/2327772322", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING | COMMON_OPT_BROWSER_EDGE)
 	;RUN_AOR_EXE("C:\Users\heuser\AppData\Local\Programs\todoist\Todoist.exe")
 }
