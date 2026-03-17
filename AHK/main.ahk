@@ -239,8 +239,9 @@ $^.::
 $^e::
 {
     T := WinGetTitle("A")
+	PName := WinGetProcessName("A")
 
-	if (InStr(T, "Microsoft Teams")) {
+	if (PName != "ms-teams.exe" && InStr(T, "Microsoft Teams")) {
 		SendInput "!^e"
 	} else {
 		SendInput "^e"
@@ -251,8 +252,9 @@ $!^e::
 {
 	;RUN_AOR_GitBash(TOOLBOX_ROOT)
     T := WinGetTitle("A")
+	PName := WinGetProcessName("A")
 
-	if (InStr(T, "Microsoft Teams")) {
+	if (PName != "ms-teams.exe" && InStr(T, "Microsoft Teams")) {
 		SendInput "!^e"
 	} else {
 		RUN_AOR_GitBash(TOOLBOX_ROOT)
