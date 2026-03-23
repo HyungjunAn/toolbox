@@ -168,7 +168,8 @@ $o::
 		RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
 	} else {
 		;RUN_AOR_URL("Copilot", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
-		RUN_AOR_URL("Copilot", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE)
+		;RUN_AOR_URL("Copilot", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE)
+		RUN_AOR_URL("ttt", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE)
 	}
 }
 
