@@ -157,7 +157,9 @@ $n::
 $z::
 {
 	suspendOn()
-	RUN_AOR_URL("Google Calendar", "https://calendar.google.com", COMMON_OPT_APPMODE)
+	;RUN_AOR_URL("Google Calendar", "https://calendar.google.com", COMMON_OPT_APPMODE)
+	RUN_AOR_URL("Google Calendar", "https://calendar.google.com/calendar/u/1/r", COMMON_OPT_APPMODE)
+
 }
 
 ;ChatGPT / Copilot
