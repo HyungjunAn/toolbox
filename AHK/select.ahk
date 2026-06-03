@@ -210,26 +210,26 @@ $1::
 	;RUN_AOR_EXE("C:\Users\heuser\AppData\Local\Programs\todoist\Todoist.exe")
 }
 
-;Todoist - English
-$2::
-{
-	suspendOn()
-	RUN_AOR_URL("English.+Todoist$", "https://app.todoist.com/app/project/english-6X9rWcG2RR7P2cmh", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
-}
-
-;Todoist - Shopping List
-$3::
-{
-	suspendOn()
-	RUN_AOR_URL("Shopping List.+Todoist$", "https://app.todoist.com/app/project/2340527008", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
-}
-
 ;Todoist - Office
-$4::
+$2::
 {
 	suspendOn()
 	RUN_AOR_URL("Office.+Todoist$", "https://app.todoist.com/app/project/office-6X9rX8w8rcCp82MF", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 }
+
+;;Todoist - English
+;$2::
+;{
+;	suspendOn()
+;	RUN_AOR_URL("English.+Todoist$", "https://app.todoist.com/app/project/english-6X9rWcG2RR7P2cmh", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+;}
+;
+;;Todoist - Shopping List
+;$3::
+;{
+;	suspendOn()
+;	RUN_AOR_URL("Shopping List.+Todoist$", "https://app.todoist.com/app/project/2340527008", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+;}
 
 ;Netflix
 $x::
