@@ -157,7 +157,9 @@ $n::
 $z::
 {
 	suspendOn()
-	RUN_AOR_URL("Google Calendar", "https://calendar.google.com", COMMON_OPT_APPMODE)
+	;RUN_AOR_URL("Google Calendar", "https://calendar.google.com", COMMON_OPT_APPMODE)
+	RUN_AOR_URL("Google Calendar", "https://calendar.google.com/calendar/u/1/r", COMMON_OPT_APPMODE)
+
 }
 
 ;ChatGPT / Copilot
@@ -168,7 +170,8 @@ $o::
 		RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
 	} else {
 		;RUN_AOR_URL("Copilot", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
-		RUN_AOR_URL("Copilot", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE)
+		;RUN_AOR_URL("Copilot", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE)
+		RUN_AOR_URL("^(ttt|M365 Copilot)$", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 	}
 }
 
@@ -316,11 +319,10 @@ $`;::
 {
 	suspendOn()
 	if (bOffice) {
-		;if (!RUN_AOR_EXE("ms-teams.exe")) {
-			;RUN_AOR_URL("Microsoft Teams", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
+		if (!RUN_AOR_EXE("ms-teams.exe")) {
 			;RUN_AOR_URL("^(?:(?!Copilot).)*Microsoft Teams", "https://teams.microsoft.com", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 			RUN_AOR_URL("Microsoft Teams", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
-		;}
+		}
 	} else {
 		If (DirExist("C:\Program Files (x86)\Kakao"))
 			cmd := "C:\Program Files (x86)\Kakao\KakaoTalk\KakaoTalk.exe"
