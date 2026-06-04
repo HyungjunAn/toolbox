@@ -171,7 +171,7 @@ $o::
 	} else {
 		;RUN_AOR_URL("Copilot", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
 		;RUN_AOR_URL("Copilot", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE)
-		RUN_AOR_URL("^(ttt|M365 Copilot)$", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+		RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 	}
 }
 
