@@ -169,9 +169,10 @@ $o::
 	if (!bOffice) {
 		RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
 	} else {
-		;RUN_AOR_URL("Copilot", "https://teams.microsoft.com", COMMON_OPT_APPMODE)
-		;RUN_AOR_URL("Copilot", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE)
-		RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+		;RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+		if (!RUN_AOR_EXE("M365Copilot.exe")) {
+			Run "ms-officeapp:copilot"
+		}
 	}
 }
 
