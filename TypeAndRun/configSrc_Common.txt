@@ -51,6 +51,8 @@ moneyletter				https://uppity.co.kr/moneyletter_archive
 rpi						https://elinux.org/RPi_Configuration
 github					https://github.com/
 
+tftpd_release			https://github.com/PJO2/tftpd64/tree/master/releases
+
 docs::
 	ahk					https://www.autohotkey.com/docs/v2/
 
