@@ -415,6 +415,47 @@ $!^=:: SendInput "============================================================="
 	return
 }
 
+;Translate with ChatGPT / Copilot
+$!^c::
+{
+	Send "^c"
+	Sleep 100
+	if (!bOffice) {
+		RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
+	} else {
+		;RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+		if (!RUN_AOR_EXE("M365Copilot.exe")) {
+			Run "ms-officeapp:copilot"
+		}
+	}
+
+	Sleep 100
+
+	Send "다음 문장 번역해줘"
+	Send "+{Enter}"
+	Send "^v{Enter}"
+}
+
+$!^f::
+{
+	Send "^c"
+	Sleep 100
+	if (!bOffice) {
+		RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
+	} else {
+		;RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+		if (!RUN_AOR_EXE("M365Copilot.exe")) {
+			Run "ms-officeapp:copilot"
+		}
+	}
+
+	Sleep 100
+
+	Send "다음 문장 자연스러운지 확인해줘"
+	Send "+{Enter}"
+	Send "^v{Enter}"
+}
+
 ;///////////////////////////////////////////////////////////////
 ;		Function Def.
 ;///////////////////////////////////////////////////////////////
