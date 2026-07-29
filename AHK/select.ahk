@@ -150,7 +150,8 @@ $d::
 $n::
 {
 	suspendOn()
-	RUN_AOR_EXE("notepad++.exe")
+	;RUN_AOR_EXE("notepad++.exe")
+	Run "notepad++.exe"
 }
 
 ;Calendar
