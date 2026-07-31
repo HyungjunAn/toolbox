@@ -228,13 +228,13 @@ $2::
 ;	suspendOn()
 ;	RUN_AOR_URL("English.+Todoist$", "https://app.todoist.com/app/project/english-6X9rWcG2RR7P2cmh", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
 ;}
-;
-;;Todoist - Shopping List
-;$3::
-;{
-;	suspendOn()
-;	RUN_AOR_URL("Shopping List.+Todoist$", "https://app.todoist.com/app/project/2340527008", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
-;}
+
+;Todoist - Shopping List
+$3::
+{
+	suspendOn()
+	RUN_AOR_URL("Shopping.+Todoist$", "https://app.todoist.com/app/project/shopping-list-6h9GCf2JMWw78R53", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+}
 
 ;Netflix
 $x::
