@@ -18,11 +18,11 @@ global CMD_FOR_GIT_BASH := "C:\Program Files\Git\git-bash.exe --cd="
 global EXE_FOR_GIT_BASH := "mintty.exe"
 
 RUN_AOR_Chrome(opt := 0) {
-	RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt | COMMON_OPT_REGEXMATCHING)
+	return RUN_AOR_SubWinTitleArr(chromeSubWinNameRegExArr, "chrome", opt | COMMON_OPT_REGEXMATCHING)
 }
 
 RUN_AOR_Firefox(opt := 0) {
-	RUN_AOR_SubWinTitleArr(firefoxSubWinNameRegExArr, "firefox", opt | COMMON_OPT_REGEXMATCHING)
+	return RUN_AOR_SubWinTitleArr(firefoxSubWinNameRegExArr, "firefox", opt | COMMON_OPT_REGEXMATCHING)
 }
 
 RUN_AOR_URL(subTitle, url, opt := 0) {
@@ -51,7 +51,6 @@ RUN_AOR_SubWinTitle(subTitle, cmd, opt := 0) {
 }
 
 RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
-	Local ret := True
 	Local Title := COMMON_FindWinTitle_Arr(subTitleArr, opt)
 
 	FOCUS_MainDesktop()
@@ -59,13 +58,14 @@ RUN_AOR_SubWinTitleArr(subTitleArr, cmd, opt := 0) {
 	if (!Title) {
 		try 
 			Run cmd
-		catch
-			ret := False
+		catch {
+		}
+
+		return False
 	} else {
 		WinActivate Title
+		return True
 	}
-
-	return ret
 }
 
 RUN_AOR_EXE(exePath, procName := "") {

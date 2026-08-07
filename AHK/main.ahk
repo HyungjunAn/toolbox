@@ -416,45 +416,8 @@ $!^=:: SendInput "============================================================="
 }
 
 ;Translate with ChatGPT / Copilot
-$!^c::
-{
-	Send "^c"
-	Sleep 100
-	if (!bOffice) {
-		RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
-	} else {
-		;RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
-		if (!RUN_AOR_EXE("M365Copilot.exe")) {
-			Run "ms-officeapp:copilot"
-		}
-	}
-
-	Sleep 100
-
-	Send "다음 문장 번역해줘"
-	Send "+{Enter}"
-	Send "^v{Enter}"
-}
-
-$!^f::
-{
-	Send "^c"
-	Sleep 100
-	if (!bOffice) {
-		RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
-	} else {
-		;RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
-		if (!RUN_AOR_EXE("M365Copilot.exe")) {
-			Run "ms-officeapp:copilot"
-		}
-	}
-
-	Sleep 100
-
-	Send "다음 문장 자연스러운지 확인해줘"
-	Send "+{Enter}"
-	Send "^v{Enter}"
-}
+$!^c:: send2AiTool("다음 문장 번역해줘+{Enter}^v{Enter}")
+$!^f:: send2AiTool("다음 문장 자연스러운지 확인해줘+{Enter}^v{Enter}")
 
 ;///////////////////////////////////////////////////////////////
 ;		Function Def.
@@ -722,4 +685,31 @@ healthNotification() {
 	text := motto_text
 
 	MsgBox text
+}
+
+send2AiTool(prompt) {
+	local isAppRunning := False
+	local tmp_clip := A_Clipboard
+
+	Send "^c"
+	Sleep 100
+	if (!bOffice) {
+		isAppRunning := RUN_AOR_URL("Translator", "https://chat.openai.com/c/e2ebe7b7-6dc5-4460-927e-086fbca2aa08", COMMON_OPT_APPMODE)
+	} else {
+		;RUN_AOR_URL("(^ttt$|M365 Copilot)", "https://m365.cloud.microsoft/", COMMON_OPT_APPMODE | COMMON_OPT_REGEXMATCHING)
+		;if (!RUN_AOR_EXE("M365Copilot.exe")) {
+			;Run "ms-officeapp:copilot"
+		;}
+		isAppRunning := RUN_AOR_SubWinTitle("Microsoft 365 Copilot", "ms-officeapp:copilot")
+	}
+
+
+	if (isAppRunning) {
+		;Sleep 100
+
+		Send prompt
+	}
+
+	sleep 500
+	A_Clipboard := tmp_clip
 }
