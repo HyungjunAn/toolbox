@@ -121,7 +121,7 @@ DetectHiddenWindows false
 
 reloadTypeAndRun()
 Run "select.ahk",,, &PID_SELECT
-Run "win_tab_plus.ahk",,, &PID_WIN_TAB_PLUS
+;Run "win_tab_plus.ahk",,, &PID_WIN_TAB_PLUS
 
 gbIsInitDone := True
 healthNotification()
