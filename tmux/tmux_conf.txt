@@ -1,64 +1,83 @@
 #-------------------------------------------------------
-# 1. tpm(플러그인 매니저) 설치
-#       $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# 설정 파일 수정
+#   $ vim ~/.tmux.conf
 #
-# 2. 설정 파일 수정
-#       $ vim ~/.tmux.conf
-#
-# 3. conf 변경사항 적용:
-#       $ tmux source-file ~/.tmux.conf
+# conf 변경사항 적용:
+#   $ tmux source-file ~/.tmux.conf
 #-------------------------------------------------------
 
+# 0 is too far from ` ;)
+set -g base-index 1
 
-# Bind-Key
-bind-key k select-pane -U
-bind-key j select-pane -D
-bind-key h select-pane -L
-bind-key l select-pane -R
-bind m last-window
+# Automatically set window title
+set-window-option -g automatic-rename on
+set-option -g set-titles on
 
-set-window-option -g mode-keys vi
-#set-window-option -g utf8 on   # it is for old version only
+#set -g default-terminal screen-256color
+set -g status-keys vi
+set -g history-limit 10000
 
 setw -g mode-keys vi
-set  -g base-index 1
-setw -g pane-base-index 1
-set  -g history-limit 10000
+#setw -g mouse on
+setw -g monitor-activity on
 
-# Using Mouse
-set -g mouse on                 # >= 2.1
-#setw -g mode-mouse on           # <  2.1
-#set -g mouse-select-pane on     # <  2.1
-#set -g mouse-resize-pane on     # <  2.1
-#set -g mouse-select-window off  # <  2.1
+bind-key v split-window -h
+bind-key s split-window -v
 
-# Set status bar
+bind-key J resize-pane -D 5
+bind-key K resize-pane -U 5
+bind-key H resize-pane -L 5
+bind-key L resize-pane -R 5
+
+bind-key M-j resize-pane -D
+bind-key M-k resize-pane -U
+bind-key M-h resize-pane -L
+bind-key M-l resize-pane -R
+
+# Vim style pane selection
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Use Alt-vim keys without prefix key to switch panes
+bind -n M-h select-pane -L
+bind -n M-j select-pane -D
+bind -n M-k select-pane -U
+bind -n M-l select-pane -R
+
+# Use Alt-arrow keys without prefix key to switch panes
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
+# Shift arrow to switch windows
+bind -n S-Left  previous-window
+bind -n S-Right next-window
+
+# No delay for escape key press
+#set -sg escape-time 0
+set -sg escape-time 10
+
+# Reload tmux config
+bind r source-file ~/.tmux.conf
+
+# THEME
 set -g status-bg black
 set -g status-fg white
-set -g status-left '#[fg=green]#H'
+set -g window-status-current-bg white
+set -g window-status-current-fg black
+set -g window-status-current-attr bold
 
-# panes
-set -g pane-border-style fg=black
-set -g pane-active-border-style fg=brightred
+set -g pane-border-style fg=colour240
+set -g pane-active-border-style fg=red
+set -g pane-border-status top
+set -g pane-border-format "#{?pane_active,●,} #{pane_current_command}"
+set -g window-active-style bg=colour255
+#set -g window-style bg=default
 
-# The panes
-set -g pane-border-style bg=colour0
-set -g pane-border-style fg=colour250
-set -g pane-active-border-style bg=colour236
-set -g pane-active-border-style fg=colour250
-
-# color of active window name
-set-window-option -g window-status-current-style fg=white
-
-# Highlight active window name
-set-window-option -g window-status-current-style bg=black
-
-# List of plugins
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'tmux-plugins/tmux-sensible'
-
-# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-run '~/.tmux/plugins/tpm/tpm'
-
-# Set delay for escape key press
-set -sg escape-time 10
+set -g status-interval 60
+set -g status-left-length 30
+set -g status-left '#[fg=green](#S) #(whoami)'
+set -g status-right '#[fg=yellow]#(cut -d " " -f 1-3 /proc/loadavg)#[default] #[fg=white]%H:%M#[default]'
