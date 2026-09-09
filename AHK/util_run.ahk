@@ -5,7 +5,9 @@ if (A_Args.Length < 1) {
     ExitApp
 }
 
-cmd := A_Args[1]
+cmd := ""
+for arg in A_Args
+    cmd .= (cmd ? " " : "") . arg
 
 Run cmd
 

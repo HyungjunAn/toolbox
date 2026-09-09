@@ -6,7 +6,7 @@ timer			""
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_suspend.ahk
 //-----------------------------------------------------------------
-_kill_hibernates		hibernates
+#_kill_hibernates		hibernates
 _kill_suspend			suspend
 
 //-----------------------------------------------------------------
@@ -17,15 +17,17 @@ _kill_suspend			suspend
 	%TOOLBOX_ROOT_AHK%\util_run.ahk
 //-----------------------------------------------------------------
 recycle			shell:RecycleBinFolder 
-home			"%USERPROFILE%"
+home			%USERPROFILE%
 
 apache::
-	start	"C:\Apache24\bin\httpd.exe -k start
-	stop	"C:\Apache24\bin\httpd.exe -k stop
-	restart	"C:\Apache24\bin\httpd.exe -k restart
+	start	C:\Apache24\bin\httpd.exe -k start
+	stop	C:\Apache24\bin\httpd.exe -k stop
+	restart	C:\Apache24\bin\httpd.exe -k restart
 
 //english			"%TOOLBOX_ROOT_NOTE_ENGLISH%"
-keep			"%TOOLBOX_ROOT_KEEP%"
+keep			%TOOLBOX_ROOT_KEEP%
+
+env		control.exe sysdm.cpl,,3
 
 //-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_open_url.ahk
