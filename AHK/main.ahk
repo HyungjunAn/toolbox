@@ -416,8 +416,9 @@ $!^=:: SendInput "============================================================="
 }
 
 ;Translate with ChatGPT / Copilot
-$!^c:: send2AiTool("다음 문장 번역해줘+{Enter}^v{Enter}")
-$!^f:: send2AiTool("다음 문장 자연스러운지 확인해줘+{Enter}^v{Enter}")
+$!^c:: send2AiTool("다음 문장 번역해줘+{Enter}^v^{Enter}")
+$!^f:: send2AiTool("다음 문장 자연스러운지 확인해줘+{Enter}^v^{Enter}")
+$!^u:: send2AiTool("다음 내용 정리해주고 원인/대책을 한줄로 요약해줘+{Enter}^v^{Enter}")
 
 ;///////////////////////////////////////////////////////////////
 ;		Function Def.
