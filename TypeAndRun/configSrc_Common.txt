@@ -99,6 +99,12 @@ tarCfg_common	%TOOLBOX_ROOT_TAR%\configSrc_common.txt
 sample_macro	%USERPROFILE%/Desktop/sample_macro.ahk
 
 //-----------------------------------------------------------------
+	%TOOLBOX_ROOT_AHK%\util_wsl.ahk
+//-----------------------------------------------------------------
+wsl::
+	toolbox			"%TOOLBOX_ROOT%"
+
+//-----------------------------------------------------------------
 	%TOOLBOX_ROOT_AHK%\util_aor_gitbash.ahk
 //-----------------------------------------------------------------
 git::
