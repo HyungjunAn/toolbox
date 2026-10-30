@@ -701,7 +701,7 @@ send2AiTool(prompt) {
 		;if (!RUN_AOR_EXE("M365Copilot.exe")) {
 			;Run "ms-officeapp:copilot"
 		;}
-		isAppRunning := RUN_AOR_SubWinTitle("Microsoft 365 Copilot", "ms-officeapp:copilot")
+		isAppRunning := RUN_AOR_SubWinTitle("Copilot", "ms-officeapp:copilot")
 	}
 
 
