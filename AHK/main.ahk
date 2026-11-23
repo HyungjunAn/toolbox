@@ -324,7 +324,14 @@ RegisterDoubleTap("LAlt", RunTarPrompt, 300)
 ;------------------------------------
 ; Key & System
 ;------------------------------------
-Capslock::Ctrl
+*CapsLock:: {
+    Send "{Blind}{Ctrl DownR}"
+}
+
+*CapsLock Up:: {
+    Send "{Blind}{Ctrl Up}"
+}
+
 $!^s::
 {
 	newCapLockState := !GetKeyState("CapsLock", "T")

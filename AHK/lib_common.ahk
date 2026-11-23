@@ -340,88 +340,84 @@ COMMON_Paste(str) {
 }
 
 ; ============================================================
-; 범용 더블탭 감지
+; Generic Double Tap Handler
 ;
 ; - 원래 키 동작 유지
-; - Ctrl+C 등의 조합키 제외
-; - Suspend 상태에서도 감지
+; - 단독 입력만 Tap으로 인정
+; - 다른 키와 조합한 경우 제외
+; - modifier / 일반 키 모두 사용 가능
+; - Suspend 상태에서도 동작
 ; ============================================================
 
-RegisterDoubleTap(targetKey, doubleAction, interval := 300)
-{
+RegisterDoubleTap(key, action, interval := 300) {
     state := {
-        IsDown: false,
-        UsedWithOtherKey: false,
-        LastTap: 0
+        down: false,
+        combined: false,
+        lastTap: 0
     }
 
-    targetVK := GetKeyVK(targetKey)
-    targetSC := GetKeySC(targetKey)
+    targetVK := GetKeyVK(key)
+    targetSC := GetKeySC(key)
 
-    ; "S" 옵션:
-    ; 스크립트 Suspend 상태에서도 이 핫키는 동작
-    Hotkey "~*" targetKey, TargetDown, "S"
-    Hotkey "~*" targetKey " Up", TargetUp, "S"
+    ; ~ : 원래 키 입력 유지
+    ; * : modifier 상태와 관계없이 감지
+    ; S : Suspend 상태에서도 핫키 활성화
+    Hotkey "~*" key, KeyDown, "S"
+    Hotkey "~*" key " Up", KeyUp, "S"
 
-    ; 다른 키 입력을 감지하기 위한 InputHook
-    input := InputHook("L0 V")
+    ; 다른 키 입력 감지
+    ; I : AHK 스크립트가 주입한 입력은 무시
+    ;     (예: main.ahk의 CapsLock->Ctrl 리맵이 보내는 Ctrl이
+    ;      "다른 키 입력"으로 오인되어 Tap이 무효화되는 문제 방지)
+    input := InputHook("V I")
     input.KeyOpt("{All}", "N")
     input.OnKeyDown := OtherKeyDown
     input.Start()
 
-
-    TargetDown(*)
-    {
-        ; 키보드 자동 반복으로 상태가 초기화되는 것을 방지
-        if state.IsDown
+    KeyDown(*) {
+        ; Auto-repeat 무시
+        if state.down
             return
 
-        state.IsDown := true
-        state.UsedWithOtherKey := false
+        state.down := true
+        state.combined := false
     }
 
-
-    OtherKeyDown(inputHook, vk, sc)
-    {
-        if !state.IsDown
+    OtherKeyDown(ih, vk, sc) {
+        if !state.down
             return
 
-        ; 대상 키 자체의 Down 이벤트는 무시
+        ; 등록된 키 자신의 Down 이벤트는 무시
         if (vk = targetVK && sc = targetSC)
             return
 
-        ; 대상 키를 누르고 있는 동안 다른 키가 눌림
-        state.UsedWithOtherKey := true
+        ; 등록된 키를 누르고 있는 동안
+        ; 다른 키가 눌린 경우 조합키로 판단
+        state.combined := true
     }
 
-
-    TargetUp(*)
-    {
-        if !state.IsDown
+    KeyUp(*) {
+        if !state.down
             return
 
-        state.IsDown := false
+        state.down := false
 
-        ; Ctrl+C, Ctrl+V 등의 조합으로 사용된 경우
-        if state.UsedWithOtherKey
-        {
-            state.LastTap := 0
+        ; 다른 키와 조합해서 사용했다면
+        ; Tap으로 인정하지 않음
+        if state.combined {
+            state.lastTap := 0
             return
         }
 
         now := A_TickCount
 
-        if (
-            state.LastTap > 0
-            && now - state.LastTap <= interval
-        )
-        {
-            state.LastTap := 0
-            doubleAction.Call()
-        }
-        else
-        {
-            state.LastTap := now
+        ; 지정된 시간 내 두 번째 Tap
+        if (state.lastTap && now - state.lastTap <= interval) {
+            state.lastTap := 0
+            action.Call()
+        } else {
+            ; 첫 번째 Tap
+            state.lastTap := now
         }
     }
 }

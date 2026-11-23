@@ -56,6 +56,7 @@ suspendOn()
 
 #SuspendExempt
 
+RegisterDoubleTap("CapsLock", suspendOff, 300)
 RegisterDoubleTap("LControl", suspendOff, 300)
 
 ;$!^i:: suspendOff()
