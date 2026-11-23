@@ -723,7 +723,7 @@ send2AiTool(prompt) {
 RunTarPrompt()
 {
 	FOCUS_MainDesktop()
-	SendInput "!^p"
+	SendInput "!^+p"
 }
 
 
