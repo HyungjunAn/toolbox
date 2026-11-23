@@ -359,6 +359,15 @@ RegisterDoubleTap(key, action, interval := 300) {
     targetVK := GetKeyVK(key)
     targetSC := GetKeySC(key)
 
+    ; 좌우 modifier의 일반(generic) vk
+    GenericVK := 0
+    if (targetVK = 0xA0 || targetVK = 0xA1)
+        GenericVK := 0x10
+    else if (targetVK = 0xA2 || targetVK = 0xA3)
+        GenericVK := 0x11
+    else if (targetVK = 0xA4 || targetVK = 0xA5)
+        GenericVK := 0x12
+
     ; ~ : 원래 키 입력 유지
     ; * : modifier 상태와 관계없이 감지
     ; S : Suspend 상태에서도 핫키 활성화
@@ -388,7 +397,9 @@ RegisterDoubleTap(key, action, interval := 300) {
             return
 
         ; 등록된 키 자신의 Down 이벤트는 무시
-        if (vk = targetVK && sc = targetSC)
+        ; (sc 비교는 키보드/IME에 따라 달라질 수 있어 vk만 비교하고,
+        ;  Shift/Ctrl/Alt는 좌우 구분 없는 일반 vk도 같은 키로 취급)
+        if (vk = targetVK || vk = GenericVK)
             return
 
         ; 등록된 키를 누르고 있는 동안

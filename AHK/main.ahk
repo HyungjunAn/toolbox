@@ -318,7 +318,7 @@ $^,::
 }
 
 ; TypeAndRun
-RegisterDoubleTap("LAlt", RunTarPrompt, 300)
+RegisterDoubleTap("LShift", RunTarPrompt, 300)
 ;$!^p::RunTarPrompt()
 
 ;------------------------------------
@@ -723,6 +723,7 @@ send2AiTool(prompt) {
 RunTarPrompt()
 {
 	FOCUS_MainDesktop()
+	; TypeAndRun 단축키: Ctrl+Alt+Shift+P
 	SendInput "!^+p"
 }
 
