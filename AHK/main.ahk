@@ -705,7 +705,8 @@ send2AiTool(prompt) {
 		;if (!RUN_AOR_EXE("M365Copilot.exe")) {
 			;Run "ms-officeapp:copilot"
 		;}
-		isAppRunning := RUN_AOR_SubWinTitle("Copilot", "ms-officeapp:copilot")
+		; Copilot 로컬 앱 대신 Chrome 앱 모드로 지정 대화창을 사용
+		isAppRunning := RUN_AOR_URL("번역/리뷰", "`"https://copilot.cloud.microsoft/chat/conversation/88a5b2b3-ab6e-436a-90c2-7ac9f204ff46?lhredirected=1&fromcode=cmm5vstpudj&es=AutoSignIn`"", COMMON_OPT_APPMODE)
 	}
 
 
