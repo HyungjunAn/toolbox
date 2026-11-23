@@ -318,11 +318,8 @@ $^,::
 }
 
 ; TypeAndRun
-$!^p::
-{
-	FOCUS_MainDesktop()
-	SendInput "!^p"
-}
+RegisterDoubleTap("LAlt", RunTarPrompt, 300)
+;$!^p::RunTarPrompt()
 
 ;------------------------------------
 ; Key & System
@@ -714,3 +711,11 @@ send2AiTool(prompt) {
 	sleep 500
 	A_Clipboard := tmp_clip
 }
+
+RunTarPrompt()
+{
+	FOCUS_MainDesktop()
+	SendInput "!^p"
+}
+
+

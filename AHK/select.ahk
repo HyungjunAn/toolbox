@@ -4,6 +4,7 @@ FileEncoding "UTF-8"
 
 #include lib_run.ahk
 #include lib_office.ahk
+#include lib_common.ahk
 
 Global guiText := COMMON_ParseKeyAndDescription(A_ScriptName, 2)
 Global bOffice := COMMON_IsOffice()
@@ -54,10 +55,10 @@ if (bOffice) {
 suspendOn()
 
 #SuspendExempt
-$!^i::
-{
-	suspendOff()
-}
+
+RegisterDoubleTap("LControl", suspendOff, 300)
+
+;$!^i:: suspendOff()
 
 #SuspendExempt False
 $`::
