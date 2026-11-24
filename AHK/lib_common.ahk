@@ -393,14 +393,18 @@ RegisterDoubleTap(key, action, interval := 300) {
     }
 
     OtherKeyDown(ih, vk, sc) {
-        if !state.down
-            return
-
         ; 등록된 키 자신의 Down 이벤트는 무시
         ; (sc 비교는 키보드/IME에 따라 달라질 수 있어 vk만 비교하고,
         ;  Shift/Ctrl/Alt는 좌우 구분 없는 일반 vk도 같은 키로 취급)
         if (vk = targetVK || vk = GenericVK)
             return
+
+        ; 첫 번째 Tap과 두 번째 Tap 사이에 다른 키가 입력된 경우
+        ; (예: Ctrl > A > Ctrl) 더블탭으로 인정하지 않음
+        if !state.down {
+            state.lastTap := 0
+            return
+        }
 
         ; 등록된 키를 누르고 있는 동안
         ; 다른 키가 눌린 경우 조합키로 판단
