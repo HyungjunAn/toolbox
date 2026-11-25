@@ -411,6 +411,14 @@ RegisterDoubleTap(key, action, interval := 300) {
         state.combined := true
     }
 
+    RunAction() {
+        action.Call()
+
+        ; 안전장치: 물리적으로 떼어진 키가 논리적으로 눌린 채 남았으면 해제
+        if (state.down = false && !GetKeyState(key, "P") && GetKeyState(key))
+            Send "{" key " up}"
+    }
+
     KeyUp(*) {
         if !state.down
             return
@@ -429,7 +437,11 @@ RegisterDoubleTap(key, action, interval := 300) {
         ; 지정된 시간 내 두 번째 Tap
         if (state.lastTap && now - state.lastTap <= interval) {
             state.lastTap := 0
-            action.Call()
+            ; KeyUp 핫키 스레드 안에서 바로 실행하면 AHK가 아직 키가 물리적으로
+            ; 눌려 있다고 보고, Send 후 modifier를 "복원"하며 다시 눌러버려
+            ; Shift/Ctrl 등이 눌린 채로 남을 수 있다.
+            ; 타이머로 분리해 Up 이벤트 처리가 끝난 뒤 실행한다.
+            SetTimer(RunAction, -10)
         } else {
             ; 첫 번째 Tap
             state.lastTap := now
