@@ -390,6 +390,15 @@ RegisterDoubleTap(key, action, interval := 300) {
 
         state.down := true
         state.combined := false
+
+        ; 직전에 다른 키가 입력되었다면(예: Ctrl+C 후 Ctrl) 이전 Tap은 무효.
+        ; InputHook은 핫키가 처리한 키 등을 놓칠 수 있어 A_PriorKey로 보완한다.
+        if (state.lastTap && !IsSelfKey(A_PriorKey))
+            state.lastTap := 0
+    }
+
+    IsSelfKey(name) {
+        return (name = key || name = GetKeyName(key) || name = GetKeyName(Format("vk{:x}", GenericVK)))
     }
 
     OtherKeyDown(ih, vk, sc) {
@@ -425,9 +434,9 @@ RegisterDoubleTap(key, action, interval := 300) {
 
         state.down := false
 
-        ; 다른 키와 조합해서 사용했다면
-        ; Tap으로 인정하지 않음
-        if state.combined {
+        ; 다른 키와 조합해서 사용했다면(Ctrl+C 등) Tap으로 인정하지 않음.
+        ; A_PriorKey: 이 Up 이벤트 직전에 눌린 키. 자기 자신이 아니면 조합 입력.
+        if (state.combined || !IsSelfKey(A_PriorKey)) {
             state.lastTap := 0
             return
         }
