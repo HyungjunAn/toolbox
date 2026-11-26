@@ -706,6 +706,8 @@ send2AiTool(prompt) {
 			;Run "ms-officeapp:copilot"
 		;}
 		; Copilot 로컬 앱 대신 Chrome 앱 모드로 지정 대화창을 사용
+		; 일정 시간 후 home("Microsoft Copilot")으로 돌아간 창은 먼저 닫는다
+		CloseCopilotHomeWindows()
 		isAppRunning := RUN_AOR_URL("번역/리뷰", "`"https://copilot.cloud.microsoft/chat/conversation/88a5b2b3-ab6e-436a-90c2-7ac9f204ff46?lhredirected=1&fromcode=cmm5vstpudj&es=AutoSignIn`"", COMMON_OPT_APPMODE)
 	}
 
@@ -718,6 +720,24 @@ send2AiTool(prompt) {
 
 	sleep 500
 	A_Clipboard := tmp_clip
+}
+
+; 대화창이 home으로 돌아가 title이 'Microsoft Copilot'이 된 chrome.exe 창을 종료
+CloseCopilotHomeWindows() {
+	local closed := False
+
+	for id in WinGetList("ahk_exe chrome.exe") {
+		try {
+			if (WinGetTitle("ahk_id " id) == "Microsoft Copilot") {
+				WinClose("ahk_id " id)
+				closed := True
+			}
+		}
+	}
+
+	; 창이 실제로 닫힐 시간을 준다
+	if (closed)
+		Sleep 300
 }
 
 RunTarPrompt()
